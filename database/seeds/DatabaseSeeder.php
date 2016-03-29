@@ -11,6 +11,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call(UsersTableSeeder::class);
+        App\Modpack::truncate();
+        factor(App\Modpack::class, 10)->create();
     }
 }
