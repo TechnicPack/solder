@@ -9,7 +9,10 @@
 
     <title>Solder</title>
 
-    <link href="{{ elixir('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset(elixir('css/bootstrap.css')) }}" rel="stylesheet">
+    <link href="{{ asset('css/font-awesome.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/dataTables.bootstrap.min.cs') }}" rel="stylesheet">
+    @yield('stylesheet')
 
 </head>
 
@@ -28,7 +31,7 @@
 
                 <!-- Branding Image -->
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    <img src="/img/title.png" alt="Solder"> v0.8.0
+                    <img src="{{ asset('/img/title.png') }}" alt="Solder"> v0.8.0
                 </a>
             </div>
 
@@ -103,8 +106,12 @@
         </div>
     </div>
 
-    <script src="{{ elixir('js/app.js') }}"></script>
-    @yield('end')
+    <script src="{{ asset('js/jquery.min.js') }}"></script>
+    <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('js/dataTables.bootstrap.min.js') }}"></script>
+    <script src="{{ asset(elixir('js/app.js')) }}"></script>
+    @yield('script')
 
 </body>
 

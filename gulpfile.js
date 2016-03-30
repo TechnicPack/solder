@@ -12,24 +12,22 @@ var elixir = require('laravel-elixir');
  */
 
 elixir(function(mix) {
-    mix.sass('bootstrap.scss', 'resources/assets/css')
-       .copy('node_modules/font-awesome/css/font-awesome.css', 'resources/assets/css/font-awesome.css')
-       .copy('node_modules/jquery/dist/jquery.js', 'resources/assets/js/jquery.js')
-       .copy('node_modules/bootstrap-sass/assets/javascripts/bootstrap.js', 'resources/assets/js/bootstrap.js')
-       .copy('node_modules/datatables/media/js/jquery.dataTables.js', 'resources/assets/js/jquery.dataTables.js')
-       .copy('node_modules/datatables-bootstrap/js/dataTables.bootstrap.js', 'resources/assets/js/dataTables.bootstrap.js')
-       .copy('node_modules/datatables-bootstrap/css/dataTables.bootstrap.css', 'resources/assets/css/dataTables.bootstrap.css')
-       .styles([
-           'font-awesome.css',
-           'bootstrap.css',
-           'dataTables.bootstrap.css'
-       ], 'public/css/app.css')
+    // Get the CSS all good to go
+    mix.sass('bootstrap.scss')
+       .copy('node_modules/font-awesome/css/font-awesome.min.css', 'public/css/font-awesome.min.css')
+       .copy('node_modules/font-awesome/fonts', 'public/fonts')
+       .copy('node_modules/bootstrap/assets/fonts', 'public/fonts')
+       .copy('node_modules/datatables-bootstrap/css/dataTables.bootstrap.min.css', 'public/css/dataTables.bootstrap.min.css')
+
+    // Get the javascript ready
+    mix.copy('node_modules/jquery/dist/jquery.min.js', 'public/js/jquery.min.js')
+       .copy('node_modules/bootstrap-sass/assets/javascripts/bootstrap.min.js', 'public/js/bootstrap.min.js')
+       .copy('node_modules/datatables/media/js/jquery.dataTables.min.js', 'public/js/jquery.dataTables.min.js')
+       .copy('node_modules/datatables-bootstrap/js/dataTables.bootstrap.min.js', 'public/js/dataTables.bootstrap.min.js')
        .scripts([
-           'jquery.js',
-           'bootstrap.js',
-           'jquery.dataTables.js',
-           'dataTables.bootstrap.js',
-           'solder.js'
+           'slugify.js'
        ], 'public/js/app.js')
-       .version(['css/app.css', 'js/app.js']);
+
+    // Version the things we control
+    mix.version(['css/bootstrap.css', 'js/app.js']);
 });

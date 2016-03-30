@@ -28,6 +28,10 @@ $pagination-disabled-border: lighten($brand-info, 15%) !default;
 body {
     background: url("/img/background.png") bottom left;
 }
+body.lite {
+    background: none;
+    padding-top: 150px;
+}
 .navbar {
     margin-bottom: 0;
 }

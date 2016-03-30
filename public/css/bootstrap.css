@@ -5999,6 +5999,10 @@ a.list-group-item-danger.active:hover, a.list-group-item-danger.active:focus {
 body {
   background: url("/img/background.png") bottom left; }
 
+body.lite {
+  background: none;
+  padding-top: 150px; }
+
 .navbar {
   margin-bottom: 0; }
 
