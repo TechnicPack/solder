@@ -1,0 +1,17 @@
+language: php
+
+php:
+  - 5.5
+  - 5.6
+  - 7.0
+  - hhvm
+
+before_script:
+  - composer install --dev --prefer-source --no-interaction
+  - php artisan migrate --force --database=test
+
+script:
+  - vendor/bin/phpunit
+
+after_script:
+  - vendor/bin/test-reporter
