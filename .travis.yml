@@ -11,7 +11,7 @@ before_script:
   - php artisan migrate --force --database=test
 
 script:
-  - vendor/bin/phpunit
+  - vendor/bin/phpunit --coverage-clover=coverage.xml
 
 after_script:
-  - vendor/bin/test-reporter
+  - bash <(curl -s https://codecov.io/bash)
