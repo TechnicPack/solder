@@ -7,6 +7,8 @@ use Illuminate\Validation\ValidationException;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\Debug\Exception\FlattenException;
+use Symfony\Component\Debug\ExceptionHandler as SymfonyExceptionHandler;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
 class Handler extends ExceptionHandler
@@ -46,5 +48,13 @@ class Handler extends ExceptionHandler
     public function render($request, Exception $e)
     {
         return parent::render($request, $e);
+    }
+
+    protected function convertExceptionToResponse(Exception $e)
+    {
+        $issue = $e->getTraceAsString();
+        $e = FlattenException::create($e);
+
+        return response()->view('errors.generic', compact('issue', 'e'));
     }
 }
