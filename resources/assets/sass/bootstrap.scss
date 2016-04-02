@@ -1,15 +1,15 @@
-$brand-primary:         #2d3d4d !default;
-$brand-success:         #5cb85c !default;
-$brand-info:            #3498db !default;
-$brand-warning:         #f0ad4e !default;
-$brand-danger:          #d9534f !default;
+$brand-primary: #2d3d4d !default;
+$brand-success: #5cb85c !default;
+$brand-info: #3498db !default;
+$brand-warning: #f0ad4e !default;
+$brand-danger: #d9534f !default;
 
-$body-bg:               #163f69 !default;
+$body-bg: #163f69 !default;
 
-$navbar-height:            75px !default;
+$navbar-height: 75px !default;
 $navbar-default-link-hover-color: $brand-success !default;
 
-$pagination-bg:           #fff !default;
+$pagination-bg: #fff !default;
 $pagination-color: $brand-primary !default;
 $pagination-border: $brand-info !default;
 
@@ -26,49 +26,65 @@ $pagination-disabled-border: lighten($brand-info, 15%) !default;
 @import "node_modules/bootswatch/flatly/bootswatch";
 
 body {
-    background: url("/img/background.png") bottom left;
+  background: url("/img/background.png") bottom left;
 }
+
 body.lite {
-    background: none;
-    padding-top: 150px;
+  background: none;
+  padding-top: 150px;
 }
+
 .navbar {
-    margin-bottom: 0;
+  margin-bottom: 0;
 }
+
 .navbar-default .navbar-brand {
-    font-size: 10px;
-    padding-top: 15px;
+  font-size: 10px;
+  padding-top: 15px;
 }
+
 .navbar-brand > img {
-    display: inline;
+  display: inline;
 }
+
 .container-sidebar {
-    background-color: $body-bg;
+  background-color: $body-bg;
 }
+
 .container-content {
-    background-color: $gray-lighter;
+  background-color: $gray-lighter;
 }
+
 .nav-sidebar {
-    margin-right: -21px;
-    margin-bottom: 20px;
-    margin-left: -20px;
+  margin-right: -21px;
+  margin-bottom: 20px;
+  margin-left: -20px;
 }
+
 .nav-stacked.nav-sidebar > li + li {
-    margin-top: 0;
+  margin-top: 0;
 }
+
 .nav-sidebar > li > a {
-    padding-right: 20px;
-    padding-left: 20px;
-    color: $navbar-default-link-color;
+  padding-right: 20px;
+  padding-left: 20px;
+  color: $navbar-default-link-color;
 }
+
 .nav-children > li > a {
-    padding-right: 20px;
-    padding-left: 40px;
-    color: $navbar-default-link-color;
+  padding-right: 20px;
+  padding-left: 40px;
+  color: $navbar-default-link-color;
 }
+
 .nav-sidebar li > a.active,
 .nav-sidebar li > a:focus,
 .nav-sidebar li > a:hover {
-    color: $text-color;
-    background-color: $gray-lighter;
+  color: $text-color;
+  background-color: $gray-lighter;
+}
+
+textarea {
+  max-width: 100%;
+  resize: vertical;
 }

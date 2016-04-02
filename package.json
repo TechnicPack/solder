@@ -9,7 +9,7 @@
     "datatables": "^1.10.11",
     "datatables-bootstrap": "0.0.1",
     "font-awesome": "^4.5.0",
-    "jquery": "^2.1.0"
+    "jquery": "^2.1.0",
     "laravel-elixir": "^4.0.0"
   }
 }

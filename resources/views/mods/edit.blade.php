@@ -87,7 +87,7 @@
 
 @stop
 
-@section('end')
+@section('script')
 <script type="text/javascript">
     var $modal = $('#deleteModal');
     $('.js-ajax-delete').on('click', function(event)

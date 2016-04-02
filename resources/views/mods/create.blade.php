@@ -28,7 +28,7 @@
                     </div>
                     <div class="form-group @if ($errors->has('description')) has-error @endif">
                         <label for="description">Mod Description</label>
-                        <input type="text" name="description" class="form-control" id="description" value="{{ old('descriptino') }}">
+                        <textarea name="description" class="form-control" id="description">{{ old('descriptino') }}</textarea>
                         @if ($errors->has('description')) <p class="help-block">{{ $errors->first('descriptino') }}</p> @endif
                     </div>
                     <hr />
@@ -78,7 +78,7 @@
 
 @stop
 
-@section('end')
+@section('script')
 <script type="text/javascript">
     $(document).ready(function() {
         $('#slug').slugify('#name');

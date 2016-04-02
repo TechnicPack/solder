@@ -20,7 +20,7 @@
                     <th>Latest</th>
                     <th>Hidden</th>
                     <th>Private</th>
-                    <th style="width: 210px">Actions</th>
+                    <th style="width: 100px">Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -45,7 +45,7 @@
 </div>
 @stop
 
-@section('end')
+@section('script')
 <script type="text/javascript">
     $(document).ready(function() {
         $('#dataTables').dataTable();

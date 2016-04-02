@@ -52,7 +52,7 @@
 </div>
 @stop
 
-@section('end')
+@section('script')
 <script type="text/javascript">
     $(document).ready(function() {
         $('#dataTables').dataTable();

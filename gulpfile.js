@@ -16,7 +16,7 @@ elixir(function(mix) {
     mix.sass('bootstrap.scss')
        .copy('node_modules/font-awesome/css/font-awesome.min.css', 'public/css/font-awesome.min.css')
        .copy('node_modules/font-awesome/fonts', 'public/fonts')
-       .copy('node_modules/bootstrap/assets/fonts', 'public/fonts')
+       .copy('node_modules/bootstrap/assets/fonts/bootstrap', 'public/fonts/bootstrap')
        .copy('node_modules/datatables-bootstrap/css/dataTables.bootstrap.min.css', 'public/css/dataTables.bootstrap.min.css')
 
     // Get the javascript ready
