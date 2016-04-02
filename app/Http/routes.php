@@ -17,6 +17,7 @@ Route::group(['middleware' => ['web', 'auth']], function () {
 
     Route::resource('mod', 'ModController');
     Route::resource('modpack', 'ModpackController');
+    Route::resource('modpack.build', 'BuildController');
 
 });
 
