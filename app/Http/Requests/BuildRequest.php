@@ -7,7 +7,7 @@ use Auth;
 class BuildRequest extends Request
 {
     /**
-     * The attributes that are expected in the request
+     * The attributes that are expected in the request.
      *
      * @var array
      */
@@ -17,6 +17,7 @@ class BuildRequest extends Request
      * Sanitize function for the phone field.
      *
      * @param $input
+     *
      * @return string
      */
     public function sanitizePhone($input)
@@ -28,6 +29,7 @@ class BuildRequest extends Request
      * Sanitize function for the postal-code field.
      *
      * @param $input
+     *
      * @return string
      */
     public function sanitizePostalCode($input)
@@ -64,11 +66,11 @@ class BuildRequest extends Request
     {
         $id = null;
         if ($this->method() == 'PATCH') {
-            $id = ',' . $this->build->id;
+            $id = ','.$this->build->id;
         }
 
         return [
-            'version'    => 'required|unique:builds,version' . $id,
+            'version'    => 'required|unique:builds,version'.$id,
             'minecraft'  => 'required',
             'min_memory' => 'numeric',
         ];

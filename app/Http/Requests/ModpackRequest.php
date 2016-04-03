@@ -25,7 +25,7 @@ class ModpackRequest extends Request
     {
         $id = null;
         if ($this->method() == 'PATCH') {
-            $id = ',' . $this->modpack->id;
+            $id = ','.$this->modpack->id;
         }
 
         return [

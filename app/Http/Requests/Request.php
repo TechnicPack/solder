@@ -7,7 +7,7 @@ use Illuminate\Foundation\Http\FormRequest;
 abstract class Request extends FormRequest
 {
     /**
-     * The attributes that are expected in the request
+     * The attributes that are expected in the request.
      *
      * @var array
      */
@@ -16,7 +16,8 @@ abstract class Request extends FormRequest
     /**
      * Validate the input.
      *
-     * @param  \Illuminate\Validation\Factory $factory
+     * @param \Illuminate\Validation\Factory $factory
+     *
      * @return \Illuminate\Validation\Validator
      */
     public function validator($factory)
@@ -57,17 +58,16 @@ abstract class Request extends FormRequest
     }
 
     /**
-     * Call the sanitize method for each field if it exists
+     * Call the sanitize method for each field if it exists.
      *
      * @param $field
      */
     protected function sanitizeField($field)
     {
         $input = $this->all();
-        if (method_exists($this, 'sanitize' . studly_case($field))) {
-            $input[$field] = $this->container->call([$this, 'sanitize' . studly_case($field)], [$input[$field]]);
+        if (method_exists($this, 'sanitize'.studly_case($field))) {
+            $input[$field] = $this->container->call([$this, 'sanitize'.studly_case($field)], [$input[$field]]);
             $this->replace($input);
         }
     }
-
 }

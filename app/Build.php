@@ -5,14 +5,12 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class Build
- *
- * @package App
+ * Class Build.
  */
 class Build extends Model
 {
     /**
-     * The attributes that are mass assignable
+     * The attributes that are mass assignable.
      *
      * @var array
      */
@@ -21,14 +19,14 @@ class Build extends Model
     ];
 
     /**
-     * Flag upstream models as updated when we modify this one
+     * Flag upstream models as updated when we modify this one.
      *
      * @var array
      */
     protected $touches = ['modpack'];
 
     /**
-     * A build belongs to a modpack
+     * A build belongs to a modpack.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -38,23 +36,24 @@ class Build extends Model
     }
 
     /**
-     * A build belongs to many modversions
+     * A build belongs to many modversions.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function modversions()
-        {
+    {
         return $this->belongsToMany(Modversion::class);
     }
 
     /**
-     * Add a modversion to the build
-     * 
+     * Add a modversion to the build.
+     *
      * @param Modversion $modversion
+     *
      * @return Model
      */
-    public function addModversion(Modversion $modversion) {
+    public function addModversion(Modversion $modversion)
+    {
         return $this->modversions()->save($modversion);
     }
-
 }
