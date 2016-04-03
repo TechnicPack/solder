@@ -5,12 +5,9 @@ namespace App\Http\Controllers;
 use App\Build;
 use App\Http\Requests\BuildRequest;
 use App\Modpack;
-use Illuminate\Http\Request;
 
 /**
- * Class BuildController
- *
- * @package App\Http\Controllers
+ * Class BuildController.
  */
 class BuildController extends Controller
 {
@@ -24,6 +21,7 @@ class BuildController extends Controller
     public function create(Modpack $modpack)
     {
         $build = new Build();
+
         return view('builds.create', compact('modpack', 'build'));
     }
 

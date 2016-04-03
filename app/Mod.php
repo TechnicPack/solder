@@ -11,7 +11,7 @@ class Mod extends Model implements SluggableInterface
     use SluggableTrait;
 
     /**
-     * The attributes that are mass assignable
+     * The attributes that are mass assignable.
      *
      * @var array
      */
@@ -20,7 +20,7 @@ class Mod extends Model implements SluggableInterface
     ];
 
     /**
-     * Get the fields used to build and save the slug
+     * Get the fields used to build and save the slug.
      *
      * @var array
      */
@@ -40,7 +40,7 @@ class Mod extends Model implements SluggableInterface
     }
 
     /**
-     * A mod has many versions
+     * A mod has many versions.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */

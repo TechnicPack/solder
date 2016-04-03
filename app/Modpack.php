@@ -2,36 +2,34 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\SluggableInterface;
 use Cviebrock\EloquentSluggable\SluggableTrait;
+use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class Modpack
- *
- * @package App
+ * Class Modpack.
  */
 class Modpack extends Model implements SluggableInterface
 {
     use SluggableTrait;
 
     /**
-     * The attributes that are mass assignable
+     * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'slug', 'name', 'hidden', 'private'
+        'slug', 'name', 'hidden', 'private',
     ];
 
     /**
-     * Get the fields used to build and save the slug
+     * Get the fields used to build and save the slug.
      *
      * @var array
      */
     protected $sluggable = [
         'build_from' => 'name',
-        'save_to' => 'slug'
+        'save_to'    => 'slug',
     ];
 
     /**
@@ -45,7 +43,7 @@ class Modpack extends Model implements SluggableInterface
     }
 
     /**
-     * Get the builds that belong to this modpack
+     * Get the builds that belong to this modpack.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
@@ -55,12 +53,12 @@ class Modpack extends Model implements SluggableInterface
     }
 
     /**
-     * Add a build to the modpack
+     * Add a build to the modpack.
      *
      * @param Build $build
      */
-    public function addBuild(Build &$build) {
+    public function addBuild(Build &$build)
+    {
         return $this->builds()->save($build);
     }
-
 }

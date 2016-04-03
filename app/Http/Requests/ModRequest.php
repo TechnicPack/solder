@@ -25,15 +25,15 @@ class ModRequest extends Request
     {
         $id = null;
         if ($this->method() == 'PATCH') {
-            $id = ',' . $this->modpack->id;
+            $id = ','.$this->modpack->id;
         }
 
         return [
-            'name' => 'required|unique:modpacks,name'.$id,
-            'slug' => 'required|unique:modpacks,slug'.$id,
-            'author' => 'alpha_num',
-            'link' => 'url',
-            'donatelink' => 'url'
+            'name'       => 'required|unique:modpacks,name'.$id,
+            'slug'       => 'required|unique:modpacks,slug'.$id,
+            'author'     => 'alpha_num',
+            'link'       => 'url',
+            'donatelink' => 'url',
         ];
     }
 }

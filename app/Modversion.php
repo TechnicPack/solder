@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Modversion extends Model
 {
     /**
-     * The attributes that are mass assignable
+     * The attributes that are mass assignable.
      *
      * @var array
      */
@@ -16,7 +16,7 @@ class Modversion extends Model
     ];
 
     /**
-     * A modversion belongs to a mod
+     * A modversion belongs to a mod.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -26,7 +26,7 @@ class Modversion extends Model
     }
 
     /**
-     * A modversion belongs to many builds
+     * A modversion belongs to many builds.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
@@ -36,12 +36,14 @@ class Modversion extends Model
     }
 
     /**
-     * Add a build to the modversion
+     * Add a build to the modversion.
      *
      * @param Build $build
+     *
      * @return Modversion
      */
-    public function addBuild(Build $build) {
+    public function addBuild(Build $build)
+    {
         return $this->builds()->create($build);
     }
 }
