@@ -1,0 +1,24 @@
+
+language: php
+
+php:
+  - 7.0
+  - hhvm
+
+sudo: false
+
+env:
+  matrix:
+    - COMPOSER_FLAGS="--prefer-lowest"
+    - COMPOSER_FLAGS=""
+
+before_script:
+  - composer self-update
+  - composer install ${COMPOSER_FLAGS} --prefer-source --no-interaction --dev
+
+script:
+  - vendor/bin/phpunit --verbose
+
+matrix:
+  allow_failures:
+    - php: hhvm

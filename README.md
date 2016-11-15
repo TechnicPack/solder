@@ -3,6 +3,8 @@
 # TechnicSolder
 > Supercharge Your Modpack with TechnicSolder
 
+[![Build Status](https://travis-ci.org/Indemnity83/TechnicSolder.svg?branch=develop)](https://travis-ci.org/Indemnity83/TechnicSolder)
+
 Solder helps you lower bandwidth usage, keep old versions of your modpack available to users and provides faster, streamlined updates. You won't know how you managed a modpack before you used Solder.
 
 ## Installing / Getting started
