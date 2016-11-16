@@ -22,7 +22,7 @@ Route::get('/', function () {
     return response([
         'api' => config('app.name'),
         'version' => GitVersionHelper::getVersion(),
-        'stream' => config('app.env')
+        'stream' => config('app.env'),
     ]);
 });
 

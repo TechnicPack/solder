@@ -11,8 +11,7 @@ use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
- * Class ModpacksController
- * @package App\Http\Controllers\Api\Deprecated
+ * Class ModpacksController.
  */
 class ModpacksController extends Controller
 {
@@ -55,7 +54,7 @@ class ModpacksController extends Controller
 
         $response = [
             'mirror_url' => config('app.url'),
-            'modpacks' => $modpacks
+            'modpacks' => $modpacks,
         ];
 
         return response($response, 200, ['content-type' => 'application/json']);
@@ -72,7 +71,7 @@ class ModpacksController extends Controller
         $token = $request->get('k') ?? $request->get('cid');
         $client = Client::where('token', $token)->first();
 
-        if (!$client->isPermitted($modpack)) {
+        if (! $client->isPermitted($modpack)) {
             throw new NotFoundHttpException();
         }
 

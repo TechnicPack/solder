@@ -8,7 +8,7 @@ use Alsofronie\Uuid\UuidModelTrait;
 class Asset extends Model
 {
     use UuidModelTrait;
-    
+
     const MORPH_NAME = 'resource';
 
     /**

@@ -6,8 +6,7 @@ use App\Release;
 use League\Fractal\TransformerAbstract;
 
 /**
- * Class ReleaseTransformer
- * @package App\Transformers
+ * Class ReleaseTransformer.
  */
 class ReleaseTransformer extends TransformerAbstract
 {

@@ -8,8 +8,7 @@ use App\Serializers\FlatSerializer;
 use App\Transformers\v07\ModTransformer;
 
 /**
- * Class ModsController
- * @package App\Http\Controllers\Api\Deprecated
+ * Class ModsController.
  */
 class ModsController extends Controller
 {
@@ -23,7 +22,7 @@ class ModsController extends Controller
         $mods = Mod::all()->pluck('name', 'slug');
 
         $response = [
-            'mods' => $mods
+            'mods' => $mods,
         ];
 
         return response($response, 200, ['content-type' => 'application/json']);

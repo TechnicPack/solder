@@ -19,7 +19,7 @@ class Release extends Model
     ];
 
     /**
-     * Get the builds of this release
+     * Get the builds of this release.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */

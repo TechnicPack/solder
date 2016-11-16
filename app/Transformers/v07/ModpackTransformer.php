@@ -6,8 +6,7 @@ use App\Modpack;
 use League\Fractal\TransformerAbstract;
 
 /**
- * Class ModpackTransformer
- * @package App\Transformers
+ * Class ModpackTransformer.
  */
 class ModpackTransformer extends TransformerAbstract
 {
@@ -25,7 +24,7 @@ class ModpackTransformer extends TransformerAbstract
             'background_md5' => @$modpack->background->hash,
             'recommended' => @$modpack->promoted->version,
             'latest' => @$modpack->latest->version,
-            'builds' => $modpack->builds->pluck('version')
+            'builds' => $modpack->builds->pluck('version'),
         ];
     }
 }
