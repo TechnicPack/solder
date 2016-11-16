@@ -8,10 +8,9 @@ php:
 sudo: false
 
 env:
-    - DB_CONNECTION=sqlite
-  matrix:
-    - COMPOSER_FLAGS="--prefer-lowest"
-    - COMPOSER_FLAGS=""
+  - DB_CONNECTION=sqlite
+  - COMPOSER_FLAGS="--prefer-lowest"
+  - COMPOSER_FLAGS=""
 
 before_install:
   - npm install -g dredd@stable
