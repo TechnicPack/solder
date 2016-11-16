@@ -8,7 +8,6 @@ php:
 sudo: false
 
 env:
-  - DB_CONNECTION=sqlite
   - COMPOSER_FLAGS="--prefer-lowest"
   - COMPOSER_FLAGS=""
 
@@ -18,11 +17,15 @@ before_install:
 before_script:
   - travis_retry composer update ${COMPOSER_FLAGS} --no-interaction --prefer-source
   - touch database/database.sqlite
-  - php artisan migrate --seed
+  - php artisan migrate --seed --force
 
 script:
-  - vendor/bin/phpunit --verbose
+  - vendor/bin/phpunit --verbose --coverage-clover=coverage.clover
   - dredd
+
+after_script:
+  - wget https://scrutinizer-ci.com/ocular.phar
+  - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
 
 matrix:
   allow_failures:
