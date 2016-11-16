@@ -8,16 +8,22 @@ php:
 sudo: false
 
 env:
+    - DB_CONNECTION=sqlite
   matrix:
     - COMPOSER_FLAGS="--prefer-lowest"
     - COMPOSER_FLAGS=""
 
+before_install:
+  - npm install -g dredd@stable
+
 before_script:
-  - travis_retry composer self-update
   - travis_retry composer update ${COMPOSER_FLAGS} --no-interaction --prefer-source
+  - touch database/database.sqlite
+  - php artisan migrate --seed
 
 script:
   - vendor/bin/phpunit --verbose
+  - dredd
 
 matrix:
   allow_failures:

@@ -1,0 +1,10 @@
+server: 'php -S 0.0.0.0:8001 server.php'
+server-wait: 3
+reporter: apiary
+sorted: true
+color: true
+level: info
+path: []
+config: ./dredd.yml
+blueprint: apiary.apib
+endpoint: 'http://localhost:8001/api'
