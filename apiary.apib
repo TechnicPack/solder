@@ -1,0 +1,185 @@
+FORMAT: 1A
+HOST: http://solder.technicpack.net/api/
+
+# TechnicSolder
+
+Solder helps you lower bandwidth usage, keep old versions of your modpack
+available to users and provides faster, streamlined updates. You won't
+know how you managed a modpack before you used Solder
+
+# TechnicSolder Root [/]
+
+This is the TechnicSolder API entry point.
+
+This resource does not have any attributes. Instead it offers the initial
+entry point into the API and provides API information including the current
+API version.
+
+## Retrieve the Entry Point [GET]
+
++ Response 200 (application/json)
+
+        {
+            "api": "TechnicSolder",
+            "version": "v0.7.3.1",
+            "stream": "DEV"
+        }
+
+### Test if key is valid [GET /verify/{key}]
+
++ Parameters
+
+    + key: any_valid_token (string) - The key to be verified
+
++ Response 200 (application/json)
+
+        {
+            "name":"Key Name",
+            "valid":"Key validated.",
+            "created_at":{
+                "date":"2016-11-06 21:08:31.000000",
+                "timezone_type":3,
+                "timezone":"UTC"
+            }
+        }
+
+## Mods [/mod]
+
+### List all mods [GET]
+
++ Response 200 (application/json)
+
+        {
+            "mods": {
+                "testmod": "TestMod"
+            }
+        }
+
+### Show details of a mod [GET /mod/{name}]
+
++ Parameters
+
+    + name: testmod (string) - The slug of the mod you wish to request
+
++ Response 200 (application/json)
+
+        {
+            "name": "testmod",
+            "pretty_name": "TestMod",
+            "author": "Technic",
+            "description": "This is a test mod for Solder",
+            "link": "http://solder.io",
+            "donate": null,
+            "versions": [
+                "0.1"
+            ]
+        }
+
+### Show details a version of a mod [GET /mod/{name}/{version}]
+
++ Parameters
+
+    + name: testmod (string) - The slug of the mod you wish to request
+    + version: 0.1 (string) - The slug of the mod you wish to request
+
++ Response 200 (application/json)
+
+        {
+          "md5": "fb6582e4d9c9bc208181907ecc108eb1",
+          "url": "http://technic.pagefortress.com/mods/testmod/testmod-0.1.zip"
+        }
+        
+## Modpacks [/modpack]
+
+### List all modpacks [GET /modpack]
+
++ Response 200 (application/json)
+
+        {
+           "modpacks":{
+              "test":"Example Modpack"
+           },
+           "mirror_url":"http://solder.example.com/files/"
+        }
+        
+### List all modpacks showing details [GET /modpack?include=full]
+
++ Response 200 (application/json)
+
+        {
+            "mirror_url": "http://ephemeral.dev",
+            "modpacks": {
+                "test": {
+                    "name":"test",
+                    "display_name":"Example Modpack",
+                    "url":"",
+                    "icon":"http:\/\/cdn.technicpack.net\/resources\/tekkitmain\/icon.png?1419981117",
+                    "icon_md5":"1dd87c03268a7144411bb8cbe8bf7326",
+                    "logo":"http:\/\/cdn.technicpack.net\/resources\/tekkitmain\/logo.png?1419981117",
+                    "logo_md5":"2f9625f8343cd1aaa35d3dd631ad64e1",
+                    "background":"http:\/\/cdn.technicpack.net\/resources\/tekkitmain\/background.png?1419981117",
+                    "background_md5":"f39ae618809383451f6832e4d2a738fe",
+                    "recommended":"1.2.9f",
+                    "latest":"1.2.10cx",
+                    "builds":[
+                       "1.0.2",
+                       "1.0.3"
+                    ]
+                }
+            }
+        }
+
+
+### Show details of a modpack [GET /modpack/{name}]
+
++ Parameters
+
+    + name: test (string) - The name of the modpack you wish to request
+
++ Response 200 (application/json)
+
+        {
+           "name":"test",
+           "display_name":"Example Modpack",
+           "url":"",
+           "icon":"http:\/\/cdn.technicpack.net\/resources\/tekkitmain\/icon.png?1419981117",
+           "icon_md5":"1dd87c03268a7144411bb8cbe8bf7326",
+           "logo":"http:\/\/cdn.technicpack.net\/resources\/tekkitmain\/logo.png?1419981117",
+           "logo_md5":"2f9625f8343cd1aaa35d3dd631ad64e1",
+           "background":"http:\/\/cdn.technicpack.net\/resources\/tekkitmain\/background.png?1419981117",
+           "background_md5":"f39ae618809383451f6832e4d2a738fe",
+           "recommended":"1.2.9f",
+           "latest":"1.2.10cx",
+           "builds":[
+              "1.0.2",
+              "1.0.3"
+           ]
+        }
+
+### Show details a build of a modpack [GET /modpack/{name}/{version}]
+
++ Parameters
+
+    + name: test (string) - The slug of the modpack you wish to request
+    + version: 0.2 (string) - Specific build you wish to view
+
++ Response 200 (application/json)
+
+        {
+           "minecraft":"1.5.1",
+           "forge":null,
+           "mods":[
+              {
+                 "name":"basemods",
+                 "version":"tekkitmain-v1.0.2",
+                 "md5":"842658e9a8a03c1210d563be1b7d09f5",
+                 "url":"http:\/\/mirror.technicpack.net\/Technic\/mods\/basemods\/basemods-tekkitmain-v1.0.2.zip"
+              },
+              {
+                 "name":"balkonsweaponmod",
+                 "version":"v1.11",
+                 "md5":"016bb3edb2fa11c7212fd4cf2504e260",
+                 "url":"http:\/\/mirror.technicpack.net\/Technic\/mods\/balkonsweaponmod\/balkonsweaponmod-v1.11.zip"
+              }
+           ]
+        }
