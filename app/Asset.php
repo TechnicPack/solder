@@ -5,6 +5,12 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Alsofronie\Uuid\UuidModelTrait;
 
+/**
+ * @property string id
+ * @property string path
+ * @property string disk
+ * @property string md5
+ */
 class Asset extends Model
 {
     use UuidModelTrait;

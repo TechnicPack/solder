@@ -2,9 +2,16 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Alsofronie\Uuid\UuidModelTrait;
 
+/**
+ * @property string id
+ * @property string version
+ * @property \App\Asset archive
+ * @property Collection builds
+ */
 class Release extends Model
 {
     use UuidModelTrait;

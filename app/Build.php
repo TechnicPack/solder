@@ -2,9 +2,24 @@
 
 namespace App;
 
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Alsofronie\Uuid\UuidModelTrait;
 
+/**
+ * @property string id
+ * @property string version
+ * @property boolean published
+ * @property array tags
+ * @property \App\Modpack modpack
+ * @property Collection releases
+ * @property Carbon created_at
+ * @property Carbon updated_at
+ *
+ * @method Builder published() query scope for published builds
+ */
 class Build extends Model
 {
     use UuidModelTrait;
@@ -63,8 +78,8 @@ class Build extends Model
     /**
      * Only published builds.
      *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @param Builder $query
+     * @return Builder
      */
     public function scopePublished($query)
     {

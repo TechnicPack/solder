@@ -2,11 +2,29 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 use Alsofronie\Uuid\UuidModelTrait;
 
+/**
+ * @property string id
+ * @property string slug
+ * @property string name
+ * @property boolean published
+ * @property \App\Asset icon
+ * @property \App\Asset logo
+ * @property \App\Asset background
+ * @property \App\Build latest
+ * @property \App\Build promoted
+ * @property Collection clients
+ * @property Collection builds
+ *
+ * @method Builder published() query scope where modpack is published
+ * @method Builder permitted(mixed $client) Query scope where $client is permitted to see Modpack
+ */
 class Modpack extends Model
 {
     use HasSlug;
@@ -98,7 +116,7 @@ class Modpack extends Model
     }
 
     /**
-     * Get the clients with permisison on this build.
+     * Get the clients with permission on this build.
      *
      * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
      */
@@ -120,8 +138,8 @@ class Modpack extends Model
     /**
      * Only published modpacks.
      *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @param Builder $query
+     * @return Builder
      */
     public function scopePublished($query)
     {
@@ -131,8 +149,9 @@ class Modpack extends Model
     /**
      * Return results where the given client has permission.
      *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @param Builder $query
+     * @param Client $client
+     * @return Builder
      */
     public function scopePermitted($query, $client)
     {

@@ -63,6 +63,7 @@ class ModpacksController extends Controller
     /**
      * Display the specified resource.
      *
+     * @param Request $request
      * @param Modpack $modpack
      * @return \Illuminate\Http\Response
      */

@@ -2,11 +2,21 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 use Alsofronie\Uuid\UuidModelTrait;
 
+/**
+ * @property string id
+ * @property string name
+ * @property string slug
+ * @property string author
+ * @property string description
+ * @property string link
+ * @property Collection releases
+ */
 class Mod extends Model
 {
     use HasSlug;
