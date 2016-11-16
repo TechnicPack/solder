@@ -6,6 +6,7 @@
 [![Build Status](https://travis-ci.org/Indemnity83/TechnicSolder.svg?branch=develop)](https://travis-ci.org/Indemnity83/TechnicSolder)
 [![Code Coverage](https://scrutinizer-ci.com/g/Indemnity83/TechnicSolder/badges/coverage.png?b=develop)](https://scrutinizer-ci.com/g/Indemnity83/TechnicSolder/?branch=develop)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Indemnity83/TechnicSolder/badges/quality-score.png?b=develop)](https://scrutinizer-ci.com/g/Indemnity83/TechnicSolder/?branch=develop)
+[![StyleCI](https://styleci.io/repos/32042637/shield?branch=develop)](https://styleci.io/repos/32042637)
 
 Solder helps you lower bandwidth usage, keep old versions of your modpack available to users and provides faster, streamlined updates. You won't know how you managed a modpack before you used Solder.
 
