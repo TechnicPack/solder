@@ -3,7 +3,6 @@ language: php
 
 php:
   - 7.0
-  - hhvm
 
 sudo: false
 
@@ -26,7 +25,3 @@ script:
 after_script:
   - wget https://scrutinizer-ci.com/ocular.phar
   - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
-
-matrix:
-  allow_failures:
-    - php: hhvm
