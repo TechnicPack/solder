@@ -21,7 +21,7 @@ class CreateModsTable extends Migration
             $table->text('description')->nullable();
             $table->string('link')->nullable();
             $table->timestamps();
-            
+
             $table->primary('id');
         });
     }

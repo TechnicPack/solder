@@ -5,8 +5,7 @@ namespace App\Serializers;
 use League\Fractal\Serializer\ArraySerializer;
 
 /**
- * Class FlatSerializer
- * @package App\Serializers
+ * Class FlatSerializer.
  */
 class FlatSerializer extends ArraySerializer
 {

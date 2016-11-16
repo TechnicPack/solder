@@ -9,8 +9,7 @@ use App\Serializers\FlatSerializer;
 use App\Transformers\v07\ReleaseTransformer;
 
 /**
- * Class ModReleasesController
- * @package App\Http\Controllers\Api\Deprecated
+ * Class ModReleasesController.
  */
 class ModReleasesController extends Controller
 {

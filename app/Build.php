@@ -31,7 +31,7 @@ class Build extends Model
     ];
 
     /**
-     * Get the mod modpack this build is part of
+     * Get the mod modpack this build is part of.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -41,7 +41,7 @@ class Build extends Model
     }
 
     /**
-     * Get the mod releases attached to this build
+     * Get the mod releases attached to this build.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
@@ -51,7 +51,7 @@ class Build extends Model
     }
 
     /**
-     * Get the clients with permission on this build
+     * Get the clients with permission on this build.
      *
      * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
      */

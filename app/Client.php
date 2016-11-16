@@ -4,8 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Alsofronie\Uuid\UuidModelTrait;
-use App\Modpack;
-use App\Build;
+
 
 class Client extends Model
 {
@@ -33,7 +32,7 @@ class Client extends Model
     }
 
     /**
-     * Get the modpacks this client has permissions on
+     * Get the modpacks this client has permissions on.
      *
      * @return \Illuminate\Database\Eloquent\Relations\morphToMany
      */
@@ -43,10 +42,10 @@ class Client extends Model
     }
 
     /**
-     * Checks if the provided client has permission to a modpack
+     * Checks if the provided client has permission to a modpack.
      *
      * @param null|\App\Modpack $modpack
-     * @return boolean
+     * @return bool
      */
     public function isPermitted($modpack)
     {
@@ -62,6 +61,6 @@ class Client extends Model
             return true;
         }
 
-        return ($this->modpacks()->where('modpack_id', $modpack->id)->count() > 0);
+        return $this->modpacks()->where('modpack_id', $modpack->id)->count() > 0;
     }
 }

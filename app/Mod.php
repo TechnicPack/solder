@@ -22,7 +22,7 @@ class Mod extends Model
         'slug',
         'author',
         'description',
-        'link'
+        'link',
     ];
 
     /**
@@ -37,7 +37,7 @@ class Mod extends Model
     }
 
     /**
-     * Get the route key for the model
+     * Get the route key for the model.
      *
      * @return string
      */
@@ -47,7 +47,7 @@ class Mod extends Model
     }
 
     /**
-     * Get the packages for this mod
+     * Get the packages for this mod.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */

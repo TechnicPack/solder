@@ -6,8 +6,7 @@ use App\Mod;
 use League\Fractal\TransformerAbstract;
 
 /**
- * Class ModTransformer
- * @package App\Transformers
+ * Class ModTransformer.
  */
 class ModTransformer extends TransformerAbstract
 {
@@ -20,7 +19,7 @@ class ModTransformer extends TransformerAbstract
             'description' => $mod->description,
             'link' => $mod->link,
             'donate' => null,
-            'versions' => $mod->releases->pluck('version')
+            'versions' => $mod->releases->pluck('version'),
         ];
     }
 }

@@ -12,12 +12,10 @@ use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
- * Class ModpackBuildsController
- * @package App\Http\Controllers\Api\Deprecated
+ * Class ModpackBuildsController.
  */
 class ModpackBuildsController extends Controller
 {
-
     /**
      * Display the specified resource.
      *
@@ -30,7 +28,7 @@ class ModpackBuildsController extends Controller
         $token = $request->get('k') ?? $request->get('cid');
         $client = Client::where('token', $token)->first();
 
-        if (!$client->isPermitted($modpack)) {
+        if (! $client->isPermitted($modpack)) {
             throw new NotFoundHttpException();
         }
 

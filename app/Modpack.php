@@ -44,7 +44,7 @@ class Modpack extends Model
     }
 
     /**
-     * Get the route key for the model
+     * Get the route key for the model.
      *
      * @return string
      */
@@ -54,7 +54,7 @@ class Modpack extends Model
     }
 
     /**
-     * Get the builds for the model
+     * Get the builds for the model.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
@@ -88,7 +88,7 @@ class Modpack extends Model
     }
 
     /**
-     * Get the promoted build for the modpack
+     * Get the promoted build for the modpack.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -98,7 +98,7 @@ class Modpack extends Model
     }
 
     /**
-     * Get the clients with permisison on this build
+     * Get the clients with permisison on this build.
      *
      * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
      */
@@ -108,7 +108,7 @@ class Modpack extends Model
     }
 
     /**
-     * Get the latest build for the modpack
+     * Get the latest build for the modpack.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -129,7 +129,7 @@ class Modpack extends Model
     }
 
     /**
-     * Return results where the given client has permission
+     * Return results where the given client has permission.
      *
      * @param \Illuminate\Database\Eloquent\Builder $query
      * @return \Illuminate\Database\Eloquent\Builder

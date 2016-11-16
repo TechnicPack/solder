@@ -22,7 +22,7 @@ class CreateModpacksTable extends Migration
             $table->uuid('latest_build_id')->nullable();
             $table->string('link')->nullable();
             $table->timestamps();
-            
+
             $table->primary('id');
         });
     }

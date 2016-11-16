@@ -7,8 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 /**
- * Class KeysController
- * @package App\Http\Controllers\Api\Deprecated
+ * Class KeysController.
  */
 class TokensController extends Controller
 {
@@ -25,14 +24,14 @@ class TokensController extends Controller
 
         if (is_null($client)) {
             return response([
-                'error' => 'Invalid key provided.'
+                'error' => 'Invalid key provided.',
             ], 404, ['content-type' => 'application/json']);
         }
 
         return response([
             'name' => $client->name,
             'valid' => 'Key validated.',
-            'created_at' => $client->created_at
+            'created_at' => $client->created_at,
         ], 200, ['content-type' => 'application/json']);
     }
 }

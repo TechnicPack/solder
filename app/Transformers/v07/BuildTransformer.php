@@ -7,8 +7,7 @@ use App\Serializers\FlatSerializer;
 use League\Fractal\TransformerAbstract;
 
 /**
- * Class BuildTransformer
- * @package App\Transformers
+ * Class BuildTransformer.
  */
 class BuildTransformer extends TransformerAbstract
 {
@@ -23,7 +22,7 @@ class BuildTransformer extends TransformerAbstract
                 ->collection($build->releases)
                 ->serializeWith(new FlatSerializer())
                 ->transformWith(new ReleaseTransformer())
-                ->toArray()
+                ->toArray(),
         ];
     }
 }

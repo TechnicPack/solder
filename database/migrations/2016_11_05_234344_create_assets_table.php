@@ -21,7 +21,7 @@ class CreateAssetsTable extends Migration
             $table->uuid('resource_id');
             $table->string('resource_type');
             $table->timestamps();
-            
+
             $table->primary('id');
         });
     }
