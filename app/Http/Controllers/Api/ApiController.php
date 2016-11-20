@@ -15,7 +15,7 @@ class ApiController extends Controller
     {
         $error = ['error' => $message];
 
-        return $this->simpleJsonResponse($error, 404);
+        return $this->simpleJsonResponse($error, $status);
     }
 
     /**
