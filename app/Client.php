@@ -49,27 +49,4 @@ class Client extends Model
     {
         return $this->belongsToMany(Modpack::class);
     }
-
-    /**
-     * Checks if the provided client has permission to a modpack.
-     *
-     * @param null|\App\Modpack $modpack
-     * @return bool
-     */
-    public function isPermitted($modpack)
-    {
-        if ($modpack === null) {
-            return false;
-        }
-
-        if ($modpack->published) {
-            return true;
-        }
-
-        if ($this->is_global) {
-            return true;
-        }
-
-        return $this->modpacks()->where('modpack_id', $modpack->id)->count() > 0;
-    }
 }

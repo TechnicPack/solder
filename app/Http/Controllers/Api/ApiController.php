@@ -28,7 +28,7 @@ class ApiController extends Controller
         if (is_array($content)) {
             $content = json_encode($content);
         }
-        
+
         return response($content, $status, ['content-type' => 'application/json']);
     }
 }

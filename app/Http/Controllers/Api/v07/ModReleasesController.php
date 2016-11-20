@@ -28,7 +28,7 @@ class ModReleasesController extends ApiController
             ->where('version', $releaseVersion)
             ->first();
 
-        if ($mod == null || $release == null) {
+        if (empty($mod) || empty($release)) {
             return $this->simpleErrorResponse('No mod requested/Mod does not exist/Mod version does not exist');
         }
 

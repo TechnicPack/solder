@@ -71,7 +71,7 @@ class ModpacksController extends ApiController
 
         $modpack = Modpack::where('slug', $modpack)->first();
 
-        if ($modpack == null || ! $modpack->allowed($client)) {
+        if (empty($modpack) || $modpack->disallowed($client)) {
             return $this->simpleErrorResponse('Modpack does not exist/Build does not exist');
         }
 

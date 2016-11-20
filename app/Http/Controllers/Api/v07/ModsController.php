@@ -25,7 +25,7 @@ class ModsController extends ApiController
             'mods' => $mods,
         ];
 
-        return response($response, 200, ['content-type' => 'application/json']);
+        return $this->simpleJsonResponse($response);
     }
 
     /**
@@ -38,7 +38,7 @@ class ModsController extends ApiController
     {
         $mod = Mod::where('slug', $mod)->with('releases')->first();
 
-        if ($mod == null) {
+        if (empty($mod)) {
             return $this->simpleErrorResponse('No mod requested/Mod does not exist/Mod version does not exist');
         }
 

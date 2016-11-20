@@ -33,7 +33,7 @@ class ModpackBuildsController extends ApiController
             ->where('version', $buildVersion)
             ->first();
 
-        if ($build == null || $modpack == null || ! $modpack->allowed($client)) {
+        if (empty($build) || empty($modpack) || $modpack->disallowed($client)) {
             return $this->simpleErrorResponse('Modpack does not exist/Build does not exist');
         }
 

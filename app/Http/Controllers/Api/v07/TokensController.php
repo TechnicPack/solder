@@ -18,7 +18,7 @@ class TokensController extends ApiController
     {
         $client = Client::global()->where('token', $token)->first();
 
-        if (is_null($client)) {
+        if (empty($client)) {
             return $this->simpleErrorResponse('Invalid key provided.');
         }
 

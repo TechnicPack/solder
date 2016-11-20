@@ -193,4 +193,15 @@ class Modpack extends Model
 
         return false;
     }
+
+    /**
+     * Check if the client is not allowed to view the modpack.
+     *
+     * @param Client $client
+     * @return bool
+     */
+    public function disallowed($client)
+    {
+        return ! $this->allowed($client);
+    }
 }
