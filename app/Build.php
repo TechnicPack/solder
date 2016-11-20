@@ -11,7 +11,7 @@ use Alsofronie\Uuid\UuidModelTrait;
 /**
  * @property string id
  * @property string version
- * @property boolean published
+ * @property bool published
  * @property array tags
  * @property \App\Modpack modpack
  * @property Collection releases

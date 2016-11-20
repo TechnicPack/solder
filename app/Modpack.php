@@ -13,7 +13,7 @@ use Alsofronie\Uuid\UuidModelTrait;
  * @property string id
  * @property string slug
  * @property string name
- * @property boolean published
+ * @property bool published
  * @property \App\Asset icon
  * @property \App\Asset logo
  * @property \App\Asset background
@@ -21,9 +21,6 @@ use Alsofronie\Uuid\UuidModelTrait;
  * @property \App\Build promoted
  * @property Collection clients
  * @property Collection builds
- *
- * @method Builder published() query scope where modpack is published
- * @method Builder permitted(mixed $client) Query scope where $client is permitted to see Modpack
  */
 class Modpack extends Model
 {
@@ -118,11 +115,11 @@ class Modpack extends Model
     /**
      * Get the clients with permission on this build.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function clients()
     {
-        return $this->hasMany(Client::class);
+        return $this->belongsToMany(Client::class);
     }
 
     /**
@@ -136,24 +133,13 @@ class Modpack extends Model
     }
 
     /**
-     * Only published modpacks.
-     *
-     * @param Builder $query
-     * @return Builder
-     */
-    public function scopePublished($query)
-    {
-        return $query->where('published', true);
-    }
-
-    /**
      * Return results where the given client has permission.
      *
      * @param Builder $query
      * @param Client $client
      * @return Builder
      */
-    public function scopePermitted($query, $client)
+    public function scopeWhereAllowed($query, $client)
     {
         if ($client === null) {
             return $query->where('published', true);
@@ -164,7 +150,47 @@ class Modpack extends Model
         }
 
         return $query
-            ->where('published', true)
-            ->orWhere('id', $client->modpacks()->pluck('id'));
+            ->whereIn('id', $client->modpacks()->pluck('id'))
+            ->orWhere('published', true);
+    }
+
+    /**
+     * Give the client permission to view this modpack.
+     *
+     * @param Client $client
+     * @return $this
+     */
+    public function allow(Client $client)
+    {
+        $this->clients()->save($client);
+
+        return $this;
+    }
+
+    /**
+     * Check if the client is allowed to view the modpack.
+     *
+     * @param Client $client
+     * @return bool
+     */
+    public function allowed($client)
+    {
+        if ($this->published) {
+            return true;
+        }
+
+        if ($client === null) {
+            return false;
+        }
+
+        if ($client->is_global) {
+            return true;
+        }
+
+        if ($this->clients()->find($client->id)) {
+            return true;
+        }
+
+        return false;
     }
 }

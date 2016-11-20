@@ -20,11 +20,19 @@ class ModReleasesController extends Controller
      * @param $releaseVersion
      * @return \Illuminate\Http\Response
      */
-    public function show(Mod $mod, $releaseVersion)
+    public function show($mod, $releaseVersion)
     {
+        $mod = Mod::where('slug', $mod)->first();
+
         $release = Release::where('mod_id', $mod->id)
             ->where('version', $releaseVersion)
-            ->firstOrFail();
+            ->first();
+
+        if ($mod == null || $release == null) {
+            $error = ['error' => 'No mod requested/Mod does not exist/Mod version does not exist'];
+
+            return response($error, 404, ['content-type' => 'application/json']);
+        }
 
         $response = fractal()
             ->item($release)

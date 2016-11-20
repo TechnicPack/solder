@@ -6,20 +6,21 @@ php:
 
 sudo: false
 
-env:
-  - COMPOSER_FLAGS="--prefer-lowest"
-  - COMPOSER_FLAGS=""
+services:
+  - mysql
 
 before_install:
   - npm install -g dredd@stable
 
 before_script:
-  - travis_retry composer update ${COMPOSER_FLAGS} --no-interaction --prefer-source
-  - touch database/database.sqlite
-  - php artisan migrate --seed --force
+  - mysql -e 'create database solder;'
+  - travis_retry composer install --no-interaction
 
 script:
   - vendor/bin/phpunit --verbose --coverage-clover=coverage.clover
+
+after_success:
+  - php artisan migrate:refresh --force --seed
   - dredd
 
 after_script:

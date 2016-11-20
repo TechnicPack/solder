@@ -8,7 +8,6 @@ use App\Client;
 use App\Serializers\FlatSerializer;
 use App\Transformers\v07\ModpackTransformer;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * Class ModpacksController.
@@ -28,7 +27,7 @@ class ModpacksController extends Controller
 
         switch ($request->input('include')) {
             case 'full':
-                $collection = Modpack::permitted($client)->with(
+                $collection = Modpack::whereAllowed($client)->with(
                     'builds',
                     'icon',
                     'logo',
@@ -37,9 +36,7 @@ class ModpacksController extends Controller
                     'latest'
                 )->get();
 
-                $modpacks = [];
-
-                $collection->each(function ($item, $key) use (&$modpacks) {
+                $collection->each(function ($item) use (&$modpacks) {
                     $modpacks[$item->slug] = fractal()
                         ->item($item)
                         ->serializeWith(new FlatSerializer())
@@ -49,7 +46,7 @@ class ModpacksController extends Controller
 
                 break;
             default:
-                $modpacks = Modpack::permitted($client)->pluck('name', 'slug');
+                $modpacks = Modpack::whereAllowed($client)->pluck('name', 'slug');
         }
 
         $response = [
@@ -67,13 +64,17 @@ class ModpacksController extends Controller
      * @param Modpack $modpack
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request, Modpack $modpack)
+    public function show(Request $request, $modpack)
     {
         $token = $request->get('k') ?? $request->get('cid');
         $client = Client::where('token', $token)->first();
 
-        if (! $client->isPermitted($modpack)) {
-            throw new NotFoundHttpException();
+        $modpack = Modpack::where('slug', $modpack)->first();
+
+        if ($modpack == null || ! $modpack->allowed($client)) {
+            $error = ['error' => 'Modpack does not exist/Build does not exist'];
+
+            return response($error, 404, ['content-type' => 'application/json']);
         }
 
         $modpack->load(
