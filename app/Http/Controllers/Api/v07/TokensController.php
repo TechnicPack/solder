@@ -4,11 +4,7 @@ namespace App\Http\Controllers\Api\v07;
 
 use App\Client;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 
-/**
- * Class KeysController.
- */
 class TokensController extends Controller
 {
     /**

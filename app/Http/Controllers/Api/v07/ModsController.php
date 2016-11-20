@@ -34,9 +34,14 @@ class ModsController extends Controller
      * @param Mod $mod
      * @return \Illuminate\Http\Response
      */
-    public function show(Mod $mod)
+    public function show($mod)
     {
-        $mod->load('releases');
+        $mod = Mod::where('slug', $mod)->with('releases')->first();
+
+        if ($mod == null) {
+            $error = ['error' => 'No mod requested/Mod does not exist/Mod version does not exist'];
+            return response($error, 404, ['content-type' => 'application/json']);
+        }
 
         $response = fractal()
             ->item($mod)

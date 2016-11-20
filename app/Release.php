@@ -26,6 +26,16 @@ class Release extends Model
     ];
 
     /**
+     * The mod for this release
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function mod()
+    {
+        return $this->belongsTo(Mod::class);
+    }
+
+    /**
      * Get the builds of this release.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany

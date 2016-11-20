@@ -19,22 +19,25 @@ class ModpackBuildsController extends Controller
     /**
      * Display the specified resource.
      *
+     * @param Request $request
      * @param Modpack $modpack
      * @param $buildVersion
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request, Modpack $modpack, $buildVersion)
+    public function show(Request $request, $modpack, $buildVersion)
     {
         $token = $request->get('k') ?? $request->get('cid');
         $client = Client::where('token', $token)->first();
 
-        if (! $client->isPermitted($modpack)) {
-            throw new NotFoundHttpException();
-        }
-
+        $modpack = Modpack::where('slug', $modpack)->first();
         $build = Build::where('modpack_id', $modpack->id)
             ->where('version', $buildVersion)
-            ->firstOrFail();
+            ->first();
+
+        if ($build == null || $modpack == null || ! $modpack->allowed($client)) {
+            $error = ['error' => 'Modpack does not exist/Build does not exist'];
+            return response($error, 404, ['content-type' => 'application/json']);
+        }
 
         $build->load('releases');
 

@@ -95,8 +95,8 @@ API version.
 
 + Parameters
 
-    + k (optional, string) - A valid API key
-    + cid (optional, string) - A valid client id
+    + k (optional, string) - API key, for returning unpublished modpacks/builds
+    + cid (optional, string) - Client token, for returning unpublished modpacks/builds
 
 + Response 200 (application/json)
 
@@ -111,23 +111,23 @@ API version.
 
 + Parameters
 
-    + k (optional, string) - A valid API key
-    + cid (optional, string) - A valid client id
+    + k (optional, string) - API key, for returning unpublished modpacks/builds
+    + cid (optional, string) - Client token, for returning unpublished modpacks/builds
 
 + Response 200 (application/json)
 
         {
-            "mirror_url": "http://ephemeral.dev",
+            "mirror_url":"http://solder.example.com/files/",
             "modpacks": {
                 "test": {
                     "name":"test",
                     "display_name":"Example Modpack",
                     "url":"",
-                    "icon":"http:\/\/cdn.technicpack.net\/resources\/tekkitmain\/icon.png?1419981117",
+                    "icon":"http://cdn.technicpack.net/resources/tekkitmain/icon.png?1419981117",
                     "icon_md5":"1dd87c03268a7144411bb8cbe8bf7326",
-                    "logo":"http:\/\/cdn.technicpack.net\/resources\/tekkitmain\/logo.png?1419981117",
+                    "logo":"http://cdn.technicpack.net/resources/tekkitmain/logo.png?1419981117",
                     "logo_md5":"2f9625f8343cd1aaa35d3dd631ad64e1",
-                    "background":"http:\/\/cdn.technicpack.net\/resources\/tekkitmain\/background.png?1419981117",
+                    "background":"http://cdn.technicpack.net/resources/tekkitmain/background.png?1419981117",
                     "background_md5":"f39ae618809383451f6832e4d2a738fe",
                     "recommended":"1.2.9f",
                     "latest":"1.2.10cx",
@@ -144,21 +144,21 @@ API version.
 
 + Parameters
 
-    + name: `client-only` (string) - The name of the modpack you wish to request
-    + k (optional, string) - A valid API key
-    + cid: `client_token` (optional, string) - A valid client id
+    + name: test (string) - The name of the modpack you wish to request
+    + k (optional, string) - API key, for returning unpublished modpacks/builds
+    + cid (optional, string) - Client token, for returning unpublished modpacks/builds
 
 + Response 200 (application/json)
 
         {
-           "name":"client-only",
+           "name":"test",
            "display_name":"Example Modpack",
            "url":"",
-           "icon":"http:\/\/cdn.technicpack.net\/resources\/tekkitmain\/icon.png?1419981117",
+           "icon":"http://cdn.technicpack.net/resources/tekkitmain/icon.png?1419981117",
            "icon_md5":"1dd87c03268a7144411bb8cbe8bf7326",
-           "logo":"http:\/\/cdn.technicpack.net\/resources\/tekkitmain\/logo.png?1419981117",
+           "logo":"http://cdn.technicpack.net/resources/tekkitmain/logo.png?1419981117",
            "logo_md5":"2f9625f8343cd1aaa35d3dd631ad64e1",
-           "background":"http:\/\/cdn.technicpack.net\/resources\/tekkitmain\/background.png?1419981117",
+           "background":"http://cdn.technicpack.net/resources/tekkitmain/background.png?1419981117",
            "background_md5":"f39ae618809383451f6832e4d2a738fe",
            "recommended":"1.2.9f",
            "latest":"1.2.10cx",
@@ -172,10 +172,10 @@ API version.
 
 + Parameters
 
-    + name: test (string) - The slug of the modpack you wish to request
-    + build: 0.3 (string) - Specific build you wish to view
-    + k (optional, string) - A valid API key
-    + cid: `client_token` (optional, string) - A valid client id
+    + name: `test` (string) - The slug of the modpack you wish to request
+    + build: `1.0.3` (string) - Specific build you wish to view
+    + k (optional, string) - API key, for returning unpublished modpacks/builds
+    + cid (optional, string) - Client token, for returning unpublished modpacks/builds
 
 + Response 200 (application/json)
 
@@ -184,16 +184,10 @@ API version.
            "forge":null,
            "mods":[
               {
-                 "name":"basemods",
-                 "version":"tekkitmain-v1.0.2",
-                 "md5":"842658e9a8a03c1210d563be1b7d09f5",
-                 "url":"http:\/\/mirror.technicpack.net\/Technic\/mods\/basemods\/basemods-tekkitmain-v1.0.2.zip"
-              },
-              {
-                 "name":"balkonsweaponmod",
-                 "version":"v1.11",
-                 "md5":"016bb3edb2fa11c7212fd4cf2504e260",
-                 "url":"http:\/\/mirror.technicpack.net\/Technic\/mods\/balkonsweaponmod\/balkonsweaponmod-v1.11.zip"
+                  "name": "testmod",
+                  "version": "0.1",
+                  "md5":"842658e9a8a03c1210d563be1b7d09f5",
+                  "url":"http://mirror.technicpack.net/Technic/mods/testmod/testmod-0.1.zip"
               }
            ]
         }

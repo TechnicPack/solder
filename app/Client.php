@@ -43,7 +43,7 @@ class Client extends Model
     /**
      * Get the modpacks this client has permissions on.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\morphToMany
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function modpacks()
     {
