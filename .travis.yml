@@ -15,11 +15,12 @@ before_install:
 
 before_script:
   - travis_retry composer update ${COMPOSER_FLAGS} --no-interaction --prefer-source
-  - touch database/database.sqlite
-  - php artisan migrate --seed --force
 
 script:
   - vendor/bin/phpunit --verbose --coverage-clover=coverage.clover
+
+after_success:
+  - php artisan migrate:refresh --force --seed
   - dredd
 
 after_script:

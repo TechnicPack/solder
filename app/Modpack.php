@@ -155,7 +155,7 @@ class Modpack extends Model
     }
 
     /**
-     * Give the client permission to view this modpack
+     * Give the client permission to view this modpack.
      *
      * @param Client $client
      * @return $this
@@ -168,7 +168,7 @@ class Modpack extends Model
     }
 
     /**
-     * check if the client is allowed to view the modpack
+     * Check if the client is allowed to view the modpack.
      *
      * @param Client $client
      * @return bool

@@ -30,6 +30,7 @@ class ModReleasesController extends Controller
 
         if ($mod == null || $release == null) {
             $error = ['error' => 'No mod requested/Mod does not exist/Mod version does not exist'];
+
             return response($error, 404, ['content-type' => 'application/json']);
         }
 

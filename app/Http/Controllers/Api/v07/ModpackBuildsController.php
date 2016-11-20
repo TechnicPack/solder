@@ -9,7 +9,6 @@ use App\Http\Controllers\Controller;
 use App\Serializers\FlatSerializer;
 use App\Transformers\v07\BuildTransformer;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * Class ModpackBuildsController.
@@ -36,6 +35,7 @@ class ModpackBuildsController extends Controller
 
         if ($build == null || $modpack == null || ! $modpack->allowed($client)) {
             $error = ['error' => 'Modpack does not exist/Build does not exist'];
+
             return response($error, 404, ['content-type' => 'application/json']);
         }
 

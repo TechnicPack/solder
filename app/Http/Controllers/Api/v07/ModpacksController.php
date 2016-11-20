@@ -8,7 +8,6 @@ use App\Client;
 use App\Serializers\FlatSerializer;
 use App\Transformers\v07\ModpackTransformer;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * Class ModpacksController.
@@ -16,7 +15,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class ModpacksController extends Controller
 {
     /**
-     * Display a listing of the resource
+     * Display a listing of the resource.
      *
      * @param Request $request
      * @return \Illuminate\Http\Response
@@ -74,6 +73,7 @@ class ModpacksController extends Controller
 
         if ($modpack == null || ! $modpack->allowed($client)) {
             $error = ['error' => 'Modpack does not exist/Build does not exist'];
+
             return response($error, 404, ['content-type' => 'application/json']);
         }
 

@@ -26,7 +26,7 @@ class Release extends Model
     ];
 
     /**
-     * The mod for this release
+     * The mod for this release.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */

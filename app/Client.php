@@ -10,7 +10,7 @@ use Alsofronie\Uuid\UuidModelTrait;
  * @property string id
  * @property string name
  * @property string token
- * @property boolean is_global
+ * @property bool is_global
  *
  * @method Builder global() query scope where client is_global
 
