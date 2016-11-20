@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Api\v07;
 
 use App\Build;
 use App\Client;
+use App\Http\Controllers\Api\ApiController;
 use App\Modpack;
-use App\Http\Controllers\Controller;
 use App\Serializers\FlatSerializer;
 use App\Transformers\v07\BuildTransformer;
 use Illuminate\Http\Request;
@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 /**
  * Class ModpackBuildsController.
  */
-class ModpackBuildsController extends Controller
+class ModpackBuildsController extends ApiController
 {
     /**
      * Display the specified resource.
@@ -27,19 +27,15 @@ class ModpackBuildsController extends Controller
     {
         $token = $request->get('k') ?? $request->get('cid');
         $client = Client::where('token', $token)->first();
-
         $modpack = Modpack::where('slug', $modpack)->first();
         $build = Build::where('modpack_id', $modpack->id)
+            ->with('releases')
             ->where('version', $buildVersion)
             ->first();
 
         if ($build == null || $modpack == null || ! $modpack->allowed($client)) {
-            $error = ['error' => 'Modpack does not exist/Build does not exist'];
-
-            return response($error, 404, ['content-type' => 'application/json']);
+            return $this->simpleErrorResponse('Modpack does not exist/Build does not exist');
         }
-
-        $build->load('releases');
 
         $response = fractal()
             ->item($build)
@@ -47,6 +43,6 @@ class ModpackBuildsController extends Controller
             ->transformWith(new BuildTransformer())
             ->toJson();
 
-        return response($response, 200, ['content-type' => 'application/json']);
+        return $this->simpleJsonresponse($response);
     }
 }
