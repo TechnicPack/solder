@@ -6,15 +6,15 @@ php:
 
 sudo: false
 
-env:
-  - COMPOSER_FLAGS="--prefer-lowest"
-  - COMPOSER_FLAGS=""
+services:
+  - mysql
 
 before_install:
   - npm install -g dredd@stable
 
 before_script:
-  - travis_retry composer update ${COMPOSER_FLAGS} --no-interaction --prefer-source
+  - mysql -e 'create database solder;'
+  - travis_retry composer install --no-interaction
 
 script:
   - vendor/bin/phpunit --verbose --coverage-clover=coverage.clover
