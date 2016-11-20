@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers\Api\v07;
 
+use App\Http\Controllers\Api\ApiController;
 use App\Mod;
-use App\Http\Controllers\Controller;
 use App\Serializers\FlatSerializer;
 use App\Transformers\v07\ModTransformer;
 
 /**
  * Class ModsController.
  */
-class ModsController extends Controller
+class ModsController extends ApiController
 {
     /**
      * Display a listing of the resource.
@@ -25,7 +25,7 @@ class ModsController extends Controller
             'mods' => $mods,
         ];
 
-        return response($response, 200, ['content-type' => 'application/json']);
+        return $this->simpleJsonResponse($response);
     }
 
     /**
@@ -38,10 +38,8 @@ class ModsController extends Controller
     {
         $mod = Mod::where('slug', $mod)->with('releases')->first();
 
-        if ($mod == null) {
-            $error = ['error' => 'No mod requested/Mod does not exist/Mod version does not exist'];
-
-            return response($error, 404, ['content-type' => 'application/json']);
+        if (empty($mod)) {
+            return $this->simpleErrorResponse('No mod requested/Mod does not exist/Mod version does not exist');
         }
 
         $response = fractal()
@@ -50,6 +48,6 @@ class ModsController extends Controller
             ->transformWith(new ModTransformer())
             ->toJson();
 
-        return response($response, 200, ['content-type' => 'application/json']);
+        return $this->simpleJsonResponse($response);
     }
 }

@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers\Api\v07;
 
+use App\Http\Controllers\Api\ApiController;
 use App\Mod;
 use App\Release;
-use App\Http\Controllers\Controller;
 use App\Serializers\FlatSerializer;
 use App\Transformers\v07\ReleaseTransformer;
 
 /**
  * Class ModReleasesController.
  */
-class ModReleasesController extends Controller
+class ModReleasesController extends ApiController
 {
     /**
      * Display the specified resource.
@@ -28,10 +28,8 @@ class ModReleasesController extends Controller
             ->where('version', $releaseVersion)
             ->first();
 
-        if ($mod == null || $release == null) {
-            $error = ['error' => 'No mod requested/Mod does not exist/Mod version does not exist'];
-
-            return response($error, 404, ['content-type' => 'application/json']);
+        if (empty($mod) || empty($release)) {
+            return $this->simpleErrorResponse('No mod requested/Mod does not exist/Mod version does not exist');
         }
 
         $response = fractal()
@@ -40,6 +38,6 @@ class ModReleasesController extends Controller
             ->transformWith(new ReleaseTransformer())
             ->toJson();
 
-        return response($response, 200, ['content-type' => 'application/json']);
+        return $this->simpleJsonResponse($response);
     }
 }

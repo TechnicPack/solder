@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Api\v07;
 
 use App\Client;
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\Api\ApiController;
 
-class TokensController extends Controller
+class TokensController extends ApiController
 {
     /**
      * Display the specified resource.
@@ -18,16 +18,16 @@ class TokensController extends Controller
     {
         $client = Client::global()->where('token', $token)->first();
 
-        if (is_null($client)) {
-            return response([
-                'error' => 'Invalid key provided.',
-            ], 404, ['content-type' => 'application/json']);
+        if (empty($client)) {
+            return $this->simpleErrorResponse('Invalid key provided.');
         }
 
-        return response([
+        $response = [
             'name' => $client->name,
             'valid' => 'Key validated.',
             'created_at' => $client->created_at,
-        ], 200, ['content-type' => 'application/json']);
+        ];
+
+        return $this->simpleJsonResponse($response);
     }
 }

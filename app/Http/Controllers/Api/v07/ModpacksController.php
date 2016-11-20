@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api\v07;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\Api\ApiController;
 use App\Modpack;
 use App\Client;
 use App\Serializers\FlatSerializer;
@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 /**
  * Class ModpacksController.
  */
-class ModpacksController extends Controller
+class ModpacksController extends ApiController
 {
     /**
      * Display a listing of the resource.
@@ -54,7 +54,7 @@ class ModpacksController extends Controller
             'modpacks' => $modpacks,
         ];
 
-        return response($response, 200, ['content-type' => 'application/json']);
+        return $this->simpleJsonResponse($response);
     }
 
     /**
@@ -71,10 +71,8 @@ class ModpacksController extends Controller
 
         $modpack = Modpack::where('slug', $modpack)->first();
 
-        if ($modpack == null || ! $modpack->allowed($client)) {
-            $error = ['error' => 'Modpack does not exist/Build does not exist'];
-
-            return response($error, 404, ['content-type' => 'application/json']);
+        if (empty($modpack) || $modpack->disallowed($client)) {
+            return $this->simpleErrorResponse('Modpack does not exist/Build does not exist');
         }
 
         $modpack->load(
@@ -92,6 +90,6 @@ class ModpacksController extends Controller
             ->transformWith(new ModpackTransformer())
             ->toJson();
 
-        return response($response, 200, ['content-type' => 'application/json']);
+        return $this->simpleJsonResponse($response);
     }
 }
