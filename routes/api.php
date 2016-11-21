@@ -26,6 +26,34 @@ Route::get('/', function () {
     ]);
 });
 
+// Solder 0.8.~ API Endpoints
+Route::group(['namespace' => 'Api'], function () {
+    Route::get('mods/{mod}/releases', 'ModReleasesController@index');
+    Route::post('mods/{mod}/releases', 'ModReleasesController@store')->middleware('resource.item:releases');
+    Route::get('mods/{mod}', 'ModsController@show');
+    Route::put('mods/{mod}', 'ModsController@update')->middleware('resource.item:mods');
+    Route::delete('mods/{mod}', 'ModsController@destroy');
+    Route::get('mods', 'ModsController@index');
+    Route::post('mods', 'ModsController@store')->middleware('resource.item:mods');
+
+    Route::get('releases/{release}', 'ReleasesController@show');
+    Route::put('releases/{release}', 'ReleasesController@update');
+    Route::delete('releases/{release}', 'ReleasesController@destroy');
+
+    Route::get('modpacks/{modpack}/builds', 'ModpackBuildsController@index');
+    Route::post('modpacks/{modpack}/builds', 'ModpackBuildsController@store')->middleware('resource.item:builds');
+    Route::get('modpacks/{modpack}', 'ModpacksController@show');
+    Route::put('modpacks/{modpack}', 'ModpacksController@update')->middleware('resource.item:modpacks');
+    Route::delete('modpacks/{modpack}', 'ModpacksController@destroy');
+    Route::get('modpacks', 'ModpacksController@index');
+    Route::post('modpacks', 'ModpacksController@store')->middleware('resource.item:modpacks');
+
+    Route::get('builds/{build}', 'BuildsController@show');
+    Route::put('builds/{build}', 'BuildsController@update')->middleware('resource.item:builds');
+    Route::delete('builds/{build}', 'BuildsController@destroy');
+});
+
+// Solder 0.7.~ API Endpoints
 Route::group(['namespace' => 'Api\v07'], function () {
     Route::get('verify/{token}', 'TokensController@verify');
     Route::get('mod/{mod}/{releaseVersion}', 'ModReleasesController@show');

@@ -25,6 +25,931 @@ API version.
             "stream": "DEV"
         }
 
+# Group v0.8
+
+## JSON Api
+v0.8.0.0 implements (partially) the [JSON API](http://jsonapi.org) 1.0
+standard, which can make the responses look kind of scary, but they're
+not that bad, I promise. The pricipal is that the data is structured
+into "resource objects", and repeated throughout so you can more easily
+consume the API, knowing every "mods" type will be structured exactly
+the same way.
+
+For a single item, the response structure looks like this
+
+    {
+        "data":{
+            "type":"mods",
+            "id":"technicmod",
+            "attributes":{
+                "name":"TestMod",
+                "slug":"technicmod",
+                "author":"Technic",
+                "description":"This is a test mod for Solder",
+                "link":"http://solder.io"
+            }
+        }
+    }
+
+everything is wrapped in a single `data` object, and while the `id`
+may seem redundant, it'll become apparent why its there when we get
+to collecitons. The `type` lets you're consumer know what resource
+object is being presented, and all the meat of the object is
+conviently stored in a single `attributes` object.
+
+A collection is simply an array of thes simple objects
+
+    {
+        "data":[
+            {
+                "type":"mods",
+                "id":"technicmod",
+                "attributes":{
+                    "name":"TestMod",
+                    "slug":"technicmod",
+                    "author":"Technic",
+                    "description":"This is a test mod for Solder",
+                    "link":"http://solder.io"
+                }
+            },
+            {
+                "type":"mods",
+                "id":"othermod",
+                "attributes":{
+                    "name":"Other Mod",
+                    "slug":"othermod",
+                    "author":"Technic",
+                    "description":"This is another test mod for Solder",
+                    "link":"http://solder.io"
+                }
+            }
+        ]
+    }
+
+The "scary" part comes from the meta information that's added to the
+resource object. You can, for the most part, ignore these until you're
+more comfortable with them (and once you are comfortable with them
+you'll wonder why you never used them before). For more detail on how
+each of these additional objects are structured please refer to the
+[JSON API](http://jsonapi.org) spec. The summary is there will be a
+`links` object which lists potentially helpful links to related
+resources in the API. And there is a `relationships` object which
+can let you dig into the sub-data of a given resource (for example,
+get all the builds of a modpack in one API call).
+
+There's a lot more too; and you'll see it sprinkled throughout this
+documentation, but it should be relativly obvious whats going on.
+
+## Authentication
+*TechicSolder v0.8* uses OAuth Authorization. First you create a
+new (or acquire existing) OAuth token using Basic Authentication.
+After you have acquired your token you can use it to access other
+resources within token' scope.
+
+## Mods [/mods]
+
+The `/mods` endpoint provides access to the 'mods' resource which
+is used to group releases (packaged versions) of a mod. The mod contains
+global information that is common to each release.
+
+The `mods` resource is made up of the following attributes:
+
+| field       | type   | validation | description                              |
+|-------------|--------|------------|------------------------------------------|
+| name        | string |            | The human readable name                  |
+| author      | string |            | The author(s) of the mod                 |
+| description | string |            | A summary of the mod (supports markdown) |
+| link        | string | url        | Link to the mod homepage                 |
+
+### List all mods [GET /mods{?include}]
+
+By default only published mods will be returned. To show
+unpublished mods you must provide a valid authentication token.
+
++ Parameters
+
+    + include (enum[string], optional) - relationships to include
+        + Members
+            + `releases`
+
++ Response 200 (application/vnd.api+json)
+
+        {
+            "data":[
+                {
+                    "type":"mods",
+                    "id":"testmod",
+                    "attributes":{
+                        "name":"TestMod",
+                        "slug":"testmod",
+                        "author":"Technic",
+                        "description":"This is a test mod for Solder",
+                        "link":"http://solder.io"
+                    },
+                    "links":{
+                        "self":"http://solder.technicpack.net/api/mods/testmod"
+                    }
+                },
+                {
+                    "type":"mods",
+                    "id":"othermod",
+                    "attributes":{
+                        "name":"Other Mod",
+                        "slug":"othermod",
+                        "author":"Technic",
+                        "description":"This is another test mod for Solder",
+                        "link":"http://solder.io"
+                    },
+                    "links":{
+                        "self":"http://solder.technicpack.net/api/mods/othermod"
+                    }
+                }
+            ]
+        }
+
+### Create a new mod [POST]
+
+When creating a new mod, the `name` attribute is required. The `id` will
+be generated automatically based on the `name` if its not provided. If the `id`
+is provided it must be unique or a `409 Conflict` will be returned and the mod
+will not be created.
+
++ Request (application/vnd.api+json)
+
+        {
+            "data":{
+                "type":"mods",
+                "attributes":{
+                    "name":"IronTanks",
+                    "author":"Indmenity83 (Kyle Klaus)",
+                    "description":"Expanding Buildcraft tanks",
+                    "link":"http://github.com/indemnity83/irontank"
+                }
+            }
+        }
+
++ Response 201 (application/vnd.api+json)
+
+    + Headers
+
+            Location: /mods/irontanks
+
+    + Body
+
+            {
+                "data":{
+                    "type":"mods",
+                    "id":"irontanks",
+                    "attributes":{
+                        "name":"IronTanks",
+                        "author":"Indmenity83 (Kyle Klaus)",
+                        "description":"Expanding buildcraft tanks",
+                        "link":"http://github.com/indemnity83/irontank",
+                        "created_at":"2016-11-12T02:33:10+00:00",
+                        "updated_at":"2016-11-12T02:33:10+00:00"
+                    },
+                    "links":{
+                        "self":"http://solder.technicpack.net/api/mods/irontanks"
+                    }
+                }
+            }
+
+### Get a Mod [GET /mods/{id}]
+
+Gets a single Mod by its unique identifier.
+
++ Parameters
+
+    + id: `irontanks` (string) - The id of the mod you wish to request
+
++ Response 200 (application/vnd.api+json)
+
+        {
+            "data":{
+                "type":"mods",
+                "id":"irontanks",
+                "attributes":{
+                    "name":"IronTanks",
+                    "author":"Indmenity83 (Kyle Klaus)",
+                    "description":"Expanding buildcraft tanks",
+                    "link":"http://github.com/indemnity83/irontank",
+                    "created_at":"2016-11-12T02:33:10+00:00",
+                    "updated_at":"2016-11-12T02:33:10+00:00"
+                },
+                "links":{
+                    "self":"http://ephemeral.dev/mods/irontanks"
+                }
+            }
+        }
+
+### Update a Mod [PUT /mods/{id}]
+
+Update a single mod. The `id` cannot be updated once the mod is created, if the
+`id` is incorrect, the mod needs to be deleted and re-created with the correct
+`id` provided.
+
+#### Caution!
+If the `name`, `author` or `description` attributes is not provided,
+then the corresponding value is not modified on the server.
+However, if you send an empty string or `null` instead then it will
+**permanently overwrite** the original value.
+
++ Parameters
+
+    + id: irontanks (string) - The id of the mod you wish to update
+
++ Request (application/vnd.api+json)
+
+        {
+            "data":{
+                "type":"mods",
+                "id":"irontanks",
+                "attributes":{
+                    "author":"",
+                    "description":null
+                }
+            }
+        }
+
++ Response 200 (application/vnd.api+json)
+
+        {
+            "data":{
+                "type":"mods",
+                "id":"irontanks",
+                "attributes":{
+                    "name":"IronTanks",
+                    "author":"",
+                    "description":"",
+                    "link":"http://github.com/indemnity83/irontank"
+                },
+                "links":{
+                    "self":"http://ephemeral.dev/mods/testmod"
+                }
+            }
+        }
+
+### Delete a Mod [DELETE /mods/{id}{?cascade}]
+
+Delete a single mod. The mod cannot be deleted if it has any releases attached to
+it unless you set `cascade=true` in the query string in which case any existing
+releases of the mod will also be deleted.
+
++ Parameters
+
+    + id: irontanks (string) - The id of the mod you wish to update
+    + cascade: true (optional, boolean) - Flag deletion of releases tied to this mod
+    as well as the mod itself.
+        + Default: `false`
+
+
++ Request
+
+    + Header
+
+            Accept: application/vnd.api+json
+            Content-type: application/vnd.api+json
+
++ Response 204
+
+## Releases [/releases]
+
+The `releases` resource is made up of the following attributes:
+
+| field       | type               | validation         | description                |
+|-------------|--------------------|--------------------|----------------------------|
+| name        | string             |                    | The human readable name    |
+| version     | string<sup>1</sup> | unique<sup>2</sup> | The version of the release |
+| location    | string             | url                | Link to download the asset |
+
+<sup>[1]</sup>While it is not a requirement, *TechnicSolder* assumes the
+`version` contains a [Semantic Versioning 2.0](http://semver.org)
+formatted string.
+
+<sup>[2]</sup>The `version` attribute must be unique for `releases`
+under a particular `mod`.
+
+### List all releases for a mod [GET /mods/{id}/releases]
+
+If you do not provide valid authentication, this endpoint will only return releases
+for published mods. A 401 unauthorized status will be returned for unauthenticated
+requests trying to access an unpublished, or non-existant mod.
+
++ Parameters
+
+    + id: `irontanks` (string) - The id of the mod you wish to update
+
++ Request
+
+    + Header
+
+            Accept: application/vnd.api+json
+            Content-type: application/vnd.api+json
+
++ Response 200 (application/vnd.api+json)
+
+        {
+            "data":[
+                {
+                    "type":"releases",
+                    "id":"0878a8f5-576c-4e06-bace-93aa46fdcc37",
+                    "attributes":{
+                        "version":"1.1",
+                        "created_at":"2016-11-12T03:29:38+00:00",
+                        "updated_at":"2016-11-12T03:29:38+00:00"
+                    },
+                    "links":{
+                        "self":"http://ephemeral.dev/api/releases/0878a8f5-576c-4e06-bace-93aa46fdcc37"
+                    }
+                }
+            ]
+        }
+
+### Create a new release [POST /mods/{id}/releases]
+
+When creating a new release, the `version` is required and must be unique for
+the mod provided.
+
++ Parameters
+
+    + id: irontanks (string) - The id of the mod you wish to add a release to
+
++ Request
+
+    + Header
+
+            Accept: application/vnd.api+json
+            Content-type: application/vnd.api+json
+
+    + Body
+
+            {
+                "data":{
+                    "type":"releases",
+                    "id": "0878a8f5-576c-4e06-bace-93aa46fdcc37",
+                    "attributes":{
+                        "version":"1.1"
+                    }
+                }
+            }
+
++ Response 201 (application/vnd.api+json)
+
+    + Header
+
+            Location: /releases/0878a8f5-576c-4e06-bace-93aa46fdcc37
+
+    + Body
+
+            {
+                "data":{
+                    "type":"releases",
+                    "id":"1",
+                    "attributes":{
+                        "version":"1.1",
+                        "created_at":"2016-11-12T02:58:08+00:00",
+                        "updated_at":"2016-11-12T02:58:08+00:00"
+                    },
+                    "links":{
+                        "self":"http://ephemeral.dev/api/releases/1"
+                    }
+                }
+            }
+
+### Show details for a release [GET /releases/{id}]
+
+Retreive details for a single release, similarly to listing releases if the
+mod associated with this release is not public and the request is not authenticated
+then a 401 unauthorized will be returned.
+
++ Parameters
+
+    + id: `0878a8f5-576c-4e06-bace-93aa46fdcc37` (uuid) - The id of the release you wish to request
+
++ Request
+
+    + Header
+
+            Accept: application/vnd.api+json
+            Content-type: application/vnd.api+json
+
++ Response 200 (application/vnd.api+json)
+
+        {
+            "data":{
+                "type":"releases",
+                "id":"0878a8f5-576c-4e06-bace-93aa46fdcc37",
+                "attributes":{
+                    "version":"1.1",
+                    "created_at":"2016-11-12T02:58:08+00:00",
+                    "updated_at":"2016-11-12T02:58:08+00:00"
+                },
+                "links":{
+                    "self":"http://ephemeral.dev/api/releases/1"
+                }
+            }
+        }
+
+### Update a release [PUT /releases/{id}]
+
+Since `version` is the only attribute of a release, it is implicitly required,
+however if you do no provide it then no error will be generated and the release
+will not actually be updated (the `updated_at` field will remain unchanged).
+
++ Parameters
+
+    + id: `0878a8f5-576c-4e06-bace-93aa46fdcc37 (uuid) - The id of the release you wish to update
+
++ Request
+
+    + Header
+
+            Accept: application/vnd.api+json
+            Content-type: application/vnd.api+json
+
+    + Body
+
+            {
+                "data":{
+                    "type":"releases",
+                    "attributes":{
+                        "version":"1.2"
+                    }
+                }
+            }
+
++ Response 200 (application/vnd.api+json)
+
+        {
+            "data":{
+                "type":"releases",
+                "id":"0878a8f5-576c-4e06-bace-93aa46fdcc37",
+                "attributes":{
+                    "version":"1.2",
+                    "created_at":"2016-11-12T02:58:08+00:00",
+                    "updated_at":"2016-11-12T03:02:19+00:00"
+                },
+                "links":{
+                    "self":"http://ephemeral.dev/api/releases/1"
+                }
+            }
+        }
+
+### Delete a release [DELETE /releases/{id}]
+
+Deletes a release from the system, this also removed the file in storage that
+is associated with the release.
+
++ Parameters
+
+    + id: 0878a8f5-576c-4e06-bace-93aa46fdcc37` (uuid) - The id of the mod you wish to request
+
++ Request
+
+    + Header
+
+            Accept: application/vnd.api+json
+            Content-type: application/vnd.api+json
+
++ Response 204
+
+## Modpacks [/modpacks]
+
+The `modpacks` resource is made up of the following attributes:
+
+| field       | type    | validation | description                                |
+|-------------|---------|------------|--------------------------------------------|
+| name        | string  |            | The human readable name                    |
+| published   | boolean |            | Included in non-authenticated api requests |
+
+### List all modpacks [GET]
+
+By default only published modpacks will be returned. To show unpublished modpacks
+you must provide a valid authentication token.
+
++ Request
+
+    + Header
+
+            Accept: application/vnd.api+json
+            Content-type: application/vnd.api+json
+
++ Response 200 (application/vnd.api+json)
+
+        {
+            "data":[
+                {
+                    "type":"modpacks",
+                    "id":"brothers-klaus",
+                    "attributes":{
+                        "name":"Brothers Klaus",
+                        "published":false,
+                        "created_at":"2016-11-12T03:33:58+00:00",
+                        "updated_at":"2016-11-12T03:33:58+00:00"
+                    },
+                    "links":{
+                        "self":"http://ephemeral.dev/api/modpacks/brothers-klaus"
+                    }
+                }
+            ]
+        }
+
+### Create a modpack [POST]
+
+When creating a new modpack the `name` attribute is required. The `id` will be
+generated automatically if its not provided based on the modpack `name` attribute.
+If the `id` is provided, it must be unique or a `409 Conflict` status will be
+returned and the modpack will not be created.
+
++ Request
+
+    + Header
+
+            Accept: application/vnd.api+json
+            Content-type: application/vnd.api+json
+
+    + Body
+
+            {
+                "data":{
+                    "type":"modpacks",
+                    "id": "brothers",
+                    "attributes":{
+                        "name":"Brothers Klaus",
+                        "published":false
+                    }
+                }
+            }
+
++ Response 201 (application/vnd.api+json)
+
+        {
+            "data":{
+                "type":"modpacks",
+                "id":"brothers",
+                "attributes":{
+                    "name":"Brothers Klaus",
+                    "published":false,
+                    "created_at":"2016-11-12T03:02:53+00:00",
+                    "updated_at":"2016-11-12T03:02:53+00:00"
+                },
+                "links":{
+                    "self":"http://ephemeral.dev/api/modpacks/brothers-klaus"
+                }
+            }
+        }
+
+### Show a modpacks [GET /modpacks/{id}]
+
+Returns a single releases resource object for the modpack. If the request is
+unauthenticated, then only published modpacks will be returned. Unauthenticated
+requests for unpublished, or non-existant mod packs will return a `401 Unauthorized`
+response.
+
++ Parameters
+
+    + id: `brothers` (string) - The id of the modpack you wish to request
+
++ Request
+
+    + Header
+
+            Accept: application/vnd.api+json
+            Content-type: application/vnd.api+json
+
++ Response 200 (application/vnd.api+json)
+
+        {
+            "data":{
+                "type":"modpacks",
+                "id":"brothers",
+                "attributes":{
+                    "name":"Brothers Klaus",
+                    "published":false,
+                    "created_at":"2016-11-12T03:33:58+00:00",
+                    "updated_at":"2016-11-12T03:33:58+00:00"
+                },
+                "links":{
+                    "self":"http://ephemeral.dev/api/modpacks/brothers-klaus"
+                }
+            }
+        }
+
+### Update a modpacks [PUT /modpacks/{id}]
+
+Update attributes of a modpack. The `id` cannot be updated once the modpack is
+created, if the `id` is incorrect, the modpack needs to be deleted and re-created
+with the correct `id` provided.
+
+#### Caution!
+If any of the `name`, or `published` attributes are not provided,
+then the corresponding value is not modified on the server.
+However, if you send an empty string or `null` instead then it will
+**permanently overwrite** the original value.
+
++ Parameters
+
+    + id: `brothers` (string) - The slug of the modpack you wish to update
+
++ Request
+
+    + Header
+
+            Accept: application/vnd.api+json
+            Content-type: application/vnd.api+json
+
+    + Body
+
+            {
+                "data":{
+                    "type":"modpacks",
+                    "attributes":{
+                        "published":true
+                    }
+                }
+            }
+
++ Response 200 (application/vnd.api+json)
+
+        {
+            "data":{
+                "type":"modpacks",
+                "id":"brothers",
+                "attributes":{
+                    "name":"Brothers Klaus",
+                    "published":true,
+                    "created_at":"2016-11-12T03:33:58+00:00",
+                    "updated_at":"2016-11-12T03:45:12+00:00"
+                },
+                "links":{
+                    "self":"http://ephemeral.dev/api/modpacks/brothers-klaus"
+                }
+            }
+        }
+
+### Delete a modpacks [DELETE /modpacks/{id}{?cascade}]
+
+Delete a single mod. The modpack cannot be deleted if it has any builds attached
+to it unless you set `cascade=true` in the query string in which case any existing
+builds of the modpack will also be deleted.
+
++ Parameters
+
+    + id: `brothers` (string) - The id of the mod you wish to request
+    + cascade: `true` (optional, boolean) - Flag deletion of builds tied to this
+    modpack as well as the modpack itself.
+        + Default: `false`
+
++ Request
+
+    + Header
+
+            Accept: application/vnd.api+json
+            Content-type: application/vnd.api+json
+
++ Response 204
+
+## Builds [/builds]
+
+The `builds` resource is made up of the following attributes:
+
+| field     | type    | validation | description                                       |
+|-----------|---------|------------|---------------------------------------------------|
+| version   | string  | required   | The unique, sortable build identifier             |
+| published | boolean |            | Included in non-authenticated api requests        |
+| tags      | json    |            | Additional details used by the launcher or client |
+
+The `tags` attribute is an array of key-pair settings that may or maynot be
+used by the client launcher, or other consumer of the api. For example, it could
+contain a `"memory":2048` tag that a launcher could use to set the memory on
+launch of the game.
+
+<sup>[1]</sup>While it is not a requirement, TechnicSolder assumes the version
+contains a [Semantic Versioning 2.0](http://semver.org/) formatted string.
+
+<sup>[2]</sup>The version attribute must be unique for builds under a
+particular modpack.
+
+### List all builds [GET /modpacks/{id}/builds]
+
+If you do not provide valid authentication, this endpoint will only return builds
+for published modpacks. A `401 Unauthorized` status will be returned for
+unauthenticated requests trying to access a build for unpublished, or
+non-existant modpack.
+
++ Parameters
+
+    + id: `brothers` (string) - The id of the mod you wish to request
+
++ Request
+
+    + Header
+
+            Accept: application/vnd.api+json
+            Content-type: application/vnd.api+json
+
++ Response 200 (application/vnd.api+json)
+
+        {
+            "data":[
+                {
+                    "type":"builds",
+                    "id":"3f3f71ce-49b9-43a4-9a46-8c5d783fe3b9",
+                    "attributes":{
+                        "version":"1.0",
+                        "published":false,
+                        "tags": {
+                            "minecraft":"1.7.10",
+                            "forge":"10.13.4.1614",
+                            "java":"1.6",
+                            "memory":2048
+                        }
+                    }
+                }
+            ]
+        }
+
+### Create a new build [POST /modpacks/{id}/builds]
+
+When creating a new build, the `version` is required and must be unique for
+the modpack provided.
+
++ Parameters
+
+    + id: `brothers` (string) - The id of the modpack you wish to create a build for
+
++ Request
+
+    + Header
+
+            Accept: application/vnd.api+json
+            Content-type: application/vnd.api+json
+
+    + Body
+
+            {
+                "data":{
+                    "type":"builds",
+                    "id":"3f3f71ce-49b9-43a4-9a46-8c5d783fe3b9",
+                    "attributes":{
+                        "version":"1.0",
+                        "published":false,
+                        "tags": {
+                            "minecraft":"1.7.10",
+                            "forge":"10.13.4.1614",
+                            "java":"1.6",
+                            "memory":2048
+                        }
+                    }
+                }
+            }
+
++ Response 201 (application/vnd.api+json)
+
+        {
+            "data":{
+                "type":"builds",
+                "id":"3f3f71ce-49b9-43a4-9a46-8c5d783fe3b9",
+                "attributes":{
+                    "version":"1.0",
+                    "published":false,
+                    "tags": {
+                        "minecraft":"1.7.10",
+                        "forge":"10.13.4.1614",
+                        "java":"1.6",
+                        "memory":2048
+                    },
+                    "created_at":"2016-11-12T03:06:20+00:00",
+                    "updated_at":"2016-11-12T03:06:20+00:00"
+                },
+                "links":{
+                    "self":"http://ephemeral.dev/api/releases/3f3f71ce-49b9-43a4-9a46-8c5d783fe3b9"
+                }
+            }
+        }
+
+### Show details for a build [GET /builds/{id}]
+
+Retreive details for a single build, similarly to listing builds if the
+modpack associated with this build is not public and the request
+is not authenticated then a `401 Unauthorized` will be returned.
+
++ Parameters
+
+    + id: `3f3f71ce-49b9-43a4-9a46-8c5d783fe3b9` (uuid) - The id of the mod you wish to request
+
++ Request
+
+    + Header
+
+            Accept: application/vnd.api+json
+            Content-type: application/vnd.api+json
+
++ Response 200 (application/vnd.api+json)
+
+        {
+            "data":{
+                "type":"builds",
+                "id":"3f3f71ce-49b9-43a4-9a46-8c5d783fe3b9",
+                "attributes":{
+                    "version":"1.0",
+                    "published":false,
+                    "tags": {
+                        "minecraft":"1.7.10",
+                        "forge":"10.13.4.1614",
+                        "java":"1.6",
+                        "memory":2048
+                    },
+                    "created_at":"2016-11-12T03:06:20+00:00",
+                    "updated_at":"2016-11-12T03:06:20+00:00"
+                },
+                "links":{
+                    "self":"http://ephemeral.dev/api/releases/3f3f71ce-49b9-43a4-9a46-8c5d783fe3b9"
+                }
+            }
+        }
+
+### Update a build [PUT /builds/{id}]
+
+If the `version` attribute is provided, it cannot be empty, and must remain
+unique for the modpack the build is associated with.
+
+#### Caution!
+If any of the `name`, `published` or `properties` attributes are not provided,
+then the corresponding value is not modified on the server.
+However, if you send an empty string or `null` instead then it will
+**permanently overwrite** the original value.
+
+Since the `tags` is a single attribute of the build, you must provide the
+entire JSON object with your changes in order to not overwrite existing elements.
+
++ Parameters
+
+    + id: `3f3f71ce-49b9-43a4-9a46-8c5d783fe3b9` (uuid) - The id of the mod you wish to request
+
++ Request
+
+    + Header
+
+            Accept: application/vnd.api+json
+            Content-type: application/vnd.api+json
+
+    + Body
+
+            {
+                "data":{
+                    "type":"builds",
+                    "attributes":{
+                        "tags": {
+                            "memory":4096
+                        },
+                        "published":true
+                    }
+                }
+            }
+
++ Response 200 (application/vnd.api+json)
+
+        {
+            "data":{
+                "type":"builds",
+                "id":"3f3f71ce-49b9-43a4-9a46-8c5d783fe3b9",
+                "attributes":{
+                    "version":"1.0",
+                    "published":true,
+                    "tags": {
+                        "memory":4096
+                    },
+                    "created_at":"2016-11-12T03:06:20+00:00",
+                    "updated_at":"2016-11-12T03:08:38+00:00"
+                },
+                "links":{
+                    "self":"http://ephemeral.dev/api/releases/3f3f71ce-49b9-43a4-9a46-8c5d783fe3b9"
+                }
+            }
+        }
+
+### Delete a build [DELETE /builds/{id}]
+
+Deletes a build from the system, this also removed the asset files (icon, logo,
+and background images) from the defined storage if they exist.
+
++ Parameters
+
+    + id: `3f3f71ce-49b9-43a4-9a46-8c5d783fe3b9` (uuid) - The id of the mod you wish to request
+
++ Request
+
+    + Header
+
+            Accept: application/vnd.api+json
+            Content-type: application/vnd.api+json
+
++ Response 204
+
+
+# Group v0.7
+
 ### Test if key is valid [GET /verify/{key}]
 
 + Parameters
