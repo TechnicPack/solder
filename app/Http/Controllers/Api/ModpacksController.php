@@ -37,18 +37,7 @@ class ModpacksController extends ApiController
      */
     public function store(ModpackStoreRequest $request)
     {
-        if (Modpack::where('slug', $request->input('data.id'))->exists()) {
-            $message = sprintf('The id `%s` already exists', $request->input('data.id'));
-            throw new IdentifierConflictException($message);
-        }
-
-        $attributes = $request->input('data.attributes');
-
-        if ($request->has('data.id')) {
-            $attributes['slug'] = $request->input('data.id');
-        }
-
-        $modpack = Modpack::create($attributes);
+        $modpack = Modpack::create($request->input('data.attributes'));
 
         return $this
             ->item($modpack, new ModpackTransformer(), 'modpacks')

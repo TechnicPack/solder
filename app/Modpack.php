@@ -59,16 +59,6 @@ class Modpack extends Model
     }
 
     /**
-     * Get the route key for the model.
-     *
-     * @return string
-     */
-    public function getRouteKeyName()
-    {
-        return 'slug';
-    }
-
-    /**
      * Get the builds for the model.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany

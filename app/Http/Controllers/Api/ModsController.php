@@ -39,18 +39,7 @@ class ModsController extends ApiController
      */
     public function store(ModStoreRequest $request)
     {
-        $attributes = $request->input('data.attributes');
-
-        if (Mod::where('slug', $request->input('data.id'))->exists()) {
-            $message = sprintf('The id `%s` already exists', $request->input('data.id'));
-            throw new IdentifierConflictException($message);
-        }
-
-        if ($request->has('data.id')) {
-            $attributes['slug'] = $request->input('data.id');
-        }
-
-        $mod = Mod::create($attributes);
+        $mod = Mod::create($request->input('data.attributes'));
 
         return $this
             ->item($mod, new ModTransformer(), 'mods')
