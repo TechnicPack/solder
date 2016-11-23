@@ -23,7 +23,7 @@ class ModpackBuildsController extends ApiController
         $include = $request->input('include');
 
         return $this
-            ->collection($builds, new BuildTransformer(), 'builds')
+            ->collection($builds, new BuildTransformer(), 'build')
             ->include($include)
             ->response();
     }
@@ -40,7 +40,7 @@ class ModpackBuildsController extends ApiController
         $build = $modpack->builds()->create($request->input('data.attributes'));
 
         return $this
-            ->item($build, new BuildTransformer(), 'builds')
+            ->item($build, new BuildTransformer(), 'build')
             ->addHeader('Location', '/builds/'.$build->getKey())
             ->response(201);
     }

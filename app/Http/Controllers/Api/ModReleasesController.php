@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Api;
 use App\Exceptions\IdentifierConflictException;
 use App\Http\Requests\ReleaseStoreRequest;
 use App\Mod;
-use App\Release;
 use App\Transformers\ReleaseTransformer;
 use Illuminate\Http\Request;
 
@@ -25,7 +24,7 @@ class ModReleasesController extends ApiController
         $include = $request->input('include');
 
         return $this
-            ->collection($releases, new ReleaseTransformer(), 'releases')
+            ->collection($releases, new ReleaseTransformer(), 'release')
             ->include($include)
             ->response();
     }
@@ -43,7 +42,7 @@ class ModReleasesController extends ApiController
         $release = $mod->releases()->create($request->input('data.attributes'));
 
         return $this
-            ->item($release, new ReleaseTransformer(), 'releases')
+            ->item($release, new ReleaseTransformer(), 'release')
             ->addHeader('Location', '/releases/'.$release->getKey())
             ->response(201);
     }

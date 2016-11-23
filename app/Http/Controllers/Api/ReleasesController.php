@@ -9,6 +9,24 @@ use Illuminate\Http\Request;
 class ReleasesController extends ApiController
 {
     /**
+     * Display a listing of releases.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function index(Request $request)
+    {
+        $releases = Release::all();
+
+        $include = $request->input('include');
+
+        return $this
+            ->collection($releases, new ReleaseTransformer(), 'release')
+            ->include($include)
+            ->response();
+    }
+
+    /**
      * Display the specified release.
      *
      * @param Request $request
@@ -20,7 +38,7 @@ class ReleasesController extends ApiController
         $include = $request->input('include');
 
         return $this
-            ->item($release, new ReleaseTransformer(), 'releases')
+            ->item($release, new ReleaseTransformer(), 'release')
             ->include($include)
             ->response();
     }
@@ -37,7 +55,7 @@ class ReleasesController extends ApiController
         $release->update($request->input('data.attributes'));
 
         return $this
-            ->item($release, new ReleaseTransformer(), 'releases')
+            ->item($release, new ReleaseTransformer(), 'release')
             ->response();
     }
 

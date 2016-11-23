@@ -25,7 +25,7 @@ class ModsController extends ApiController
         $include = $request->input('include');
 
         return $this
-            ->collection($mods, new ModTransformer(), 'mods')
+            ->collection($mods, new ModTransformer(), 'mod')
             ->include($include)
             ->response();
     }
@@ -42,7 +42,7 @@ class ModsController extends ApiController
         $mod = Mod::create($request->input('data.attributes'));
 
         return $this
-            ->item($mod, new ModTransformer(), 'mods')
+            ->item($mod, new ModTransformer(), 'mod')
             ->addHeader('Location', '/mods/'.$mod->getKey())
             ->response(201);
     }
@@ -59,7 +59,7 @@ class ModsController extends ApiController
         $include = $request->input('include');
 
         return $this
-            ->item($mod, new ModTransformer(), 'mods')
+            ->item($mod, new ModTransformer(), 'mod')
             ->include($include)
             ->response();
     }
@@ -76,7 +76,7 @@ class ModsController extends ApiController
         $mod->update($request->input('data.attributes'));
 
         return $this
-            ->item($mod, new ModTransformer(), 'mods')
+            ->item($mod, new ModTransformer(), 'mod')
             ->response();
     }
 

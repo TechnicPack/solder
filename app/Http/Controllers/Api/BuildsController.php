@@ -9,6 +9,24 @@ use Illuminate\Http\Request;
 class BuildsController extends ApiController
 {
     /**
+     * Display a listing of builds.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function index(Request $request)
+    {
+        $builds = Build::all();
+
+        $include = $request->input('include');
+
+        return $this
+            ->collection($builds, new BuildTransformer(), 'build')
+            ->include($include)
+            ->response();
+    }
+
+    /**
      * Display the specified build.
      *
      * @param Request $request
@@ -20,7 +38,7 @@ class BuildsController extends ApiController
         $include = $request->input('include');
 
         return $this
-            ->item($build, new BuildTransformer(), 'builds')
+            ->item($build, new BuildTransformer(), 'build')
             ->include($include)
             ->response();
     }
@@ -37,7 +55,7 @@ class BuildsController extends ApiController
         $build->update($request->input('data.attributes'));
 
         return $this
-            ->item($build, new BuildTransformer(), 'builds')
+            ->item($build, new BuildTransformer(), 'build')
             ->response();
     }
 

@@ -23,7 +23,7 @@ class ModpacksController extends ApiController
         $include = $request->input('include');
 
         return $this
-            ->collection($modpacks, new ModpackTransformer(), 'modpacks')
+            ->collection($modpacks, new ModpackTransformer(), 'modpack')
             ->include($include)
             ->response();
     }
@@ -40,7 +40,7 @@ class ModpacksController extends ApiController
         $modpack = Modpack::create($request->input('data.attributes'));
 
         return $this
-            ->item($modpack, new ModpackTransformer(), 'modpacks')
+            ->item($modpack, new ModpackTransformer(), 'modpack')
             ->addHeader('Location', '/modpacks/'.$modpack->getKey())
             ->response(201);
     }
@@ -57,7 +57,7 @@ class ModpacksController extends ApiController
         $include = $request->input('include');
 
         return $this
-            ->item($modpack, new ModpackTransformer(), 'modpacks')
+            ->item($modpack, new ModpackTransformer(), 'modpack')
             ->include($include)
             ->response();
     }
@@ -74,7 +74,7 @@ class ModpacksController extends ApiController
         $modpack->update($request->input('data.attributes'));
 
         return $this
-            ->item($modpack, new ModpackTransformer(), 'modpacks')
+            ->item($modpack, new ModpackTransformer(), 'modpack')
             ->addHeader('Location', '/modpacks/'.$modpack->getKey())
             ->response();
     }

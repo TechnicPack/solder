@@ -52,7 +52,7 @@ class Build extends Model
      */
     public function modpack()
     {
-        return $this->belongsTo(App\Modpack::class);
+        return $this->belongsTo(Modpack::class);
     }
 
     /**

@@ -3,7 +3,6 @@
 namespace App\Transformers;
 
 use App\Release;
-use League\Fractal\Resource\NullResource;
 use League\Fractal\TransformerAbstract;
 
 class ReleaseTransformer extends TransformerAbstract
@@ -25,7 +24,7 @@ class ReleaseTransformer extends TransformerAbstract
         return fractal()
             ->collection($release->builds)
             ->transformWith(new self())
-            ->withResourceName('builds')
+            ->withResourceName('build')
             ->getResource();
     }
 
@@ -38,7 +37,7 @@ class ReleaseTransformer extends TransformerAbstract
         return fractal()
             ->item($release->archive)
             ->transformWith(new AssetTransformer())
-            ->withResourceName('assets')
+            ->withResourceName('asset')
             ->getResource();
     }
 }
