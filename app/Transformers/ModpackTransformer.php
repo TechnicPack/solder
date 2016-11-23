@@ -3,6 +3,7 @@
 namespace App\Transformers;
 
 use App\Modpack;
+use App\Release;
 use League\Fractal\TransformerAbstract;
 
 /**
@@ -15,6 +16,8 @@ class ModpackTransformer extends TransformerAbstract
         'icon',
         'logo',
         'background',
+        'promoted',
+        'latest'
     ];
 
     public function transform(Modpack $modpack)
@@ -26,6 +29,24 @@ class ModpackTransformer extends TransformerAbstract
             'created_at' => $modpack->created_at->format('c'),
             'updated_at' => $modpack->updated_at->format('c'),
         ];
+    }
+
+    public function includeLatest(Modpack $modpack)
+    {
+        if (empty($modpack->latest)) {
+            return $this->null();
+        }
+
+        return $this->item($modpack->latest, new ReleaseTransformer(), 'release');
+    }
+
+    public function includePromoted(Modpack $modpack)
+    {
+        if (empty($modpack->promoted)) {
+            return $this->null();
+        }
+
+        return $this->item($modpack->promoted, new ReleaseTransformer(), 'release');
     }
 
     public function includeBuilds(Modpack $modpack)

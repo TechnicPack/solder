@@ -7,7 +7,7 @@ use League\Fractal\TransformerAbstract;
 
 class ReleaseTransformer extends TransformerAbstract
 {
-    protected $availableIncludes = ['builds', 'asset'];
+    protected $availableIncludes = ['mod', 'builds', 'asset'];
 
     public function transform(Release $release)
     {
@@ -39,5 +39,10 @@ class ReleaseTransformer extends TransformerAbstract
             ->transformWith(new AssetTransformer())
             ->withResourceName('asset')
             ->getResource();
+    }
+
+    public function includeMod(Release $release)
+    {
+        return $this->item($release->mod, new ModTransformer(), 'mod');
     }
 }
