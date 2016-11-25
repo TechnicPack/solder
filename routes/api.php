@@ -26,8 +26,8 @@ Route::get('/', function () {
     ]);
 });
 
-// Solder 0.8.~ API Endpoints
-Route::group(['namespace' => 'Api'], function () {
+// Solder 0.8.~ Oauth Protected API Endpoints
+Route::group(['namespace' => 'Api', 'middleware' => 'auth:api'], function () {
     Route::get('mods/{mod}/releases', 'ModReleasesController@index');
     Route::post('mods/{mod}/releases', 'ModReleasesController@store')->middleware('resource.item:release');
     Route::get('mods/{mod}', 'ModsController@show');

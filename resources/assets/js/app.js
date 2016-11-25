@@ -21,6 +21,9 @@ Vue.component('build-releases', require('./components/releases/BuildReleases.vue
 Vue.component('release-builds', require('./components/builds/ReleaseBuilds.vue'));
 Vue.component('recent-mod-releases', require('./components/releases/RecentModReleases.vue'));
 Vue.component('recent-modpack-builds', require('./components/builds/RecentModpackBuilds.vue'));
+Vue.component('passport-clients', require('./components/passport/Clients.vue'));
+Vue.component('passport-authorized-clients', require('./components/passport/AuthorizedClients.vue'));
+Vue.component('passport-personal-access-tokens', require('./components/passport/PersonalAccessTokens.vue'));
 
 const app = new Vue({
     el: '#app'

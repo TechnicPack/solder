@@ -168,6 +168,7 @@ return [
          */
         Spatie\Fractal\FractalServiceProvider::class,
         GrahamCampbell\Markdown\MarkdownServiceProvider::class,
+        Laravel\Passport\PassportServiceProvider::class,
 
         /*
          * Application Service Providers...

@@ -10,7 +10,8 @@
         "spatie/laravel-fractal": "^2.0",
         "tremby/laravel-git-version": "^1.1",
         "alsofronie/eloquent-uuid": "^1.0",
-        "graham-campbell/markdown": "^7.0"
+        "graham-campbell/markdown": "^7.0",
+        "laravel/passport": "^1.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
