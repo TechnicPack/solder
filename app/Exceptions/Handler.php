@@ -50,7 +50,7 @@ class Handler extends ExceptionHandler
                     'status' => 409,
                     'title' => 'Invalid resource type',
                     'detail' => $exception->getMessage(),
-                ]
+                ],
             ], 409, ['content-type' => 'application/vnd.api+json']);
         }
 
@@ -60,7 +60,7 @@ class Handler extends ExceptionHandler
                     'status' => 409,
                     'title' => 'Invalid resource id',
                     'detail' => $exception->getMessage(),
-                ]
+                ],
             ], 409, ['content-type' => 'application/vnd.api+json']);
         }
 

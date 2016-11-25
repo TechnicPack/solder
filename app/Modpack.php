@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
@@ -21,6 +22,8 @@ use Alsofronie\Uuid\UuidModelTrait;
  * @property \App\Build promoted
  * @property Collection clients
  * @property Collection builds
+ * @property Carbon created_at
+ * @property Carbon updated_at
  */
 class Modpack extends Model
 {

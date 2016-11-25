@@ -14,6 +14,7 @@ use Alsofronie\Uuid\UuidModelTrait;
  * @property Collection builds
  * @property Carbon created_at
  * @property Carbon updated_at
+ * @property Mod mod
  */
 class Release extends Model
 {

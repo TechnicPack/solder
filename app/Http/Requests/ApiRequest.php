@@ -8,7 +8,7 @@ class ApiRequest extends FormRequest
 {
     /**
      * Customize the error messages to be in-line with JSON API taxonomy
-     * (mostly, this is replacing 'field' with 'attribute')
+     * (mostly, this is replacing 'field' with 'attribute').
      *
      * @return array
      */

@@ -85,7 +85,7 @@ class ModpacksController extends ApiController
     }
 
     /**
-     * Store the icon for the modpack
+     * Store the icon for the modpack.
      *
      * @param Request $request
      * @param Modpack $modpack
@@ -97,7 +97,7 @@ class ModpacksController extends ApiController
     }
 
     /**
-     * Store the logo for the modpack
+     * Store the logo for the modpack.
      *
      * @param Request $request
      * @param Modpack $modpack
@@ -109,7 +109,7 @@ class ModpacksController extends ApiController
     }
 
     /**
-     * Store the background for the modpack
+     * Store the background for the modpack.
      *
      * @param Request $request
      * @param Modpack $modpack

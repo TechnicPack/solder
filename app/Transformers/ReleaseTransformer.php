@@ -31,7 +31,7 @@ class ReleaseTransformer extends TransformerAbstract
 
     public function includeAsset(Release $release)
     {
-        if (!$asset = $release->archive) {
+        if (! $asset = $release->archive) {
             return $this->null();
         }
 

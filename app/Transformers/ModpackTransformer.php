@@ -3,12 +3,8 @@
 namespace App\Transformers;
 
 use App\Modpack;
-use App\Release;
 use League\Fractal\TransformerAbstract;
 
-/**
- * Class ModpackTransformer
- */
 class ModpackTransformer extends TransformerAbstract
 {
     protected $availableIncludes = [
@@ -17,7 +13,7 @@ class ModpackTransformer extends TransformerAbstract
         'logo',
         'background',
         'promoted',
-        'latest'
+        'latest',
     ];
 
     public function transform(Modpack $modpack)

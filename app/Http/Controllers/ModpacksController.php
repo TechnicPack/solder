@@ -24,7 +24,6 @@ class ModpacksController extends Controller
         return view('modpacks.index');
     }
 
-
     /**
      * Display the specified resource.
      *

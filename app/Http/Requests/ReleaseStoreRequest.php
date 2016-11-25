@@ -27,7 +27,7 @@ class ReleaseStoreRequest extends ApiRequest
             'version' => [
                 'required',
                 Rule::unique('releases'), // TODO: Need to check where('mod_id', $mod->id)
-            ]
+            ],
         ];
     }
 }

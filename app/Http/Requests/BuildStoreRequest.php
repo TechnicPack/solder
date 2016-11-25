@@ -29,7 +29,7 @@ class BuildStoreRequest extends ApiRequest
             'version' => [
                 'required',
                 Rule::unique('builds'), // TODO: Need to check where('modpack_id', $modpack->id)
-            ]
+            ],
         ];
     }
 }

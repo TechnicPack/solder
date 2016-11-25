@@ -11,6 +11,7 @@ use Alsofronie\Uuid\UuidModelTrait;
  * @property string disk
  * @property string md5
  * @property string url
+ * @property int filesize
  */
 class Asset extends Model
 {
@@ -38,5 +39,14 @@ class Asset extends Model
     {
         // TODO: Implement function
         return '';
+    }
+
+    /**
+     * @return int
+     */
+    public function getFilesizeAttribute()
+    {
+        // TODO: Implement function
+        return 0;
     }
 }

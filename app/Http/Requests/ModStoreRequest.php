@@ -24,7 +24,7 @@ class ModStoreRequest extends ApiRequest
         return [
             'name' => 'required',
             'slug' => 'filled|unique:mods',
-            'link' => 'url'
+            'link' => 'url',
         ];
     }
 }
