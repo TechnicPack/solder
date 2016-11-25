@@ -26,6 +26,38 @@ Route::get('/', function () {
     ]);
 });
 
+// Solder 0.8.~ API Endpoints
+Route::group(['namespace' => 'Api'], function () {
+    Route::get('mods/{mod}/releases', 'ModReleasesController@index');
+    Route::post('mods/{mod}/releases', 'ModReleasesController@store')->middleware('resource.item:release');
+    Route::get('mods/{mod}', 'ModsController@show');
+    Route::patch('mods/{mod}', 'ModsController@update')->middleware('resource.item:mod');
+    Route::delete('mods/{mod}', 'ModsController@destroy');
+    Route::get('mods', 'ModsController@index');
+    Route::post('mods', 'ModsController@store')->middleware('resource.item:mod');
+
+    Route::get('releases/{release}/builds', 'ReleaseBuildsController@index');
+    Route::get('releases/{release}', 'ReleasesController@show');
+    Route::patch('releases/{release}', 'ReleasesController@update');
+    Route::delete('releases/{release}', 'ReleasesController@destroy');
+    Route::get('releases', 'ReleasesController@index');
+
+    Route::get('modpacks/{modpack}/builds', 'ModpackBuildsController@index');
+    Route::post('modpacks/{modpack}/builds', 'ModpackBuildsController@store')->middleware('resource.item:build');
+    Route::get('modpacks/{modpack}', 'ModpacksController@show');
+    Route::patch('modpacks/{modpack}', 'ModpacksController@update')->middleware('resource.item:modpack');
+    Route::delete('modpacks/{modpack}', 'ModpacksController@destroy');
+    Route::get('modpacks', 'ModpacksController@index');
+    Route::post('modpacks', 'ModpacksController@store')->middleware('resource.item:modpack');
+
+    Route::get('builds/{build}/releases', 'BuildReleasesController@index');
+    Route::get('builds/{build}', 'BuildsController@show');
+    Route::patch('builds/{build}', 'BuildsController@update')->middleware('resource.item:build');
+    Route::delete('builds/{build}', 'BuildsController@destroy');
+    Route::get('builds', 'BuildsController@index');
+});
+
+// Solder 0.7.~ API Endpoints
 Route::group(['namespace' => 'Api\v07'], function () {
     Route::get('verify/{token}', 'TokensController@verify');
     Route::get('mod/{mod}/{releaseVersion}', 'ModReleasesController@show');

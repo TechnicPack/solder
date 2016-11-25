@@ -1,4 +1,6 @@
 server: 'php -S 0.0.0.0:8001 server.php'
+language: 'vendor/bin/dredd-hooks-php'
+hookfiles: 'tests/dredd/hooks.php'
 server-wait: 3
 reporter: apiary
 sorted: true

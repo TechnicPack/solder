@@ -10,6 +10,8 @@ use Alsofronie\Uuid\UuidModelTrait;
  * @property string path
  * @property string disk
  * @property string md5
+ * @property string url
+ * @property int filesize
  */
 class Asset extends Model
 {
@@ -28,5 +30,23 @@ class Asset extends Model
     public function attachable()
     {
         return $this->morphTo();
+    }
+
+    /**
+     * @return string
+     */
+    public function getUrlAttribute()
+    {
+        // TODO: Implement function
+        return '';
+    }
+
+    /**
+     * @return int
+     */
+    public function getFilesizeAttribute()
+    {
+        // TODO: Implement function
+        return 0;
     }
 }

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use League\Fractal\Serializer\JsonApiSerializer;
+use Illuminate\Support\Collection;
 
 class ApiController extends Controller
 {
@@ -30,5 +32,71 @@ class ApiController extends Controller
         }
 
         return response($content, $status, ['content-type' => 'application/json']);
+    }
+
+    protected $serializer;
+    protected $resource;
+    protected $headers;
+
+    public function __construct()
+    {
+        $this->serializer = new JsonApiSerializer(config('app.url').'/api');
+        $this->resource = fractal()->serializeWith($this->serializer);
+        $this->headers = new Collection([
+            'content-type' => 'application/vnd.api+json',
+        ]);
+    }
+
+    protected function collection($collection, $transformer, $resource)
+    {
+        $this->resource
+            ->collection($collection)
+            ->transformWith($transformer)
+            ->withResourceName($resource);
+
+        return $this;
+    }
+
+    protected function item($item, $transformer, $resource)
+    {
+        $this->resource
+            ->item($item)
+            ->transformWith($transformer)
+            ->withResourceName($resource);
+
+        return $this;
+    }
+
+    protected function include($include)
+    {
+        $this->resource
+            ->parseIncludes($include);
+
+        return $this;
+    }
+
+    protected function response($status = 200)
+    {
+        return response(
+            $this->resource->toJson(),
+            $status,
+            $this->headers->toArray()
+        );
+    }
+
+    protected function emptyResponse($status = 204)
+    {
+        return response(
+            null,
+            $status,
+            $this->headers->toArray()
+        );
+    }
+
+    protected function addHeader($name, $value)
+    {
+        $this->headers[$name] = $value;
+
+        return $this;
     }
 }

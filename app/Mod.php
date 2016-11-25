@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Sluggable\HasSlug;
@@ -16,6 +17,8 @@ use Alsofronie\Uuid\UuidModelTrait;
  * @property string description
  * @property string link
  * @property Collection releases
+ * @property Carbon created_at
+ * @property Carbon updated_at
  */
 class Mod extends Model
 {
@@ -44,16 +47,6 @@ class Mod extends Model
             ->generateSlugsFrom('name')
             ->doNotGenerateSlugsOnUpdate()
             ->saveSlugsTo('slug');
-    }
-
-    /**
-     * Get the route key for the model.
-     *
-     * @return string
-     */
-    public function getRouteKeyName()
-    {
-        return 'slug';
     }
 
     /**

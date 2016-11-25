@@ -44,6 +44,26 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        if ($exception instanceof ResourceMismatchException) {
+            return response()->json([
+                'errors' => [
+                    'status' => 409,
+                    'title' => 'Invalid resource type',
+                    'detail' => $exception->getMessage(),
+                ],
+            ], 409, ['content-type' => 'application/vnd.api+json']);
+        }
+
+        if ($exception instanceof IdentifierConflictException) {
+            return response()->json([
+                'errors' => [
+                    'status' => 409,
+                    'title' => 'Invalid resource id',
+                    'detail' => $exception->getMessage(),
+                ],
+            ], 409, ['content-type' => 'application/vnd.api+json']);
+        }
+
         return parent::render($request, $exception);
     }
 

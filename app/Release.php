@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Alsofronie\Uuid\UuidModelTrait;
@@ -11,6 +12,9 @@ use Alsofronie\Uuid\UuidModelTrait;
  * @property string version
  * @property \App\Asset archive
  * @property Collection builds
+ * @property Carbon created_at
+ * @property Carbon updated_at
+ * @property Mod mod
  */
 class Release extends Model
 {
