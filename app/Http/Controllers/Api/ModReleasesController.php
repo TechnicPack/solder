@@ -41,6 +41,11 @@ class ModReleasesController extends ApiController
     {
         $release = $mod->releases()->create($request->input('data.attributes'));
 
+        if ($request->input('data.id')) {
+            $release->id = $request->input('data.id');
+            $release->save();
+        }
+
         return $this
             ->item($release, new ReleaseTransformer(), 'release')
             ->addHeader('Location', '/releases/'.$release->getKey())

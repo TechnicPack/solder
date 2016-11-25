@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "43a2a8f349b191141c6cd1c89eef137a",
-    "content-hash": "0668d1a4806ad7472f30bd4e5686792b",
+    "hash": "be934eb170de41e1065919ffc7c4dc1f",
+    "content-hash": "6cbeb454ed727a4a3dbf4658c25683f4",
     "packages": [
         {
             "name": "alsofronie/eloquent-uuid",
@@ -2293,6 +2293,54 @@
         }
     ],
     "packages-dev": [
+        {
+            "name": "ddelnano/dredd-hooks-php",
+            "version": "1.1.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ddelnano/dredd-hooks-php.git",
+                "reference": "2d16826709d63c3a3face0545ff25e0b34f825c5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ddelnano/dredd-hooks-php/zipball/2d16826709d63c3a3face0545ff25e0b34f825c5",
+                "reference": "2d16826709d63c3a3face0545ff25e0b34f825c5",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4"
+            },
+            "require-dev": {
+                "mockery/mockery": "0.9.*",
+                "phpunit/phpunit": "~4.0",
+                "squizlabs/php_codesniffer": "^2.5"
+            },
+            "bin": [
+                "bin/dredd-hooks-php"
+            ],
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Dredd\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Domenic Del Nano",
+                    "email": "ddelnano@gmail.com"
+                }
+            ],
+            "description": "PHP hooks for the Dredd testing tool",
+            "homepage": "https://github.com/ddelnano/dredd-hooks-php/wiki",
+            "keywords": [
+                "dredd"
+            ],
+            "time": "2016-05-15 17:30:06"
+        },
         {
             "name": "doctrine/instantiator",
             "version": "1.0.5",

@@ -41,6 +41,11 @@ class ModsController extends ApiController
     {
         $mod = Mod::create($request->input('data.attributes'));
 
+        if ($request->input('data.id')) {
+            $mod->id = $request->input('data.id');
+            $mod->save();
+        }
+
         return $this
             ->item($mod, new ModTransformer(), 'mod')
             ->addHeader('Location', '/mods/'.$mod->getKey())
@@ -83,11 +88,16 @@ class ModsController extends ApiController
     /**
      * Remove the specified mod from storage.
      *
+     * @param Request $request
      * @param Mod $mod
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
-    public function destroy(Mod $mod)
+    public function destroy(Request $request, Mod $mod)
     {
+        if ($request->get('cascade') == true) {
+            $mod->releases()->delete();
+        }
+
         $mod->delete();
 
         return $this

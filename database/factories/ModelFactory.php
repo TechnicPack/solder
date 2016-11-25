@@ -60,7 +60,7 @@ $factory->define(App\Build::class, function (Faker\Generator $faker) {
             'memory' => $faker->numberBetween(512, 4096),
         ],
         'modpack_id' => function () {
-            factory(App\Modpack::class)->create()->id;
+            return factory(App\Modpack::class)->create()->id;
         },
     ];
 });

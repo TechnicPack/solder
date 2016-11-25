@@ -39,6 +39,11 @@ class ModpacksController extends ApiController
     {
         $modpack = Modpack::create($request->input('data.attributes'));
 
+        if ($request->input('data.id')) {
+            $modpack->id = $request->input('data.id');
+            $modpack->save();
+        }
+
         return $this
             ->item($modpack, new ModpackTransformer(), 'modpack')
             ->addHeader('Location', '/modpacks/'.$modpack->getKey())
@@ -118,11 +123,16 @@ class ModpacksController extends ApiController
     /**
      * Remove the specified modpack from storage.
      *
+     * @param Request $request
      * @param Modpack $modpack
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Modpack $modpack)
+    public function destroy(Request $request, Modpack $modpack)
     {
+        if ($request->get('cascade') == true) {
+            $modpack->builds()->delete();
+        }
+
         $modpack->delete();
 
         return $this

@@ -39,6 +39,11 @@ class ModpackBuildsController extends ApiController
     {
         $build = $modpack->builds()->create($request->input('data.attributes'));
 
+        if ($request->input('data.id')) {
+            $build->id = $request->input('data.id');
+            $build->save();
+        }
+
         return $this
             ->item($build, new BuildTransformer(), 'build')
             ->addHeader('Location', '/builds/'.$build->getKey())

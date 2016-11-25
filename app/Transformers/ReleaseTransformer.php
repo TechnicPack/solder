@@ -14,6 +14,7 @@ class ReleaseTransformer extends TransformerAbstract
         return [
             'id' => $release->getRouteKey(),
             'version' => $release->version,
+            'url' => @$release->archive->url,
             'created_at' => $release->created_at->format('c'),
             'updated_at' => $release->updated_at->format('c'),
         ];
