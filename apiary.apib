@@ -122,7 +122,7 @@ The `mods` resource is made up of the following attributes:
 | description | string |            | A summary of the mod (supports markdown) |
 | link        | string | url        | Link to the mod homepage                 |
 
-### List all mods [GET /mods{?include}]
+### List mods [GET /mods{?include}]
 
 By default only published mods will be returned. To show
 unpublished mods you must provide a valid authentication token.
@@ -168,7 +168,7 @@ unpublished mods you must provide a valid authentication token.
             ]
         }
 
-### Create a new mod [POST]
+### Create a mod [POST]
 
 When creating a new mod, the `name` attribute is required. The `id` will
 be generated automatically if its not provided. If the `id` is provided
@@ -218,7 +218,7 @@ not be created.
                 }
             }
 
-### Get a Mod [GET /mods/{id}]
+### Get a mod [GET /mods/{id}]
 
 Gets a single Mod by its unique identifier.
 
@@ -246,7 +246,7 @@ Gets a single Mod by its unique identifier.
             }
         }
 
-### Update a Mod [PATCH /mods/{id}]
+### Update a mod [PATCH /mods/{id}]
 
 Update a single mod. The `id` cannot be updated once the mod is created, if the
 `id` is incorrect, the mod needs to be deleted and re-created with the correct
@@ -304,7 +304,6 @@ releases of the mod will also be deleted.
 + Parameters
 
     + id: `f80fb3c1-437e-4d81-a2ba-ccd6fcb8fc7c` (string) - The id of the mod you wish to update
-    + id: `f80fb3c1-437e-4d81-a2ba-ccd6fcb8fc7c` (string) - The id of the mod you wish to update
     + cascade: `true (optional, boolean) - Flag deletion of releases tied to this mod
     as well as the mod itself.
         + Default: `false`
@@ -334,7 +333,7 @@ formatted string.
 <sup>[2]</sup>The `version` attribute must be unique for `releases`
 under a particular `mod`.
 
-### List all releases for a mod [GET /mods/{id}/releases]
+### List releases for a mod [GET /mods/{id}/releases]
 
 If you do not provide valid authentication, this endpoint will only return releases
 for published mods. A 401 unauthorized status will be returned for unauthenticated
@@ -370,7 +369,7 @@ requests trying to access an unpublished, or non-existent mod.
             ]
         }
 
-### Create a new release [POST /mods/{id}/releases]
+### Create a release [POST /mods/{id}/releases]
 
 When creating a new release, the `version` is required and must be unique for
 the mod provided.
@@ -421,7 +420,7 @@ the mod provided.
                 }
             }
 
-### Show details for a release [GET /releases/{id}]
+### Get a release [GET /releases/{id}]
 
 Retrieve details for a single release, similarly to listing releases if the
 mod associated with this release is not public and the request is not authenticated
@@ -527,7 +526,7 @@ The `modpacks` resource is made up of the following attributes:
 | name        | string  |            | The human readable name                    |
 | published   | boolean |            | Included in non-authenticated api requests |
 
-### List all modpacks [GET]
+### List modpacks [GET]
 
 By default only published modpacks will be returned. To show unpublished modpacks
 you must provide a valid authentication token.
@@ -604,7 +603,7 @@ returned and the modpack will not be created.
             }
         }
 
-### Show a modpacks [GET /modpacks/{id}]
+### Get a modpack [GET /modpacks/{id}]
 
 Returns a single releases resource object for the modpack. If the request is
 unauthenticated, then only published modpacks will be returned. Unauthenticated
@@ -640,7 +639,7 @@ response.
             }
         }
 
-### Update a modpacks [PATCH /modpacks/{id}]
+### Update a modpack [PATCH /modpacks/{id}]
 
 Update attributes of a modpack.
 
@@ -690,7 +689,7 @@ However, if you send an empty string or `null` instead then it will
             }
         }
 
-### Delete a modpacks [DELETE /modpacks/{id}{?cascade}]
+### Delete a modpack [DELETE /modpacks/{id}{?cascade}]
 
 Delete a single mod. The modpack cannot be deleted if it has any builds attached
 to it unless you set `cascade=true` in the query string in which case any existing
@@ -733,7 +732,7 @@ contains a [Semantic Versioning 2.0](http://semver.org/) formatted string.
 <sup>[2]</sup>The version attribute must be unique for builds under a
 particular modpack.
 
-### List all builds [GET /modpacks/{id}/builds]
+### List builds for a modpack [GET /modpacks/{id}/builds]
 
 If you do not provide valid authentication, this endpoint will only return builds
 for published modpacks. A `401 Unauthorized` status will be returned for
@@ -775,7 +774,7 @@ non-existent modpack.
             ]
         }
 
-### Create a new build [POST /modpacks/{id}/builds]
+### Create a build [POST /modpacks/{id}/builds]
 
 When creating a new build, the `version` is required and must be unique for
 the modpack provided.
@@ -834,7 +833,7 @@ the modpack provided.
             }
         }
 
-### Show details for a build [GET /builds/{id}]
+### Get a build [GET /builds/{id}]
 
 Retrieve details for a single build, similarly to listing builds if the
 modpack associated with this build is not public and the request
@@ -956,16 +955,16 @@ and background images) from the defined storage if they exist.
 
 # Group v0.7
 
-### Test if key is valid [GET /verify/{key}]
+### Verify API Key [GET /verify/{key}]
 
 + Parameters
 
-    + key: api_token (string) - The key to be verified
+    + key: `0d64794852c2a4dcecb1a57cdf531d28` (string) - The key to be verified
 
 + Response 200 (application/json)
 
         {
-            "name":"Key Name",
+            "name":"Technicpack.net",
             "valid":"Key validated.",
             "created_at":{
                 "date":"2016-11-06 21:08:31.000000",
@@ -976,7 +975,7 @@ and background images) from the defined storage if they exist.
 
 ## Mods [/mod]
 
-### List all mods [GET]
+### List mods [GET]
 
 + Response 200 (application/json)
 
@@ -986,7 +985,7 @@ and background images) from the defined storage if they exist.
             }
         }
 
-### Show details of a mod [GET /mod/{name}]
+### Get a mod [GET /mod/{name}]
 
 + Parameters
 
@@ -1006,7 +1005,7 @@ and background images) from the defined storage if they exist.
             ]
         }
 
-### Show details a version of a mod [GET /mod/{name}/{version}]
+### Get a version [GET /mod/{name}/{version}]
 
 + Parameters
 
@@ -1022,28 +1021,15 @@ and background images) from the defined storage if they exist.
 
 ## Modpacks [/modpack]
 
-### List all modpacks [GET /modpack{?k}{?cid}]
+### List modpacks [GET /modpack{?include}{?k}{?cid}]
 
 + Parameters
 
     + k (optional, string) - API key, for returning unpublished modpacks/builds
     + cid (optional, string) - Client token, for returning unpublished modpacks/builds
-
-+ Response 200 (application/json)
-
-        {
-           "modpacks":{
-              "test":"Example Modpack"
-           },
-           "mirror_url":"http://solder.example.com/files/"
-        }
-
-### List all modpacks showing details [GET /modpack?include=full{?k}{?cid}]
-
-+ Parameters
-
-    + k (optional, string) - API key, for returning unpublished modpacks/builds
-    + cid (optional, string) - Client token, for returning unpublished modpacks/builds
+    + include: `full` (optional, string) - Detail level to include in modpack results
+        + Members
+            + `full`
 
 + Response 200 (application/json)
 
@@ -1070,8 +1056,16 @@ and background images) from the defined storage if they exist.
             }
         }
 
++ Response 200 (application/json)
 
-### Show details of a modpack [GET /modpack/{name}{?k}{?cid}]
+        {
+           "modpacks":{
+              "test":"Example Modpack"
+           },
+           "mirror_url":"http://solder.example.com/files/"
+        }
+
+### Get a modpack [GET /modpack/{name}{?k}{?cid}]
 
 + Parameters
 
@@ -1099,7 +1093,7 @@ and background images) from the defined storage if they exist.
            ]
         }
 
-### Show details a build of a modpack [GET /modpack/{name}/{build}{?k}{?cid}]
+### Get a build [GET /modpack/{name}/{build}{?k}{?cid}]
 
 + Parameters
 
