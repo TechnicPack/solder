@@ -22,7 +22,6 @@ script:
 after_success:
   - php artisan migrate:refresh --force
   - php artisan passport:install
-  - php artisan passport:client --personal
   - dredd
 
 after_script:
