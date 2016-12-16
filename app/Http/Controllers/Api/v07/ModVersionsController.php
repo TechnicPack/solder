@@ -3,15 +3,12 @@
 namespace App\Http\Controllers\Api\v07;
 
 use App\Mod;
-use App\Release;
+use App\Version;
 use App\Serializers\FlatSerializer;
 use App\Http\Controllers\Api\ApiController;
-use App\Transformers\v07\ReleaseTransformer;
+use App\Transformers\v07\VersionTransformer;
 
-/**
- * Class ModReleasesController.
- */
-class ModReleasesController extends ApiController
+class ModVersionsController extends ApiController
 {
     /**
      * Display the specified resource.
@@ -24,7 +21,7 @@ class ModReleasesController extends ApiController
     {
         $mod = Mod::where('slug', $mod)->first();
 
-        $release = Release::where('mod_id', $mod->id)
+        $release = Version::where('mod_id', $mod->id)
             ->where('version', $releaseVersion)
             ->first();
 
@@ -35,7 +32,7 @@ class ModReleasesController extends ApiController
         $response = fractal()
             ->item($release)
             ->serializeWith(new FlatSerializer())
-            ->transformWith(new ReleaseTransformer())
+            ->transformWith(new VersionTransformer())
             ->toJson();
 
         return $this->simpleJsonResponse($response);

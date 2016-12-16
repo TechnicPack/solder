@@ -28,19 +28,19 @@ Route::get('/', function () {
 
 // Solder 0.8.~ Oauth Protected API Endpoints
 Route::group(['namespace' => 'Api', 'middleware' => 'auth:api'], function () {
-    Route::get('mods/{mod}/releases', 'ModReleasesController@index');
-    Route::post('mods/{mod}/releases', 'ModReleasesController@store')->middleware('resource.item:release');
+    Route::get('mods/{mod}/versions', 'ModVersionController@index');
+    Route::post('mods/{mod}/versions', 'ModVersionController@store')->middleware('resource.item:version');
     Route::get('mods/{mod}', 'ModsController@show');
     Route::patch('mods/{mod}', 'ModsController@update')->middleware('resource.item:mod');
     Route::delete('mods/{mod}', 'ModsController@destroy');
     Route::get('mods', 'ModsController@index');
     Route::post('mods', 'ModsController@store')->middleware('resource.item:mod');
 
-    Route::get('releases/{release}/builds', 'ReleaseBuildsController@index');
-    Route::get('releases/{release}', 'ReleasesController@show');
-    Route::patch('releases/{release}', 'ReleasesController@update');
-    Route::delete('releases/{release}', 'ReleasesController@destroy');
-    Route::get('releases', 'ReleasesController@index');
+    Route::get('versions/{version}/builds', 'VersionBuildsController@index');
+    Route::get('versions/{version}', 'VersionsController@show');
+    Route::patch('versions/{version}', 'VersionsController@update');
+    Route::delete('versions/{version}', 'VersionsController@destroy');
+    Route::get('versions', 'VersionsController@index');
 
     Route::get('modpacks/{modpack}/builds', 'ModpackBuildsController@index');
     Route::post('modpacks/{modpack}/builds', 'ModpackBuildsController@store')->middleware('resource.item:build');
@@ -50,7 +50,7 @@ Route::group(['namespace' => 'Api', 'middleware' => 'auth:api'], function () {
     Route::get('modpacks', 'ModpacksController@index');
     Route::post('modpacks', 'ModpacksController@store')->middleware('resource.item:modpack');
 
-    Route::get('builds/{build}/releases', 'BuildReleasesController@index');
+    Route::get('builds/{build}/versions', 'BuildVersionsController@index');
     Route::get('builds/{build}', 'BuildsController@show');
     Route::patch('builds/{build}', 'BuildsController@update')->middleware('resource.item:build');
     Route::delete('builds/{build}', 'BuildsController@destroy');
@@ -60,7 +60,7 @@ Route::group(['namespace' => 'Api', 'middleware' => 'auth:api'], function () {
 // Solder 0.7.~ API Endpoints
 Route::group(['namespace' => 'Api\v07'], function () {
     Route::get('verify/{token}', 'TokensController@verify');
-    Route::get('mod/{mod}/{releaseVersion}', 'ModReleasesController@show');
+    Route::get('mod/{mod}/{version}', 'ModVersionsController@show');
     Route::get('mod/{mod}', 'ModsController@show');
     Route::get('mod', 'ModsController@index');
     Route::get('modpack/{modpack}/{buildVersion}', 'ModpackBuildsController@show');

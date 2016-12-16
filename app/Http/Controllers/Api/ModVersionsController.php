@@ -4,11 +4,11 @@ namespace App\Http\Controllers\Api;
 
 use App\Mod;
 use Illuminate\Http\Request;
-use App\Transformers\ReleaseTransformer;
-use App\Http\Requests\ReleaseStoreRequest;
+use App\Transformers\VersionTransformer;
+use App\Http\Requests\VersionStoreRequest;
 use App\Exceptions\IdentifierConflictException;
 
-class ModReleasesController extends ApiController
+class ModVersionsController extends ApiController
 {
     /**
      * Display a listing of the releases for a mod.
@@ -19,12 +19,12 @@ class ModReleasesController extends ApiController
      */
     public function index(Request $request, Mod $mod)
     {
-        $releases = $mod->releases;
+        $versions = $mod->versions;
 
         $include = $request->input('include');
 
         return $this
-            ->collection($releases, new ReleaseTransformer(), 'release')
+            ->collection($versions, new VersionTransformer(), 'versions')
             ->include($include)
             ->response();
     }
@@ -32,23 +32,23 @@ class ModReleasesController extends ApiController
     /**
      * Store a newly created release for a mod in storage.
      *
-     * @param ReleaseStoreRequest $request
+     * @param VersionStoreRequest $request
      * @param Mod $mod
      * @return \Symfony\Component\HttpFoundation\Response
      * @throws IdentifierConflictException
      */
-    public function store(ReleaseStoreRequest $request, Mod $mod)
+    public function store(VersionStoreRequest $request, Mod $mod)
     {
-        $release = $mod->releases()->create($request->input('data.attributes'));
+        $version = $mod->releases()->create($request->input('data.attributes'));
 
         if ($request->input('data.id')) {
-            $release->id = $request->input('data.id');
-            $release->save();
+            $version->id = $request->input('data.id');
+            $version->save();
         }
 
         return $this
-            ->item($release, new ReleaseTransformer(), 'release')
-            ->addHeader('Location', '/releases/'.$release->getKey())
+            ->item($version, new VersionTransformer(), 'version')
+            ->addHeader('Location', '/versions/'.$version->getKey())
             ->response(201);
     }
 }

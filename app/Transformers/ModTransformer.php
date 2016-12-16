@@ -7,7 +7,7 @@ use League\Fractal\TransformerAbstract;
 
 class ModTransformer extends TransformerAbstract
 {
-    protected $availableIncludes = ['releases'];
+    protected $availableIncludes = ['versions'];
 
     public function transform(Mod $mod)
     {
@@ -23,12 +23,12 @@ class ModTransformer extends TransformerAbstract
         ];
     }
 
-    public function includeReleases(Mod $mod)
+    public function includeVersions(Mod $mod)
     {
         return fractal()
-            ->collection($mod->releases)
-            ->transformWith(new ReleaseTransformer())
-            ->withResourceName('release')
+            ->collection($mod->versions)
+            ->transformWith(new VersionTransformer())
+            ->withResourceName('versions')
             ->getResource();
     }
 }

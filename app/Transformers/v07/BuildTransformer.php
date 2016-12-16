@@ -19,9 +19,9 @@ class BuildTransformer extends TransformerAbstract
             'java' => isset($build->tags['java']) ? $build->tags['java'] : null,
             'memory' => isset($build->tags['memory']) ? $build->tags['memory'] : null,
             'mods' => fractal()
-                ->collection($build->releases)
+                ->collection($build->versions)
                 ->serializeWith(new FlatSerializer())
-                ->transformWith(new ReleaseTransformer())
+                ->transformWith(new VersionTransformer())
                 ->toArray(),
         ];
     }

@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Release;
+use App\Version;
 
-class ReleasesController extends Controller
+class VersionsController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -17,13 +17,13 @@ class ReleasesController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param Release $release
+     * @param Version $version
      * @return \Illuminate\Http\Response
      */
-    public function show(Release $release)
+    public function show(Version $version)
     {
-        $release->load('mod');
+        $version->load('mod');
 
-        return view('releases.show', compact('release'));
+        return view('versions.show', compact('version'));
     }
 }

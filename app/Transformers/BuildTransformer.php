@@ -23,7 +23,7 @@ class BuildTransformer extends TransformerAbstract
 
     public function includeReleases(Build $build)
     {
-        return $this->collection($build->releases, new ReleaseTransformer(), 'release');
+        return $this->collection($build->versions, new VersionTransformer(), 'version');
     }
 
     public function includeModpack(Build $build)

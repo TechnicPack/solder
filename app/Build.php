@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Collection;
  * @property string version
  * @property array tags
  * @property \App\Modpack modpack
- * @property Collection releases
+ * @property Collection versions
  * @property Collection clients
  * @property Carbon created_at
  * @property Carbon updated_at
@@ -63,13 +63,13 @@ class Build extends Model
     }
 
     /**
-     * Get the mod releases attached to this build.
+     * Get the mod versions attached to this build.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function releases()
+    public function versions()
     {
-        return $this->belongsToMany(Release::class);
+        return $this->belongsToMany(Version::class);
     }
 
     /**

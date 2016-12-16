@@ -26,7 +26,7 @@
         </div>
 
         <h2>Releases</h2>
-        <mod-releases mod-id="{{ $mod->id }}"></mod-releases>
+        <mod-versions mod-id="{{ $mod->id }}"></mod-versions>
 
     </div>
 </div>

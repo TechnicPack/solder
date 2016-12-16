@@ -29,7 +29,7 @@ class ModpackBuildsController extends ApiController
         $client = Client::where('token', $token)->first();
         $modpack = Modpack::where('slug', $modpack)->first();
         $build = Build::where('modpack_id', $modpack->id)
-            ->with('releases')
+            ->with('versions')
             ->where('version', $buildVersion)
             ->first();
 

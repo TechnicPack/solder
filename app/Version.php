@@ -16,7 +16,7 @@ use Illuminate\Database\Eloquent\Collection;
  * @property Carbon updated_at
  * @property Mod mod
  */
-class Release extends Model
+class Version extends Model
 {
     use UuidModelTrait;
 

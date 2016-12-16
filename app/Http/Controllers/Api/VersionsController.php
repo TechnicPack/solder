@@ -2,72 +2,72 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Release;
+use App\Version;
 use Illuminate\Http\Request;
-use App\Transformers\ReleaseTransformer;
+use App\Transformers\VersionTransformer;
 
-class ReleasesController extends ApiController
+class VersionsController extends ApiController
 {
     /**
-     * Display a listing of releases.
+     * Display a listing of versions.
      *
      * @param Request $request
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
     {
-        $releases = Release::all();
+        $versions = Version::all();
 
         $include = $request->input('include');
 
         return $this
-            ->collection($releases, new ReleaseTransformer(), 'release')
+            ->collection($versions, new VersionTransformer(), 'version')
             ->include($include)
             ->response();
     }
 
     /**
-     * Display the specified release.
+     * Display the specified version.
      *
      * @param Request $request
-     * @param Release $release
+     * @param Version $version
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request, Release $release)
+    public function show(Request $request, Version $version)
     {
         $include = $request->input('include');
 
         return $this
-            ->item($release, new ReleaseTransformer(), 'release')
+            ->item($version, new VersionTransformer(), 'versions')
             ->include($include)
             ->response();
     }
 
     /**
-     * Update the specified release in storage.
+     * Update the specified version in storage.
      *
      * @param  \Illuminate\Http\Request $request
-     * @param Release $release
+     * @param Version $version
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Release $release)
+    public function update(Request $request, Version $version)
     {
-        $release->update($request->input('data.attributes'));
+        $version->update($request->input('data.attributes'));
 
         return $this
-            ->item($release, new ReleaseTransformer(), 'release')
+            ->item($version, new VersionTransformer(), 'version')
             ->response();
     }
 
     /**
-     * Remove the specified release from storage.
+     * Remove the specified version from storage.
      *
-     * @param Release $release
+     * @param Version $version
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Release $release)
+    public function destroy(Version $version)
     {
-        $release->delete();
+        $version->delete();
 
         return $this
             ->emptyResponse();

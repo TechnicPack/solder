@@ -3,23 +3,22 @@
         <table class="table">
             <thead>
             <tr>
-                <th>Modpack</th>
+                <th>Name</th>
                 <th>Version</th>
                 <th>&nbsp;</th>
             </tr>
             </thead>
 
             <tbody>
-            <tr v-for="build in builds">
+            <tr v-for="version in versions">
                 <td>
-                    <a :href="link( 'builds', build.id )">{{ build.modpack.name }}</a>
+                    <a :href="link( 'mod', version.mod.id )">{{ version.mod.name }}</a>
                 </td>
                 <td>
-                    {{ build.version }}
+                    <a :href="link( 'versions', version.id )">{{ version.version }}</a>
                 </td>
                 <td class="text-right">
-                    <a class="btn btn-xs btn-default" :href="link( 'builds', build.id )">Manage</a>
-                    <a class="btn btn-xs btn-danger" v-on:click="destroy( build )">Delete</a>
+                    <a class="btn btn-xs btn-danger" v-on:click="destroy( version )">Delete</a>
                 </td>
             </tr>
             <tbody>
@@ -30,11 +29,11 @@
 
 <script>
     export default {
-        props: ['releaseId'],
+        props: ['buildId'],
 
         data() {
             return {
-                builds: []
+                versions: []
             };
         },
 
@@ -48,16 +47,16 @@
             },
 
             sync() {
-                this.$http.get('/api/releases/' + this.releaseId + '/builds?include=modpack')
+                this.$http.get('/api/builds/' + this.buildId + '/versions?include=mod')
                     .then(response => {
-                        this.builds = store.sync(JSON.parse(response.data));
+                        this.versions = store.sync(JSON.parse(response.data));
                     });
             },
 
-            destroy(build) {
+            destroy(mod) {
                 swal({
                     title: "Are you sure?",
-                    text: "You will not be able to recover " + build.version,
+                    text: "You will not be able to recover " + version.version,
                     type: "warning",
                     showCancelButton: true,
                     confirmButtonColor: "#DD6B55",
@@ -65,9 +64,9 @@
                     closeOnConfirm: false
                 },
                 function() {
-                    this.$http.delete('/api/builds/' + build.id)
+                    this.$http.delete('/api/versions/' + version.id)
                         .then(response => {
-                            swal("Deleted!", build.version + " has been deleted.", "success");
+                            swal("Deleted!", version.version + " has been deleted.", "success");
                             this.sync();
                         })
                 }.bind(this));

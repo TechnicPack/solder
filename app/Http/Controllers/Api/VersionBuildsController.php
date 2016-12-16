@@ -2,22 +2,22 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Release;
+use App\Version;
 use Illuminate\Http\Request;
 use App\Transformers\BuildTransformer;
 
-class ReleaseBuildsController extends ApiController
+class VersionBuildsController extends ApiController
 {
     /**
      * Display a listing of the builds for a modpack.
      *
      * @param Request $request
-     * @param Release $release
+     * @param Version $version
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function index(Request $request, Release $release)
+    public function index(Request $request, Version $version)
     {
-        $builds = $release->builds;
+        $builds = $version->builds;
 
         $include = $request->input('include');
 

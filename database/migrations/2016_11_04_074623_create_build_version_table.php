@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateBuildReleaseTable extends Migration
+class CreateBuildVersionTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,12 @@ class CreateBuildReleaseTable extends Migration
      */
     public function up()
     {
-        Schema::create('build_release', function (Blueprint $table) {
+        Schema::create('build_version', function (Blueprint $table) {
             $table->uuid('build_id');
-            $table->uuid('release_id');
+            $table->uuid('version_id');
 
             $table->foreign('build_id')->references('id')->on('builds');
-            $table->foreign('release_id')->references('id')->on('releases');
+            $table->foreign('version_id')->references('id')->on('versions');
         });
     }
 
@@ -29,6 +29,6 @@ class CreateBuildReleaseTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('build_release');
+        Schema::dropIfExists('build_version');
     }
 }

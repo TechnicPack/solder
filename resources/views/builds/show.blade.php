@@ -8,7 +8,7 @@
         </div>
 
         <h2>Included Mods</h2>
-        <build-releases build-id="{{ $build->id }}"></build-releases>
+        <build-versions build-id="{{ $build->id }}"></build-versions>
 
     </div>
 </div>

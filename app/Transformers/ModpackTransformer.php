@@ -33,7 +33,7 @@ class ModpackTransformer extends TransformerAbstract
             return $this->null();
         }
 
-        return $this->item($modpack->latest, new ReleaseTransformer(), 'release');
+        return $this->item($modpack->latest, new VersionTransformer(), 'version');
     }
 
     public function includePromoted(Modpack $modpack)
@@ -42,7 +42,7 @@ class ModpackTransformer extends TransformerAbstract
             return $this->null();
         }
 
-        return $this->item($modpack->promoted, new ReleaseTransformer(), 'release');
+        return $this->item($modpack->promoted, new VersionTransformer(), 'version');
     }
 
     public function includeBuilds(Modpack $modpack)

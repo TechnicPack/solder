@@ -31,7 +31,7 @@ $factory->define(App\Mod::class, function (Faker\Generator $faker) {
     ];
 });
 
-$factory->define(App\Release::class, function (Faker\Generator $faker) {
+$factory->define(App\Version::class, function (Faker\Generator $faker) {
     return [
         'version' => $faker->numerify('#.#.#'),
         'mod_id' => function () {

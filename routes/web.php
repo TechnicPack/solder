@@ -24,4 +24,4 @@ Route::get('/mods/{mod}', 'ModsController@show');
 Route::get('/modpacks', 'ModpacksController@index');
 Route::get('/modpacks/{modpack}', 'ModpacksController@show');
 Route::get('/builds/{build}', 'BuildsController@show');
-Route::get('/releases/{release}', 'ReleasesController@show');
+Route::get('/versions/{version}', 'VersionsController@show');

@@ -36,7 +36,7 @@ class ModsController extends ApiController
      */
     public function show($mod)
     {
-        $mod = Mod::where('slug', $mod)->with('releases')->first();
+        $mod = Mod::where('slug', $mod)->with('versions')->first();
 
         if (empty($mod)) {
             return $this->simpleErrorResponse('No mod requested/Mod does not exist/Mod version does not exist');

@@ -16,7 +16,7 @@ use Illuminate\Database\Eloquent\Collection;
  * @property string author
  * @property string description
  * @property string link
- * @property Collection releases
+ * @property Collection versions
  * @property Carbon created_at
  * @property Carbon updated_at
  */
@@ -50,12 +50,12 @@ class Mod extends Model
     }
 
     /**
-     * Get the packages for this mod.
+     * Get the versions for this mod.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function releases()
+    public function versions()
     {
-        return $this->hasMany(Release::class);
+        return $this->hasMany(Version::class);
     }
 }

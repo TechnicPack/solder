@@ -22,7 +22,7 @@ Hooks::beforeEach(function (&$transaction) use (&$store) {
 
 Hooks::before('v0.8 > Releases > Delete a release', function () {
     // Have to re-create the release, order of operations deletes it with the mod
-    $release = factory(\App\Release::class)->create();
+    $release = factory(\App\Version::class)->create();
     $release->id = '0878a8f5-576c-4e06-bace-93aa46fdcc37';
     $release->save();
 });
@@ -49,7 +49,7 @@ Hooks::before('v0.7 > Mods > List mods', function () {
         'name' => 'TestMod',
     ]);
 
-    $release = factory(App\Release::class)->create([
+    $release = factory(App\Version::class)->create([
         'mod_id' => $mod->id,
         'version' => '0.1',
     ]);

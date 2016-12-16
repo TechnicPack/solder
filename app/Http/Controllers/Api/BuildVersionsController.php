@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Api;
 
 use App\Build;
 use Illuminate\Http\Request;
-use App\Transformers\ReleaseTransformer;
+use App\Transformers\VersionTransformer;
 
-class BuildReleasesController extends ApiController
+class BuildVersionsController extends ApiController
 {
     /**
      * Display a listing of the builds for a modpack.
@@ -17,12 +17,12 @@ class BuildReleasesController extends ApiController
      */
     public function index(Request $request, Build $build)
     {
-        $releases = $build->releases;
+        $versions = $build->versions;
 
         $include = $request->input('include');
 
         return $this
-            ->collection($releases, new ReleaseTransformer(), 'release')
+            ->collection($versions, new VersionTransformer(), 'version')
             ->include($include)
             ->response();
     }

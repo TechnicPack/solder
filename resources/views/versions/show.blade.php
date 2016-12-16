@@ -4,11 +4,11 @@
 <div class="container">
     <div class="row">
         <div class="page-header">
-            <h1>{{ $release->mod->name }} {{ $release->version }}</h1>
+            <h1>{{ $version->mod->name }} {{ $version->version }}</h1>
         </div>
 
         <h2>Part of</h2>
-        <release-builds release-id="{{ $release->id }}"></release-builds>
+        <version-builds version-id="{{ $version->id }}"></version-builds>
 
     </div>
 </div>

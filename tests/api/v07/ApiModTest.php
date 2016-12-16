@@ -47,11 +47,11 @@ class ApiModTest extends TestCase
     }
 
     /** @test */
-    public function it_lists_mod_releases()
+    public function it_lists_mod_versions()
     {
         $mod = factory(App\Mod::class)->create();
 
-        $release = factory(App\Release::class)->create([
+        $version = factory(App\Version::class)->create([
             'mod_id' => $mod->id,
         ]);
 
@@ -59,21 +59,21 @@ class ApiModTest extends TestCase
             ->assertResponseOk()
             ->seeJsonSubset([
                 'versions' => [
-                    $release->version,
+                    $version->version,
                 ]
             ]);
     }
 
     /** @test */
-    public function it_shows_a_release()
+    public function it_shows_a_version()
     {
         $mod = factory(App\Mod::class)->create();
 
-        $release = factory(App\Release::class)->create([
+        $version = factory(App\Version::class)->create([
             'mod_id' => $mod->id,
         ]);
 
-        $this->getJson('/api/mod/' . $mod->slug . '/' . $release->version)
+        $this->getJson('/api/mod/' . $mod->slug . '/' . $version->version)
             ->assertResponseOk()
             ->seeJsonStructure([
                 'md5',
@@ -82,7 +82,7 @@ class ApiModTest extends TestCase
     }
 
     /** @test */
-    public function it_shows_an_error_on_invalid_release()
+    public function it_shows_an_error_on_invalid_version()
     {
         $mod = factory(App\Mod::class)->create();
 

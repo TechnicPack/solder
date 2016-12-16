@@ -19,7 +19,7 @@ class ModTransformer extends TransformerAbstract
             'description' => $mod->description,
             'link' => $mod->link,
             'donate' => null,
-            'versions' => $mod->releases->pluck('version'),
+            'versions' => $mod->versions->pluck('version'),
         ];
     }
 }

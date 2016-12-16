@@ -3,7 +3,6 @@
         <table class="table">
             <thead>
             <tr>
-                <th>Mod</th>
                 <th>Version</th>
                 <th>Created</th>
                 <th>&nbsp;</th>
@@ -11,18 +10,16 @@
             </thead>
 
             <tbody>
-            <tr v-for="release in releases">
+            <tr v-for="version in versions">
                 <td>
-                    <a :href="link( 'mods', release.mod.id )">{{ release.mod.name }}</a>
+                    <a :href="link( 'versions', version.id )">{{ version.version }}</a>
                 </td>
                 <td>
-                    <a :href="link( 'releases', release.id )">{{ release.version }}</a>
-                </td>
-                <td>
-                    <timeago :since="release.created_at"></timeago>
+                    <timeago :since="version.created_at"></timeago>
                 </td>
                 <td class="text-right">
-                    <a class="btn btn-xs btn-default" :href="link( 'releases', release.id )">Manage</a>
+                    <a class="btn btn-xs btn-default" :href="link( 'versions', version.id )">Manage</a>
+                    <a class="btn btn-xs btn-danger" v-on:click="destroy( version.id )">Delete</a>
                 </td>
             </tr>
             <tbody>
@@ -33,9 +30,11 @@
 
 <script>
     export default {
+        props: ['modId'],
+
         data() {
             return {
-                releases: []
+                versions: []
             };
         },
 
@@ -49,9 +48,16 @@
             },
 
             sync() {
-                this.$http.get('/api/releases?include=mod&sort=-created_at')
+                this.$http.get('/api/mods/' + this.modId + '/versions')
                     .then(response => {
-                        this.releases = store.sync(JSON.parse(response.data));
+                        this.versions = store.sync(JSON.parse(response.data));
+                    });
+            },
+
+            destroy(id) {
+                this.$http.delete('/api/versions/' + id)
+                    .then(response => {
+                        this.sync();
                     });
             }
         },
