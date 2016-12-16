@@ -50,7 +50,7 @@ class Resource extends Model
     }
 
     /**
-     * Get the versions for this mod.
+     * Get the versions for this resource.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */

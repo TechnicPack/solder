@@ -53,7 +53,7 @@ class Build extends Model
     ];
 
     /**
-     * Get the mod modpack this build is part of.
+     * Get the modpack this build is part of.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -63,7 +63,7 @@ class Build extends Model
     }
 
     /**
-     * Get the mod versions attached to this build.
+     * Get the resource versions attached to this build.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */

@@ -14,23 +14,23 @@ class ResourceVersionsController extends ApiController
      * Display the specified resource.
      *
      * @param Resource $resource
-     * @param $releaseVersion
+     * @param $version
      * @return \Illuminate\Http\Response
      */
-    public function show($resource, $releaseVersion)
+    public function show($resourceSlug, $versionString)
     {
-        $resource = Resource::where('slug', $resource)->first();
+        $resource = Resource::where('slug', $resourceSlug)->first();
 
-        $release = Version::where('resource_id', $resource->id)
-            ->where('version', $releaseVersion)
+        $version = Version::where('resource_id', $resource->id)
+            ->where('version', $versionString)
             ->first();
 
-        if (empty($resource) || empty($release)) {
+        if (empty($resource) || empty($version)) {
             return $this->simpleErrorResponse('No mod requested/Resource does not exist/Resource version does not exist');
         }
 
         $response = fractal()
-            ->item($release)
+            ->item($version)
             ->serializeWith(new FlatSerializer())
             ->transformWith(new VersionTransformer())
             ->toJson();

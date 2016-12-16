@@ -13,7 +13,7 @@ use App\Exceptions\IdentifierConflictException;
 class ResourcesController extends ApiController
 {
     /**
-     * Display a listing of the mods.
+     * Display a listing of the resources.
      *
      * @param Request $request
      * @return Response
@@ -31,7 +31,7 @@ class ResourcesController extends ApiController
     }
 
     /**
-     * Store a newly created mod in storage.
+     * Store a newly created resource in storage.
      *
      * @param ResourceStoreRequest $request
      * @return Response
@@ -47,13 +47,13 @@ class ResourcesController extends ApiController
         }
 
         return $this
-            ->item($resource, new ResourceTransformer(), 'mod')
+            ->item($resource, new ResourceTransformer(), 'resource')
             ->addHeader('Location', '/mods/'.$resource->getKey())
             ->response(201);
     }
 
     /**
-     * Display the specified mod.
+     * Display the specified resource.
      *
      * @param Request $request
      * @param Resource $resource
@@ -70,7 +70,7 @@ class ResourcesController extends ApiController
     }
 
     /**
-     * Update the specified mod in storage.
+     * Update the specified resrouce in storage.
      *
      * @param ResourceUpdateRequest $request
      * @param Resource $resource
@@ -86,7 +86,7 @@ class ResourcesController extends ApiController
     }
 
     /**
-     * Remove the specified mod from storage.
+     * Remove the specified resource from storage.
      *
      * @param Request $request
      * @param Resource $resource
@@ -95,7 +95,7 @@ class ResourcesController extends ApiController
     public function destroy(Request $request, Resource $resource)
     {
         if ($request->get('cascade') == true) {
-            $resource->releases()->delete();
+            $resource->versions()->delete();
         }
 
         $resource->delete();

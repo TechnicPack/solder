@@ -23,10 +23,10 @@ class ResourceTransformer extends TransformerAbstract
         ];
     }
 
-    public function includeVersions(Resource $mod)
+    public function includeVersions(Resource $resource)
     {
         return fractal()
-            ->collection($mod->versions)
+            ->collection($resource->versions)
             ->transformWith(new VersionTransformer())
             ->withResourceName('versions')
             ->getResource();

@@ -16,10 +16,10 @@ class ResourcesController extends ApiController
      */
     public function index()
     {
-        $mods = Resource::all()->pluck('name', 'slug');
+        $resources = Resource::all()->pluck('name', 'slug');
 
         $response = [
-            'mods' => $mods,
+            'mods' => $resources,
         ];
 
         return $this->simpleJsonResponse($response);

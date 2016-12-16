@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\Collection;
  * @property Collection builds
  * @property Carbon created_at
  * @property Carbon updated_at
- * @property \App\Resource mod
+ * @property \App\Resource resource
  */
 class Version extends Model
 {
@@ -30,7 +30,7 @@ class Version extends Model
     ];
 
     /**
-     * The mod for this release.
+     * The resource for this version.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -40,7 +40,7 @@ class Version extends Model
     }
 
     /**
-     * Get the builds of this release.
+     * Get the builds of this version.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */

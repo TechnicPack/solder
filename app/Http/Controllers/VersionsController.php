@@ -22,7 +22,7 @@ class VersionsController extends Controller
      */
     public function show(Version $version)
     {
-        $version->load('mod');
+        $version->load('resource');
 
         return view('versions.show', compact('version'));
     }

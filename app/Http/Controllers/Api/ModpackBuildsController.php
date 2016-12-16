@@ -29,7 +29,7 @@ class ModpackBuildsController extends ApiController
     }
 
     /**
-     * Store a newly created release for a mod in storage.
+     * Store a newly created version for a resource in storage.
      *
      * @param BuildStoreRequest $request
      * @param Modpack $modpack

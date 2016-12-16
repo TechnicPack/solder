@@ -7,7 +7,7 @@ use League\Fractal\TransformerAbstract;
 
 class BuildTransformer extends TransformerAbstract
 {
-    protected $availableIncludes = ['releases', 'modpack', 'assets'];
+    protected $availableIncludes = ['versions', 'modpack', 'assets'];
 
     public function transform(Build $build)
     {
@@ -21,7 +21,7 @@ class BuildTransformer extends TransformerAbstract
         ];
     }
 
-    public function includeReleases(Build $build)
+    public function includeVersions(Build $build)
     {
         return $this->collection($build->versions, new VersionTransformer(), 'version');
     }
