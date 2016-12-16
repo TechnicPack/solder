@@ -2,8 +2,8 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
 use Alsofronie\Uuid\UuidModelTrait;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * @property string id

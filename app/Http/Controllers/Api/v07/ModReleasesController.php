@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Api\v07;
 
-use App\Http\Controllers\Api\ApiController;
 use App\Mod;
 use App\Release;
 use App\Serializers\FlatSerializer;
+use App\Http\Controllers\Api\ApiController;
 use App\Transformers\v07\ReleaseTransformer;
 
 /**

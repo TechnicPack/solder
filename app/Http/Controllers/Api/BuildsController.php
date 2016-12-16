@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Build;
-use App\Transformers\BuildTransformer;
 use Illuminate\Http\Request;
+use App\Transformers\BuildTransformer;
 
 class BuildsController extends ApiController
 {

@@ -3,10 +3,10 @@
 namespace App;
 
 use Carbon\Carbon;
+use Alsofronie\Uuid\UuidModelTrait;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
-use Alsofronie\Uuid\UuidModelTrait;
 
 /**
  * @property string id
@@ -49,7 +49,7 @@ class Build extends Model
      * @var array
      */
     protected $dates = [
-        'published_at'
+        'published_at',
     ];
 
     /**

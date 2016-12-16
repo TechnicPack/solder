@@ -2,10 +2,10 @@
 
 namespace App;
 
+use Laravel\Passport\HasApiTokens;
+use Alsofronie\Uuid\UuidModelTrait;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Alsofronie\Uuid\UuidModelTrait;
-use Laravel\Passport\HasApiTokens;
 
 /**
  * @property string id

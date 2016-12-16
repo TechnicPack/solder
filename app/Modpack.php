@@ -3,12 +3,12 @@
 namespace App;
 
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 use Alsofronie\Uuid\UuidModelTrait;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 
 /**
  * @property string id
@@ -47,7 +47,7 @@ class Modpack extends Model
      * @var array
      */
     protected $dates = [
-        'published_at'
+        'published_at',
     ];
 
     /**
@@ -126,7 +126,7 @@ class Modpack extends Model
     }
 
     /**
-     * Where modpack is published
+     * Where modpack is published.
      *
      * @param Builder $query
      * @return \Illuminate\Database\Query\Builder|static

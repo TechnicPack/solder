@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Api;
 
+use Illuminate\Support\Collection;
 use App\Http\Controllers\Controller;
 use League\Fractal\Serializer\JsonApiSerializer;
-use Illuminate\Support\Collection;
 
 class ApiController extends Controller
 {

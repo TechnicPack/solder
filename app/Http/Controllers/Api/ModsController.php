@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Exceptions\IdentifierConflictException;
-use App\Http\Requests\ModStoreRequest;
-use App\Http\Requests\ModUpdateRequest;
 use App\Mod;
-use App\Transformers\ModTransformer;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use App\Transformers\ModTransformer;
+use App\Http\Requests\ModStoreRequest;
+use App\Http\Requests\ModUpdateRequest;
+use App\Exceptions\IdentifierConflictException;
 
 class ModsController extends ApiController
 {

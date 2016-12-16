@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Api\v07;
 
-use App\Http\Controllers\Api\ApiController;
 use App\Modpack;
 use App\Client;
-use App\Serializers\FlatSerializer;
-use App\Transformers\v07\ModpackTransformer;
 use Illuminate\Http\Request;
+use App\Serializers\FlatSerializer;
+use App\Http\Controllers\Api\ApiController;
+use App\Transformers\v07\ModpackTransformer;
 
 /**
  * Class ModpacksController.

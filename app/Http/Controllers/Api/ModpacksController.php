@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Exceptions\IdentifierConflictException;
+use App\Modpack;
+use Illuminate\Http\Request;
+use App\Transformers\ModpackTransformer;
 use App\Http\Requests\ModpackStoreRequest;
 use App\Http\Requests\ModpackUpdateRequest;
-use App\Modpack;
-use App\Transformers\ModpackTransformer;
-use Illuminate\Http\Request;
+use App\Exceptions\IdentifierConflictException;
 
 class ModpacksController extends ApiController
 {
