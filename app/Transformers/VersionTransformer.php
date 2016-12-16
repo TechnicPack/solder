@@ -44,6 +44,6 @@ class VersionTransformer extends TransformerAbstract
 
     public function includeMod(Version $version)
     {
-        return $this->item($version->mod, new ModTransformer(), 'mod');
+        return $this->item($version->mod, new ResourceTransformer(), 'mod');
     }
 }

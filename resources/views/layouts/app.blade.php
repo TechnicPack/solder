@@ -45,7 +45,7 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
                         <li><a href="{{ url('/home') }}">Home</a></li>
-                        <li><a href="{{ url('/mods') }}">Mods</a></li>
+                        <li><a href="{{ url('/resources') }}">Resources</a></li>
                         <li><a href="{{ url('/modpacks') }}">Modpacks</a></li>
                     </ul>
 

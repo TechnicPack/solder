@@ -2,10 +2,7 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Validation\Rule;
-use Illuminate\Foundation\Http\FormRequest;
-
-class ModUpdateRequest extends FormRequest
+class ResourceStoreRequest extends ApiRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -18,18 +15,16 @@ class ModUpdateRequest extends FormRequest
     }
 
     /**
-     * Get the validation rules that apply to the request.
+     * Get the validation rules that apply to the request attributes.
      *
      * @return array
      */
     public function rules()
     {
         return [
+            'name' => 'required',
+            'slug' => 'filled|unique:resources',
             'link' => 'url',
-            'slug' => [
-                'filled',
-                Rule::unique('mods')->ignore($this->id),
-            ],
         ];
     }
 }

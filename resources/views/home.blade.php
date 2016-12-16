@@ -14,8 +14,8 @@
                 <recent-modpack-builds></recent-modpack-builds>
             </div>
             <div class="col-md-6">
-                <h2>Recently Added Mods</h2>
-                <recent-mod-releases></recent-mod-releases>
+                <h2>Recently Added Resources</h2>
+                <recent-resource-versions></recent-resource-versions>
             </div>
         </div>
 

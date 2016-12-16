@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\Collection;
  * @property Collection builds
  * @property Carbon created_at
  * @property Carbon updated_at
- * @property Mod mod
+ * @property Resource mod
  */
 class Version extends Model
 {
@@ -34,9 +34,9 @@ class Version extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function mod()
+    public function resource()
     {
-        return $this->belongsTo(Mod::class);
+        return $this->belongsTo(Resource::class);
     }
 
     /**

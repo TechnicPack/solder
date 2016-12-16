@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Mod;
+use App\Resource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use App\Transformers\ModTransformer;
-use App\Http\Requests\ModStoreRequest;
-use App\Http\Requests\ModUpdateRequest;
+use App\Transformers\ResourceTransformer;
+use App\Http\Requests\ResourceStoreRequest;
+use App\Http\Requests\ResourceUpdateRequest;
 use App\Exceptions\IdentifierConflictException;
 
-class ModsController extends ApiController
+class ResourcesController extends ApiController
 {
     /**
      * Display a listing of the mods.
@@ -20,12 +20,12 @@ class ModsController extends ApiController
      */
     public function index(Request $request)
     {
-        $mods = Mod::all();
+        $resource = Resource::all();
 
         $include = $request->input('include');
 
         return $this
-            ->collection($mods, new ModTransformer(), 'mod')
+            ->collection($resource, new ResourceTransformer(), 'resource')
             ->include($include)
             ->response();
     }
@@ -33,22 +33,22 @@ class ModsController extends ApiController
     /**
      * Store a newly created mod in storage.
      *
-     * @param ModStoreRequest $request
+     * @param ResourceStoreRequest $request
      * @return Response
      * @throws IdentifierConflictException
      */
-    public function store(ModStoreRequest $request)
+    public function store(ResourceStoreRequest $request)
     {
-        $mod = Mod::create($request->input('data.attributes'));
+        $resource = Resource::create($request->input('data.attributes'));
 
         if ($request->input('data.id')) {
-            $mod->id = $request->input('data.id');
-            $mod->save();
+            $resource->id = $request->input('data.id');
+            $resource->save();
         }
 
         return $this
-            ->item($mod, new ModTransformer(), 'mod')
-            ->addHeader('Location', '/mods/'.$mod->getKey())
+            ->item($resource, new ResourceTransformer(), 'mod')
+            ->addHeader('Location', '/mods/'.$resource->getKey())
             ->response(201);
     }
 
@@ -56,15 +56,15 @@ class ModsController extends ApiController
      * Display the specified mod.
      *
      * @param Request $request
-     * @param Mod $mod
+     * @param Resource $resource
      * @return Response
      */
-    public function show(Request $request, Mod $mod)
+    public function show(Request $request, Resource $resource)
     {
         $include = $request->input('include');
 
         return $this
-            ->item($mod, new ModTransformer(), 'mod')
+            ->item($resource, new ResourceTransformer(), 'resource')
             ->include($include)
             ->response();
     }
@@ -72,16 +72,16 @@ class ModsController extends ApiController
     /**
      * Update the specified mod in storage.
      *
-     * @param ModUpdateRequest $request
-     * @param Mod $mod
+     * @param ResourceUpdateRequest $request
+     * @param Resource $resource
      * @return Response
      */
-    public function update(ModUpdateRequest $request, Mod $mod)
+    public function update(ResourceUpdateRequest $request, Resource $resource)
     {
-        $mod->update($request->input('data.attributes'));
+        $resource->update($request->input('data.attributes'));
 
         return $this
-            ->item($mod, new ModTransformer(), 'mod')
+            ->item($resource, new ResourceTransformer(), 'resource')
             ->response();
     }
 
@@ -89,16 +89,16 @@ class ModsController extends ApiController
      * Remove the specified mod from storage.
      *
      * @param Request $request
-     * @param Mod $mod
+     * @param Resource $resource
      * @return Response
      */
-    public function destroy(Request $request, Mod $mod)
+    public function destroy(Request $request, Resource $resource)
     {
         if ($request->get('cascade') == true) {
-            $mod->releases()->delete();
+            $resource->releases()->delete();
         }
 
-        $mod->delete();
+        $resource->delete();
 
         return $this
             ->emptyResponse();

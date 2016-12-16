@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Mod;
+use App\Resource;
 
-class ModsController extends Controller
+class ResourcesController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -21,18 +21,18 @@ class ModsController extends Controller
      */
     public function index()
     {
-        return view('mods.index');
+        return view('resources.index');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param Mod $mod
+     * @param Resource $resource
      * @return \Illuminate\Http\Response
      * @internal param int $id
      */
-    public function show(Mod $mod)
+    public function show(Resource $resource)
     {
-        return view('mods.show', compact('mod'));
+        return view('resources.show', compact('resource'));
     }
 }

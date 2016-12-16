@@ -3,7 +3,7 @@
         <table class="table">
             <thead>
             <tr>
-                <th>Mod</th>
+                <th>Resource</th>
                 <th>Version</th>
                 <th>Created</th>
                 <th>&nbsp;</th>

@@ -5,10 +5,10 @@
     <div class="row">
 
         <div class="page-header">
-            <h1>Mods</h1>
+            <h1>Resources</h1>
         </div>
 
-        <mod-list></mod-list>
+        <resource-list></resource-list>
 
     </div>
 </div>

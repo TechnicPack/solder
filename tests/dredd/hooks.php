@@ -45,7 +45,7 @@ Hooks::before('v0.7 > Verify API Key > Verify API Key', function () {
 
 Hooks::before('v0.7 > Mods > List mods', function () {
     // Setup the v0.7 test data
-    $mod = factory(App\Mod::class)->create([
+    $mod = factory(App\Resource::class)->create([
         'name' => 'TestMod',
     ]);
 

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateModsTable extends Migration
+class CreateResourcesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateModsTable extends Migration
      */
     public function up()
     {
-        Schema::create('mods', function (Blueprint $table) {
+        Schema::create('resources', function (Blueprint $table) {
             $table->uuid('id');
             $table->string('name');
             $table->string('slug')->index();
@@ -33,6 +33,6 @@ class CreateModsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('mods');
+        Schema::dropIfExists('resources');
     }
 }

@@ -10,16 +10,16 @@
             </thead>
 
             <tbody>
-            <tr v-for="mod in mods">
+            <tr v-for="resource in resources">
                 <td>
-                    <a :href="link( 'mods', mod.id )">{{ mod.name }}</a>
+                    <a :href="link( 'resources', resource.id )">{{ resource.name }}</a>
                 </td>
                 <td>
-                    {{ mod.author }}
+                    {{ resource.author }}
                 </td>
                 <td class="text-right">
-                    <a class="btn btn-xs btn-default" :href="link( 'mods', mod.id )">Manage</a>
-                    <a class="btn btn-xs btn-danger" v-on:click="destroy( mod )">Delete</a>
+                    <a class="btn btn-xs btn-default" :href="link( 'resources', resource.id )">Manage</a>
+                    <a class="btn btn-xs btn-danger" v-on:click="destroy( resource )">Delete</a>
                 </td>
             </tr>
             <tbody>
@@ -32,7 +32,7 @@
     export default {
         data() {
             return {
-                mods: []
+                resources: []
             };
         },
 
@@ -46,16 +46,16 @@
             },
 
             sync() {
-                this.$http.get('/api/mods')
+                this.$http.get('/api/resources')
                     .then(response => {
-                        this.mods = store.sync(JSON.parse(response.data));
+                        this.resources = store.sync(JSON.parse(response.data));
                     });
             },
 
-            destroy(mod) {
+            destroy(resource) {
                 swal({
                     title: "Are you sure?",
-                    text: "You will not be able to recover " + mod.name,
+                    text: "You will not be able to recover " + resource.name,
                     type: "warning",
                     showCancelButton: true,
                     confirmButtonColor: "#DD6B55",
@@ -63,9 +63,9 @@
                     closeOnConfirm: false
                 },
                 function() {
-                    this.$http.delete('/api/mods/' + mod.id)
+                    this.$http.delete('/api/resources/' + resource.id)
                         .then(response => {
-                            swal("Deleted!", mod.name + " has been deleted.", "success");
+                            swal("Deleted!", resource.name + " has been deleted.", "success");
                             this.sync();
                         })
                 }.bind(this));

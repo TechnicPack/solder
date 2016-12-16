@@ -2,15 +2,12 @@
 
 namespace App\Http\Controllers\Api\v07;
 
-use App\Mod;
+use App\Resource;
 use App\Serializers\FlatSerializer;
-use App\Transformers\v07\ModTransformer;
+use App\Transformers\v07\ResourceTransformer;
 use App\Http\Controllers\Api\ApiController;
 
-/**
- * Class ModsController.
- */
-class ModsController extends ApiController
+class ResourcesController extends ApiController
 {
     /**
      * Display a listing of the resource.
@@ -19,7 +16,7 @@ class ModsController extends ApiController
      */
     public function index()
     {
-        $mods = Mod::all()->pluck('name', 'slug');
+        $mods = Resource::all()->pluck('name', 'slug');
 
         $response = [
             'mods' => $mods,
@@ -31,21 +28,21 @@ class ModsController extends ApiController
     /**
      * Display the specified resource.
      *
-     * @param Mod $mod
+     * @param String $resource
      * @return \Illuminate\Http\Response
      */
-    public function show($mod)
+    public function show($resource)
     {
-        $mod = Mod::where('slug', $mod)->with('versions')->first();
+        $resource = Resource::where('slug', $resource)->with('versions')->first();
 
-        if (empty($mod)) {
-            return $this->simpleErrorResponse('No mod requested/Mod does not exist/Mod version does not exist');
+        if (empty($resource)) {
+            return $this->simpleErrorResponse('No mod requested/Resource does not exist/Resource version does not exist');
         }
 
         $response = fractal()
-            ->item($mod)
+            ->item($resource)
             ->serializeWith(new FlatSerializer())
-            ->transformWith(new ModTransformer())
+            ->transformWith(new ResourceTransformer())
             ->toJson();
 
         return $this->simpleJsonResponse($response);

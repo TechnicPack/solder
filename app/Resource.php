@@ -20,7 +20,7 @@ use Illuminate\Database\Eloquent\Collection;
  * @property Carbon created_at
  * @property Carbon updated_at
  */
-class Mod extends Model
+class Resource extends Model
 {
     use HasSlug;
     use UuidModelTrait;

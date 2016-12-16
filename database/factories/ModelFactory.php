@@ -25,7 +25,7 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
     ];
 });
 
-$factory->define(App\Mod::class, function (Faker\Generator $faker) {
+$factory->define(App\Resource::class, function (Faker\Generator $faker) {
     return [
         'name' => $faker->name,
     ];
@@ -34,8 +34,8 @@ $factory->define(App\Mod::class, function (Faker\Generator $faker) {
 $factory->define(App\Version::class, function (Faker\Generator $faker) {
     return [
         'version' => $faker->numerify('#.#.#'),
-        'mod_id' => function () {
-            return factory(App\Mod::class)->create()->id;
+        'resource_id' => function () {
+            return factory(App\Resource::class)->create()->id;
         },
     ];
 });

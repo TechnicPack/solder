@@ -28,13 +28,13 @@ Route::get('/', function () {
 
 // Solder 0.8.~ Oauth Protected API Endpoints
 Route::group(['namespace' => 'Api', 'middleware' => 'auth:api'], function () {
-    Route::get('mods/{mod}/versions', 'ModVersionController@index');
-    Route::post('mods/{mod}/versions', 'ModVersionController@store')->middleware('resource.item:version');
-    Route::get('mods/{mod}', 'ModsController@show');
-    Route::patch('mods/{mod}', 'ModsController@update')->middleware('resource.item:mod');
-    Route::delete('mods/{mod}', 'ModsController@destroy');
-    Route::get('mods', 'ModsController@index');
-    Route::post('mods', 'ModsController@store')->middleware('resource.item:mod');
+    Route::get('resources/{resource}/versions', 'ResourceVersionController@index');
+    Route::post('resources/{resource}/versions', 'ResourceVersionController@store')->middleware('resource.item:version');
+    Route::get('resources/{resource}', 'ResourcesController@show');
+    Route::patch('resources/{resource}', 'ResourcesController@update')->middleware('resource.item:resource');
+    Route::delete('resources/{resource}', 'ResourcesController@destroy');
+    Route::get('resources', 'ResourcesController@index');
+    Route::post('resources', 'ResourcesController@store')->middleware('resource.item:resource');
 
     Route::get('versions/{version}/builds', 'VersionBuildsController@index');
     Route::get('versions/{version}', 'VersionsController@show');
@@ -60,9 +60,9 @@ Route::group(['namespace' => 'Api', 'middleware' => 'auth:api'], function () {
 // Solder 0.7.~ API Endpoints
 Route::group(['namespace' => 'Api\v07'], function () {
     Route::get('verify/{token}', 'TokensController@verify');
-    Route::get('mod/{mod}/{version}', 'ModVersionsController@show');
-    Route::get('mod/{mod}', 'ModsController@show');
-    Route::get('mod', 'ModsController@index');
+    Route::get('mod/{resource}/{version}', 'ResourceVersionsController@show');
+    Route::get('mod/{resource}', 'ResourcesController@show');
+    Route::get('mod', 'ResourcesController@index');
     Route::get('modpack/{modpack}/{buildVersion}', 'ModpackBuildsController@show');
     Route::get('modpack/{modpack}', 'ModpacksController@show');
     Route::get('modpack', 'ModpacksController@index');

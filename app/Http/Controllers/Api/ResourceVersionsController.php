@@ -2,24 +2,24 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Mod;
+use App\Resource;
 use Illuminate\Http\Request;
 use App\Transformers\VersionTransformer;
 use App\Http\Requests\VersionStoreRequest;
 use App\Exceptions\IdentifierConflictException;
 
-class ModVersionsController extends ApiController
+class ResourceVersionsController extends ApiController
 {
     /**
      * Display a listing of the releases for a mod.
      *
-     * @param Mod $mod
+     * @param Resource $resource
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function index(Request $request, Mod $mod)
+    public function index(Request $request, Resource $resource)
     {
-        $versions = $mod->versions;
+        $versions = $resource->versions;
 
         $include = $request->input('include');
 
@@ -33,13 +33,13 @@ class ModVersionsController extends ApiController
      * Store a newly created release for a mod in storage.
      *
      * @param VersionStoreRequest $request
-     * @param Mod $mod
+     * @param Resource $resource
      * @return \Symfony\Component\HttpFoundation\Response
      * @throws IdentifierConflictException
      */
-    public function store(VersionStoreRequest $request, Mod $mod)
+    public function store(VersionStoreRequest $request, Resource $resource)
     {
-        $version = $mod->releases()->create($request->input('data.attributes'));
+        $version = $resource->versions()->create($request->input('data.attributes'));
 
         if ($request->input('data.id')) {
             $version->id = $request->input('data.id');

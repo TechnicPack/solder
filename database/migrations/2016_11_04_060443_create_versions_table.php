@@ -15,13 +15,13 @@ class CreateVersionsTable extends Migration
     {
         Schema::create('versions', function (Blueprint $table) {
             $table->uuid('id');
-            $table->uuid('mod_id');
+            $table->uuid('resource_id');
             $table->string('version');
             $table->timestamps();
 
             $table->primary('id');
-            $table->unique(['mod_id', 'version']);
-            $table->foreign('mod_id')->references('id')->on('mods');
+            $table->unique(['resource_id', 'version']);
+            $table->foreign('resource_id')->references('id')->on('resources');
         });
     }
 

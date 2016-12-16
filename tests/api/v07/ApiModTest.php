@@ -9,7 +9,7 @@ class ApiModTest extends TestCase
     /** @test */
     public function it_lists_mods()
     {
-        $mod = factory(App\Mod::class)->create();
+        $mod = factory(App\Resource::class)->create();
 
         $this->getJson('/api/mod')
             ->assertResponseOk()
@@ -23,7 +23,7 @@ class ApiModTest extends TestCase
     /** @test */
     public function it_shows_a_mod()
     {
-        $mod = factory(App\Mod::class)->create();
+        $mod = factory(App\Resource::class)->create();
 
         $this->getJson('/api/mod/' . $mod->slug)
             ->assertResponseOk()
@@ -42,17 +42,17 @@ class ApiModTest extends TestCase
         $this->getJson('/api/mod/fake')
             ->assertResponseStatus(404)
             ->seeJsonEquals([
-                'error' => 'No mod requested/Mod does not exist/Mod version does not exist',
+                'error' => 'No mod requested/Resource does not exist/Resource version does not exist',
             ]);
     }
 
     /** @test */
     public function it_lists_mod_versions()
     {
-        $mod = factory(App\Mod::class)->create();
+        $mod = factory(App\Resource::class)->create();
 
         $version = factory(App\Version::class)->create([
-            'mod_id' => $mod->id,
+            'resource_id' => $mod->id,
         ]);
 
         $this->getJson('/api/mod/' . $mod->slug)
@@ -67,13 +67,13 @@ class ApiModTest extends TestCase
     /** @test */
     public function it_shows_a_version()
     {
-        $mod = factory(App\Mod::class)->create();
+        $resource = factory(App\Resource::class)->create();
 
         $version = factory(App\Version::class)->create([
-            'mod_id' => $mod->id,
+            'resource_id' => $resource->id,
         ]);
 
-        $this->getJson('/api/mod/' . $mod->slug . '/' . $version->version)
+        $this->getJson('/api/mod/' . $resource->slug . '/' . $version->version)
             ->assertResponseOk()
             ->seeJsonStructure([
                 'md5',
@@ -84,12 +84,12 @@ class ApiModTest extends TestCase
     /** @test */
     public function it_shows_an_error_on_invalid_version()
     {
-        $mod = factory(App\Mod::class)->create();
+        $mod = factory(App\Resource::class)->create();
 
         $this->getJson('/api/mod/' . $mod->slug . '/fake')
             ->assertResponseStatus(404)
             ->seeJsonEquals([
-                'error' => 'No mod requested/Mod does not exist/Mod version does not exist',
+                'error' => 'No mod requested/Resource does not exist/Resource version does not exist',
             ]);
     }
 

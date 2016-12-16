@@ -2,31 +2,31 @@
 
 namespace App\Http\Controllers\Api\v07;
 
-use App\Mod;
+use App\Resource;
 use App\Version;
 use App\Serializers\FlatSerializer;
 use App\Http\Controllers\Api\ApiController;
 use App\Transformers\v07\VersionTransformer;
 
-class ModVersionsController extends ApiController
+class ResourceVersionsController extends ApiController
 {
     /**
      * Display the specified resource.
      *
-     * @param Mod $mod
+     * @param Resource $resource
      * @param $releaseVersion
      * @return \Illuminate\Http\Response
      */
-    public function show($mod, $releaseVersion)
+    public function show($resource, $releaseVersion)
     {
-        $mod = Mod::where('slug', $mod)->first();
+        $resource = Resource::where('slug', $resource)->first();
 
-        $release = Version::where('mod_id', $mod->id)
+        $release = Version::where('resource_id', $resource->id)
             ->where('version', $releaseVersion)
             ->first();
 
-        if (empty($mod) || empty($release)) {
-            return $this->simpleErrorResponse('No mod requested/Mod does not exist/Mod version does not exist');
+        if (empty($resource) || empty($release)) {
+            return $this->simpleErrorResponse('No mod requested/Resource does not exist/Resource version does not exist');
         }
 
         $response = fractal()

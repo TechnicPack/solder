@@ -220,7 +220,7 @@ not be created.
 
 ### Get a mod [GET /mods/{id}]
 
-Gets a single Mod by its unique identifier.
+Gets a single Resource by its unique identifier.
 
 + Parameters
 
@@ -295,7 +295,7 @@ However, if you send an empty string or `null` instead then it will
             }
         }
 
-### Delete a Mod [DELETE /mods/{id}{?cascade}]
+### Delete a Resource [DELETE /mods/{id}{?cascade}]
 
 Delete a single mod. The mod cannot be deleted if it has any releases attached to
 it unless you set `cascade=true` in the query string in which case any existing
