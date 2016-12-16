@@ -1,10 +1,10 @@
 <?php
 
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class ApiClientTest extends TestCase
 {
-    use DatabaseTransactions;
+    use DatabaseMigrations;
 
     /** @test */
     public function it_verifies_global_tokens()

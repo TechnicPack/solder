@@ -17,7 +17,7 @@ class CreateModpacksTable extends Migration
             $table->uuid('id');
             $table->string('name');
             $table->string('slug')->index();
-            $table->boolean('published')->default(false);
+            $table->datetime('published_at')->nullable();
             $table->uuid('promoted_build_id')->nullable();
             $table->uuid('latest_build_id')->nullable();
             $table->string('link')->nullable();

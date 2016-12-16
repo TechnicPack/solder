@@ -24,7 +24,7 @@ class BuildStoreRequest extends ApiRequest
     public function rules()
     {
         return [
-            'published' => 'boolean',
+            'published_at' => 'date_format:c',
             'tags' => 'array',
             'version' => [
                 'required',

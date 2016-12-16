@@ -11,14 +11,13 @@ use Alsofronie\Uuid\UuidModelTrait;
 /**
  * @property string id
  * @property string version
- * @property bool published
  * @property array tags
  * @property \App\Modpack modpack
  * @property Collection releases
+ * @property Collection clients
  * @property Carbon created_at
  * @property Carbon updated_at
- *
- * @method Builder published() query scope for published builds
+ * @property Carbon published_at
  */
 class Build extends Model
 {
@@ -31,7 +30,7 @@ class Build extends Model
      */
     protected $fillable = [
         'version',
-        'published',
+        'published_at',
         'tags',
     ];
 
@@ -42,7 +41,15 @@ class Build extends Model
      */
     protected $casts = [
         'tags' => 'array',
-        'published' => 'boolean',
+    ];
+
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = [
+        'published_at'
     ];
 
     /**
@@ -83,6 +90,6 @@ class Build extends Model
      */
     public function scopePublished($query)
     {
-        return $query->where('published', true);
+        return $query->whereDate('published_at', '<', Carbon::now());
     }
 }

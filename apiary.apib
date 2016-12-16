@@ -521,10 +521,10 @@ is associated with the release.
 
 The `modpacks` resource is made up of the following attributes:
 
-| field       | type    | validation | description                                |
-|-------------|---------|------------|--------------------------------------------|
-| name        | string  |            | The human readable name                    |
-| published   | boolean |            | Included in non-authenticated api requests |
+| field        | type    | validation | description                                |
+|--------------|---------|------------|--------------------------------------------|
+| name         | string  |            | The human readable name                    |
+| published_at | boolean |            | Included in non-authenticated api requests |
 
 ### List modpacks [GET]
 
@@ -547,7 +547,7 @@ you must provide a valid authentication token.
                     "id":"e2d6ff99-de5b-429c-83ea-1660663b7bc4",
                     "attributes":{
                         "name":"Brothers Klaus",
-                        "published":false,
+                        "published_at":"2016-12-09T07:45:22+00:00",
                         "created_at":"2016-11-12T03:33:58+00:00",
                         "updated_at":"2016-11-12T03:33:58+00:00"
                     },
@@ -580,7 +580,7 @@ returned and the modpack will not be created.
                     "id": "e2d6ff99-de5b-429c-83ea-1660663b7bc4",
                     "attributes":{
                         "name":"Brothers Klaus",
-                        "published":false
+                        "published_at":"2016-12-09T07:45:22+00:00"
                     }
                 }
             }
@@ -593,7 +593,7 @@ returned and the modpack will not be created.
                 "id":"e2d6ff99-de5b-429c-83ea-1660663b7bc4",
                 "attributes":{
                     "name":"Brothers Klaus",
-                    "published":false,
+                    "published_at":"2016-12-09T07:45:22+00:00",
                     "created_at":"2016-11-12T03:02:53+00:00",
                     "updated_at":"2016-11-12T03:02:53+00:00"
                 },
@@ -629,7 +629,7 @@ response.
                 "id":"e2d6ff99-de5b-429c-83ea-1660663b7bc4",
                 "attributes":{
                     "name":"Brothers Klaus",
-                    "published":false,
+                    "published_at":"2016-12-09T07:45:22+00:00",
                     "created_at":"2016-11-12T03:33:58+00:00",
                     "updated_at":"2016-11-12T03:33:58+00:00"
                 },
@@ -666,7 +666,7 @@ However, if you send an empty string or `null` instead then it will
                 "data":{
                     "type":"modpack",
                     "attributes":{
-                        "published":true
+                        "name":"Brothers Klaus 2.0",
                     }
                 }
             }
@@ -678,8 +678,8 @@ However, if you send an empty string or `null` instead then it will
                 "type":"modpack",
                 "id":"e2d6ff99-de5b-429c-83ea-1660663b7bc4",
                 "attributes":{
-                    "name":"Brothers Klaus",
-                    "published":true,
+                    "name":"Brothers Klaus 2.0",
+                    "published_at":"2016-12-09T07:45:22+00:00",
                     "created_at":"2016-11-12T03:33:58+00:00",
                     "updated_at":"2016-11-12T03:45:12+00:00"
                 },
@@ -759,7 +759,7 @@ non-existent modpack.
                     "id":"cac555fe-0325-489c-b3ed-1dc63dcacc2f",
                     "attributes":{
                         "version":"1.0",
-                        "published":false,
+                        "published_at":"2016-12-09T07:45:22+00:00",
                         "tags": {
                             "minecraft":"1.7.10",
                             "forge":"10.13.4.1614",
@@ -798,7 +798,7 @@ the modpack provided.
                     "id":"cac555fe-0325-489c-b3ed-1dc63dcacc2f",
                     "attributes":{
                         "version":"1.0",
-                        "published":false,
+                        "published_at":"2016-12-09T07:45:22+00:00",
                         "tags": {
                             "minecraft":"1.7.10",
                             "forge":"10.13.4.1614",
@@ -817,7 +817,7 @@ the modpack provided.
                 "id":"cac555fe-0325-489c-b3ed-1dc63dcacc2f",
                 "attributes":{
                     "version":"1.0",
-                    "published":false,
+                    "published_at":"2016-12-09T07:45:22+00:00",
                     "tags": {
                         "minecraft":"1.7.10",
                         "forge":"10.13.4.1614",
@@ -858,7 +858,7 @@ is not authenticated then a `401 Unauthorized` will be returned.
                 "id":"cac555fe-0325-489c-b3ed-1dc63dcacc2f",
                 "attributes":{
                     "version":"1.0",
-                    "published":false,
+                    "published_at":"2016-12-09T07:45:22+00:00",
                     "tags": {
                         "minecraft":"1.7.10",
                         "forge":"10.13.4.1614",
@@ -908,7 +908,7 @@ entire JSON object with your changes in order to not overwrite existing elements
                         "tags": {
                             "memory":4096
                         },
-                        "published":true
+                        "version": "1.1"
                     }
                 }
             }
@@ -920,8 +920,8 @@ entire JSON object with your changes in order to not overwrite existing elements
                 "type":"build",
                 "id":"cac555fe-0325-489c-b3ed-1dc63dcacc2f",
                 "attributes":{
-                    "version":"1.0",
-                    "published":true,
+                    "version":"1.1",
+                    "published_at":"2016-12-09T07:45:22+00:00",
                     "tags": {
                         "memory":4096
                     },

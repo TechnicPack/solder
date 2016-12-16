@@ -21,7 +21,7 @@ class ModpackTransformer extends TransformerAbstract
         return [
             'name' => $modpack->name,
             'id' => $modpack->getRouteKey(),
-            'published' => (bool) $modpack->published,
+            'published_at' => $modpack->published_at->format('c'),
             'created_at' => $modpack->created_at->format('c'),
             'updated_at' => $modpack->updated_at->format('c'),
         ];

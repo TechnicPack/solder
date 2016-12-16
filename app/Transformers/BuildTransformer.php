@@ -15,7 +15,7 @@ class BuildTransformer extends TransformerAbstract
             'id' => $build->getRouteKey(),
             'version' => $build->version,
             'tags' => $build->tags,
-            'published' => (bool) $build->published,
+            'published_at' => $build->published_at->format('c'),
             'created_at' => $build->created_at->format('c'),
             'updated_at' => $build->updated_at->format('c'),
         ];

@@ -13,14 +13,14 @@ before_install:
   - npm install -g dredd@stable
 
 before_script:
-  - mysql -e 'create database solder;'
   - travis_retry composer install --no-interaction
 
 script:
   - vendor/bin/phpunit --verbose --coverage-clover=coverage.clover
 
 after_success:
-  - php artisan migrate:refresh --force
+  - mysql -e 'create database solder;'
+  - php artisan migrate --force
   - php artisan passport:install
   - dredd
 

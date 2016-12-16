@@ -54,15 +54,13 @@ Hooks::before('v0.7 > Mods > List mods', function () {
         'version' => '0.1',
     ]);
 
-    $modpack = factory(App\Modpack::class)->create([
+    $modpack = factory(App\Modpack::class)->states('published')->create([
         'name' => 'test',
-        'published' => true,
     ]);
 
-    $build = factory(App\Build::class)->create([
+    $build = factory(App\Build::class)->states('published')->create([
         'modpack_id' => $modpack->id,
         'version' => '1.0.3',
-        'published' => true,
     ]);
 
     $build->releases()->attach($release);

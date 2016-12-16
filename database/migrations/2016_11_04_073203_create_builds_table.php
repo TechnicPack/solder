@@ -17,8 +17,8 @@ class CreateBuildsTable extends Migration
             $table->uuid('id');
             $table->uuid('modpack_id');
             $table->string('version');
-            $table->boolean('published')->default(false);
-            $table->text('tags');
+            $table->datetime('published_at')->nullable();
+            $table->text('tags')->nullable();
             $table->timestamps();
 
             $table->primary('id');

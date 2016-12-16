@@ -14,7 +14,6 @@ use Alsofronie\Uuid\UuidModelTrait;
  * @property string id
  * @property string slug
  * @property string name
- * @property bool published
  * @property \App\Asset icon
  * @property \App\Asset logo
  * @property \App\Asset background
@@ -22,6 +21,7 @@ use Alsofronie\Uuid\UuidModelTrait;
  * @property \App\Build promoted
  * @property Collection clients
  * @property Collection builds
+ * @property Carbon published_at
  * @property Carbon created_at
  * @property Carbon updated_at
  */
@@ -38,16 +38,16 @@ class Modpack extends Model
     protected $fillable = [
         'slug',
         'name',
-        'published',
+        'published_at',
     ];
 
     /**
-     * The attributes that should be casted to native types.
+     * The attributes that should be mutated to dates.
      *
      * @var array
      */
-    protected $casts = [
-        'published' => 'boolean',
+    protected $dates = [
+        'published_at'
     ];
 
     /**
@@ -126,6 +126,17 @@ class Modpack extends Model
     }
 
     /**
+     * Where modpack is published
+     *
+     * @param Builder $query
+     * @return \Illuminate\Database\Query\Builder|static
+     */
+    public function scopePublished(Builder $query)
+    {
+        return $query->whereDate('published_at', '<', Carbon::now());
+    }
+
+    /**
      * Return results where the given client has permission.
      *
      * @param Builder $query
@@ -135,7 +146,7 @@ class Modpack extends Model
     public function scopeWhereAllowed($query, $client)
     {
         if ($client === null) {
-            return $query->where('published', true);
+            return $this->scopePublished($query);
         }
 
         if ($client->is_global) {
@@ -144,7 +155,7 @@ class Modpack extends Model
 
         return $query
             ->whereIn('id', $client->modpacks()->pluck('id'))
-            ->orWhere('published', true);
+            ->orWhere('published_at', '<', Carbon::now());
     }
 
     /**
@@ -168,7 +179,7 @@ class Modpack extends Model
      */
     public function allowed($client)
     {
-        if ($this->published) {
+        if ($this->published_at !== null && $this->published_at->isPast()) {
             return true;
         }
 

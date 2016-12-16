@@ -23,7 +23,7 @@ class ModpackUpdateRequest extends ApiRequest
     {
         return [
             'name' => 'filled',
-            'published' => 'boolean',
+            'published_at' => 'date_format:c',
         ];
     }
 }
