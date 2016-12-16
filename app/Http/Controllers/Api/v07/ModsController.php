@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Api\v07;
 
-use App\Http\Controllers\Api\ApiController;
 use App\Mod;
 use App\Serializers\FlatSerializer;
 use App\Transformers\v07\ModTransformer;
+use App\Http\Controllers\Api\ApiController;
 
 /**
  * Class ModsController.

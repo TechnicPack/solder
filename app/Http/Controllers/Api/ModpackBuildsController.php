@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Requests\BuildStoreRequest;
 use App\Modpack;
-use App\Transformers\BuildTransformer;
 use Illuminate\Http\Request;
+use App\Transformers\BuildTransformer;
+use App\Http\Requests\BuildStoreRequest;
 
 class ModpackBuildsController extends ApiController
 {

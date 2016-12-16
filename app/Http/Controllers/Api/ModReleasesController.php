@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Exceptions\IdentifierConflictException;
-use App\Http\Requests\ReleaseStoreRequest;
 use App\Mod;
-use App\Transformers\ReleaseTransformer;
 use Illuminate\Http\Request;
+use App\Transformers\ReleaseTransformer;
+use App\Http\Requests\ReleaseStoreRequest;
+use App\Exceptions\IdentifierConflictException;
 
 class ModReleasesController extends ApiController
 {

@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Build;
-use App\Transformers\ReleaseTransformer;
 use Illuminate\Http\Request;
+use App\Transformers\ReleaseTransformer;
 
 class BuildReleasesController extends ApiController
 {

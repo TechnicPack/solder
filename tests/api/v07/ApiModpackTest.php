@@ -1,10 +1,10 @@
 <?php
 
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class ApiModpackTest extends TestCase
 {
-    use DatabaseTransactions;
+    use DatabaseMigrations;
 
     /** @test */
     public function response_includes_mirror_url()
@@ -19,9 +19,7 @@ class ApiModpackTest extends TestCase
     /** @test */
     public function it_lists_public_modpacks()
     {
-        $modpack = factory(App\Modpack::class)->create([
-            'published' => true,
-        ]);
+        $modpack = factory(App\Modpack::class)->states('published')->create();
 
         $this->getJson('/api/modpack')
             ->assertResponseOk()
@@ -35,9 +33,7 @@ class ApiModpackTest extends TestCase
     /** @test */
     public function it_hides_unpublished_modpacks()
     {
-        factory(App\Modpack::class)->create([
-            'published' => false,
-        ]);
+        factory(App\Modpack::class)->states('unpublished')->create();
 
         $this->getJson('/api/modpack')
             ->assertResponseOk()
@@ -50,9 +46,7 @@ class ApiModpackTest extends TestCase
     /** @test */
     public function it_lists_unpublished_modpacks_with_global_token()
     {
-        $modpack = factory(App\Modpack::class)->create([
-            'published' => false,
-        ]);
+        $modpack = factory(App\Modpack::class)->states('unpublished')->create();
 
         $client = factory(App\Client::class)->create([
             'is_global' => true,
@@ -70,9 +64,7 @@ class ApiModpackTest extends TestCase
     /** @test */
     public function it_lists_unpublished_modpacks_with_allowed_client()
     {
-        $modpack = factory(App\Modpack::class)->create([
-            'published' => false,
-        ]);
+        $modpack = factory(App\Modpack::class)->states('unpublished')->create();
 
         $client = factory(App\Client::class)->create([
             'is_global' => false,
@@ -92,9 +84,7 @@ class ApiModpackTest extends TestCase
     /** @test */
     public function it_lists_detailed_results_with_full_include_parameter()
     {
-        $modpack = factory(App\Modpack::class)->create([
-            'published' => true,
-        ]);
+        $modpack = factory(App\Modpack::class)->states('published')->create();
 
         $this->getJson('/api/modpack?include=full')
             ->assertResponseOk()
@@ -111,9 +101,7 @@ class ApiModpackTest extends TestCase
     /** @test */
     public function it_shows_modpack()
     {
-        $modpack = factory(App\Modpack::class)->create([
-            'published' => true,
-        ]);
+        $modpack = factory(App\Modpack::class)->states('published')->create();
 
         $this->getJson('/api/modpack/'.$modpack->slug)
             ->assertResponseOk()
@@ -126,9 +114,7 @@ class ApiModpackTest extends TestCase
     /** @test */
     public function it_shows_modpack_to_global_client()
     {
-        $modpack = factory(App\Modpack::class)->create([
-            'published' => false,
-        ]);
+        $modpack = factory(App\Modpack::class)->states('unpublished')->create();
 
         $client = factory(App\Client::class)->create([
             'is_global' => true,
@@ -145,9 +131,7 @@ class ApiModpackTest extends TestCase
     /** @test */
     public function it_shows_modpack_to_allowed_client()
     {
-        $modpack = factory(App\Modpack::class)->create([
-            'published' => false,
-        ]);
+        $modpack = factory(App\Modpack::class)->states('unpublished')->create();
 
         $client = factory(App\Client::class)->create([
             'is_global' => false,
@@ -176,9 +160,7 @@ class ApiModpackTest extends TestCase
     /** @test */
     public function it_shows_an_error_for_unpublished_modpack()
     {
-        $modpack = factory(App\Modpack::class)->create([
-            'published' => false,
-        ]);
+        $modpack = factory(App\Modpack::class)->states('unpublished')->create();
 
         $this->getJson('/api/modpack/'.$modpack->slug)
             ->assertResponseStatus(404)
@@ -190,13 +172,10 @@ class ApiModpackTest extends TestCase
     /** @test */
     public function it_shows_a_build()
     {
-        $modpack = factory(App\Modpack::class)->create([
-            'published' => true,
-        ]);
+        $modpack = factory(App\Modpack::class)->states('published')->create();
 
-        $build = factory(App\Build::class)->create([
+        $build = factory(App\Build::class)->states('published')->create([
             'modpack_id' => $modpack->id,
-            'published' => true,
         ]);
 
         $this->getJson('/api/modpack/'.$modpack->slug.'/'.$build->version)
@@ -211,13 +190,10 @@ class ApiModpackTest extends TestCase
     /** @test */
     public function it_hides_a_build_if_the_modpack_isnt_published()
     {
-        $modpack = factory(App\Modpack::class)->create([
-            'published' => false,
-        ]);
+        $modpack = factory(App\Modpack::class)->states('unpublished')->create();
 
-        $build = factory(App\Build::class)->create([
+        $build = factory(App\Build::class)->states('published')->create([
             'modpack_id' => $modpack->id,
-            'published' => true,
         ]);
 
         $this->getJson('/api/modpack/'.$modpack->slug.'/'.$build->version)
@@ -230,13 +206,10 @@ class ApiModpackTest extends TestCase
     /** @test */
     public function it_shows_an_unpublished_build_to_an_allowed_client()
     {
-        $modpack = factory(App\Modpack::class)->create([
-            'published' => false,
-        ]);
+        $modpack = factory(App\Modpack::class)->states('unpublished')->create();
 
-        $build = factory(App\Build::class)->create([
+        $build = factory(App\Build::class)->states('published')->create([
             'modpack_id' => $modpack->id,
-            'published' => true,
         ]);
 
         $client = factory(App\Client::class)->create([
@@ -257,13 +230,10 @@ class ApiModpackTest extends TestCase
     /** @test */
     public function it_shows_an_unpublished_build_to_a_global_client()
     {
-        $modpack = factory(App\Modpack::class)->create([
-            'published' => false,
-        ]);
+        $modpack = factory(App\Modpack::class)->states('published')->create();
 
-        $build = factory(App\Build::class)->create([
+        $build = factory(App\Build::class)->states('published')->create([
             'modpack_id' => $modpack->id,
-            'published' => true,
         ]);
 
         $client = factory(App\Client::class)->create([
@@ -282,9 +252,7 @@ class ApiModpackTest extends TestCase
     /** @test */
     public function it_shows_an_error_for_invalid_build()
     {
-        $modpack = factory(App\Modpack::class)->create([
-            'published' => false,
-        ]);
+        $modpack = factory(App\Modpack::class)->states('unpublished')->create();
 
         $this->getJson('/api/modpack/'.$modpack->slug.'/fake')
             ->assertResponseStatus(404)

@@ -2,9 +2,9 @@
 
 namespace App\Providers;
 
+use Laravel\Passport\Passport;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
-use Laravel\Passport\Passport;
 use Tremby\LaravelGitVersion\GitVersionHelper;
 
 class AppServiceProvider extends ServiceProvider

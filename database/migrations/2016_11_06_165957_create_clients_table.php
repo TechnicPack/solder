@@ -15,12 +15,14 @@ class CreateClientsTable extends Migration
     {
         Schema::create('clients', function (Blueprint $table) {
             $table->uuid('id');
+            $table->uuid('user_id');
             $table->string('name');
             $table->string('token');
             $table->boolean('is_global')->default(false);
             $table->timestamps();
 
             $table->primary('id');
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 

@@ -2,8 +2,6 @@
 
 abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
 {
-    protected $migrate = true;
-
     /**
      * The base URL to use while testing the application.
      *
@@ -25,15 +23,15 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
         return $app;
     }
 
-    /**
-     * Setup testing environment.
-     */
-    public function setUp()
+    protected function disableExceptionHandling()
     {
-        parent::setUp();
-        if ($this->migrate) {
-            Artisan::call('migrate');
-            $this->migrate = false;
-        }
+        $this->app->instance(\Illuminate\Contracts\Debug\ExceptionHandler::class, new class extends \App\Exceptions\Handler {
+           public function __construct() {}
+           public function report(Exception $e) {}
+           public function render($request, Exception $e)
+           {
+               throw $e;
+           }
+        });
     }
 }

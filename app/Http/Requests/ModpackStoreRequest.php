@@ -23,7 +23,7 @@ class ModpackStoreRequest extends ApiRequest
     {
         return [
             'name' => 'required',
-            'published' => 'boolean',
+            'published_at' => 'date_format:"c"',
         ];
     }
 }

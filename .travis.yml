@@ -9,20 +9,11 @@ sudo: false
 services:
   - mysql
 
-before_install:
-  - npm install -g dredd@stable
-
 before_script:
-  - mysql -e 'create database solder;'
   - travis_retry composer install --no-interaction
 
 script:
   - vendor/bin/phpunit --verbose --coverage-clover=coverage.clover
-
-after_success:
-  - php artisan migrate:refresh --force
-  - php artisan passport:install
-  - dredd
 
 after_script:
   - wget https://scrutinizer-ci.com/ocular.phar
