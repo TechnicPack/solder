@@ -7,8 +7,8 @@ use App\Client;
 use App\Modpack;
 use Illuminate\Http\Request;
 use App\Serializers\FlatSerializer;
-use App\Http\Controllers\Api\ApiController;
 use App\Transformers\v07\BuildTransformer;
+use App\Http\Controllers\Api\ApiController;
 
 /**
  * Class ModpackBuildsController.

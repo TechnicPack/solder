@@ -3,8 +3,8 @@
 namespace App;
 
 use Alsofronie\Uuid\UuidModelTrait;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
  * @property string id
