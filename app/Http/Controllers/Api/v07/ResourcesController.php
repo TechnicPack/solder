@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Api\v07;
 
 use App\Resource;
 use App\Serializers\FlatSerializer;
-use App\Transformers\v07\ResourceTransformer;
 use App\Http\Controllers\Api\ApiController;
+use App\Transformers\v07\ResourceTransformer;
 
 class ResourcesController extends ApiController
 {
@@ -28,7 +28,7 @@ class ResourcesController extends ApiController
     /**
      * Display the specified resource.
      *
-     * @param String $resource
+     * @param string $resource
      * @return \Illuminate\Http\Response
      */
     public function show($resource)

@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Api\v07;
 
-use App\Resource;
 use App\Version;
+use App\Resource;
 use App\Serializers\FlatSerializer;
 use App\Http\Controllers\Api\ApiController;
 use App\Transformers\v07\VersionTransformer;

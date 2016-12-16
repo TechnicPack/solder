@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\Collection;
  * @property Collection builds
  * @property Carbon created_at
  * @property Carbon updated_at
- * @property Resource mod
+ * @property \App\Resource mod
  */
 class Version extends Model
 {
