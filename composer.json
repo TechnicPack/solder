@@ -19,7 +19,8 @@
         "phpunit/phpunit": "~5.0",
         "symfony/css-selector": "3.1.*",
         "symfony/dom-crawler": "3.1.*",
-        "ddelnano/dredd-hooks-php": "^1.1"
+        "ddelnano/dredd-hooks-php": "^1.1",
+        "friendsofphp/php-cs-fixer": "^2.0"
     },
     "autoload": {
         "classmap": [
@@ -49,7 +50,8 @@
             "Illuminate\\Foundation\\ComposerScripts::postUpdate",
             "php artisan optimize"
         ],
-        "test": "vendor/bin/phpunit"
+        "test": "vendor/bin/phpunit",
+        "style": "vendor/bin/php-cs-fixer fix -vvv --config=.php_cs ./app"
     },
     "config": {
         "preferred-install": "dist"
