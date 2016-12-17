@@ -13,6 +13,7 @@ class ReleaseBuildsController extends ApiController
      *
      * @param Request $request
      * @param Release $release
+     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function index(Request $request, Release $release)

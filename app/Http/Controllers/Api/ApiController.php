@@ -11,6 +11,7 @@ class ApiController extends Controller
     /**
      * @param string $message
      * @param int $status
+     *
      * @return \Illuminate\Http\Response
      */
     public function simpleErrorResponse(String $message, int $status = 404)
@@ -23,6 +24,7 @@ class ApiController extends Controller
     /**
      * @param mixed $content
      * @param int $status
+     *
      * @return \Illuminate\Http\Response
      */
     public function simpleJsonResponse($content, int $status = 200)

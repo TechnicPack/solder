@@ -13,6 +13,7 @@ class BuildReleasesController extends ApiController
      *
      * @param Request $request
      * @param Build $build
+     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function index(Request $request, Build $build)

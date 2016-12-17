@@ -21,6 +21,7 @@ class ModpackBuildsController extends ApiController
      * @param Request $request
      * @param Modpack $modpack
      * @param $buildVersion
+     *
      * @return \Illuminate\Http\Response
      */
     public function show(Request $request, $modpack, $buildVersion)

@@ -18,6 +18,7 @@ class ModReleasesController extends ApiController
      *
      * @param Mod $mod
      * @param $releaseVersion
+     *
      * @return \Illuminate\Http\Response
      */
     public function show($mod, $releaseVersion)

@@ -28,8 +28,8 @@ class ModsController extends Controller
      * Display the specified resource.
      *
      * @param Mod $mod
+     *
      * @return \Illuminate\Http\Response
-     * @internal param int $id
      */
     public function show(Mod $mod)
     {

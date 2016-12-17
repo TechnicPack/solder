@@ -86,6 +86,7 @@ class Build extends Model
      * Only published builds.
      *
      * @param Builder $query
+     *
      * @return Builder
      */
     public function scopePublished($query)

@@ -11,8 +11,8 @@ class TokensController extends ApiController
      * Display the specified resource.
      *
      * @param $token
+     *
      * @return \Illuminate\Http\Response
-     * @internal param Request $request
      */
     public function verify($token)
     {

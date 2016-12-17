@@ -16,6 +16,7 @@ class ModsController extends ApiController
      * Display a listing of the mods.
      *
      * @param Request $request
+     *
      * @return Response
      */
     public function index(Request $request)
@@ -34,8 +35,10 @@ class ModsController extends ApiController
      * Store a newly created mod in storage.
      *
      * @param ModStoreRequest $request
-     * @return Response
+     *
      * @throws IdentifierConflictException
+     *
+     * @return Response
      */
     public function store(ModStoreRequest $request)
     {
@@ -57,6 +60,7 @@ class ModsController extends ApiController
      *
      * @param Request $request
      * @param Mod $mod
+     *
      * @return Response
      */
     public function show(Request $request, Mod $mod)
@@ -74,6 +78,7 @@ class ModsController extends ApiController
      *
      * @param ModUpdateRequest $request
      * @param Mod $mod
+     *
      * @return Response
      */
     public function update(ModUpdateRequest $request, Mod $mod)
@@ -90,6 +95,7 @@ class ModsController extends ApiController
      *
      * @param Request $request
      * @param Mod $mod
+     *
      * @return Response
      */
     public function destroy(Request $request, Mod $mod)

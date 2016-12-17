@@ -18,6 +18,7 @@ class BuildsController extends Controller
      * Display the specified resource.
      *
      * @param Build $build
+     *
      * @return \Illuminate\Http\Response
      */
     public function show(Build $build)

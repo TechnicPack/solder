@@ -15,6 +15,7 @@ class ModReleasesController extends ApiController
      *
      * @param Mod $mod
      * @param Request $request
+     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function index(Request $request, Mod $mod)
@@ -34,8 +35,10 @@ class ModReleasesController extends ApiController
      *
      * @param ReleaseStoreRequest $request
      * @param Mod $mod
-     * @return \Symfony\Component\HttpFoundation\Response
+     *
      * @throws IdentifierConflictException
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function store(ReleaseStoreRequest $request, Mod $mod)
     {
