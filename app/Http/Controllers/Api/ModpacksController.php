@@ -32,8 +32,10 @@ class ModpacksController extends ApiController
      * Store a newly created modpack in storage.
      *
      * @param ModpackStoreRequest $request
-     * @return \Illuminate\Http\Response
+     *
      * @throws IdentifierConflictException
+     *
+     * @return \Illuminate\Http\Response
      */
     public function store(ModpackStoreRequest $request)
     {
@@ -55,6 +57,7 @@ class ModpacksController extends ApiController
      *
      * @param Request $request
      * @param Modpack $modpack
+     *
      * @return \Illuminate\Http\Response
      */
     public function show(Request $request, Modpack $modpack)
@@ -72,6 +75,7 @@ class ModpacksController extends ApiController
      *
      * @param ModpackUpdateRequest $request
      * @param Modpack $modpack
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(ModpackUpdateRequest $request, Modpack $modpack)
@@ -89,6 +93,7 @@ class ModpacksController extends ApiController
      *
      * @param Request $request
      * @param Modpack $modpack
+     *
      * @return \Illuminate\Http\Response
      */
     public function icon(Request $request, Modpack $modpack)
@@ -101,6 +106,7 @@ class ModpacksController extends ApiController
      *
      * @param Request $request
      * @param Modpack $modpack
+     *
      * @return \Illuminate\Http\Response
      */
     public function logo(Request $request, Modpack $modpack)
@@ -113,6 +119,7 @@ class ModpacksController extends ApiController
      *
      * @param Request $request
      * @param Modpack $modpack
+     *
      * @return \Illuminate\Http\Response
      */
     public function background(Request $request, Modpack $modpack)
@@ -125,6 +132,7 @@ class ModpacksController extends ApiController
      *
      * @param Request $request
      * @param Modpack $modpack
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy(Request $request, Modpack $modpack)

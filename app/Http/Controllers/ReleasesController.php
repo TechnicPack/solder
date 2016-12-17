@@ -18,6 +18,7 @@ class ReleasesController extends Controller
      * Display the specified resource.
      *
      * @param Release $release
+     *
      * @return \Illuminate\Http\Response
      */
     public function show(Release $release)

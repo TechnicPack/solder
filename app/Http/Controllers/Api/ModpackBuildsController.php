@@ -14,6 +14,7 @@ class ModpackBuildsController extends ApiController
      *
      * @param Request $request
      * @param Modpack $modpack
+     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function index(Request $request, Modpack $modpack)
@@ -33,6 +34,7 @@ class ModpackBuildsController extends ApiController
      *
      * @param BuildStoreRequest $request
      * @param Modpack $modpack
+     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function store(BuildStoreRequest $request, Modpack $modpack)

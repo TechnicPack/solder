@@ -28,8 +28,8 @@ class ModpacksController extends Controller
      * Display the specified resource.
      *
      * @param Modpack $modpack
+     *
      * @return \Illuminate\Http\Response
-     * @internal param int $id
      */
     public function show(Modpack $modpack)
     {

@@ -32,6 +32,7 @@ class ModsController extends ApiController
      * Display the specified resource.
      *
      * @param Mod $mod
+     *
      * @return \Illuminate\Http\Response
      */
     public function show($mod)

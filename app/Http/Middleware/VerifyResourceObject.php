@@ -13,8 +13,10 @@ class VerifyResourceObject
      * @param  \Illuminate\Http\Request $request
      * @param  \Closure $next
      * @param $type
-     * @return mixed
+     *
      * @throws ResourceMismatchException
+     *
+     * @return mixed
      */
     public function handle($request, Closure $next, $type)
     {

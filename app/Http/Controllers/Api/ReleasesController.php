@@ -12,6 +12,7 @@ class ReleasesController extends ApiController
      * Display a listing of releases.
      *
      * @param Request $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
@@ -31,6 +32,7 @@ class ReleasesController extends ApiController
      *
      * @param Request $request
      * @param Release $release
+     *
      * @return \Illuminate\Http\Response
      */
     public function show(Request $request, Release $release)
@@ -48,6 +50,7 @@ class ReleasesController extends ApiController
      *
      * @param  \Illuminate\Http\Request $request
      * @param Release $release
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Release $release)
@@ -63,6 +66,7 @@ class ReleasesController extends ApiController
      * Remove the specified release from storage.
      *
      * @param Release $release
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy(Release $release)

@@ -38,6 +38,7 @@ class Client extends Model
      * Only global clients.
      *
      * @param \Illuminate\Database\Eloquent\Builder $query
+     *
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeGlobal($query)

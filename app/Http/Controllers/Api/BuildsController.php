@@ -12,6 +12,7 @@ class BuildsController extends ApiController
      * Display a listing of builds.
      *
      * @param Request $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
@@ -31,6 +32,7 @@ class BuildsController extends ApiController
      *
      * @param Request $request
      * @param Build $build
+     *
      * @return \Illuminate\Http\Response
      */
     public function show(Request $request, Build $build)
@@ -48,6 +50,7 @@ class BuildsController extends ApiController
      *
      * @param  \Illuminate\Http\Request $request
      * @param Build $build
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Build $build)
@@ -63,6 +66,7 @@ class BuildsController extends ApiController
      * Remove the specified build from storage.
      *
      * @param Build $build
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy(Build $build)

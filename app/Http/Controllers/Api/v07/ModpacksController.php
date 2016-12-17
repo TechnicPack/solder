@@ -18,6 +18,7 @@ class ModpacksController extends ApiController
      * Display a listing of the resource.
      *
      * @param Request $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
@@ -62,6 +63,7 @@ class ModpacksController extends ApiController
      *
      * @param Request $request
      * @param Modpack $modpack
+     *
      * @return \Illuminate\Http\Response
      */
     public function show(Request $request, $modpack)
