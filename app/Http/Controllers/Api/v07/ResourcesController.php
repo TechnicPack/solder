@@ -29,6 +29,7 @@ class ResourcesController extends ApiController
      * Display the specified resource.
      *
      * @param string $resource
+     *
      * @return \Illuminate\Http\Response
      */
     public function show($resource)

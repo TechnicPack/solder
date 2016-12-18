@@ -13,6 +13,7 @@ class VersionBuildsController extends ApiController
      *
      * @param Request $request
      * @param Version $version
+     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function index(Request $request, Version $version)

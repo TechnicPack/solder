@@ -13,8 +13,9 @@ class ResourceVersionsController extends ApiController
     /**
      * Display the specified resource.
      *
-     * @param Resource $resource
+     * @param resource $resource
      * @param $version
+     *
      * @return \Illuminate\Http\Response
      */
     public function show($resourceSlug, $versionString)

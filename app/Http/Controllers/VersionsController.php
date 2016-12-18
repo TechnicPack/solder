@@ -18,6 +18,7 @@ class VersionsController extends Controller
      * Display the specified resource.
      *
      * @param Version $version
+     *
      * @return \Illuminate\Http\Response
      */
     public function show(Version $version)

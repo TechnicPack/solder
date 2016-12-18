@@ -27,9 +27,9 @@ class ResourcesController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param Resource $resource
+     * @param resource $resource
+     *
      * @return \Illuminate\Http\Response
-     * @internal param int $id
      */
     public function show(Resource $resource)
     {

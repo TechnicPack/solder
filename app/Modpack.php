@@ -129,6 +129,7 @@ class Modpack extends Model
      * Where modpack is published.
      *
      * @param Builder $query
+     *
      * @return \Illuminate\Database\Query\Builder|static
      */
     public function scopePublished(Builder $query)
@@ -141,6 +142,7 @@ class Modpack extends Model
      *
      * @param Builder $query
      * @param Client $client
+     *
      * @return Builder
      */
     public function scopeWhereAllowed($query, $client)
@@ -162,6 +164,7 @@ class Modpack extends Model
      * Give the client permission to view this modpack.
      *
      * @param Client $client
+     *
      * @return $this
      */
     public function allow(Client $client)
@@ -175,6 +178,7 @@ class Modpack extends Model
      * Check if the client is allowed to view the modpack.
      *
      * @param Client $client
+     *
      * @return bool
      */
     public function allowed($client)
@@ -202,6 +206,7 @@ class Modpack extends Model
      * Check if the client is not allowed to view the modpack.
      *
      * @param Client $client
+     *
      * @return bool
      */
     public function disallowed($client)

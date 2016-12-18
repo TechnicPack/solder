@@ -14,7 +14,8 @@ class ResourceVersionsController extends ApiController
      * Display a listing of the versions for a resource.
      *
      * @param Request $request
-     * @param Resource $resource
+     * @param resource $resource
+     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function index(Request $request, Resource $resource)
@@ -33,9 +34,11 @@ class ResourceVersionsController extends ApiController
      * Store a newly created version for a resource in storage.
      *
      * @param VersionStoreRequest $request
-     * @param Resource $resource
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @param resource $resource
+     *
      * @throws IdentifierConflictException
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function store(VersionStoreRequest $request, Resource $resource)
     {

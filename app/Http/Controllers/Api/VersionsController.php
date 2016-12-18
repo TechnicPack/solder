@@ -12,6 +12,7 @@ class VersionsController extends ApiController
      * Display a listing of versions.
      *
      * @param Request $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
@@ -31,6 +32,7 @@ class VersionsController extends ApiController
      *
      * @param Request $request
      * @param Version $version
+     *
      * @return \Illuminate\Http\Response
      */
     public function show(Request $request, Version $version)
@@ -48,6 +50,7 @@ class VersionsController extends ApiController
      *
      * @param  \Illuminate\Http\Request $request
      * @param Version $version
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Version $version)
@@ -63,6 +66,7 @@ class VersionsController extends ApiController
      * Remove the specified version from storage.
      *
      * @param Version $version
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy(Version $version)

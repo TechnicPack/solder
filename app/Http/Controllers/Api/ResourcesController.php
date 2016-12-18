@@ -16,6 +16,7 @@ class ResourcesController extends ApiController
      * Display a listing of the resources.
      *
      * @param Request $request
+     *
      * @return Response
      */
     public function index(Request $request)
@@ -34,8 +35,10 @@ class ResourcesController extends ApiController
      * Store a newly created resource in storage.
      *
      * @param ResourceStoreRequest $request
-     * @return Response
+     *
      * @throws IdentifierConflictException
+     *
+     * @return Response
      */
     public function store(ResourceStoreRequest $request)
     {
@@ -56,7 +59,8 @@ class ResourcesController extends ApiController
      * Display the specified resource.
      *
      * @param Request $request
-     * @param Resource $resource
+     * @param resource $resource
+     *
      * @return Response
      */
     public function show(Request $request, Resource $resource)
@@ -73,7 +77,8 @@ class ResourcesController extends ApiController
      * Update the specified resrouce in storage.
      *
      * @param ResourceUpdateRequest $request
-     * @param Resource $resource
+     * @param resource $resource
+     *
      * @return Response
      */
     public function update(ResourceUpdateRequest $request, Resource $resource)
@@ -89,7 +94,8 @@ class ResourcesController extends ApiController
      * Remove the specified resource from storage.
      *
      * @param Request $request
-     * @param Resource $resource
+     * @param \App\Resource $resource
+     *
      * @return Response
      */
     public function destroy(Request $request, Resource $resource)
