@@ -12,13 +12,19 @@ Solder helps you lower bandwidth usage, keep old versions of your modpack availa
 
 ## Installing / Getting started
 
-If you're interested in running your own version of the software then getting setup is still pretty straight forward.
+If you're interested in getting checking out the application locally, or helping out with development; the below series of commands should get you started.
 
 ```shell
-composer create-project indemnity83/TechnicSolder
+git clone https://github.com/indemnity83/technicsolder
+cd technicsolder
+composer install
+cp .env.example .env
+touch database/database.sqlite
+php artisan key:generate
+php artisan migrate
+php artisan passport:install
+php artisan serve
 ```
-
-When you run the above command, composer will clone the current version of TechnicSolder, install all the required dependencies and launch the installer script which will step you through configuring the application for its first use.
 
 ## Change log
 
