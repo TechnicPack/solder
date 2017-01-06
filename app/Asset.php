@@ -1,52 +1,54 @@
 <?php
 
+/*
+ * This file is part of TechnicSolder.
+ *
+ * (c) Kyle Klaus <kklaus@indemnity83.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace App;
 
 use Alsofronie\Uuid\UuidModelTrait;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * @property string id
- * @property string path
- * @property string disk
- * @property string md5
- * @property string url
- * @property int filesize
+ * App\Asset.
+ *
+ * @property string $id
+ * @property string $version_id
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ * @property-read \App\Version $version
+ * @method static \Illuminate\Database\Query\Builder|\App\Asset whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Asset whereVersionId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Asset whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Asset whereUpdatedAt($value)
+ * @mixin \Eloquent
  */
 class Asset extends Model
 {
     use UuidModelTrait;
 
-    const MORPH_NAME = 'resource';
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'location',
+        'filename',
+        'filesize',
+        'md5',
+    ];
 
     /**
-     * The table associated with the model.
+     * Belongs to a version.
      */
-    protected $table = 'assets';
-
-    /**
-     * Get all of the owning attachable models.
-     */
-    public function attachable()
+    public function version()
     {
-        return $this->morphTo();
-    }
-
-    /**
-     * @return string
-     */
-    public function getUrlAttribute()
-    {
-        // TODO: Implement function
-        return '';
-    }
-
-    /**
-     * @return int
-     */
-    public function getFilesizeAttribute()
-    {
-        // TODO: Implement function
-        return 0;
+        return $this->belongsTo(Version::class);
     }
 }

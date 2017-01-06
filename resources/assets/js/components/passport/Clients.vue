@@ -10,57 +10,70 @@
 
 <template>
     <div>
-        <h2>
-            OAuth Clients
-            <a class="btn btn-default pull-right" @click="showCreateClientForm">
-                Create New Client
-            </a>
-        </h2>
         <div class="panel panel-default">
+            <div class="panel-heading">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <span>
+                        OAuth Clients
+                    </span>
 
-            <div class="panel-body" v-if="clients.length === 0">
-                <!-- Current Clients -->
-                <p class="m-b-none">
-                    You have not created any OAuth clients.
-                </p>
+                    <a class="action-link" @click="showCreateClientForm">
+                        Create New Client
+                    </a>
+                </div>
             </div>
 
-            <table class="table" v-if="clients.length > 0">
-                <thead>
-                    <tr>
-                        <th>Client ID</th>
-                        <th>Name</th>
-                        <th>Secret</th>
-                        <th></th>
-                    </tr>
-                </thead>
+            <div class="panel-body">
+                <!-- Current Clients -->
+                <p class="m-b-none" v-if="clients.length === 0">
+                    You have not created any OAuth clients.
+                </p>
 
-                <tbody>
-                    <tr v-for="client in clients">
-                        <!-- ID -->
-                        <td style="vertical-align: middle;">
-                            {{ client.id }}
-                        </td>
+                <table class="table table-borderless m-b-none" v-if="clients.length > 0">
+                    <thead>
+                        <tr>
+                            <th>Client ID</th>
+                            <th>Name</th>
+                            <th>Secret</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
 
-                        <!-- Name -->
-                        <td style="vertical-align: middle;">
-                            {{ client.name }}
-                        </td>
+                    <tbody>
+                        <tr v-for="client in clients">
+                            <!-- ID -->
+                            <td style="vertical-align: middle;">
+                                {{ client.id }}
+                            </td>
 
-                        <!-- Secret -->
-                        <td style="vertical-align: middle;">
-                            <code>{{ client.secret }}</code>
-                        </td>
+                            <!-- Name -->
+                            <td style="vertical-align: middle;">
+                                {{ client.name }}
+                            </td>
 
-                        <!-- Actions -->
-                        <td class="text-right">
-                            <a class="btn btn-xs btn-default" @click="edit(client)">Edit</a>
-                            <a class="btn btn-xs btn-danger" @click="destroy(client)">Delete</a>
-                        </td>
+                            <!-- Secret -->
+                            <td style="vertical-align: middle;">
+                                <code>{{ client.secret }}</code>
+                            </td>
 
-                    </tr>
-                </tbody>
-            </table>
+                            <!-- Edit Button -->
+                            <td style="vertical-align: middle;">
+                                <a class="action-link" @click="edit(client)">
+                                    Edit
+                                </a>
+                            </td>
+
+                            <!-- Delete Button -->
+                            <td style="vertical-align: middle;">
+                                <a class="action-link text-danger" @click="destroy(client)">
+                                    Delete
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
 
         <!-- Create Client Modal -->

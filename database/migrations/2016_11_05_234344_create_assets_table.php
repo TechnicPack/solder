@@ -15,14 +15,12 @@ class CreateAssetsTable extends Migration
     {
         Schema::create('assets', function (Blueprint $table) {
             $table->uuid('id');
-            $table->string('path');
-            $table->string('disk');
-            $table->string('md5');
-            $table->uuid('resource_id');
-            $table->string('resource_type');
+            $table->uuid('version_id');
+            $table->string('location')->nullable();
+            $table->string('filename');
+            $table->integer('filesize')->nullable();
+            $table->string('md5')->nullable();
             $table->timestamps();
-
-            $table->primary('id');
         });
     }
 

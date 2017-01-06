@@ -19,9 +19,3 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index');
 Route::get('/security', 'SecurityController@index');
-Route::get('/mods', 'ModsController@index');
-Route::get('/mods/{mod}', 'ModsController@show');
-Route::get('/modpacks', 'ModpacksController@index');
-Route::get('/modpacks/{modpack}', 'ModpacksController@show');
-Route::get('/builds/{build}', 'BuildsController@show');
-Route::get('/releases/{release}', 'ReleasesController@show');

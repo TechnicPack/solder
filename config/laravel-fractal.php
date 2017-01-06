@@ -13,6 +13,6 @@ return [
     |
     */
 
-    'default_serializer' => \League\Fractal\Serializer\JsonApiSerializer::class,
+    'default_serializer' => App\Serializers\JsonApiResource::class,
 
 ];

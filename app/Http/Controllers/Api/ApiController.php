@@ -1,104 +1,62 @@
 <?php
 
+/*
+ * This file is part of TechnicSolder.
+ *
+ * (c) Kyle Klaus <kklaus@indemnity83.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace App\Http\Controllers\Api;
 
-use Illuminate\Support\Collection;
-use App\Http\Controllers\Controller;
-use League\Fractal\Serializer\JsonApiSerializer;
+use Auth;
+use Illuminate\Http\Request;
+use App\Exceptions\ValidationException;
+use Illuminate\Foundation\Bus\DispatchesJobs;
+use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 
-class ApiController extends Controller
+class ApiController extends BaseController
 {
-    /**
-     * @param string $message
-     * @param int $status
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function simpleErrorResponse(String $message, int $status = 404)
-    {
-        $error = ['error' => $message];
-
-        return $this->simpleJsonResponse($error, $status);
-    }
+    use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
     /**
-     * @param mixed $content
-     * @param int $status
-     *
-     * @return \Illuminate\Http\Response
+     * Create a new controller instance.
      */
-    public function simpleJsonResponse($content, int $status = 200)
-    {
-        if (is_array($content)) {
-            $content = json_encode($content);
-        }
-
-        return response($content, $status, ['content-type' => 'application/json']);
-    }
-
-    protected $serializer;
-    protected $resource;
-    protected $headers;
-
     public function __construct()
     {
-        $this->serializer = new JsonApiSerializer(config('app.url').'/api');
-        $this->resource = fractal()->serializeWith($this->serializer);
-        $this->headers = new Collection([
-            'content-type' => 'application/vnd.api+json',
-        ]);
+        Auth::shouldUse('api');
     }
 
-    protected function collection($collection, $transformer, $resource)
+    /**
+     * Check the given request matches the endpoint.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  array  $rules
+     * @return void
+     */
+    public function accept(Request $request, array $rules)
     {
-        $this->resource
-            ->collection($collection)
-            ->transformWith($transformer)
-            ->withResourceName($resource);
-
-        return $this;
+        foreach ($rules as $key => $value) {
+            if ($request->input($key) !== $value) {
+                $pointer = str_replace('.', '/', $key);
+                throw new ConflictHttpException('The value of '.$pointer.' conflicts with the resource.');
+            }
+        }
     }
 
-    protected function item($item, $transformer, $resource)
+    /**
+     * Throw the failed validation exception.
+     *
+     * @param Request $request
+     * @param $validator
+     */
+    protected function throwValidationException(Request $request, $validator)
     {
-        $this->resource
-            ->item($item)
-            ->transformWith($transformer)
-            ->withResourceName($resource);
-
-        return $this;
-    }
-
-    protected function include($include)
-    {
-        $this->resource
-            ->parseIncludes($include);
-
-        return $this;
-    }
-
-    protected function response($status = 200)
-    {
-        return response(
-            $this->resource->toJson(),
-            $status,
-            $this->headers->toArray()
-        );
-    }
-
-    protected function emptyResponse($status = 204)
-    {
-        return response(
-            null,
-            $status,
-            $this->headers->toArray()
-        );
-    }
-
-    protected function addHeader($name, $value)
-    {
-        $this->headers[$name] = $value;
-
-        return $this;
+        throw new ValidationException($validator);
     }
 }

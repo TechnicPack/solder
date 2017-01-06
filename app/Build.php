@@ -1,26 +1,48 @@
 <?php
 
+/*
+ * This file is part of TechnicSolder.
+ *
+ * (c) Kyle Klaus <kklaus@indemnity83.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace App;
 
-use Carbon\Carbon;
+use App\Traits\HasPrivacy;
 use Alsofronie\Uuid\UuidModelTrait;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
 
 /**
- * @property string id
- * @property string version
- * @property array tags
- * @property \App\Modpack modpack
- * @property Collection releases
- * @property Collection clients
- * @property Carbon created_at
- * @property Carbon updated_at
- * @property Carbon published_at
+ * App\Build.
+ *
+ * @property string $id
+ * @property string $modpack_id
+ * @property string $version
+ * @property string $game_version
+ * @property string $changelog
+ * @property string $privacy
+ * @property array $arguments
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ * @property-read \App\Modpack $modpack
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Version[] $versions
+ * @method static \Illuminate\Database\Query\Builder|\App\Build whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Build whereModpackId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Build whereVersion($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Build whereChangelog($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Build wherePrivacy($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Build whereArguments($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Build whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Build whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Build displayable()
+ * @mixin \Eloquent
  */
 class Build extends Model
 {
+    use HasPrivacy;
     use UuidModelTrait;
 
     /**
@@ -30,32 +52,32 @@ class Build extends Model
      */
     protected $fillable = [
         'version',
-        'published_at',
-        'tags',
+        'game_version',
+        'changelog',
+        'privacy',
+        'arguments',
     ];
 
     /**
-     * The attributes that should be casted to native types.
+     * The model's default attributes.
+     *
+     * @var array
+     */
+    protected $attributes = [
+        'privacy' => Privacy::PRIVATE,
+    ];
+
+    /**
+     * The attributes that should be cast to native types.
      *
      * @var array
      */
     protected $casts = [
-        'tags' => 'array',
+        'arguments' => 'array',
     ];
 
     /**
-     * The attributes that should be mutated to dates.
-     *
-     * @var array
-     */
-    protected $dates = [
-        'published_at',
-    ];
-
-    /**
-     * Get the mod modpack this build is part of.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * It belongs to a Modpack.
      */
     public function modpack()
     {
@@ -63,34 +85,10 @@ class Build extends Model
     }
 
     /**
-     * Get the mod releases attached to this build.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * It belongs to many versions.
      */
-    public function releases()
+    public function versions()
     {
-        return $this->belongsToMany(Release::class);
-    }
-
-    /**
-     * Get the clients with permission on this build.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
-     */
-    public function clients()
-    {
-        return $this->morphToMany(Client::class, 'permission');
-    }
-
-    /**
-     * Only published builds.
-     *
-     * @param Builder $query
-     *
-     * @return Builder
-     */
-    public function scopePublished($query)
-    {
-        return $query->whereDate('published_at', '<', Carbon::now());
+        return $this->belongsToMany(Version::class);
     }
 }

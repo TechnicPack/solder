@@ -1,10 +1,19 @@
 <?php
 
+/*
+ * This file is part of TechnicSolder.
+ *
+ * (c) Kyle Klaus <kklaus@indemnity83.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace App\Exceptions;
 
 use Exception;
 use Illuminate\Auth\AuthenticationException;
-use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use GrahamCampbell\Exceptions\NewExceptionHandler as ExceptionHandler;
 
 class Handler extends ExceptionHandler
 {
@@ -28,6 +37,7 @@ class Handler extends ExceptionHandler
      * This is a great spot to send exceptions to Sentry, Bugsnag, etc.
      *
      * @param  \Exception  $exception
+     * @return void
      */
     public function report(Exception $exception)
     {
@@ -39,31 +49,10 @@ class Handler extends ExceptionHandler
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Exception  $exception
-     *
      * @return \Illuminate\Http\Response
      */
     public function render($request, Exception $exception)
     {
-        if ($exception instanceof ResourceMismatchException) {
-            return response()->json([
-                'errors' => [
-                    'status' => 409,
-                    'title' => 'Invalid resource type',
-                    'detail' => $exception->getMessage(),
-                ],
-            ], 409, ['content-type' => 'application/vnd.api+json']);
-        }
-
-        if ($exception instanceof IdentifierConflictException) {
-            return response()->json([
-                'errors' => [
-                    'status' => 409,
-                    'title' => 'Invalid resource id',
-                    'detail' => $exception->getMessage(),
-                ],
-            ], 409, ['content-type' => 'application/vnd.api+json']);
-        }
-
         return parent::render($request, $exception);
     }
 
@@ -72,7 +61,6 @@ class Handler extends ExceptionHandler
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Illuminate\Auth\AuthenticationException  $exception
-     *
      * @return \Illuminate\Http\Response
      */
     protected function unauthenticated($request, AuthenticationException $exception)

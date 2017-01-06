@@ -8,11 +8,10 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }} v{{ $version }}</title>
+    <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Styles -->
     <link href="/css/app.css" rel="stylesheet">
-    <script src="https://use.fontawesome.com/50cf1e7f38.js"></script>
 
     <!-- Scripts -->
     <script>
@@ -44,9 +43,7 @@
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
-                        <li><a href="{{ url('/home') }}">Home</a></li>
-                        <li><a href="{{ url('/mods') }}">Mods</a></li>
-                        <li><a href="{{ url('/modpacks') }}">Modpacks</a></li>
+                        &nbsp;
                     </ul>
 
                     <!-- Right Side Of Navbar -->

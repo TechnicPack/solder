@@ -1,0 +1,2062 @@
+FORMAT: 1A
+HOST: http://solder.technicpack.net/
+
+# TechnicSolder
+
+Solder helps you lower bandwidth usage, keep old versions of your modpack
+available to users and provides faster, streamlined updates. You won't
+know how you managed a modpack before you used Solder
+
+# Status
+
+This API blueprint is a proposal for changes to the upcoming rewrite of the
+API and does not reflect any current versions of Solder.
+
+The most significant changes to the Solder API is it will become fully RESTful
+and has a new method of storing mods, which are now known as resources.
+
+**This blueprint is incomplete and not final!**
+
+# Conventions
+
+The key words “MUST”, “MUST NOT”, “REQUIRED”, “SHALL”, “SHALL NOT”, “SHOULD”,
+“SHOULD NOT”, “RECOMMENDED”, “MAY”, and “OPTIONAL” in this document are to
+be interpreted as described in [RFC 2119](http://tools.ietf.org/html/rfc2119).
+
+# SSL
+
+API endpoints SHOULD be encrypted between client and server with an SSL certificate
+in order to protect the security of access tokens, and application data.
+
+# OAuth2
+
+This API implements [OAuth2](https://oauth.net/2/) Authorization. A valid access token is
+REQUIRED for most requests to the TechnicSolder API. It is up to the
+client to determine how to store and handle the token. There are three
+supported methods of getting an authentication token.
+
+Requests to protected endpoint MUST provide the access token in the form of
+`Authentication: Bearer {access_token}` in the header of each request.
+
+## Personal Access Tokens
+
+Personal access tokens can be generated in the application directly and
+provided to a client for use in authenticating API calls. Its critically
+important however for the security of the system that the personal
+access token be stored securely by the client.
+
+Personal Access Tokens SHOULD NOT be used outside of testing and development.
+
+## Password Grant Access Tokens
+
+The OAuth2 password grant allows first-party clients, such as a
+mobile application, to obtain an access token using an e-mail address and
+password. This allows you to issue access tokens securely to your first-party
+clients without requiring your users to go through the entire OAuth2
+authorization code redirect flow.
+
+Password Grant Access Tokens MUST NOT be used when the security of the client
+secret cannot be garenteed.
+
+## Authorization Codes
+
+Using OAuth2 with authorization codes is how most developers are
+familiar with OAuth2. When using authorization codes, a client
+application will redirect a user to the TechnicSolder server where they
+will either approve or deny the request to issue an access token to the
+client.
+
+This method requires establishing a known client in the TechnicSolder
+application which will generate a `client_id` and `client_secret`. The
+client gets an authorization token in a two step process
+
+## Scopes
+
+*Under Development*
+
+Scopes let you specify exactly what type of access you need. Scopes
+limit access for OAuth tokens. They do not grant any additional
+permission beyond that which the user already has.
+
+| Name            | Description
+|-----------------|-----------------
+| ...             | ...
+
+# JSON Api
+This API implements the [JSON API](http://jsonapi.org) 1.0
+standard, which can make the responses look kind of scary, but they're
+not that bad, I promise. The principal is that the data is structured
+into "resource objects", and repeated throughout so you can more easily
+consume the API, knowing every "mod" type will be structured exactly
+the same way.
+
+For a single item, the response structure looks like this
+
+```
+{
+    "data": {
+        "type": "resource",
+        "id": "f80fb3c1-437e-4d81-a2ba-ccd6fcb8fc7c",
+        "attributes": {
+            "name": "IronTanks",
+            "slug": "irontanks",
+            "author": "Indemnity83",
+            "description": "Expanding Buildcraft tanks ...",
+            "link": "http://github.com/indemnity83/irontank"
+        }
+    }
+}
+```
+
+everything is wrapped in a single `data` object, and while the `id`
+may seem redundant, it'll become apparent why its there when we get
+to collections. The `type` lets you're consumer know what resource
+object is being presented, and all the meat of the object is
+conveniently stored in a single `attributes` object.
+
+A collection is simply an array of these simple objects
+
+```
+{
+    "data": [
+        {
+            "type": "resource",
+            "id": "f80fb3c1-437e-4d81-a2ba-ccd6fcb8fc7c",
+            "attributes": {
+                "name": "IronTanks",
+                "slug": "irontanks",
+                "author": "Indemnity83",
+                "description": "Expanding Buildcraft tanks ...",
+                "link": "http://github.com/indemnity83/irontank"
+            }
+        }, {
+            "type": "resource",
+            "id": "e5a90aa2-77d9-433b-b3d0-2c3d31becc16",
+            "attributes": {
+                "name": "Waila",
+                "slug": "waila",
+                "author": "ProfMobius",
+                "description": "Waila (What Am I Looking At) is a UI ...",
+                "link": "https://minecraft.curseforge.com/projects/waila"
+            }
+        }
+    ]
+}
+```
+
+The "scary" part comes from the meta information that's added to the
+resource object. You can, for the most part, ignore these until you're
+more comfortable with them (and once you are comfortable with them
+you'll wonder why you never used them before). For more detail on how
+each of these additional objects are structured please refer to the
+[JSON API](http://jsonapi.org) spec. The summary is there will be a
+`links` object which lists potentially helpful links to related
+resources in the API. And there is a `relationships` object which
+can let you dig into the sub-data of a given resource (for example,
+get all the builds of a modpack in one API call).
+
+There's a lot more too; and you'll see it sprinkled throughout this
+documentation, but it should be relatively obvious whats going on.
+
+# TechnicSolder Root [/api]
+
+This is the TechnicSolder API entry point.
+
+## Retrieve the Entry Point [GET]
+
+This resource does not have any attributes. Instead it offers the initial
+entry point into the API and provides API information including the current
+API version.
+
++ Response 200 (application/json)
+
+        {
+            "api": "TechnicSolder",
+            "version": "v0.7.3.1",
+            "stream": "DEV"
+        }
+
+# Group Modpacks
+
+## Collection [/api/modpacks]
+
+The `modpacks` resource is made up of the following attributes:
+
+| field   | type    | validation | description                                 |
+|---------|---------|------------|---------------------------------------------|
+| name    | string  |            | The human readable name                     |
+| slug    | string  |            | The machine readable name                   |
+| privacy | enum    | required   | Control visibility settings for the modpack |
+| tags    | array   |            | Search indexed tags for the modpack         |
+| website | string  | url        | Link to dedicated website for modpack       |
+
+
+### List modpacks [GET]
+
+Unauthenticated requests SHALL return `public` modpacks only. Authenticated requests SHALL return
+`public` mod packs as well as `private` modpacks for which the authenticated user has been granted
+access to.
+
+`unlisted` modpacks SHALL NOT be included in results for this endpoint.
+
++ Request
+
+    + Header
+
+            Accept: application/vnd.api+json
+            Content-type: application/vnd.api+json
+
++ Response 200 (application/vnd.api+json)
+    + Attributes
+        + data (array[ModpackResponse])
+
+### Create a modpack [POST]
+
+If the `id` is provided it MUST be unique or a `409 Conflict` will be returned
+and the resource will not be created. If the `id` is not provided, the API server SHALL
+generate one automatically.
+
+If a `slug` is provided, it must unique or a `409 Conflict` will be returned
+and the resource will not be created. If the `slug` is not provided, the API server SHALL
+generate one automatically based on the `name` field.
+
++ Request
+
+    + Header
+
+            Accept: application/vnd.api+json
+            Content-type: application/vnd.api+json
+
+    + Attributes
+        + data (ModpackRequest)
+
++ Response 201 (application/vnd.api+json)
+    + Attributes
+        + data (ModpackResponse)
+
+### Upload modpack icon [PUT /api/modpacks/{id}/icon]
+
+Uploads MUST be sent as a raw binary request. Each successful PUT request will replace any 
+existing file, and SHALL touch the updated_at timestamp for the modpack model.
+
+The icon MUST be an image/jpeg, image/png or image/gif mime type (image/png is RECOMMENDED), 
+and SHOULD be 50x50 pixels. The image MAY be cropped and resized by the server to meet the
+dimension requirements.
+
++ Parameters
+
+    + id: `e2d6ff99-de5b-429c-83ea-1660663b7bc4` (string) - The id of the modpack you wish to request
+
++ Request
+
+    + Header
+    
+            Content-Type: image/png
+            Content-Transfer-Encoding: base64
+        
+    + Body
+    
+            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
+
+
++ Response 204
+
+        
+### Upload modpack logo [PUT /api/modpacks/{id}/logo]
+
+Uploads MUST be sent as a raw binary request. Each successful PUT request will replace any 
+existing file, and SHALL touch the updated_at timestamp for the modpack model.
+
+The logo MUST be an image/jpeg, image/png or image/gif mime type (image/png is RECOMMENDED), 
+and SHOULD be 370x220 pixels. The image MAY be cropped and resized by the server to meet the
+dimension requirements.
+
++ Parameters
+
+    + id: `e2d6ff99-de5b-429c-83ea-1660663b7bc4` (string) - The id of the modpack you wish to request
+
++ Request
+
+    + Header
+    
+            Content-Type: image/png
+            Content-Transfer-Encoding: base64
+        
+    + Body
+    
+            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
+            QOABUzoFGw7Rw+sAAAAASUVORK5CYII=
+
+
++ Response 204
+
+        
+### Upload modpack background [PUT /api/modpacks/{id}/background]
+
+Uploads MUST be sent as a raw binary request. Each successful PUT request will replace any 
+existing file, and SHALL touch the updated_at timestamp for the modpack model.
+
+The background MUST be an image/jpeg, image/png or image/gif mime type (image/jpeg is RECOMMENDED), 
+and SHOULD be 900x600 pixels. The image MAY be cropped and resized by the server to meet the
+dimension requirements.
+
++ Parameters
+
+    + id: `e2d6ff99-de5b-429c-83ea-1660663b7bc4` (string) - The id of the modpack you wish to request
+
++ Request
+
+    + Header
+    
+            Content-Type: image/jpeg
+            Content-Transfer-Encoding: base64
+        
+    + Body
+    
+            /9j/4AAQSkZJRgABAQAAAQABAAD/4gxYSUNDX1BST0ZJTEUAAQEAAAxITGlubwIQAABtbnRyUkdC
+            IFhZWiAHzgACAAkABgAxAABhY3NwTVNGVAAAAABJRUMgc1JHQgAAAAAAAAAAAAAAAAAA9tYAAQAA
+            AADTLUhQICAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABFj
+            cHJ0AAABUAAAADNkZXNjAAABhAAAAGx3dHB0AAAB8AAAABRia3B0AAACBAAAABRyWFlaAAACGAAA
+            ABRnWFlaAAACLAAAABRiWFlaAAACQAAAABRkbW5kAAACVAAAAHBkbWRkAAACxAAAAIh2dWVkAAAD
+            TAAAAIZ2aWV3AAAD1AAAACRsdW1pAAAD+AAAABRtZWFzAAAEDAAAACR0ZWNoAAAEMAAAAAxyVFJD
+            AAAEPAAACAxnVFJDAAAEPAAACAxiVFJDAAAEPAAACAx0ZXh0AAAAAENvcHlyaWdodCAoYykgMTk5
+            OCBIZXdsZXR0LVBhY2thcmQgQ29tcGFueQAAZGVzYwAAAAAAAAASc1JHQiBJRUM2MTk2Ni0yLjEA
+            AAAAAAAAAAAAABJzUkdCIElFQzYxOTY2LTIuMQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+            AAAAAAAAAAAAAAAAAAAAAAAAAAAAWFlaIAAAAAAAAPNRAAEAAAABFsxYWVogAAAAAAAAAAAAAAAA
+            AAAAAFhZWiAAAAAAAABvogAAOPUAAAOQWFlaIAAAAAAAAGKZAAC3hQAAGNpYWVogAAAAAAAAJKAA
+            AA+EAAC2z2Rlc2MAAAAAAAAAFklFQyBodHRwOi8vd3d3LmllYy5jaAAAAAAAAAAAAAAAFklFQyBo
+            dHRwOi8vd3d3LmllYy5jaAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+            AAAAAABkZXNjAAAAAAAAAC5JRUMgNjE5NjYtMi4xIERlZmF1bHQgUkdCIGNvbG91ciBzcGFjZSAt
+            IHNSR0IAAAAAAAAAAAAAAC5JRUMgNjE5NjYtMi4xIERlZmF1bHQgUkdCIGNvbG91ciBzcGFjZSAt
+            IHNSR0IAAAAAAAAAAAAAAAAAAAAAAAAAAAAAZGVzYwAAAAAAAAAsUmVmZXJlbmNlIFZpZXdpbmcg
+            Q29uZGl0aW9uIGluIElFQzYxOTY2LTIuMQAAAAAAAAAAAAAALFJlZmVyZW5jZSBWaWV3aW5nIENv
+            bmRpdGlvbiBpbiBJRUM2MTk2Ni0yLjEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHZpZXcAAAAA
+            ABOk/gAUXy4AEM8UAAPtzAAEEwsAA1yeAAAAAVhZWiAAAAAAAEwJVgBQAAAAVx/nbWVhcwAAAAAA
+            AAABAAAAAAAAAAAAAAAAAAAAAAAAAo8AAAACc2lnIAAAAABDUlQgY3VydgAAAAAAAAQAAAAABQAK
+            AA8AFAAZAB4AIwAoAC0AMgA3ADsAQABFAEoATwBUAFkAXgBjAGgAbQByAHcAfACBAIYAiwCQAJUA
+            mgCfAKQAqQCuALIAtwC8AMEAxgDLANAA1QDbAOAA5QDrAPAA9gD7AQEBBwENARMBGQEfASUBKwEy
+            ATgBPgFFAUwBUgFZAWABZwFuAXUBfAGDAYsBkgGaAaEBqQGxAbkBwQHJAdEB2QHhAekB8gH6AgMC
+            DAIUAh0CJgIvAjgCQQJLAlQCXQJnAnECegKEAo4CmAKiAqwCtgLBAssC1QLgAusC9QMAAwsDFgMh
+            Ay0DOANDA08DWgNmA3IDfgOKA5YDogOuA7oDxwPTA+AD7AP5BAYEEwQgBC0EOwRIBFUEYwRxBH4E
+            jASaBKgEtgTEBNME4QTwBP4FDQUcBSsFOgVJBVgFZwV3BYYFlgWmBbUFxQXVBeUF9gYGBhYGJwY3
+            BkgGWQZqBnsGjAadBq8GwAbRBuMG9QcHBxkHKwc9B08HYQd0B4YHmQesB78H0gflB/gICwgfCDII
+            RghaCG4IggiWCKoIvgjSCOcI+wkQCSUJOglPCWQJeQmPCaQJugnPCeUJ+woRCicKPQpUCmoKgQqY
+            Cq4KxQrcCvMLCwsiCzkLUQtpC4ALmAuwC8gL4Qv5DBIMKgxDDFwMdQyODKcMwAzZDPMNDQ0mDUAN
+            Wg10DY4NqQ3DDd4N+A4TDi4OSQ5kDn8Omw62DtIO7g8JDyUPQQ9eD3oPlg+zD88P7BAJECYQQxBh
+            EH4QmxC5ENcQ9RETETERTxFtEYwRqhHJEegSBxImEkUSZBKEEqMSwxLjEwMTIxNDE2MTgxOkE8UT
+            5RQGFCcUSRRqFIsUrRTOFPAVEhU0FVYVeBWbFb0V4BYDFiYWSRZsFo8WshbWFvoXHRdBF2UXiReu
+            F9IX9xgbGEAYZRiKGK8Y1Rj6GSAZRRlrGZEZtxndGgQaKhpRGncanhrFGuwbFBs7G2MbihuyG9oc
+            AhwqHFIcexyjHMwc9R0eHUcdcB2ZHcMd7B4WHkAeah6UHr4e6R8THz4faR+UH78f6iAVIEEgbCCY
+            IMQg8CEcIUghdSGhIc4h+yInIlUigiKvIt0jCiM4I2YjlCPCI/AkHyRNJHwkqyTaJQklOCVoJZcl
+            xyX3JicmVyaHJrcm6CcYJ0kneierJ9woDSg/KHEooijUKQYpOClrKZ0p0CoCKjUqaCqbKs8rAis2
+            K2krnSvRLAUsOSxuLKIs1y0MLUEtdi2rLeEuFi5MLoIuty7uLyQvWi+RL8cv/jA1MGwwpDDbMRIx
+            SjGCMbox8jIqMmMymzLUMw0zRjN/M7gz8TQrNGU0njTYNRM1TTWHNcI1/TY3NnI2rjbpNyQ3YDec
+            N9c4FDhQOIw4yDkFOUI5fzm8Ofk6Njp0OrI67zstO2s7qjvoPCc8ZTykPOM9Ij1hPaE94D4gPmA+
+            oD7gPyE/YT+iP+JAI0BkQKZA50EpQWpBrEHuQjBCckK1QvdDOkN9Q8BEA0RHRIpEzkUSRVVFmkXe
+            RiJGZ0arRvBHNUd7R8BIBUhLSJFI10kdSWNJqUnwSjdKfUrESwxLU0uaS+JMKkxyTLpNAk1KTZNN
+            3E4lTm5Ot08AT0lPk0/dUCdQcVC7UQZRUFGbUeZSMVJ8UsdTE1NfU6pT9lRCVI9U21UoVXVVwlYP
+            VlxWqVb3V0RXklfgWC9YfVjLWRpZaVm4WgdaVlqmWvVbRVuVW+VcNVyGXNZdJ114XcleGl5sXr1f
+            D19hX7NgBWBXYKpg/GFPYaJh9WJJYpxi8GNDY5dj62RAZJRk6WU9ZZJl52Y9ZpJm6Gc9Z5Nn6Wg/
+            aJZo7GlDaZpp8WpIap9q92tPa6dr/2xXbK9tCG1gbbluEm5rbsRvHm94b9FwK3CGcOBxOnGVcfBy
+            S3KmcwFzXXO4dBR0cHTMdSh1hXXhdj52m3b4d1Z3s3gReG54zHkqeYl553pGeqV7BHtje8J8IXyB
+            fOF9QX2hfgF+Yn7CfyN/hH/lgEeAqIEKgWuBzYIwgpKC9INXg7qEHYSAhOOFR4Wrhg6GcobXhzuH
+            n4gEiGmIzokziZmJ/opkisqLMIuWi/yMY4zKjTGNmI3/jmaOzo82j56QBpBukNaRP5GokhGSepLj
+            k02TtpQglIqU9JVflcmWNJaflwqXdZfgmEyYuJkkmZCZ/JpomtWbQpuvnByciZz3nWSd0p5Anq6f
+            HZ+Ln/qgaaDYoUehtqImopajBqN2o+akVqTHpTilqaYapoum/adup+CoUqjEqTepqaocqo+rAqt1
+            q+msXKzQrUStuK4trqGvFq+LsACwdbDqsWCx1rJLssKzOLOutCW0nLUTtYq2AbZ5tvC3aLfguFm4
+            0blKucK6O7q1uy67p7whvJu9Fb2Pvgq+hL7/v3q/9cBwwOzBZ8Hjwl/C28NYw9TEUcTOxUvFyMZG
+            xsPHQce/yD3IvMk6ybnKOMq3yzbLtsw1zLXNNc21zjbOts83z7jQOdC60TzRvtI/0sHTRNPG1EnU
+            y9VO1dHWVdbY11zX4Nhk2OjZbNnx2nba+9uA3AXcit0Q3ZbeHN6i3ynfr+A24L3hROHM4lPi2+Nj
+            4+vkc+T85YTmDeaW5x/nqegy6LzpRunQ6lvq5etw6/vshu0R7ZzuKO6070DvzPBY8OXxcvH/8ozz
+            GfOn9DT0wvVQ9d72bfb794r4Gfio+Tj5x/pX+uf7d/wH/Jj9Kf26/kv+3P9t////4QBMRXhpZgAA
+            TU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAADhKADAAQA
+            AAABAAACWAAAAAD/2wBDAAcFBQYFBAcGBQYIBwcIChELCgkJChUPEAwRGBUaGRgVGBcbHichGx0l
+            HRcYIi4iJSgpKywrGiAvMy8qMicqKyr/2wBDAQcICAoJChQLCxQqHBgcKioqKioqKioqKioqKioq
+            KioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKir/wAARCAJYA4QDASIAAhEBAxEB/8QA
+            HwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQR
+            BRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdI
+            SUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2
+            t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEB
+            AQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMi
+            MoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpj
+            ZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbH
+            yMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD1eiiigAooooAKKKKA
+            CiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAK
+            KKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAoo
+            ooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiii
+            gAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKA
+            CiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAK
+            KKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAoo
+            ooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiii
+            gAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKA
+            CiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAK
+            KKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAoo
+            ooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiii
+            gAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKA
+            CiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAK
+            KKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAoo
+            ooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiii
+            gAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKA
+            CiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAK
+            KKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAoo
+            ooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiii
+            gAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKA
+            CiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAK
+            KKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAoo
+            ooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiii
+            gAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKA
+            CiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAK
+            KKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAoo
+            ooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiii
+            gAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKA
+            CiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAK
+            KKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAoo
+            ooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiii
+            gAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKA
+            CiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAK
+            KKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAoo
+            ooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiii
+            gAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKA
+            CiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAK
+            KKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAoo
+            ooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiii
+            gAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKA
+            CiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAK
+            KKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAoo
+            ooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiii
+            gAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKA
+            CiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAK
+            KKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAoo
+            ooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiii
+            gAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKA
+            CiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAK
+            KKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAoo
+            ooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiii
+            gAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKA
+            CiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAK
+            KKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAoo
+            ooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiii
+            gAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKA
+            CiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAK
+            KKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAoo
+            ooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiii
+            gAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKA
+            CiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAK
+            KKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAoo
+            ooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiii
+            gAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKA
+            CiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAK
+            KKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAoo
+            ooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiii
+            gAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKA
+            CiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAK
+            KKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAoo
+            ooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiii
+            gAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKA
+            CiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAK
+            KKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigChq11NbxRR2xAlmcIrEdKisLi5j1GWyvJBK
+            VTer4x6f407WIJnSCa3QyPBIG2jqR/kVX0+V7vXp5pIjFsiC7T1HTr+tAEl1cXlxqMlrZSiIQpuY
+            4B3H0/WrGnXxutMFxLgMgIfHtVfT/wDkO3+evFV9Kz/wj97j1kx/3yKAGjUL9bdNReRTA0m3ydo4
+            H1rfBBAI6Gufkx/wiMf+9/7Mau6gk402G4t3ZZIAGIB4YY5zQBqVnaldTC5t7S0fZLKcs2Adq/5z
+            +VJpbyXcs967MI3O2NCeAB3x/nvVCQ3c2sXs1oyq0K4ywzwOw/I0Abs0ogtpJW5Ealj74FYiX9/E
+            lveXEqtBO+0x7QNoq090154bkmYAM0ZDY9QcVTv/APkWLTH95f5GgDS1W7ltoY0tsCaZwik9qjsL
+            m5TUJbG8kErKu9XxjI4/xpmr/wDIR03P/PX+q0H/AJGoY/5480Aa1FFFABRRRQAUUUUAFFFFABRR
+            RQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFF
+            ABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUA
+            FFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAU
+            UUUAFFFFABRRRQAUUUUAR3Epht3kRGkZRkKoySap6PavBatLOCJp23vkcj0H+fWtCigDGuBcWGqz
+            XEVu8yTpgbBnDe/+e9WdMsmg0nyJhtaQEsPTP/1q0KKAOb8i8eyj0s2zgrJky4+Xbknr+NamqrK9
+            vHaW6OfOYKzAHCr3ya0KKAMvT45bK+ntPLf7Ox3xPg4Htn/PSq832iwv7wpbSTJcr8jIM4Pv+Zrc
+            ooAzrOxddD+yy/K7o2fYnNZyxXVzBa6fJbSIIZMvIR8uBnofoa6KigDO1i3lkjgnt0LvBIH2jqR/
+            kCo7BJbnVZb6WF4U2BEVxg/5/wAa1aKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAK
+            KKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAoo
+            ooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiii
+            gAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKA
+            CiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAK
+            KKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAoo
+            ooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiii
+            gAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKA
+            CiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAK
+            KKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAoo
+            ooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiii
+            gAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKA
+            CiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAK
+            KKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAoo
+            ooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiii
+            gAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKA
+            CiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAK
+            KKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAoo
+            ooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiii
+            gAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKA
+            CiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAK
+            KKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAoo
+            ooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiii
+            gAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKA
+            CiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAK
+            KKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAoo
+            ooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiii
+            gAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKA
+            CiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAK
+            KKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAoo
+            ooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiii
+            gAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKA
+            CiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAK
+            KKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAoo
+            ooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiii
+            gAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKA
+            CiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAK
+            KKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAoo
+            ooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiii
+            gAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKA
+            CiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAK
+            KKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAoo
+            ooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiii
+            gAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKA
+            CiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAK
+            KKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAoo
+            ooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiii
+            gAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKA
+            CiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAK
+            KKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAoo
+            ooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiii
+            gAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKA
+            CiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAK
+            KKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAoo
+            ooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiii
+            gAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKA
+            CiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAK
+            KKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAoo
+            ooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiii
+            gAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKA
+            CiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAK
+            KKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAoo
+            ooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiii
+            gAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKA
+            CiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAK
+            KKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAoo
+            ooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiii
+            gAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKA
+            CiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAK
+            KKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAoo
+            ooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiii
+            gAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKA
+            CiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAK
+            KKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAoo
+            ooAKKKKACiiigAooooA//9k=
+
+
++ Response 204
+              
+
+### Get a modpack [GET /api/modpacks/{id}]
+
+Returns a single releases resource object for the modpack. If the request is
+unauthenticated, then only published modpacks will be returned. Unauthenticated
+requests for unpublished, or non-existent mod packs will return a `401 Unauthorized`
+response.
+
++ Parameters
+
+    + id: `e2d6ff99-de5b-429c-83ea-1660663b7bc4` (string) - The id of the modpack you wish to request
+
++ Request
+
+    + Header
+
+            Accept: application/vnd.api+json
+            Content-type: application/vnd.api+json
+
++ Response 200 (application/vnd.api+json)
+    + Attributes
+        + data (ModpackResponse)
+
+### Update a modpack [PATCH /api/modpacks/{id}]
+
+Update attributes of a modpack.
+
+#### Caution!
+If any of the `name`, or `published` attributes are not provided,
+then the corresponding value is not modified on the server.
+However, if you send an empty string or `null` instead then it will
+**permanently overwrite** the original value.
+
++ Parameters
+
+    + id: `e2d6ff99-de5b-429c-83ea-1660663b7bc4` (string) - The slug of the modpack you wish to update
+
++ Request
+
+    + Header
+
+            Accept: application/vnd.api+json
+            Content-type: application/vnd.api+json
+
+    + Attributes
+        + data (ModpackRequest)
+
++ Response 200 (application/vnd.api+json)
+    + Attributes
+        + data (ModpackResponse)
+
+### Delete a modpack [DELETE /api/modpacks/{id}{?cascade}]
+
+Delete a single mod. The modpack cannot be deleted if it has any builds attached
+to it unless you set `cascade=true` in the query string in which case any existing
+builds of the modpack will also be deleted. This also removed the asset files (icon, logo,
+and background images) from the defined storage if they exist.
+
++ Parameters
+
+    + id: `e2d6ff99-de5b-429c-83ea-1660663b7bc4` (string) - The id of the modpack
+    + cascade: `true` (optional, boolean) - Flag deletion of builds tied to this
+    modpack as well as the modpack itself.
+        + Default: `false`
+
++ Request
+
+    + Header
+
+            Accept: application/vnd.api+json
+            Content-type: application/vnd.api+json
+
++ Response 204
+
++ Response 409 (application/vnd.api+json)
+    + Attributes
+        + errors (array[DeleteConflictError])
+
+## Builds [/api/builds]
+
+The `builds` resource is made up of the following attributes:
+
+| field     | type    | validation | description                                       |
+|-----------|---------|------------|---------------------------------------------------|
+| version   | string  | required   | The unique, sortable build identifier             |
+| changelog | string  |            | Log or record of all notable changes              |
+| privacy   | enum    | required   | Control visibility settings for the build         |
+| arguments | array   |            | Additional details used by the launcher or client |
+
+The `arguments` attribute is an array of key-pair settings that MAY be
+used by the client launcher, or other consumer of the api. For example, it could
+contain a `"memory":2048` tag that a launcher could use to set the memory on
+launch of the game.
+
+<sup>[1]</sup>While it is not a requirement, TechnicSolder assumes the version
+contains a [Semantic Versioning 2.0](http://semver.org/) formatted string.
+
+<sup>[2]</sup>The version attribute must be unique for builds under a
+particular modpack.
+
+### List builds for a modpack [GET /api/modpacks/{id}/builds]
+
+A `401 Unauthorized` status WILL be returned for unauthenticated requests trying to access a 
+build for a `private`, or non-existent modpack.
+
+Unauthenticated requests SHALL return `public` builds only. Authenticated requests SHALL return
+`public` builds as well as `private` builds for which the authenticated user has been granted
+access to.
+
+`unlisted` builds SHALL NOT be included in results for this endpoint.
+
+If you do not provide valid authentication, this endpoint will only return builds
+for published modpacks. 
+
++ Parameters
+
+    + id: `e2d6ff99-de5b-429c-83ea-1660663b7bc4` (string) - The modpack id 
+
++ Request
+
+    + Header
+
+            Accept: application/vnd.api+json
+            Content-type: application/vnd.api+json
+
++ Response 200 (application/vnd.api+json)
+    + Attributes
+        + data (array[BuildResponse])
+
+### Create a build [POST /api/modpacks/{id}/builds]
+
+When creating a new build, the `version` is required and must be unique for
+the modpack provided.
+
++ Parameters
+
+    + id: `e2d6ff99-de5b-429c-83ea-1660663b7bc4` (string) - The modpack id to attach the build to
+
++ Request
+
+    + Header
+
+            Accept: application/vnd.api+json
+            Content-type: application/vnd.api+json
+
+    + Attributes
+        + data (BuildRequest)
+
++ Response 201 (application/vnd.api+json)
+    + Attributes
+        + data (BuildResponse)
+
+### Get a build [GET /api/builds/{id}{?include}]
+
+Retrieve details for a single build, similarly to listing builds if the
+modpack associated with this build is not public and the request
+is not authenticated then a `401 Unauthorized` will be returned.
+
+You may also use the include paramater to include additional related attributes in 
+a single api call. 
+
+**This is the the recomended method for getting a build, and related
+asset data for a client to use for downloading data.**
+
++ Parameters
+
+    + id: `cac555fe-0325-489c-b3ed-1dc63dcacc2f` (uuid) - The id of the build
+    + include: `assets` (string, optional) - related items to include in the response
+        + Members
+            + `assets`
+            + `versions`
+            + `modpack`
+
++ Request
+
+    + Header
+
+            Accept: application/vnd.api+json
+            Content-type: application/vnd.api+json
+
++ Response 200 (application/vnd.api+json)
+    + Attributes
+        + data (BuildResponse)
+            + relationships
+                + assets
+                    + links
+                        + self: `http://solder.technicpack.net/builds/cac555fe-0325-489c-b3ed-1dc63dcacc2f/relationships/assets` (string) - API URI to asset
+                        + related: `http://solder.technicpack.net/builds/cac555fe-0325-489c-b3ed-1dc63dcacc2f/assets` (string) - 
+                    + data (array[BuildAssets])
+        + included (AssetResponse)
+        
+
+### Get assets relationships for a build [GET /api/builds/{id}/relationships/assets]
+
+The following request fetches data about a build’s assets (assets are related to a build through a version).
+
++ Parameters
+
+    + id: `cac555fe-0325-489c-b3ed-1dc63dcacc2f` (uuid) - The id of the build
+
++ Request
+
+    + Header
+
+            Accept: application/vnd.api+json
+            Content-type: application/vnd.api+json
+
++ Response 200 (application/vnd.api+json)
+    + Attributes
+        + assets
+            + links
+                + self: `http://solder.technicpack.net/builds/cac555fe-0325-489c-b3ed-1dc63dcacc2f/relationships/assets` (string) - API URI to asset
+                + related: `http://solder.technicpack.net/builds/cac555fe-0325-489c-b3ed-1dc63dcacc2f/assets` (string) - 
+            + data (array[BuildAssets])
+            
+     
+### Update a build [PATCH /api/builds/{id}]
+
+If the `version` attribute is provided, it cannot be empty, and must remain
+unique for the modpack the build is associated with.
+
+#### Caution!
+If any of the `name`, `published` or `properties` attributes are not provided,
+then the corresponding value is not modified on the server.
+However, if you send an empty string or `null` instead then it will
+**permanently overwrite** the original value.
+
+Since the `tags` is a single attribute of the build, you must provide the
+entire JSON object with your changes in order to not overwrite existing elements.
+
++ Parameters
+
+    + id: `cac555fe-0325-489c-b3ed-1dc63dcacc2f` (uuid) - The id of the mod you wish to request
+
++ Request
+
+    + Header
+
+            Accept: application/vnd.api+json
+            Content-type: application/vnd.api+json
+
+    + Attributes
+        + data (BuildRequest)
+
++ Response 200 (application/vnd.api+json)
+    + Attributes
+        + data (BuildResponse)
+
+### Delete a build [DELETE /api/builds/{id}]
+
+Deletes a build from the system.
+
++ Parameters
+
+    + id: `cac555fe-0325-489c-b3ed-1dc63dcacc2f` (uuid) - The id of the mod you wish to request
+
++ Request
+
+    + Header
+
+            Accept: application/vnd.api+json
+            Content-type: application/vnd.api+json
+
++ Response 204
+
+# Group Resources
+
+## Collection [/api/resources]
+
+Resources are an abstracted version of mods from previous versions of
+Solder. Instead of assuming that everything in Solder is a mod, we
+instead look at it as a general resource.
+
+The `resource` is made up of the following attributes:
+
+| field       | type   | validation | description                                          |
+|-------------|--------|------------|------------------------------------------------------|
+| name        | string |            | The human readable name                              |
+| slug        | string |            | The machine readable name                            |
+| author      | string |            | The author(s) of the resource                        |
+| description | string |            | A summary of the resource (supports markdown)        |
+| link        | string | url        | Link to the resource homepage                        |
+| donate      | string | url        | Link to the resource donation page                   |
+| created_at  | string | n/a        | ISO 8601 formated datetime when resource was created |
+| updated_at  | string | n/a        | ISO 8601 formated datetime when resource was updated |
+
+### List resources [GET /api/resources{?include}]
+
++ Parameters
+
+    + include (enum[string], optional) - relationships to include
+        + Members
+            + `releases`
+
++ Request
+    + Headers
+
+            Authentication: Bearer {access_token}
+
++ Response 200 (application/vnd.api+json)
+    + Attributes
+        + data (array[ResourceResponse])
+
++ Response 401 (application/vnd.api+json)
+    + Attributes
+        + errors (array[UnauthorizedError, AuthorizationError])
+
+### Create a resource [POST]
+
+If the `id` is provided it MUST be unique or a `409 Conflict` will be returned
+and the resource will not be created. If the `id` is not provided, the API server SHALL
+generate one automatically.
+
+If a `slug` is provided, it MUST unique or a `409 Conflict` will be returned
+and the resource will not be created. If the `slug` is not provided, the API server SHALL
+generate one automatically based on the `name` field.
+
++ Request (application/vnd.api+json)
+    + Attributes
+        + data (ResourceRequest)
+
++ Response 201 (application/vnd.api+json)
+
+    + Headers
+
+            Location: /api/resources/f80fb3c1-437e-4d81-a2ba-ccd6fcb8fc7c
+
+    + Attributes
+        + data (ResourceResponse)
+
++ Response 401 (application/vnd.api+json)
+    + Attributes
+        + errors (array[UnauthorizedError, AuthorizationError])
+
++ Response 409 (application/vnd.api+json)
+    + Attributes
+        + errors (array[UniqueConflictError])
+
+### Get a resource [GET /aip/resources/{id}]
+
++ Parameters
+
+    + id: `f80fb3c1-437e-4d81-a2ba-ccd6fcb8fc7c` (string) - The id of the resource you wish to request
+
++ Response 200 (application/vnd.api+json)
+    + Attributes
+        + data (ResourceResponse)
+
++ Response 401 (application/vnd.api+json)
+    + Attributes
+        + errors (array[UnauthorizedError, AuthorizationError])
+
++ Response 404 (application/vnd.api+json)
+    + Attributes
+        + errors (array[NotFoundError])
+
+### Update a resource [PATCH /api/resources/{id}]
+
+#### Caution!
+If the `name`, `slug`, `author` or `description` attributes are not
+provided, then the corresponding value is not modified on the server.
+However, if you send an empty string or `null` instead then it will
+**permanently overwrite** the original value.
+
++ Parameters
+
+    + id: `f80fb3c1-437e-4d81-a2ba-ccd6fcb8fc7c` (string) - The id of the mod you wish to update
+
++ Request (application/vnd.api+json)
+    + Attributes
+        + data (ResourceRequest)
+
++ Response 200 (application/vnd.api+json)
+    + Attributes
+        + data (ResourceResponse)
+
++ Response 401 (application/vnd.api+json)
+    + Attributes
+        + errors (array[UnauthorizedError, AuthorizationError])
+
++ Response 404 (application/vnd.api+json)
+    + Attributes
+        + errors (array[NotFoundError])
+
+### Delete a Resource [DELETE /api/resources/{id}{?cascade}]
+
+Delete a single resource. The resource cannot be deleted if it has any
+releases attached to it unless you set `cascade=true` in the query
+string in which case any existing releases of the resource will also be
+deleted.
+
++ Parameters
+
+    + id: `f80fb3c1-437e-4d81-a2ba-ccd6fcb8fc7c` (string) - The id of the resource you wish to update
+    + cascade: `true (optional, boolean) - Flag deletion of releases tied to this resource
+    as well as the mod itself.
+        + Default: `false`
+
++ Request
+
+    + Header
+
+            Accept: application/vnd.api+json
+            Content-type: application/vnd.api+json
+
++ Response 204
+
++ Response 401 (application/vnd.api+json)
+    + Attributes
+        + errors (array[UnauthorizedError, AuthorizationError])
+
++ Response 403 (application/vnd.api+json)
+    + Attributes
+        + errors (array[HasChildrenError])
+
++ Response 404 (application/vnd.api+json)
+    + Attributes
+        + errors (array[NotFoundError])
+
+## Versions [/versions]
+
+The `versions` resource is made up of the following attributes:
+
+| field       | type               | validation         | description                |
+|-------------|--------------------|--------------------|----------------------------|
+| version     | string<sup>1</sup> | unique<sup>2</sup> | The version of the release |
+
+<sup>[1]</sup>While it is not a requirement, *TechnicSolder* assumes the
+`version` contains a [Semantic Versioning 2.0](http://semver.org)
+formatted string.
+
+<sup>[2]</sup>The `version` attribute must be unique for `versions`
+under a particular `resource`.
+
+### List versions for a resource [GET /api/resources/{id}/versions]
+
+If you do not provide valid authentication, this endpoint will only return versions
+for published resources. A 401 unauthorized status will be returned for unauthenticated
+requests trying to access an unpublished, or non-existent resource.
+
++ Parameters
+
+    + id: `f80fb3c1-437e-4d81-a2ba-ccd6fcb8fc7c` (string) - The id of the resource you wish to list versions for
+
++ Request
+
+    + Header
+
+            Accept: application/vnd.api+json
+            Content-type: application/vnd.api+json
+
++ Response 200 (application/vnd.api+json)
+    + Attributes
+        + data (array[VersionResponse])
+
+### Create a version [POST /api/resources/{id}/versions]
+
+If the `id` is provided it MUST be unique or a `409 Conflict` will be returned
+and the resource will not be created. If the `id` is not provided, the API server SHALL
+generate one automatically.
+
+When creating a new version, the `version` is required and must be unique for
+the resource provided.
+
++ Parameters
+
+    + id: `f80fb3c1-437e-4d81-a2ba-ccd6fcb8fc7c` (string) - The id of the resource you wish to add a version to
+
++ Request
+
+    + Header
+
+            Accept: application/vnd.api+json
+            Content-type: application/vnd.api+json
+
+    + Attributes
+        + data (VersionRequest)
+
+
++ Response 201 (application/vnd.api+json)
+
+    + Header
+
+            Location: /versions/0878a8f5-576c-4e06-bace-93aa46fdcc37
+
+    + Attributes
+        + data (VersionResponse)
+
+### Get a version [GET /api/versions/{id}]
+
+Retrieve details for a single version, similarly to listing versions if the
+resource associated with this version is not public and the request is not authenticated
+then a 401 unauthorized will be returned.
+
++ Parameters
+
+    + id: `0878a8f5-576c-4e06-bace-93aa46fdcc37` (uuid) - The id of the version you wish to request
+
++ Request
+
+    + Header
+
+            Accept: application/vnd.api+json
+            Content-type: application/vnd.api+json
+
++ Response 200 (application/vnd.api+json)
+    + Attributes
+        + data (VersionResponse)
+
+### Update a version [PATCH /api/versions/{id}]
+
+Since `version` is the only attribute of a version, it is implicitly required,
+however if you do no provide it then no error will be generated and the version
+will not actually be updated (the `updated_at` field will remain unchanged).
+
++ Parameters
+
+    + id: `0878a8f5-576c-4e06-bace-93aa46fdcc37` (uuid) - The id of the release you wish to update
+
++ Request
+
+    + Header
+
+            Accept: application/vnd.api+json
+            Content-type: application/vnd.api+json
+
+    + Attributes
+        + data (VersionRequest)
+
++ Response 200 (application/vnd.api+json)
+    + Attributes
+        + data (VersionResponse)
+
+### Delete a version [DELETE /api/version/{id}]
+
+Deletes a version from the system, will also delete any assets associated with the version. 
+
+Version must not be part of any build or the server will respond with a `409 Conflict` and the delete
+will fail. 
+
++ Parameters
+
+    + id: `0878a8f5-576c-4e06-bace-93aa46fdcc37` (uuid) - The id of the version you wish to delete
+
++ Request
+
+    + Header
+
+            Accept: application/vnd.api+json
+            Content-type: application/vnd.api+json
+
++ Response 204
+
+## Assets [/api/assets]
+
+Assets are the file-level components of particularly Release Version.
+
+The `asset` is made up of the following attributes:
+
+| field       | type   | validation | description                             |
+|-------------|--------|------------|-----------------------------------------|
+| filename    | string |            | The name of the file                    |
+| location    | string |            | The location for the file on the client |
+| filesize    | int    |            | The size in bytes of the file           |
+| url         | string |            | The URL where the file can retreived    |
+| md5         | string |            | An MD5 checksum of the file             |
+
+The `filesize` and `md5` attributes MAY be blank, even if there is a file. The
+client MUST verify the downloaded file against the `md5` attributes if it exists.
+
+The components of the `url` MAY not match the `location` or `filename` attributes.
+The retrieved file MUST be placed in the `location` folder, with the name of
+`filename`.
+
+### List assets for a version [GET /api/versions/{id}/assets]
+
+All assets for a version are returned, but not all assests necessarily have files.
+If the `url` attribute is empty, there is no available file for the asset.
+
++ Parameters
+
+    + id: `e2d6ff99-de5b-429c-83ea-1660663b7bc4` (string) - The id of the version
+
++ Request
+
+    + Header
+
+            Accept: application/vnd.api+json
+            Content-type: application/vnd.api+json
+
++ Response 200 (application/vnd.api+json)
+    + Attributes
+        + data (array[AssetResponse])
+        
+        
+### List assets for a build [GET /api/builds/{id}/assets]
+
+Retreive details for assets related to a given build.
+
+*Its recomended that except for 
+very special cases you use the `?include=` query parameter on the `GET /api/builds/{id}` endpoint
+to save an api call.* 
+
++ Parameters
+
+    + id: `cac555fe-0325-489c-b3ed-1dc63dcacc2f` (uuid) - The id of the build
+
++ Request
+
+    + Header
+
+            Accept: application/vnd.api+json
+            Content-type: application/vnd.api+json
+
++ Response 200 (application/vnd.api+json)
+    + Attributes
+        + data (array[AssetResponse])
+            
+
+### Create an asset [POST /api/versions/{id}/assets]
+
+If the `id` is provided it MUST be unique or a `409 Conflict` will be returned
+and the resource will not be created. If the `id` is not provided, the API server SHALL
+generate one automatically.
+
+The `filename` is the only required attribute. You may provide all attributes
+(which allows you to create an asset linked to a third party host (where required,
+or permitted) if you aren't going to upload the file to the server.
+
++ Parameters
+
+    + id: `e2d6ff99-de5b-429c-83ea-1660663b7bc4` (string) - The id of the version you wish to request assets for
+
++ Request
+
+    + Header
+
+            Accept: application/vnd.api+json
+            Content-type: application/vnd.api+json
+
+    + Attributes
+        + data (AssetRequest)
+
++ Response 200 (application/vnd.api+json)
+    + Attributes
+        + data (AssetResponse)
+
+### Update an asset [PATCH /api/assets/{id}]
+
+Update a single asset.
+
+#### Caution!
+If the `filename`, `location`,  `md5`, `url` or `filesize` attributes
+are not provided, then the corresponding value is not modified on the
+server. However, if you send an empty string or `null` instead then it
+will **permanently overwrite** the original value.
+
++ Parameters
+
+    + id: `aded1578-431c-4fff-97be-e5ff5ac47989` (uuid) - The id of the asset you wish to update
+
++ Request
+
+    + Header
+
+            Accept: application/vnd.api+json
+            Content-type: application/vnd.api+json
+
+    + Attributes
+        + data (AssetRequest)
+
++ Response 200 (application/vnd.api+json)
+    + Attributes
+        + data (AssetResponse)
+        
+
+### Upload an asset [PUT /api/assets/{id}]
+
+Once an asset has been created in the system, then the file can be uploaded by sending a `PUT` request with the binary 
+data to the server. The encoding types supported will be dependant on the web server. 
+
++ Parameters
+
+    + id: `aded1578-431c-4fff-97be-e5ff5ac47989` (string) - The id of the asset you wish to upload
+
++ Request
+
+    + Header
+    
+            Content-Type: text/plain
+            Content-Transfer-Encoding: base64
+        
+    + Body
+    
+            IyBDb25maWd1cmF0aW9uIGZpbGUNCg0KRW50aXR5IHsNCiAgICAjIElmIHRydWUsIHVzaW5nIGEg
+            cG9ydGFzcGF3bmVyIG9uIGFuIGVtcHR5IG1pbmVjYXJ0IHdpbGwgbWFrZSBpdCBpbnRvIGEgc3Bh
+            d25lciBjYXJ0DQogICAgQjpFbmFibGVTcGF3bmVyQ2FydHM9dHJ1ZQ0KICAgIEk6SUQuWm9vbG9n
+            aXN0PTMzMA0KfQ0KDQoNCk1hY2hpbmUgew0KDQogICAgQ29udmV5b3Igew0KICAgICAgICAjIElm
+            IGZhbHNlLCBjb252ZXlvcnMgd2lsbCBub3QgZ3JhYiBub24taXRlbSBlbnRpdGllcy4gQnJlYWtz
+            IGNvbnZleW9yIG1vYiBncmluZGVycyBidXQgbWFrZXMgdGhlbSBzYWZlIGZvciBnb2xlbXMsIGV0
+            Yy4NCiAgICAgICAgQjpDYXB0dXJlTm9uSXRlbXM9dHJ1ZQ0KDQogICAgICAgICMgSWYgdHJ1ZSwg
+            Y29udmV5b3JzIHdpbGwgTkVWRVIgY2FwdHVyZSBwbGF5ZXJzIHJlZ2FyZGxlc3Mgb2Ygb3RoZXIg
+            c2V0dGluZ3MuDQogICAgICAgIEI6TmV2ZXJDYXB0dXJlUGxheWVycz1mYWxzZQ0KDQogICAgICAg
+            ICMgSWYgdHJ1ZSwgY29udmV5b3JzIHdpbGwgTkVWRVIgY2FwdHVyZSBUaGF1bUNyYWZ0IGdvbGVt
+            cyByZWdhcmRsZXNzIG9mIG90aGVyIHNldHRpbmdzLg0KICAgICAgICBCOk5ldmVyQ2FwdHVyZVRD
+            R29sZW1zPWZhbHNlDQogICAgfQ0KDQogICAgQ2h1bmtMb2FkZXIgew0KICAgICAgICAjIElmIHRy
+            dWUsIHRoZSBDaHVuayBMb2FkZXIgd2lsbCB1c2UgdGhlIGFjdGl2YXRpb24gZW5lcmd5IGNvbmZp
+            ZyBpbiB0aGlzIHNlY3Rpb24uIFdBUk5JTkc6IHRoaXMgbWFrZXMgaXQgbXVjaCBtb3JlIGV4cGVu
+            c2l2ZSBhdCBsb3dlciB2YWx1ZXMuIChub24tY29uZmlndXJhYmxlIGlzIGV4cG9uZW50aWFsKQ0K
+            ICAgICAgICBCOkVuYWJsZUNvbmZpZ3VyYWJsZUFjdGl2YXRpb25FbmVyZ3k9ZmFsc2UNCg0KICAg
+            ICAgICAjIElmIHRydWUsIHRoZSBDaHVuayBMb2FkZXIgd2lsbCBpZ25vcmUgZm9yZ2VDaHVua0xv
+            YWRpbmcuY2ZnLg0KICAgICAgICBCOklnbm9yZUNodW5rTGltaXQ9ZmFsc2UNCiAgICAgICAgQjpS
+            ZWNpcGUuRW5hYmxlZD1mYWxzZQ0KDQogICAgICAgICMgSWYgdHJ1ZSwgdGhlIENodW5rIExvYWRl
+            ciB3aWxsIHJlcXVpcmUgdGhhdCB0aGUgcGxheWVyIHdobyBwbGFjZWQgaXQgYmUgb25saW5lIHRv
+            IGZ1bmN0aW9uDQogICAgICAgIEI6UmVxdWlyZXNPd25lck9ubGluZT1mYWxzZQ0KICAgIH0NCg0K
+            ICAgIEF1dG9TcGF3bmVyIHsNCiAgICAgICAgIyBUaGUgZW5lcmd5IGNvc3QgZm9yIHRoaXMgbWFj
+            aGluZSB0byBjb21wbGV0ZSBvbmUgd29yayBjeWNsZSwgaW4gdW5pdHMgb2YgMTAgUkYgKGkuZS4s
+            IDIgRGFSRiA9IDIwIFJGKQ0KICAgICAgICBJOkFjdGl2YXRpb25Db3N0RGFSRj02MA0KDQogICAg
+            ICAgICMgQSBsaXN0IG9mIGVudGl0eSBJRHMgKGUuZy46IENhdmVTcGlkZXIgb3IgVmlsbGFnZXJH
+            b2xlbSBvciBGb3Jlc3RyeS5idXR0ZXJmbHlHRSkgdG8gYmxhY2tsaXN0IGZyb20gdGhlIEF1dG9T
+            cGF3bmVyLiBUaGUgRGVidWdnZXIgaXRlbSB3aWxsIGRpc3BsYXkgYW4gZW50aXR5J3MgSUQgd2hl
+            biB1c2VkLg0KICAgICAgICBTOkJsYWNrbGlzdCA8DQogICAgICAgICAgICBWaWxsYWdlckdvbGVt
+            DQogICAgICAgICA+DQogICAgICAgIEI6UmVjaXBlLkVuYWJsZWQ9ZmFsc2UNCg0KICAgICAgICBD
+            b3N0IHsNCiAgICAgICAgICAgICMgVGhlIG11bHRpcGxpZXIgZm9yIHdvcmsgcmVxdWlyZWQgdG8g
+            Z2VuZXJhdGUgYSBtb2IgaW4gZXhhY3QgbW9kZS4NCiAgICAgICAgICAgIEk6RXhhY3Q9NQ0KDQog
+            ICAgICAgICAgICAjIFRoZSBtdWx0aXBsaWVyIGZvciB3b3JrIHJlcXVpcmVkIHRvIGdlbmVyYXRl
+            IGEgbW9iIGluIHN0YW5kYXJkIChub24tZXhhY3QpIG1vZGUuDQogICAgICAgICAgICBJOlN0YW5k
+            YXJkPTENCg0KICAgICAgICAgICAgIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMj
+            IyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMj
+            IyMjIyMjIyMjIyMjIw0KICAgICAgICAgICAgIyBDdXN0b20NCiAgICAgICAgICAgICMtLS0tLS0t
+            LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+            LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLSMNCiAgICAgICAgICAgICMg
+            Q3VzdG9tIGJhc2UgWFAgY29zdHMgZm9yIGVudGl0aWVzLiBmb3JtYXQ6IEk6PGVudGl0eWlkPiA9
+            ICMuIGUuZy46DQogICAgICAgICAgICAjIEk6VmlsbGFnZXJHb2xlbSA9IDI1DQogICAgICAgICAg
+            ICAjIEk6U2xpbWUgPSA1MA0KICAgICAgICAgICAgIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMj
+            IyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMj
+            IyMjIyMjIyMjIyMjIyMjIyMjIyMjIw0KDQogICAgICAgICAgICBDdXN0b20gew0KICAgICAgICAg
+            ICAgfQ0KDQogICAgICAgIH0NCg0KICAgIH0NCg0KICAgIEhhcnZlc3RlciB7DQogICAgICAgICMg
+            VGhlIGVuZXJneSBjb3N0IGZvciB0aGlzIG1hY2hpbmUgdG8gY29tcGxldGUgb25lIHdvcmsgY3lj
+            bGUsIGluIHVuaXRzIG9mIDEwIFJGIChpLmUuLCAyIERhUkYgPSAyMCBSRikNCiAgICAgICAgSTpB
+            Y3RpdmF0aW9uQ29zdERhUkY9MjQNCiAgICAgICAgQjpSZWNpcGUuRW5hYmxlZD10cnVlDQoNCiAg
+            ICAgICAgIyBJZiB0cnVlLCB0aGUgaGFydmVzdGVyIHdpbGwgc2tpcCBzY2FubmluZyBzb21lIGJv
+            Y2tzIHdoZW4gZmlsbGVkIHdpdGggc2x1ZGdlDQogICAgICAgIEI6U2tpcFdvcms9ZmFsc2UNCiAg
+            ICB9DQoNCiAgICBMYXNlckRyaWxsIHsNCiAgICAgICAgQjpSZWNpcGUuRW5hYmxlZD10cnVlDQoN
+            CiAgICAgICAgIyBUaGUgd29yayByZXF1aXJlZCBieSB0aGUgZHJpbGwgdG8gZ2VuZXJhdGUgYSBz
+            aW5nbGUgb3JlLg0KICAgICAgICBJOldvcms9MzAwDQogICAgfQ0KDQogICAgVW5pZmllciB7DQog
+            ICAgICAgICMgQSBsaXN0IG9mIG9yZSBkaWN0aW9uYXJ5IGVudHJ5cyB0byBkaXNhYmxlIHVuaWZ5
+            aW5nIGZvci4gQnkgZGVmYXVsdCwgTUZSIHdpbGwgbm90IGF0dGVtcHQgdG8gdW5pZnkgYW55dGhp
+            bmcgd2l0aCBtb3JlIHRoYW4gb25lIG9yZWRpY3QgbmFtZS4NCiAgICAgICAgUzpCbGFja2xpc3Qg
+            PA0KICAgICAgICAgICAgZHllQmx1ZQ0KICAgICAgICAgICAgZHllV2hpdGUNCiAgICAgICAgICAg
+            IGR5ZUJyb3duDQogICAgICAgICAgICBkeWVCbGFjaw0KICAgICAgICAgICAgbGlzdEFsbHdhdGVy
+            DQogICAgICAgICAgICBsaXN0QWxsbWlsaw0KICAgICAgICAgPg0KICAgICAgICBCOlJlY2lwZS5F
+            bmFibGVkPXRydWUNCiAgICB9DQoNCiAgICBCcmVlZGVyIHsNCiAgICAgICAgIyBUaGUgZW5lcmd5
+            IGNvc3QgZm9yIHRoaXMgbWFjaGluZSB0byBjb21wbGV0ZSBvbmUgd29yayBjeWNsZSwgaW4gdW5p
+            dHMgb2YgMTAgUkYgKGkuZS4sIDIgRGFSRiA9IDIwIFJGKQ0KICAgICAgICBJOkFjdGl2YXRpb25D
+            b3N0RGFSRj02NA0KICAgICAgICBCOlJlY2lwZS5FbmFibGVkPXRydWUNCg0KICAgICAgICAjIElm
+            IHRoZSBudW1iZXIgb2YgZW50aXRpZXMgaW4gdGhlIGJyZWVkZXIncyB0YXJnZXQgYXJlYSBleGNl
+            ZWRzIHRoaXMgdmFsdWUsIHRoZSBicmVlZGVyIHdpbGwgY2Vhc2Ugb3BlcmF0aW5nLiBUaGlzIGlz
+            IHByb3ZpZGVkIHRvIGNvbnRyb2wgc2VydmVyIGxhZy4NCiAgICAgICAgSTpTaHV0ZG93blRocmVz
+            aG9sZD01MA0KICAgIH0NCg0KICAgIEZlcnRpbGl6ZXIgew0KICAgICAgICAjIFRoZSBlbmVyZ3kg
+            Y29zdCBmb3IgdGhpcyBtYWNoaW5lIHRvIGNvbXBsZXRlIG9uZSB3b3JrIGN5Y2xlLCBpbiB1bml0
+            cyBvZiAxMCBSRiAoaS5lLiwgMiBEYVJGID0gMjAgUkYpDQogICAgICAgIEk6QWN0aXZhdGlvbkNv
+            c3REYVJGPTk2DQoNCiAgICAgICAgIyBJZiB0cnVlLCB0aGUgZmVydGlsaXplciB3aWxsIHVzZSBi
+            b25lbWVhbCBhcyB3ZWxsIGFzIE1GUiBmZXJ0aWxpemVyLiBQcm92aWRlZCBmb3IgdGhvc2Ugd2hv
+            IHdhbnQgYSBsZXNzIHdvcmstaW50ZW5zaXZlIGZhcm0uDQogICAgICAgIEI6RW5hYmxlQm9uZW1l
+            YWw9ZmFsc2UNCiAgICAgICAgQjpSZWNpcGUuRW5hYmxlZD10cnVlDQogICAgfQ0KDQogICAgQXV0
+            b0Rpc2VuY2hhbnRlciB7DQogICAgICAgICMgVGhlIGVuZXJneSBjb3N0IGZvciB0aGlzIG1hY2hp
+            bmUgdG8gY29tcGxldGUgb25lIHdvcmsgY3ljbGUsIGluIHVuaXRzIG9mIDEwIFJGIChpLmUuLCAy
+            IERhUkYgPSAyMCBSRikNCiAgICAgICAgSTpBY3RpdmF0aW9uQ29zdERhUkY9MzINCg0KICAgICAg
+            ICAjIElmIHRydWUsIHRoZSBkaXNlbmNoYW50ZXIgd2lsbCB1c2UgZXNzZW5jZSB0byBkaXNlbmNo
+            YW50IGl0ZW1zLiBQcm92aWRlZCBmb3IgdGhvc2Ugd2hvIHdhbnQgYSBtb3JlIHdvcmstaW50ZW5z
+            aXZlIGVuY2hhbnRpbmcgc3lzdGVtLg0KICAgICAgICBCOkVuYWJsZUVzc2VuY2U9ZmFsc2UNCiAg
+            ICAgICAgQjpSZWNpcGUuRW5hYmxlZD10cnVlDQogICAgfQ0KDQogICAgU3RlYW1Cb2lsZXIgew0K
+            ICAgICAgICAjIElmIHRydWUsIHRoZSBzdGVhbSBib2lsZXIgd2lsbCBleHBsb2RlIGlmIGl0J3Mg
+            aG90IGFuZCBkcnkgd2hlbiB5b3UgdHJ5IHRvIHB1bXAgd2F0ZXIgaW50byBpdC4NCiAgICAgICAg
+            QjpFeHBsb2Rlcz1mYWxzZQ0KICAgICAgICBCOlJlY2lwZS5FbmFibGVkPXRydWUNCiAgICB9DQoN
+            CiAgICBQbGFudGVyIHsNCiAgICAgICAgIyBUaGUgZW5lcmd5IGNvc3QgZm9yIHRoaXMgbWFjaGlu
+            ZSB0byBjb21wbGV0ZSBvbmUgd29yayBjeWNsZSwgaW4gdW5pdHMgb2YgMTAgUkYgKGkuZS4sIDIg
+            RGFSRiA9IDIwIFJGKQ0KICAgICAgICBJOkFjdGl2YXRpb25Db3N0RGFSRj0xNg0KICAgICAgICBC
+            OlJlY2lwZS5FbmFibGVkPXRydWUNCiAgICB9DQoNCiAgICBGaXNoZXIgew0KICAgICAgICAjIFRo
+            ZSBlbmVyZ3kgY29zdCBmb3IgdGhpcyBtYWNoaW5lIHRvIGNvbXBsZXRlIG9uZSB3b3JrIGN5Y2xl
+            LCBpbiB1bml0cyBvZiAxMCBSRiAoaS5lLiwgMiBEYVJGID0gMjAgUkYpDQogICAgICAgIEk6QWN0
+            aXZhdGlvbkNvc3REYVJGPTINCiAgICAgICAgQjpSZWNpcGUuRW5hYmxlZD10cnVlDQogICAgfQ0K
+            DQogICAgUmFuY2hlciB7DQogICAgICAgICMgVGhlIGVuZXJneSBjb3N0IGZvciB0aGlzIG1hY2hp
+            bmUgdG8gY29tcGxldGUgb25lIHdvcmsgY3ljbGUsIGluIHVuaXRzIG9mIDEwIFJGIChpLmUuLCAy
+            IERhUkYgPSAyMCBSRikNCiAgICAgICAgSTpBY3RpdmF0aW9uQ29zdERhUkY9MzINCiAgICAgICAg
+            QjpSZWNpcGUuRW5hYmxlZD10cnVlDQogICAgfQ0KDQogICAgVmV0IHsNCiAgICAgICAgIyBUaGUg
+            ZW5lcmd5IGNvc3QgZm9yIHRoaXMgbWFjaGluZSB0byBjb21wbGV0ZSBvbmUgd29yayBjeWNsZSwg
+            aW4gdW5pdHMgb2YgMTAgUkYgKGkuZS4sIDIgRGFSRiA9IDIwIFJGKQ0KICAgICAgICBJOkFjdGl2
+            YXRpb25Db3N0RGFSRj0zMg0KICAgICAgICBCOlJlY2lwZS5FbmFibGVkPXRydWUNCiAgICB9DQoN
+            CiAgICBJdGVtQ29sbGVjdG9yIHsNCiAgICAgICAgQjpSZWNpcGUuRW5hYmxlZD10cnVlDQogICAg
+            fQ0KDQogICAgQmxvY2tCcmVha2VyIHsNCiAgICAgICAgIyBUaGUgZW5lcmd5IGNvc3QgZm9yIHRo
+            aXMgbWFjaGluZSB0byBjb21wbGV0ZSBvbmUgd29yayBjeWNsZSwgaW4gdW5pdHMgb2YgMTAgUkYg
+            KGkuZS4sIDIgRGFSRiA9IDIwIFJGKQ0KICAgICAgICBJOkFjdGl2YXRpb25Db3N0RGFSRj05Ng0K
+            ICAgICAgICBCOlJlY2lwZS5FbmFibGVkPXRydWUNCiAgICB9DQoNCiAgICBXZWF0aGVyQ29sbGVj
+            dG9yIHsNCiAgICAgICAgIyBUaGUgZW5lcmd5IGNvc3QgZm9yIHRoaXMgbWFjaGluZSB0byBjb21w
+            bGV0ZSBvbmUgd29yayBjeWNsZSwgaW4gdW5pdHMgb2YgMTAgUkYgKGkuZS4sIDIgRGFSRiA9IDIw
+            IFJGKQ0KICAgICAgICBJOkFjdGl2YXRpb25Db3N0RGFSRj0xDQogICAgICAgIEI6UmVjaXBlLkVu
+            YWJsZWQ9dHJ1ZQ0KICAgIH0NCg0KICAgIFNsdWRnZUJvaWxlciB7DQogICAgICAgICMgVGhlIGVu
+            ZXJneSBjb3N0IGZvciB0aGlzIG1hY2hpbmUgdG8gY29tcGxldGUgb25lIHdvcmsgY3ljbGUsIGlu
+            IHVuaXRzIG9mIDEwIFJGIChpLmUuLCAyIERhUkYgPSAyMCBSRikNCiAgICAgICAgSTpBY3RpdmF0
+            aW9uQ29zdERhUkY9Mw0KICAgICAgICBCOlJlY2lwZS5FbmFibGVkPXRydWUNCiAgICB9DQoNCiAg
+            ICBTZXdlciB7DQogICAgICAgIEI6UmVjaXBlLkVuYWJsZWQ9dHJ1ZQ0KICAgIH0NCg0KICAgIENv
+            bXBvc3RlciB7DQogICAgICAgICMgVGhlIGVuZXJneSBjb3N0IGZvciB0aGlzIG1hY2hpbmUgdG8g
+            Y29tcGxldGUgb25lIHdvcmsgY3ljbGUsIGluIHVuaXRzIG9mIDEwIFJGIChpLmUuLCAyIERhUkYg
+            PSAyMCBSRikNCiAgICAgICAgSTpBY3RpdmF0aW9uQ29zdERhUkY9NA0KICAgICAgICBCOlJlY2lw
+            ZS5FbmFibGVkPXRydWUNCiAgICB9DQoNCiAgICBHcmluZGVyIHsNCiAgICAgICAgIyBUaGUgZW5l
+            cmd5IGNvc3QgZm9yIHRoaXMgbWFjaGluZSB0byBjb21wbGV0ZSBvbmUgd29yayBjeWNsZSwgaW4g
+            dW5pdHMgb2YgMTAgUkYgKGkuZS4sIDIgRGFSRiA9IDIwIFJGKQ0KICAgICAgICBJOkFjdGl2YXRp
+            b25Db3N0RGFSRj0zMjANCiAgICAgICAgQjpSZWNpcGUuRW5hYmxlZD10cnVlDQogICAgfQ0KDQog
+            ICAgQXV0b0VuY2hhbnRlciB7DQogICAgICAgICMgVGhlIGVuZXJneSBjb3N0IGZvciB0aGlzIG1h
+            Y2hpbmUgdG8gY29tcGxldGUgb25lIHdvcmsgY3ljbGUsIGluIHVuaXRzIG9mIDEwIFJGIChpLmUu
+            LCAyIERhUkYgPSAyMCBSRikNCiAgICAgICAgSTpBY3RpdmF0aW9uQ29zdERhUkY9MTYNCiAgICAg
+            ICAgQjpSZWNpcGUuRW5hYmxlZD10cnVlDQogICAgfQ0KDQogICAgQ2hyb25vdHlwZXIgew0KICAg
+            ICAgICAjIFRoZSBlbmVyZ3kgY29zdCBmb3IgdGhpcyBtYWNoaW5lIHRvIGNvbXBsZXRlIG9uZSB3
+            b3JrIGN5Y2xlLCBpbiB1bml0cyBvZiAxMCBSRiAoaS5lLiwgMiBEYVJGID0gMjAgUkYpDQogICAg
+            ICAgIEk6QWN0aXZhdGlvbkNvc3REYVJGPTEyOA0KICAgICAgICBCOlJlY2lwZS5FbmFibGVkPXRy
+            dWUNCiAgICB9DQoNCiAgICBFamVjdG9yIHsNCiAgICAgICAgQjpSZWNpcGUuRW5hYmxlZD10cnVl
+            DQogICAgfQ0KDQogICAgSXRlbVJvdXRlciB7DQogICAgICAgIEI6UmVjaXBlLkVuYWJsZWQ9dHJ1
+            ZQ0KICAgIH0NCg0KICAgIExpcXVpZFJvdXRlciB7DQogICAgICAgIEI6UmVjaXBlLkVuYWJsZWQ9
+            dHJ1ZQ0KICAgIH0NCg0KICAgIERlZXBTdG9yYWdlVW5pdCB7DQogICAgICAgIEI6UmVjaXBlLkVu
+            YWJsZWQ9dHJ1ZQ0KICAgIH0NCg0KICAgIExpcXVpQ3JhZnRlciB7DQogICAgICAgIEI6UmVjaXBl
+            LkVuYWJsZWQ9dHJ1ZQ0KICAgIH0NCg0KICAgIExhdmFGYWJyaWNhdG9yIHsNCiAgICAgICAgIyBU
+            aGUgZW5lcmd5IGNvc3QgZm9yIHRoaXMgbWFjaGluZSB0byBjb21wbGV0ZSBvbmUgd29yayBjeWNs
+            ZSwgaW4gdW5pdHMgb2YgMTAgUkYgKGkuZS4sIDIgRGFSRiA9IDIwIFJGKQ0KICAgICAgICBJOkFj
+            dGl2YXRpb25Db3N0RGFSRj0yMA0KICAgICAgICBCOlJlY2lwZS5FbmFibGVkPXRydWUNCiAgICB9
+            DQoNCiAgICBBdXRvSnVrZWJveCB7DQogICAgICAgIEI6UmVjaXBlLkVuYWJsZWQ9dHJ1ZQ0KICAg
+            IH0NCg0KICAgIEJpb1JlYWN0b3Igew0KICAgICAgICBCOlJlY2lwZS5FbmFibGVkPXRydWUNCiAg
+            ICB9DQoNCiAgICBCaW9GdWVsR2VuZXJhdG9yIHsNCiAgICAgICAgIyBUaGUgYW1vdW50IG9mIGVu
+            ZXJneSBnZW5lcmF0ZWQgYnkgdGhpcyBtYWNoaW5lIGluIG9uZSB0aWNrLCBpbiB1bml0cyBvZiAx
+            MCBSRiAoaS5lLiwgMiBEYVJGID0gMjAgUkYpDQogICAgICAgIEk6QWN0aXZhdGlvbkNvc3REYVJG
+            PTE2DQogICAgICAgIEI6UmVjaXBlLkVuYWJsZWQ9dHJ1ZQ0KICAgIH0NCg0KICAgIFNsYXVnaHRl
+            cmhvdXNlIHsNCiAgICAgICAgIyBUaGUgZW5lcmd5IGNvc3QgZm9yIHRoaXMgbWFjaGluZSB0byBj
+            b21wbGV0ZSBvbmUgd29yayBjeWNsZSwgaW4gdW5pdHMgb2YgMTAgUkYgKGkuZS4sIDIgRGFSRiA9
+            IDIwIFJGKQ0KICAgICAgICBJOkFjdGl2YXRpb25Db3N0RGFSRj0xMDANCiAgICAgICAgQjpSZWNp
+            cGUuRW5hYmxlZD10cnVlDQogICAgfQ0KDQogICAgTWVhdFBhY2tlciB7DQogICAgICAgICMgVGhl
+            IGVuZXJneSBjb3N0IGZvciB0aGlzIG1hY2hpbmUgdG8gY29tcGxldGUgb25lIHdvcmsgY3ljbGUs
+            IGluIHVuaXRzIG9mIDEwIFJGIChpLmUuLCAyIERhUkYgPSAyMCBSRikNCiAgICAgICAgSTpBY3Rp
+            dmF0aW9uQ29zdERhUkY9Mg0KICAgICAgICBCOlJlY2lwZS5FbmFibGVkPXRydWUNCiAgICB9DQoN
+            CiAgICBFbmNoYW50bWVudFJvdXRlciB7DQogICAgICAgIEI6UmVjaXBlLkVuYWJsZWQ9dHJ1ZQ0K
+            ICAgIH0NCg0KICAgIExhc2VyRHJpbGxQcmVjaGFyZ2VyIHsNCiAgICAgICAgIyBUaGUgZW5lcmd5
+            IGNvc3QgZm9yIHRoaXMgbWFjaGluZSB0byBjb21wbGV0ZSBvbmUgd29yayBjeWNsZSwgaW4gdW5p
+            dHMgb2YgMTAgUkYgKGkuZS4sIDIgRGFSRiA9IDIwIFJGKQ0KICAgICAgICBJOkFjdGl2YXRpb25D
+            b3N0RGFSRj01MDANCiAgICAgICAgQjpSZWNpcGUuRW5hYmxlZD10cnVlDQogICAgfQ0KDQogICAg
+            QXV0b0FudmlsIHsNCiAgICAgICAgIyBUaGUgZW5lcmd5IGNvc3QgZm9yIHRoaXMgbWFjaGluZSB0
+            byBjb21wbGV0ZSBvbmUgd29yayBjeWNsZSwgaW4gdW5pdHMgb2YgMTAgUkYgKGkuZS4sIDIgRGFS
+            RiA9IDIwIFJGKQ0KICAgICAgICBJOkFjdGl2YXRpb25Db3N0RGFSRj0xNg0KICAgICAgICBCOlJl
+            Y2lwZS5FbmFibGVkPXRydWUNCiAgICB9DQoNCiAgICBCbG9ja1NtYXNoZXIgew0KICAgICAgICAj
+            IFRoZSBlbmVyZ3kgY29zdCBmb3IgdGhpcyBtYWNoaW5lIHRvIGNvbXBsZXRlIG9uZSB3b3JrIGN5
+            Y2xlLCBpbiB1bml0cyBvZiAxMCBSRiAoaS5lLiwgMiBEYVJGID0gMjAgUkYpDQogICAgICAgIEk6
+            QWN0aXZhdGlvbkNvc3REYVJGPTENCiAgICAgICAgQjpSZWNpcGUuRW5hYmxlZD10cnVlDQogICAg
+            fQ0KDQogICAgUmVkTm90ZSB7DQogICAgICAgIEI6UmVjaXBlLkVuYWJsZWQ9dHJ1ZQ0KICAgIH0N
+            Cg0KICAgIEF1dG9CcmV3ZXIgew0KICAgICAgICAjIFRoZSBlbmVyZ3kgY29zdCBmb3IgdGhpcyBt
+            YWNoaW5lIHRvIGNvbXBsZXRlIG9uZSB3b3JrIGN5Y2xlLCBpbiB1bml0cyBvZiAxMCBSRiAoaS5l
+            LiwgMiBEYVJGID0gMjAgUkYpDQogICAgICAgIEk6QWN0aXZhdGlvbkNvc3REYVJGPTQNCiAgICAg
+            ICAgQjpSZWNpcGUuRW5hYmxlZD10cnVlDQogICAgfQ0KDQogICAgRnJ1aXRQaWNrZXIgew0KICAg
+            ICAgICAjIFRoZSBlbmVyZ3kgY29zdCBmb3IgdGhpcyBtYWNoaW5lIHRvIGNvbXBsZXRlIG9uZSB3
+            b3JrIGN5Y2xlLCBpbiB1bml0cyBvZiAxMCBSRiAoaS5lLiwgMiBEYVJGID0gMjAgUkYpDQogICAg
+            ICAgIEk6QWN0aXZhdGlvbkNvc3REYVJGPTMyDQogICAgICAgIEI6UmVjaXBlLkVuYWJsZWQ9dHJ1
+            ZQ0KICAgIH0NCg0KICAgIEJsb2NrUGxhY2VyIHsNCiAgICAgICAgIyBUaGUgZW5lcmd5IGNvc3Qg
+            Zm9yIHRoaXMgbWFjaGluZSB0byBjb21wbGV0ZSBvbmUgd29yayBjeWNsZSwgaW4gdW5pdHMgb2Yg
+            MTAgUkYgKGkuZS4sIDIgRGFSRiA9IDIwIFJGKQ0KICAgICAgICBJOkFjdGl2YXRpb25Db3N0RGFS
+            Rj0xDQogICAgICAgIEI6UmVjaXBlLkVuYWJsZWQ9dHJ1ZQ0KICAgIH0NCg0KICAgIE1vYkNvdW50
+            ZXIgew0KICAgICAgICBCOlJlY2lwZS5FbmFibGVkPXRydWUNCiAgICB9DQoNCiAgICBTdGVhbVR1
+            cmJpbmUgew0KICAgICAgICAjIFRoZSBhbW91bnQgb2YgZW5lcmd5IGdlbmVyYXRlZCBieSB0aGlz
+            IG1hY2hpbmUgaW4gb25lIHRpY2ssIGluIHVuaXRzIG9mIDEwIFJGIChpLmUuLCAyIERhUkYgPSAy
+            MCBSRikNCiAgICAgICAgSTpBY3RpdmF0aW9uQ29zdERhUkY9MTYNCiAgICAgICAgQjpSZWNpcGUu
+            RW5hYmxlZD10cnVlDQogICAgfQ0KDQogICAgRm91bnRhaW4gew0KICAgICAgICAjIFRoZSBlbmVy
+            Z3kgY29zdCBmb3IgdGhpcyBtYWNoaW5lIHRvIGNvbXBsZXRlIG9uZSB3b3JrIGN5Y2xlLCBpbiB1
+            bml0cyBvZiAxMCBSRiAoaS5lLiwgMiBEYVJGID0gMjAgUkYpDQogICAgICAgIEk6QWN0aXZhdGlv
+            bkNvc3REYVJGPTgNCiAgICAgICAgQjpSZWNpcGUuRW5hYmxlZD10cnVlDQogICAgfQ0KDQogICAg
+            TW9iUm91dGVyIHsNCiAgICAgICAgIyBUaGUgZW5lcmd5IGNvc3QgZm9yIHRoaXMgbWFjaGluZSB0
+            byBjb21wbGV0ZSBvbmUgd29yayBjeWNsZSwgaW4gdW5pdHMgb2YgMTAgUkYgKGkuZS4sIDIgRGFS
+            RiA9IDIwIFJGKQ0KICAgICAgICBJOkFjdGl2YXRpb25Db3N0RGFSRj0yNTYNCiAgICAgICAgQjpS
+            ZWNpcGUuRW5hYmxlZD10cnVlDQogICAgfQ0KDQp9DQoNCg0KUmVjaXBlU2V0cyB7DQogICAgIyBJ
+            ZiB0cnVlLCBNRlIgd2lsbCByZWdpc3RlciBpdHMgRW5kZXJJTy1iYXNlZCByZWNpcGVzLg0KICAg
+            IEI6RW5kZXJJTz1mYWxzZQ0KDQogICAgIyBJZiB0cnVlLCBNRlIgd2lsbCByZWdpc3RlciBpdHMg
+            VGhlcm1hbCBFeHBhbnNpb24tYmFzZWQgcmVjaXBlcy4NCiAgICBCOlRoZXJtYWxFeHBhbnNpb249
+            dHJ1ZQ0KDQogICAgIyBJZiB0cnVlLCBNRlIgd2lsbCByZWdpc3RlciBpdHMgc3RhbmRhcmQgKHZh
+            bmlsbGEtaXRlbS1vbmx5KSByZWNpcGVzLg0KICAgIEI6VmFuaWxsYT1mYWxzZQ0KfQ0KDQoNCmdl
+            bmVyYWwgew0KICAgICMgU2V0IHRvIGZhbHNlIHRvIGRpc2FibGUgdmFyaW91cyBzb3VuZHMgYW5k
+            IHBhcnRpY2xlIGVmZmVjdHMsIHN1Y2ggYXMgd2hlbiBhIGJsb2NrIGlzIGhhcnZlc3RlZC4NCiAg
+            ICBCOlBsYXlTb3VuZHM9dHJ1ZQ0KDQogICAgIyBBIGxpc3Qgb2YgZW50aXR5IElEcyAoZS5nLjog
+            Q2F2ZVNwaWRlciBvciBWaWxsYWdlckdvbGVtIG9yIEZvcmVzdHJ5LmJ1dHRlcmZseUdFKSB0byBi
+            bGFja2xpc3QgZnJvbSBiZWluZyBjYXB0dXJlZCBieSB0aGUgU2FmYXJpTmV0LiBUaGUgRGVidWdn
+            ZXIgaXRlbSB3aWxsIGRpc3BsYXkgYW4gZW50aXR5J3MgSUQgd2hlbiB1c2VkLg0KICAgIFM6U2Fm
+            YXJpTmV0QmxhY2tsaXN0IDwNCiAgICAgPg0KDQogICAgIyBJZiB0cnVlLCB3aGVuIHlvdSBoYXZl
+            IG5vIGVtcHR5IHNsb3RzIGluIHlvdXIgaW52ZW50b3J5LCB5b3Ugd2lsbCBjb250aW51ZSBmaWxs
+            aW5nIGJ1Y2tldHMgZnJvbSB0YW5rcyBhbmQgZHJvcCB0aGVtIG9uIHRoZSBncm91bmQuDQogICAg
+            QjpUYW5rcy5GaWxsV2l0aG91dEVtcHR5U2xvdHM9dHJ1ZQ0KDQogICAgU2VhcmNoRGlzdGFuY2Ug
+            ew0KICAgICAgICAjIFdoZW4gc2VhcmNoaW5nIGZvciBwYXJ0cyBvZiBhIGZydWl0IHRyZWUsIGhv
+            dyBmYXIgb3V0IHRvIHRoZSBzaWRlcyAocmFkaXVzKSB0byBzZWFyY2gNCiAgICAgICAgSTpGcnVp
+            dFRyZWUuTWF4SG9yaXp0b25hbD01DQoNCiAgICAgICAgIyBXaGVuIHNlYXJjaGluZyBmb3IgcGFy
+            dHMgb2YgYSBmcnVpdCB0cmVlLCBob3cgZmFyIHVwIHRvIHNlYXJjaA0KICAgICAgICBJOkZydWl0
+            VHJlZS5NYXhWZXJ0aWNhbD0yMA0KDQogICAgICAgICMgV2hlbiBzZWFyY2hpbmcgZm9yIHBsYXll
+            cnMgb3IgZHJvcG9mZiBsb2NhdGlvbnMsIGhvdyBmYXIgb3V0IHRvIHRoZSBzaWRlcyAocmFkaXVz
+            KSB0byBzZWFyY2gNCiAgICAgICAgSTpQYXNzZW5nZXJSYWlsLk1heEhvcml6b250YWw9Mw0KDQog
+            ICAgICAgICMgV2hlbiBzZWFyY2hpbmcgZm9yIHBsYXllcnMgb3IgZHJvcG9mZiBsb2NhdGlvbnMs
+            IGhvdyBmYXIgdXAgdG8gc2VhcmNoDQogICAgICAgIEk6UGFzc2VuZ2VyUmFpbC5NYXhWZXJ0aWNh
+            bD0yDQoNCiAgICAgICAgIyBIb3cgZmFyIHVwd2FyZCB0byBzZWFyY2ggZm9yIG1lbWJlcnMgb2Yg
+            InN0YWNraW5nIiBibG9ja3MsIGxpa2UgY2FjdHVzIGFuZCBzdWdhcmNhbmUNCiAgICAgICAgSTpT
+            dGFja2luZ0Jsb2NrLk1heFZlcnRpY2FsPTUNCg0KICAgICAgICAjIFdoZW4gc2VhcmNoaW5nIGZv
+            ciBwYXJ0cyBvZiBhIHRyZWUsIGhvdyBmYXIgb3V0IHRvIHRoZSBzaWRlcyAocmFkaXVzKSB0byBz
+            ZWFyY2gNCiAgICAgICAgSTpUcmVlLk1heEhvcml6b250YWw9NTEyDQoNCiAgICAgICAgIyBXaGVu
+            IHNlYXJjaGluZyBmb3IgcGFydHMgb2YgYSB0cmVlLCBob3cgZmFyIHVwIHRvIHNlYXJjaA0KICAg
+            ICAgICBJOlRyZWUuTWF4VmVydGljYWw9MjU2DQogICAgfQ0KDQogICAgUmVkTmV0IHsNCiAgICAg
+            ICAgIyBJZiB0cnVlLCBwbGFjZWQgcmVkbmV0IGNhYmxlIHdpbGwgZGVmYXVsdCB0byBjYWJsZS1v
+            bmx5IGNvbm5lY3Rpb25zLg0KICAgICAgICBCOkNhYmxlT25seT1mYWxzZQ0KDQogICAgICAgICMg
+            QSBsaXN0IG9mIGJsb2NrIElEcyB0byBwcmV2ZW50IFJlZE5ldCBjYWJsZXMgZnJvbSBjb25uZWN0
+            aW5nIHRvLiAoZS5nLiwgbWluZWNyYWZ0OnRvcmNoKQ0KICAgICAgICBTOkNvbm5lY3Rpb25CbGFj
+            a0xpc3QgPA0KICAgICAgICAgPg0KDQogICAgICAgICMgSWYgdHJ1ZSwgUmVkTmV0IGNhYmxlcyB3
+            aWxsIGR1bXAgYSBtYXNzaXZlIGFtb3VudCBvZiBkYXRhIHRvIHRoZSBsb2cgZmlsZS4gWW91IHNo
+            b3VsZCBwcm9iYWJseSBvbmx5IHVzZSB0aGlzIGlmIFBDIHRlbGxzIHlvdSB0by4NCiAgICAgICAg
+            QjpEZWJ1Zz1mYWxzZQ0KICAgIH0NCg0KICAgIFdvcmxkR2VuIHsNCiAgICAgICAgIyBBIGxpc3Qg
+            b2YgZGltZW5zaW9uIElEcyB0byBkaXNhYmxlIE1GUiB3b3JsZGdlbiBpbi4NCiAgICAgICAgSTpE
+            aW1lbnNpb24uQmxhY2tsaXN0IDwNCiAgICAgICAgID4NCg0KICAgICAgICAjIyMjIyMjIyMjIyMj
+            IyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMj
+            IyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjDQogICAgICAgICMgUmV0cm9HZW4N
+            CiAgICAgICAgIy0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+            LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+            Iw0KICAgICAgICAjIEVuYWJsZSBvciBkaXNhYmxlIHNwZWNpZmljIHJldHJvZ2VuIGl0ZW1zLg0K
+            ICAgICAgICAjIE9ubHkgaGFzIGFuIGVmZmVjdCBpZiByZXRyb2FjdGl2ZSBnZW5lbmVyYXRpb24g
+            aXMgZW5hYmxlZCBpbiBDb0ZIQ29yZS4NCiAgICAgICAgIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMj
+            IyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMj
+            IyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIw0KDQogICAgICAgIFJldHJvR2VuIHsNCiAgICAgICAg
+            ICAgIEI6UnViYmVyVHJlZXM9dHJ1ZQ0KICAgICAgICAgICAgQjpTZXdhZ2VMYWtlcz1mYWxzZQ0K
+            ICAgICAgICAgICAgQjpTbHVkZ2VMYWtlcz1mYWxzZQ0KICAgICAgICB9DQoNCiAgICAgICAgUnVi
+            YmVyVHJlZXMgew0KICAgICAgICAgICAgIyBBIGxpc3Qgb2YgYmlvbWVzIHRvIGRpc2FsbG93IHJ1
+            YmJlciB0cmVlcyB0byBzcGF3biBpbi4gT3ZlcnJpZGVzIGFueSBvdGhlciBiaW9tZXMgYWRkZWQu
+            DQogICAgICAgICAgICBTOkJpb21lLkJsYWNrbGlzdCA8DQogICAgICAgICAgICAgPg0KDQogICAg
+            ICAgICAgICAjIEEgbGlzdCBvZiBiaW9tZXMgdG8gYWxsb3cgcnViYmVyIHRyZWVzIHRvIHNwYXdu
+            IGluLiBEb2VzIG5vdGhpbmcgaWYgcnViYmVyIHRyZWUgd29ybGRnZW4gaXMgZGlzYWJsZWQuDQog
+            ICAgICAgICAgICBTOkJpb21lLldoaXRlbGlzdCA8DQogICAgICAgICAgICAgPg0KDQogICAgICAg
+            ICAgICAjIFdoZXRoZXIgb3Igbm90IHRvIGdlbmVyYXRlIE1GUiBydWJiZXIgdHJlZXMgZHVyaW5n
+            IG1hcCBnZW5lcmF0aW9uDQogICAgICAgICAgICBCOkVuYWJsZT10cnVlDQoNCiAgICAgICAgICAg
+            ICMgSWYgdHJ1ZSwgZW5hYmxlIGFkZGluZyBFbmNoYW50ZWQgU2FjcmVkIFJ1YmJlciBTYXBsaW5n
+            cyB0byBzdHJvbmdob2xkIGxpYnJhcnkgbG9vdC4NCiAgICAgICAgICAgIEI6U2FjcmVkUnViYmVy
+            U2FwbGluZz10cnVlDQogICAgICAgIH0NCg0KICAgICAgICBMYWtlcyB7DQogICAgICAgICAgICAj
+            IFdoZXRoZXIgb3Igbm90IHRvIGdlbmVyYXRlIE1GUiBsYWtlcyBkdXJpbmcgbWFwIGdlbmVyYXRp
+            b24uIEJ5IGRlZmF1bHQsIE1GUiB3aWxsIG5vdCBhdHRlbXB0IGxha2Ugd29ybGRnZW4gaW4gZGlt
+            ZW5zaW9ucyB3aGVyZSB0aGUgcGxheWVyIGNhbm5vdCByZXNwYXduLg0KICAgICAgICAgICAgQjpF
+            bmFibGU9dHJ1ZQ0KDQogICAgICAgICAgICBTbHVkZ2Ugew0KICAgICAgICAgICAgICAgICMgQSBs
+            aXN0IG9mIGJpb21lcyB0byBhbGxvdy9kaXNhbGxvdyBTbHVkZ2UgbGFrZXMgdG8gc3Bhd24gaW4u
+            IERvZXMgbm90aGluZyBpZiBsYWtlIHdvcmxkZ2VuIGlzIGRpc2FibGVkLg0KICAgICAgICAgICAg
+            ICAgIFM6QmlvbWVMaXN0IDwNCiAgICAgICAgICAgICAgICAgPg0KDQogICAgICAgICAgICAgICAg
+            IyBJZiBmYWxzZSwgdGhlIGJpb21lIGxpc3QgaXMgYSBibGFja2xpc3QuIElmIHRydWUsIHRoZSBi
+            aW9tZSBsaXN0IGlzIGEgd2hpdGVsaXN0Lg0KICAgICAgICAgICAgICAgIEI6QmlvbWVMaXN0Lk1v
+            ZGU9ZmFsc2UNCg0KICAgICAgICAgICAgICAgICMgSGlnaGVyIG51bWJlcnMgbWFrZSBzbHVkZ2Ug
+            bGFrZXMgcmFyZXIuIEEgdmFsdWUgb2Ygb25lIHdpbGwgYmUgYXBwcm94aW1hdGVseSBvbmUgcGVy
+            IGNodW5rLiAwIHdpbGwgZGlzYWJsZS4NCiAgICAgICAgICAgICAgICBJOlJhcml0eT0zMg0KICAg
+            ICAgICAgICAgfQ0KDQogICAgICAgICAgICBTZXdhZ2Ugew0KICAgICAgICAgICAgICAgICMgQSBs
+            aXN0IG9mIGJpb21lcyB0byBhbGxvdy9kaXNhbGxvdyBTZXdhZ2UgbGFrZXMgdG8gc3Bhd24gaW4u
+            IERvZXMgbm90aGluZyBpZiBsYWtlIHdvcmxkZ2VuIGlzIGRpc2FibGVkLg0KICAgICAgICAgICAg
+            ICAgIFM6QmlvbWVMaXN0IDwNCiAgICAgICAgICAgICAgICAgPg0KDQogICAgICAgICAgICAgICAg
+            IyBJZiBmYWxzZSwgdGhlIGJpb21lIGxpc3QgaXMgYSBibGFja2xpc3QuIElmIHRydWUsIHRoZSBi
+            aW9tZSBsaXN0IGlzIGEgd2hpdGVsaXN0Lg0KICAgICAgICAgICAgICAgIEI6QmlvbWVMaXN0Lk1v
+            ZGU9ZmFsc2UNCg0KICAgICAgICAgICAgICAgICMgSGlnaGVyIG51bWJlcnMgbWFrZSBTZXdhZ2Ug
+            bGFrZXMgcmFyZXIuIEEgdmFsdWUgb2Ygb25lIHdpbGwgYmUgYXBwcm94aW1hdGVseSBvbmUgcGVy
+            IGNodW5rLiAwIHdpbGwgZGlzYWJsZS4NCiAgICAgICAgICAgICAgICBJOlJhcml0eT0zMg0KICAg
+            ICAgICAgICAgfQ0KDQogICAgICAgIH0NCg0KICAgIH0NCg0KfQ0KDQoNCml0ZW0gew0KICAgICMg
+            SWYgdHJ1ZSwgYmlvZnVlbCB3aWxsIGV4cGxvZGUgd2hlbiBpbiB0aGUgbmV0aGVyLg0KICAgIEI6
+            QmlvZnVlbC5FeHBsb2Rpbmc9dHJ1ZQ0KDQogICAgIyBUaGUgcmF0ZSBhdCB3aGljaCBmaXNoIGFy
+            ZSBkcm9wcGVkIGZyb20gdGhlIGZpc2hpbmcgcm9kLiBUaGUgZHJvcCByYXRlIGlzIDEgLyB0aGlz
+            IG51bWJlci4gTXVzdCBiZSBncmVhdGVyIHRoYW4gMC4NCiAgICBJOkZpc2hEcm9wUmF0ZT01DQoN
+            CiAgICAjIElmIHRydWUsIG9ubHkgcGluayBzbGltZXMgbGFyZ2VyIHRoYW4gdGlueSB3aWxsIGRy
+            b3AgcGluayBzbGltZWJhbGxzLiBQcm92aWRlZCBmb3IgdGhvc2Ugd2hvIHdhbnQgYSBtb3JlIHdv
+            cmstaW50ZW5zaXZlIGxhc2VyIGRyaWxsLiAoc2xpbWVzIGNhbiBvbmx5IGJlIG1hZGUgbGFyZ2Vy
+            IHRocm91Z2ggdGhlIHNsaW1lIGVtYmlnZ2VuaW5nIHN5cmluZ2UpDQogICAgQjpMYXJnZVNsaW1l
+            RHJvcD1mYWxzZQ0KDQogICAgIyBJZiB0cnVlLCBFbXB0eSBTeXJpbmdlcyB3aWxsIGJlIGFibGUg
+            dG8gY29udGFpbiBsaXF1aWRzIGFuZCBpbmplY3QgcGxheWVycy4NCiAgICBCOkxpcXVpZFN5cmlu
+            Z2VzPXRydWUNCg0KICAgICMgSWYgdHJ1ZSwgbWVhdCB3aWxsIGJlIHdvcnRoIHN0ZWFrIHNhdHVy
+            YXRpb24gaW5zdGVhZCBvZiBjb29raWUgc2F0dXJhdGlvbi4NCiAgICBCOk1lYXQuSW5jcmVhc2Vk
+            U2F0dXJhdGlvbj1mYWxzZQ0KDQogICAgIyBJZiB0cnVlLCBTUEFNUnMgd2lsbCBleHBsb2RlIHdo
+            ZW4gdGhleSBydW4gb3V0IG9mIGZ1ZWwuDQogICAgQjpTUEFNUi5FeHBsb2Rpbmc9dHJ1ZQ0KDQog
+            ICAgVmFuaWxsYU92ZXJyaWRlIHsNCiAgICAgICAgIyBJZiB0cnVlLCByZXBsYWNlcyB0aGUgdmFu
+            aWxsYSBtaWxrIGJ1Y2tldCBzbyBtaWxrIGNhbiBiZSBwbGFjZWQgaW4gdGhlIHdvcmxkLg0KICAg
+            ICAgICBCOk1pbGtCdWNrZXQ9dHJ1ZQ0KICAgIH0NCg0KICAgIFJlY2lwZSB7DQogICAgICAgICMg
+            SWYgdHJ1ZSwgdGhlIENodW5rTG9hZGVyIGNhbiBiZSBidWlsdCBvdXQgb2YgY2hlYXBlciBtYXRl
+            cmlhbHMuIERvZXMgbm90aGluZyBpZiB0aGUgcmVjaXBlIGlzIGRpc2FibGVkLg0KICAgICAgICBC
+            OkNoZWFwZXJDaHVua0xvYWRlcj1mYWxzZQ0KDQogICAgICAgICMgSWYgdHJ1ZSwgdGhlIERTVSBj
+            YW4gYmUgYnVpbHQgb3V0IG9mIGNoZXN0cyBpbnN0ZWFkIG9mIGVuZGVyIHBlYXJscy4gRG9lcyBu
+            b3RoaW5nIGlmIHRoZSByZWNpcGUgaXMgZGlzYWJsZWQuDQogICAgICAgIEI6Q2hlYXBlckRTVT1m
+            YWxzZQ0KDQogICAgICAgICMgSWYgdHJ1ZSwgdGhlIHJldXNhYmxlIHNhZmFyaW5ldCB3aWxsIHJl
+            cXVpcmUgYSBwb3J0YXNwYXduZXIgdG8gY3JhZnQuIFRoZSBwb3J0YXNwYXduZXIgbXVzdCBiZSBl
+            bmFibGVkIGZvciB0aGUgc2FmYXJpbmV0IHRvIGJlIGNyYWZ0YWJsZS4NCiAgICAgICAgQjpFeHBl
+            bnNpdmVTYWZhcmlOZXQ9ZmFsc2UNCg0KICAgICAgICAjIElmIHRydWUsIHRoZSBnb2xkZW4gamFp
+            bGVyIHNhZmFyaW5ldCB3aWxsIGJlIGNyYWZ0YWJsZS4gSXQgY2F1c2VzIHJlbGVhc2VkIG1vYnMg
+            dG8gYWx3YXlzIHJlbmRlciB0aGVpciBuYW1ldGFnLCBsaWtlIGEgcGxheWVyIHdvdWxkLg0KICAg
+            ICAgICBCOkdvbGRlbkphaWxlclNhZmFyaU5ldD10cnVlDQoNCiAgICAgICAgIyBJZiB0cnVlLCB0
+            aGUgR3VucyB3aWxsIGJlIGNyYWZ0YWJsZS4NCiAgICAgICAgQjpHdW5zPWZhbHNlDQoNCiAgICAg
+            ICAgIyBJZiB0cnVlLCBtb3NzeSBjb2JibGUgY2FuIGJlIGNyYWZ0ZWQuDQogICAgICAgIEI6TW9z
+            c3lDb2JibGU9dHJ1ZQ0KDQogICAgICAgICMgSWYgdHJ1ZSwgdGhlIHNhZmFyaW5ldCBsYXVuY2hl
+            ciB3aWxsIGJlIGNyYWZ0YWJsZS4NCiAgICAgICAgQjpOZXRMYXVuY2hlcj1mYWxzZQ0KDQogICAg
+            ICAgICMgSWYgdHJ1ZSwgdGhlIFBvcnRhU3Bhd25lciB3aWxsIGJlIGNyYWZ0YWJsZS4NCiAgICAg
+            ICAgQjpQb3J0YVNwYXduZXI9ZmFsc2UNCg0KICAgICAgICAjIERTVSByZWNpcGVzIHdpbGwgYWx3
+            YXlzIGNyYWZ0IG9uZSBEU1UuIERvZXMgbm90aGluZyBmb3IgcmVjaXBlcyB0aGF0IGFscmVhZHkg
+            b25seSBjcmFmdCBvbmUgRFNVIChjaGVhcCBtb2RlLCBldGMpLg0KICAgICAgICBCOlNpbmdsZURT
+            VT10cnVlDQoNCiAgICAgICAgIyBJZiB0cnVlLCBzbW9vdGggZG91YmxlIHN0b25lIHNsYWJzIGNh
+            biBiZSBjcmFmdGFibGUuDQogICAgICAgIEI6U21vb3RoU2xhYj10cnVlDQoNCiAgICAgICAgIyBJ
+            ZiB0cnVlLCB0aGUgU3lyaW5nZXMgd2lsbCBiZSBjcmFmdGFibGUuDQogICAgICAgIEI6U3lyaW5n
+            ZXM9dHJ1ZQ0KICAgIH0NCg0KfQ0K
+
+
++ Response 204            
+        
+
+### Delete an asset [DELETE /api/assets/{id}]
+
+Deletes an asset from the system, will also remove the file from
+storage if it exists.
+
++ Parameters
+
+    + id: `aded1578-431c-4fff-97be-e5ff5ac47989` (uuid) - The id of the asset you wish to delete
+
++ Request
+
+    + Header
+
+            Accept: application/vnd.api+json
+            Content-type: application/vnd.api+json
+
++ Response 204
+
+# Group v0.7
+
+These endpoints describe the API for solder versions below 0.8 and MUST be maintained until
+they are fully deprecated and removed. These endpoints MUST NOT require authentication.
+
+### Verify API Key [GET /api/verify/{key}]
+
++ Parameters
+
+    + key: `0d64794852c2a4dcecb1a57cdf531d28` (string) - The key to be verified
+
++ Response 200 (application/json)
+
+        {
+            "name":"Technicpack.net",
+            "valid":"Key validated.",
+            "created_at":{
+                "date":"2016-11-06 21:08:31.000000",
+                "timezone_type":3,
+                "timezone":"UTC"
+            }
+        }
+
+## Mods [/api/mod]
+
+### List mods [GET]
+
++ Response 200 (application/json)
+
+        {
+            "mods": {
+                "testmod": "TestMod"
+            }
+        }
+
+### Get a mod [GET /api/mod/{name}]
+
++ Parameters
+
+    + name: testmod (string) - The slug of the mod you wish to request
+
++ Response 200 (application/json)
+
+        {
+            "name": "testmod",
+            "pretty_name": "TestMod",
+            "author": "Technic",
+            "description": "This is a test mod for Solder",
+            "link": "http://solder.io",
+            "donate": null,
+            "versions": [
+                "0.1"
+            ]
+        }
+
+### Get a version [GET /api/mod/{name}/{version}]
+
++ Parameters
+
+    + name: testmod (string) - The slug of the mod you wish to request
+    + version: 0.1 (string) - The slug of the mod you wish to request
+
++ Response 200 (application/json)
+
+        {
+          "md5": "fb6582e4d9c9bc208181907ecc108eb1",
+          "url": "http://technic.pagefortress.com/mods/testmod/testmod-0.1.zip"
+        }
+
+## Modpacks [/api/modpack]
+
+### List modpacks [GET /api/modpack{?include}{?k}{?cid}]
+
++ Parameters
+
+    + k (optional, string) - API key, for returning unpublished modpacks/builds
+    + cid (optional, string) - Client token, for returning unpublished modpacks/builds
+    + include: `full` (optional, string) - Detail level to include in modpack results
+        + Members
+            + `full`
+
++ Response 200 (application/json)
+
+        {
+            "mirror_url":"http://solder.example.com/files/",
+            "modpacks": {
+                "test": {
+                    "name":"test",
+                    "display_name":"Example Modpack",
+                    "url":"",
+                    "icon":"http://cdn.technicpack.net/resources/tekkitmain/icon.png?1419981117",
+                    "icon_md5":"1dd87c03268a7144411bb8cbe8bf7326",
+                    "logo":"http://cdn.technicpack.net/resources/tekkitmain/logo.png?1419981117",
+                    "logo_md5":"2f9625f8343cd1aaa35d3dd631ad64e1",
+                    "background":"http://cdn.technicpack.net/resources/tekkitmain/background.png?1419981117",
+                    "background_md5":"f39ae618809383451f6832e4d2a738fe",
+                    "recommended":"1.2.9f",
+                    "latest":"1.2.10cx",
+                    "builds":[
+                       "1.0.2",
+                       "1.0.3"
+                    ]
+                }
+            }
+        }
+
++ Response 200 (application/json)
+
+        {
+           "modpacks":{
+              "test":"Example Modpack"
+           },
+           "mirror_url":"http://solder.example.com/files/"
+        }
+
+### Get a modpack [GET /api/modpack/{name}{?k}{?cid}]
+
++ Parameters
+
+    + name: test (string) - The name of the modpack you wish to request
+    + k (optional, string) - API key, for returning unpublished modpacks/builds
+    + cid (optional, string) - Client token, for returning unpublished modpacks/builds
+
++ Response 200 (application/json)
+
+        {
+           "name":"test",
+           "display_name":"Example Modpack",
+           "url":"",
+           "icon":"http://cdn.technicpack.net/resources/tekkitmain/icon.png?1419981117",
+           "icon_md5":"1dd87c03268a7144411bb8cbe8bf7326",
+           "logo":"http://cdn.technicpack.net/resources/tekkitmain/logo.png?1419981117",
+           "logo_md5":"2f9625f8343cd1aaa35d3dd631ad64e1",
+           "background":"http://cdn.technicpack.net/resources/tekkitmain/background.png?1419981117",
+           "background_md5":"f39ae618809383451f6832e4d2a738fe",
+           "recommended":"1.2.9f",
+           "latest":"1.2.10cx",
+           "builds":[
+              "1.0.2",
+              "1.0.3"
+           ]
+        }
+
+### Get a build [GET /api/modpack/{name}/{build}{?k}{?cid}]
+
++ Parameters
+
+    + name: `test` (string) - The slug of the modpack you wish to request
+    + build: `1.0.3` (string) - Specific build you wish to view
+    + k (optional, string) - API key, for returning unpublished modpacks/builds
+    + cid (optional, string) - Client token, for returning unpublished modpacks/builds
+
++ Response 200 (application/json)
+
+        {
+           "minecraft":"1.5.1",
+           "forge":null,
+           "mods":[
+              {
+                  "name": "testmod",
+                  "version": "0.1",
+                  "md5":"842658e9a8a03c1210d563be1b7d09f5",
+                  "url":"http://mirror.technicpack.net/Technic/mods/testmod/testmod-0.1.zip"
+              }
+           ]
+        }
+
+
+# Data Structures
+
+## ResourceRequest (object)
++ type: `resource` (required) - The api data type
++ id: `f80fb3c1-437e-4d81-a2ba-ccd6fcb8fc7c` (optional) - The resource id
++ attributes
+    + name: `IronTanks` (required) - The human readable name for the resource
+    + slug: `irontanks` (optional) - The machine readable name for the resource
+    + author: `Indemnity83 (Kyle Klaus)` (optional) - The author(s) of the resource
+    + description: `Expanding buildcraft tanks` (optional) - A summary of the resource (supports markdown)
+    + link: `http://github.com/indemnity83/irontank` (optional) - Link to the resource homepage
+    + donate (optional) - Link to the resource donation page
+
+## ResourceResponse (object)
++ type: `resource` (required) - The api data type
++ id: `f80fb3c1-437e-4d81-a2ba-ccd6fcb8fc7c` (required) - The resource id
++ attributes
+    + name: `IronTanks` (required) - The human readable name for the resource
+    + slug: `irontanks` (required) - The machine readable name for the resource
+    + author: `Indemnity83 (Kyle Klaus)` (required) - The author(s) of the resource
+    + description: `Expanding buildcraft tanks` (required) - A summary of the resource (supports markdown)
+    + link: `http://github.com/indemnity83/irontank` (optional) - Link to the resource homepage
+    + donate (optional) - Link to the resource donation page
+    + created_at: `2016-11-12T02:33:10+00:00` - ISO 8601 formated datetime when resource was created
+    + updated_at: `2016-11-12T02:33:10+00:00` - ISO 8601 formated datetime when resource was updated
++ links
+    + self: `http://solder.technnicpack.net/api/resources/f80fb3c1-437e-4d81-a2ba-ccd6fcb8fc7c` - API URI to resource
+
+## VersionRequest (object)
++ type: `version` (required) - The api data type
++ id: `0878a8f5-576c-4e06-bace-93aa46fdcc37` (optional) - The resource id
++ attributes
+    + version: `1.0.2.54-beta` - The symentic version
+
+## VersionResponse (object)
++ type: `version` (required) - The api data type
++ id: `0878a8f5-576c-4e06-bace-93aa46fdcc37` (required) - The version id
++ attributes
+    + version: `1.0.2.54-beta` - The symentic version
+    + created_at: `2016-11-12T02:33:10+00:00` - ISO 8601 formated datetime when resource was created
+    + updated_at: `2016-11-12T02:33:10+00:00` - ISO 8601 formated datetime when resource was updated
++ links
+    + self: `http://solder.technnicpack.net/api/versions/0878a8f5-576c-4e06-bace-93aa46fdcc37` - API URI to version
+
+## AssetRequest (object)
++ type: `asset` (required) - The api data type
++ id: `aded1578-431c-4fff-97be-e5ff5ac47989` (optional) - The asset id
++ attributes
+    + filename: `irontank-1.7.10-1.0.2.54-beta.jar` - The name for the downloaded file in the client
+    + location: `mods` - The location for the downloaded file in the client
+    + filesize: 54260 (optional) - The size of the file in bytes
+    + url: `https://minecraft.curseforge.com/projects/iron-tanks/files/2336499` (optional) - The internet location where the file can be retrieved
+    + md5: `35e396d5cdce66c78bc8f3b8fee505cb` (optional) - An MD5 checksum for the file
+
+## AssetResponse (object)
++ type: `asset` (required) - The api data type
++ id: `aded1578-431c-4fff-97be-e5ff5ac47989` (optional) - The asset id
++ attributes
+    + filename: `irontank-1.7.10-1.0.2.54-beta.jar` - The name for the downloaded file in the client
+    + location: `mods` - The location for the downloaded file in the client
+    + filesize: 54260 (optional) - The size of the file in bytes
+    + url: `https://minecraft.curseforge.com/projects/iron-tanks/files/2336499` (optional) - The internet location where the file can be retrieved
+    + md5: `35e396d5cdce66c78bc8f3b8fee505cb` (optional) - An MD5 checksum for the file
+    + created_at: `2016-11-12T02:33:10+00:00` - ISO 8601 formated datetime when resource was created
+    + updated_at: `2016-11-12T02:33:10+00:00` - ISO 8601 formated datetime when resource was updated
++ links
+    + self: `http://solder.technnicpack.net/api/assets/0878a8f5-576c-4e06-bace-93aa46fdcc37` - API URI to asset
+
+## ModpackRequest (object)
++ type: `modpack` (required) - The api data type
++ id: `e2d6ff99-de5b-429c-83ea-1660663b7bc4` (optional) - The modpack id
++ attributes
+    + name: `Brothers Klaus` (required) - The human readable name for the modpack
+    + slug: `brothers-klaus` (optional) - The machine readable name for the modpack
+    + description: A classic tech pack` (string, optional) - Short description to show in search results
+    + overview (string, optional) - Long description to show on modpack page
+    + help (string, optional) - Content presented to users on a 'help' page
+    + license (string, optional) - Content presented to users on a 'licence' page  
+    + privacy: `public` (enum, required) - The visibiilty setting for the modpack
+        + Members
+            + `public`
+            + `unlisted`
+            + `private`
+    + tags (SearchTags, optional) - Search indexed tags for the modpack 
+    + website (string, optional) - Link to dedicated website for modpack
+    + icon: `http://solder.technnicpack.net/pack-icons/e2d6ff99-de5b-429c-83ea-1660663b7bc4.png` (string, optional) - URI for 50x50 icon image
+    + logo: `http://solder.technnicpack.net/pack-logos/e2d6ff99-de5b-429c-83ea-1660663b7bc4.png` (string, optional) - URI for 370x220 logo image
+    + background: `http://solder.technnicpack.net/pack-backgrounds/e2d6ff99-de5b-429c-83ea-1660663b7bc4.jpg` (string, optional) - URI for 900x600 background image
+
+## ModpackResponse (object)
++ type: `modpack` (string, required) - The api data type
++ id: `e2d6ff99-de5b-429c-83ea-1660663b7bc4` (string, required) - The modpack id
++ attributes
+    + name: `Brothers Klaus` (string, required) - The human readable name for the modpack
+    + slug: `brothers-klaus` (string, required) - The machine readable name for the modpack
+    + description: A classic tech pack` (string, optional) - Short description to show in search results
+    + overview (string, optional) - Long description to show on modpack page
+    + help (string, optional) - Content presented to users on a 'help' page
+    + license (string, optional) - Content presented to users on a 'licence' page  
+    + privacy: `public` (enum, required) - The visibiilty setting for the modpack
+        + Members
+            + `public`
+            + `unlisted`
+            + `private`
+    + tags (SearchTags, optional) - Search indexed tags for the modpack 
+    + website (string, optional) - Link to dedicated website for modpack
+    + icon: `http://solder.technnicpack.net/pack-icons/e2d6ff99-de5b-429c-83ea-1660663b7bc4.png` (string, optional) - URI for 50x50 icon image
+    + logo: `http://solder.technnicpack.net/pack-logos/e2d6ff99-de5b-429c-83ea-1660663b7bc4.png` (string, optional) - URI for 370x220 logo image
+    + background: `http://solder.technnicpack.net/pack-backgrounds/e2d6ff99-de5b-429c-83ea-1660663b7bc4.jpg` (string, optional) - URI for 900x600 background image
+    + created_at: `2016-11-12T02:33:10+00:00` (string, required) - ISO 8601 formated datetime when resource was created
+    + updated_at: `2016-11-12T02:33:10+00:00` (string, required) - ISO 8601 formated datetime when resource was updated
++ links
+    + self: `http://solder.technnicpack.net/api/modpacks/e2d6ff99-de5b-429c-83ea-1660663b7bc4` (string, required) - API URI to modpack
+
+## BuildRequest (object)
++ type: `build` (required) - The api data type
++ id: `cac555fe-0325-489c-b3ed-1dc63dcacc2f` (optional) - The build id
++ attributes
+    + version: `1.0.0` - The symentic version
+    + changelog: `First release` (string, optional) - A description of changes in this build
+    + privacy: `public` (enum, required) - The visibiilty setting for the build
+        + Members
+            + `public`
+            + `unlisted`
+            + `private`
+    + minecraft: `1.7.10` (required) - The base Minecraft version for the build
+    + arguments (Arguments, optional) - Additional directives for game launch
+
+## BuildResponse (object)
++ type: `build` (required) - The api data type
++ id: `cac555fe-0325-489c-b3ed-1dc63dcacc2f` (required) - The modpack id
++ attributes
+    + version: `1.0.0` - The symentic version
+    + changelog: `First release` (string, optional) - A description of changes in this build
+    + privacy: `public` (enum, required) - The visibiilty setting for the build
+        + Members
+            + `public`
+            + `unlisted`
+            + `private`
+    + minecraft: `1.7.10` (required) - The base Minecraft version for the build
+    + arguments (Arguments, optional) - Additional directives for game launch
+    + created_at: `2016-11-12T02:33:10+00:00` - ISO 8601 formated datetime when resource was created
+    + updated_at: `2016-11-12T02:33:10+00:00` - ISO 8601 formated datetime when resource was updated
++ links
+    + self: `http://solder.technnicpack.net/api/builds/cac555fe-0325-489c-b3ed-1dc63dcacc2f` - API URI to build
+    
+## BuildAssets (object)
++ type: `asset` (string)
++ id: `aded1578-431c-4fff-97be-e5ff5ac47989` (string)
+
+## SearchTags (array)
++ `adventure`
++ `buildcraft`
++ `custom-server`
+
+## Arguments (object)
++ java: `1.6`
++ memory: 2048
+
+## UnauthorizedError (object)
++ status: `401` (required) - the HTTP status code applicable to this problem, expressed as a string value
++ title: `Unauthorized` - a short, human-readable summary of the problem
++ description: `An authorization token is required for this request, but none was not provided` - a human-readable explanation specific to this occurrence of the problem
+
+## AuthorizationError (object)
++ status: `401` (required) - the HTTP status code applicable to this problem, expressed as a string value
++ title: `Unauthorized` - a short, human-readable summary of the problem
++ description: `The authorization token provided was invalid` - a human-readable explanation specific to this occurrence of the problem
+
+## HasChildrenError (object)
++ status: `403` (required) - the HTTP status code applicable to this problem, expressed as a string value
++ title: `Forbidden` - a short, human-readable summary of the problem
++ description: `You cannot delete a {model} that has dependants without specifying a cascade delete` - a human-readable explanation specific to this occurrence of the problem
+
+## NotFoundError (object)
++ status: `404` (required) - the HTTP status code applicable to this problem, expressed as a string value
++ title: `Not Found` - a short, human-readable summary of the problem
++ description: `A {model} with the id of {id} could not be found` - a human-readable explanation specific to this occurrence of the problem
+
+## UniqueConflictError (object)
++ status: `409` (required) - the HTTP status code applicable to this problem, expressed as a string value
++ title: `Conflict` - a short, human-readable summary of the problem
++ description: `Another {model} aleady exists with the {attribute} of {value}` - a human-readable explanation specific to this occurrence of the problem
+
+## DeleteConflictError (object)
++ status: `409` (required) - the HTTP status code applicable to this problem, expressed as a string value
++ title: `Conflict` - a short, human-readable summary of the problem
++ description: `Cannot delete {model}, there are related {models} still {children} existing` - a human-readable explanation specific to this occurrence of the problem

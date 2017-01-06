@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of TechnicSolder.
+ *
+ * (c) Kyle Klaus <kklaus@indemnity83.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace App\Transformers;
 
 use App\Build;
@@ -7,25 +16,39 @@ use League\Fractal\TransformerAbstract;
 
 class BuildTransformer extends TransformerAbstract
 {
-    protected $availableIncludes = ['releases', 'modpack', 'assets'];
+    /**
+     * List of resources possible to include.
+     *
+     * @var array
+     */
+    protected $availableIncludes = [
+        'modpack',
+    ];
 
+    /**
+     * Transform the \Modpack entity.
+     * @param Build $build
+     * @return array
+     */
     public function transform(Build $build)
     {
         return [
-            'id' => $build->getRouteKey(),
+            'id' => $build->id,
             'version' => $build->version,
-            'tags' => $build->tags,
-            'published_at' => $build->published_at->format('c'),
+            'changelog' => $build->changelog,
+            'privacy' => $build->privacy,
+            'arguments' => $build->arguments,
+            'game_version' => $build->game_version,
             'created_at' => $build->created_at->format('c'),
             'updated_at' => $build->updated_at->format('c'),
         ];
     }
 
-    public function includeReleases(Build $build)
-    {
-        return $this->collection($build->releases, new ReleaseTransformer(), 'release');
-    }
-
+    /**
+     * Include Modpack.
+     * @param Build $build
+     * @return \League\Fractal\Resource\Item
+     */
     public function includeModpack(Build $build)
     {
         return $this->item($build->modpack, new ModpackTransformer(), 'modpack');
