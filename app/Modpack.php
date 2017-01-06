@@ -1,33 +1,66 @@
 <?php
 
+/*
+ * This file is part of TechnicSolder.
+ *
+ * (c) Kyle Klaus <kklaus@indemnity83.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace App;
 
 use Carbon\Carbon;
+use App\Traits\HasPrivacy;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 use Alsofronie\Uuid\UuidModelTrait;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 
 /**
- * @property string id
- * @property string slug
- * @property string name
- * @property \App\Asset icon
- * @property \App\Asset logo
- * @property \App\Asset background
- * @property \App\Build latest
- * @property \App\Build promoted
- * @property Collection clients
- * @property Collection builds
- * @property Carbon published_at
- * @property Carbon created_at
- * @property Carbon updated_at
+ * App\Modpack.
+ *
+ * @property string $id
+ * @property string $name
+ * @property string $slug
+ * @property string $description
+ * @property string $overview
+ * @property string $help
+ * @property string $license
+ * @property string $privacy
+ * @property array $tags
+ * @property string $website
+ * @property string $icon
+ * @property string $logo
+ * @property string $background
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
+ * @property Collection $builds
+ * @property-read string $tags_as_string
+ * @method static \Illuminate\Database\Query\Builder|\App\Modpack whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Modpack whereName($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Modpack whereSlug($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Modpack displayable()
+ * @method static \Illuminate\Database\Query\Builder|\App\Modpack whereDescription($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Modpack whereOverview($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Modpack whereHelp($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Modpack whereLicense($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Modpack wherePrivacy($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Modpack whereTags($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Modpack whereIcon($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Modpack whereLogo($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Modpack whereBackground($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Modpack whereWebsite($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Modpack whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Modpack whereUpdatedAt($value)
+ * @mixin \Eloquent
  */
 class Modpack extends Model
 {
     use HasSlug;
+    use HasPrivacy;
     use UuidModelTrait;
 
     /**
@@ -36,33 +69,37 @@ class Modpack extends Model
      * @var array
      */
     protected $fillable = [
-        'slug',
         'name',
-        'published_at',
+        'slug',
+        'description',
+        'overview',
+        'help',
+        'license',
+        'privacy',
+        'tags',
+        'website',
     ];
 
     /**
-     * The attributes that should be mutated to dates.
+     * The model's default attributes.
      *
      * @var array
      */
-    protected $dates = [
-        'published_at',
+    protected $attributes = [
+        'privacy' => Privacy::PRIVATE,
     ];
 
     /**
-     * Get the options for generating the slug.
+     * The attributes that should be cast to native types.
+     *
+     * @var array
      */
-    public function getSlugOptions(): SlugOptions
-    {
-        return SlugOptions::create()
-            ->generateSlugsFrom('name')
-            ->doNotGenerateSlugsOnUpdate()
-            ->saveSlugsTo('slug');
-    }
+    protected $casts = [
+        'tags' => 'array',
+    ];
 
     /**
-     * Get the builds for the model.
+     * Related builds.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
@@ -72,145 +109,25 @@ class Modpack extends Model
     }
 
     /**
-     * Get the models' icon.
+     * Get the options for generating the slug.
      */
-    public function icon()
+    public function getSlugOptions()
     {
-        return $this->morphOne(ModpackIcon::class, Asset::MORPH_NAME);
+        return SlugOptions::create()
+            ->generateSlugsFrom('name')
+            ->doNotGenerateSlugsOnUpdate()
+            ->saveSlugsTo('slug');
     }
 
     /**
-     * Get the models' icon.
+     * Get tags as imploded string.
      */
-    public function logo()
+    public function getTagsAsStringAttribute()
     {
-        return $this->morphOne(ModpackLogo::class, Asset::MORPH_NAME);
-    }
-
-    /**
-     * Get the models' icon.
-     */
-    public function background()
-    {
-        return $this->morphOne(ModpackBackground::class, Asset::MORPH_NAME);
-    }
-
-    /**
-     * Get the promoted build for the modpack.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function promoted()
-    {
-        return $this->belongsTo(Build::class, 'promoted_build_id');
-    }
-
-    /**
-     * Get the clients with permission on this build.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     */
-    public function clients()
-    {
-        return $this->belongsToMany(Client::class);
-    }
-
-    /**
-     * Get the latest build for the modpack.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function latest()
-    {
-        return $this->belongsTo(Build::class, 'latest_build_id');
-    }
-
-    /**
-     * Where modpack is published.
-     *
-     * @param Builder $query
-     *
-     * @return \Illuminate\Database\Query\Builder|static
-     */
-    public function scopePublished(Builder $query)
-    {
-        return $query->whereDate('published_at', '<', Carbon::now());
-    }
-
-    /**
-     * Return results where the given client has permission.
-     *
-     * @param Builder $query
-     * @param Client $client
-     *
-     * @return Builder
-     */
-    public function scopeWhereAllowed($query, $client)
-    {
-        if ($client === null) {
-            return $this->scopePublished($query);
+        if ($this->tags === null) {
+            return '';
         }
 
-        if ($client->is_global) {
-            return $query;
-        }
-
-        return $query
-            ->whereIn('id', $client->modpacks()->pluck('id'))
-            ->orWhere('published_at', '<', Carbon::now());
-    }
-
-    /**
-     * Give the client permission to view this modpack.
-     *
-     * @param Client $client
-     *
-     * @return $this
-     */
-    public function allow(Client $client)
-    {
-        $this->clients()->save($client);
-
-        return $this;
-    }
-
-    /**
-     * Check if the client is allowed to view the modpack.
-     *
-     * @param Client $client
-     *
-     * @return bool
-     */
-    public function allowed($client)
-    {
-        if ($this->published_at !== null && $this->published_at->isPast()) {
-            return true;
-        }
-
-        if ($client === null) {
-            return false;
-        }
-
-        if ($client->is_global) {
-            return true;
-        }
-
-        if ($this->clients()->find($client->id)) {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * Check if the client is not allowed to view the modpack.
-     *
-     * @param Client $client
-     *
-     * @return bool
-     */
-    public function disallowed($client)
-    {
-        return ! $this->allowed($client);
+        return implode(', ', $this->tags);
     }
 }

@@ -13,14 +13,7 @@ require('./bootstrap');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('mod-list', require('./components/mods/ModList.vue'));
-Vue.component('mod-releases', require('./components/releases/ModReleases.vue'));
-Vue.component('modpack-list', require('./components/modpacks/ModpackList.vue'));
-Vue.component('modpack-builds', require('./components/builds/ModpackBuilds.vue'));
-Vue.component('build-releases', require('./components/releases/BuildReleases.vue'));
-Vue.component('release-builds', require('./components/builds/ReleaseBuilds.vue'));
-Vue.component('recent-mod-releases', require('./components/releases/RecentModReleases.vue'));
-Vue.component('recent-modpack-builds', require('./components/builds/RecentModpackBuilds.vue'));
+Vue.component('example', require('./components/Example.vue'));
 Vue.component('passport-clients', require('./components/passport/Clients.vue'));
 Vue.component('passport-authorized-clients', require('./components/passport/AuthorizedClients.vue'));
 Vue.component('passport-personal-access-tokens', require('./components/passport/PersonalAccessTokens.vue'));

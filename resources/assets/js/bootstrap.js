@@ -20,45 +20,6 @@ window.Vue = require('vue');
 require('vue-resource');
 
 /**
- * Time Ago VUE component, for easily turning dates into "5 minutes ago"
- * strings.
- *
- * TODO: I'm not a java guy ... there must be a cleaner way to do this
- */
-var VueTimeago = require('vue-timeago');
-Vue.use(VueTimeago, {
-    locale: 'en-US',
-    maxTime: 86400 * 5,
-    locales: {
-        'en-US': [
-            "just now",
-            ["%s second ago", "%s seconds ago"],
-            ["%s minute ago", "%s minutes ago"],
-            ["%s hour ago", "%s hours ago"],
-            ["%s day ago", "%s days ago"],
-            ["%s week ago", "%s weeks ago"],
-            ["%s month ago", "%s months ago"],
-            ["%s year ago", "%s years ago"]
-        ]
-    }
-});
-
-/**
- * JsonApiDataStore is a client side JSON API parser, used in the vue models
- * to consume the api for web presentation.
- *
- * TODO: I'm not a java guy ... there must be a cleaner way to do this
- */
-var jsonApiDatastore = require('jsonapi-datastore');
-window.store = new jsonApiDatastore.JsonApiDataStore();
-
-/**
- * An awesome replacement for JavaScript's alert.
- */
-require('sweetalert');
-
-
-/**
  * We'll register a HTTP interceptor to attach the "CSRF" header to each of
  * the outgoing requests issued by this application. The CSRF middleware
  * included with Laravel will automatically verify the header's value.

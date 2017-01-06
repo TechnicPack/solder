@@ -17,12 +17,11 @@ class CreateBuildsTable extends Migration
             $table->uuid('id');
             $table->uuid('modpack_id');
             $table->string('version');
-            $table->datetime('published_at')->nullable();
-            $table->text('tags')->nullable();
+            $table->text('changelog')->nullable();
+            $table->string('privacy');
+            $table->string('arguments')->nullable();
+            $table->string('game_version');
             $table->timestamps();
-
-            $table->primary('id');
-            $table->foreign('modpack_id')->references('id')->on('modpacks');
         });
     }
 

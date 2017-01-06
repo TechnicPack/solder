@@ -1,7 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
-use Tremby\LaravelGitVersion\GitVersionHelper;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,56 +12,63 @@ use Tremby\LaravelGitVersion\GitVersionHelper;
 |
 */
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:api');
+// Public Endpoints
+Route::group(['namespace' => 'Api'], function () {
+    Route::get('/', 'RootController@index');
 
-Route::get('/', function () {
-    return response([
-        'api' => config('app.name'),
-        'version' => GitVersionHelper::getVersion(),
-        'stream' => config('app.env'),
-    ]);
-});
-
-// Solder 0.8.~ Oauth Protected API Endpoints
-Route::group(['namespace' => 'Api', 'middleware' => 'auth:api'], function () {
-    Route::get('mods/{mod}/releases', 'ModReleasesController@index');
-    Route::post('mods/{mod}/releases', 'ModReleasesController@store')->middleware('resource.item:release');
-    Route::get('mods/{mod}', 'ModsController@show');
-    Route::patch('mods/{mod}', 'ModsController@update')->middleware('resource.item:mod');
-    Route::delete('mods/{mod}', 'ModsController@destroy');
-    Route::get('mods', 'ModsController@index');
-    Route::post('mods', 'ModsController@store')->middleware('resource.item:mod');
-
-    Route::get('releases/{release}/builds', 'ReleaseBuildsController@index');
-    Route::get('releases/{release}', 'ReleasesController@show');
-    Route::patch('releases/{release}', 'ReleasesController@update');
-    Route::delete('releases/{release}', 'ReleasesController@destroy');
-    Route::get('releases', 'ReleasesController@index');
-
+    Route::get('modpacks/{modpack}/relationships/builds', 'ModpackBuildsController@show');
     Route::get('modpacks/{modpack}/builds', 'ModpackBuildsController@index');
-    Route::post('modpacks/{modpack}/builds', 'ModpackBuildsController@store')->middleware('resource.item:build');
     Route::get('modpacks/{modpack}', 'ModpacksController@show');
-    Route::patch('modpacks/{modpack}', 'ModpacksController@update')->middleware('resource.item:modpack');
-    Route::delete('modpacks/{modpack}', 'ModpacksController@destroy');
-    Route::get('modpacks', 'ModpacksController@index');
-    Route::post('modpacks', 'ModpacksController@store')->middleware('resource.item:modpack');
+    Route::get('modpacks/', 'ModpacksController@index');
 
-    Route::get('builds/{build}/releases', 'BuildReleasesController@index');
     Route::get('builds/{build}', 'BuildsController@show');
-    Route::patch('builds/{build}', 'BuildsController@update')->middleware('resource.item:build');
-    Route::delete('builds/{build}', 'BuildsController@destroy');
-    Route::get('builds', 'BuildsController@index');
+    Route::get('builds/', 'BuildsController@index');
 });
 
-// Solder 0.7.~ API Endpoints
-Route::group(['namespace' => 'Api\v07'], function () {
-    Route::get('verify/{token}', 'TokensController@verify');
-    Route::get('mod/{mod}/{releaseVersion}', 'ModReleasesController@show');
-    Route::get('mod/{mod}', 'ModsController@show');
-    Route::get('mod', 'ModsController@index');
-    Route::get('modpack/{modpack}/{buildVersion}', 'ModpackBuildsController@show');
-    Route::get('modpack/{modpack}', 'ModpacksController@show');
-    Route::get('modpack', 'ModpacksController@index');
+// Protected Endpoints
+Route::group(['namespace' => 'Api', 'middleware' => 'auth:api'], function () {
+    Route::post('modpacks/{modpack}/builds', 'ModpackBuildsController@store');
+    Route::put('modpacks/{modpack}/{asset}', 'ModpacksController@upload');
+    Route::patch('modpacks/{modpack}', 'ModpacksController@update');
+    Route::delete('modpacks/{modpack}', 'ModpacksController@destroy');
+    Route::post('modpacks', 'ModpacksController@store');
+
+    Route::get('builds/{build}/{related}', 'BuildsController@related');
+    Route::post('builds/{build}/{related}', 'BuildsController@store');
+    Route::patch('builds/{build}', 'BuildsController@update');
+    Route::delete('builds/{build}', 'BuildsController@destroy');
+
+    Route::get('resources/{resource}/relationships/versions', 'ResourceVersionsController@show');
+    Route::get('resources/{resource}/versions', 'ResourceVersionsController@index');
+    Route::post('resources/{resource}/versions', 'ResourceVersionsController@store');
+    Route::get('resources/{resource}', 'ResourcesController@show');
+    Route::patch('resources/{resource}', 'ResourcesController@update');
+    Route::delete('resources/{resource}', 'ResourcesController@destroy');
+    Route::get('resources', 'ResourcesController@index');
+    Route::post('resources', 'ResourcesController@store');
+
+    Route::get('versions/{version}/relationships/assets', 'VersionAssetsController@show');
+    Route::get('versions/{version}/assets', 'VersionAssetsController@index');
+    Route::post('versions/{version}/assets', 'VersionAssetsController@store');
+    Route::get('versions/{version}', 'VersionsController@show');
+    Route::patch('versions/{version}', 'VersionsController@update');
+    Route::delete('versions/{version}', 'VersionsController@destroy');
+    Route::get('versions', 'VersionsController@index');
+    Route::post('versions', 'VersionsController@store');
+
+    Route::get('assets/{asset}', 'AssetsController@show');
+    Route::patch('assets/{asset}', 'AssetsController@update');
+    Route::delete('assets/{asset}', 'AssetsController@destroy');
+    Route::get('assets', 'AssetsController@index');
+});
+
+// Legacy Endpoints
+Route::group(['namespace' => 'Api'], function () {
+    Route::get('verify/{key}', 'LegacyController@verify');
+    Route::get('modpack/{slug}/{version}', 'LegacyController@showBuild');
+    Route::get('modpack/{slug}', 'LegacyController@showModpack');
+    Route::get('modpack', 'LegacyController@listModpacks');
+    Route::get('mod/{slug}/{version}', 'LegacyController@showVersion');
+    Route::get('mod/{slug}', 'LegacyController@showMod');
+    Route::get('mod', 'LegacyController@listMods');
 });

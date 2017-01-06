@@ -8,14 +8,11 @@
     "bootstrap-sass": "^3.3.7",
     "gulp": "^3.9.1",
     "jquery": "^3.1.0",
-    "jsonapi-datastore": "^0.4.0-beta",
-    "laravel-elixir": "^6.0.0-11",
+    "laravel-elixir": "^6.0.0-14",
     "laravel-elixir-vue-2": "^0.2.0",
     "laravel-elixir-webpack-official": "^1.0.2",
     "lodash": "^4.16.2",
-    "sweetalert": "^1.1.3",
     "vue": "^2.0.1",
-    "vue-resource": "^1.0.3",
-    "vue-timeago": "^3.1.2"
+    "vue-resource": "^1.0.3"
   }
 }

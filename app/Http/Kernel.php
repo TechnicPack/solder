@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of TechnicSolder.
+ *
+ * (c) Kyle Klaus <kklaus@indemnity83.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace App\Http;
 
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
@@ -53,6 +62,5 @@ class Kernel extends HttpKernel
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
-        'resource.item' => \App\Http\Middleware\VerifyResourceObject::class,
     ];
 }

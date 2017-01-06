@@ -164,11 +164,11 @@ return [
         Illuminate\View\ViewServiceProvider::class,
 
         /*
-         * Release Service Providers...
+         * Package Service Providers...
          */
-        Spatie\Fractal\FractalServiceProvider::class,
-        GrahamCampbell\Markdown\MarkdownServiceProvider::class,
+        GrahamCampbell\Exceptions\ExceptionsServiceProvider::class,
         Laravel\Passport\PassportServiceProvider::class,
+        Spatie\Fractal\FractalServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -227,7 +227,6 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Fractal' => Spatie\Fractal\FractalFacade::class,
-        'Markdown' => GrahamCampbell\Markdown\Facades\Markdown::class,
 
     ],
 

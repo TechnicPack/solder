@@ -1,63 +1,66 @@
 <?php
 
+/*
+ * This file is part of TechnicSolder.
+ *
+ * (c) Kyle Klaus <kklaus@indemnity83.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace App\Transformers;
 
 use App\Modpack;
+use Auth;
 use League\Fractal\TransformerAbstract;
 
 class ModpackTransformer extends TransformerAbstract
 {
+    /**
+     * List of resources possible to include.
+     *
+     * @var array
+     */
     protected $availableIncludes = [
         'builds',
-        'icon',
-        'logo',
-        'background',
-        'promoted',
-        'latest',
     ];
 
+    /**
+     * Transform the \Modpack entity.
+     * @param Modpack $modpack
+     * @return array
+     */
     public function transform(Modpack $modpack)
     {
         return [
+            'id' => $modpack->id,
             'name' => $modpack->name,
-            'id' => $modpack->getRouteKey(),
-            'published_at' => $modpack->published_at->format('c'),
+            'slug' => $modpack->slug,
+            'description' => $modpack->description,
+            'overview' => $modpack->overview,
+            'help' => $modpack->help,
+            'license' => $modpack->license,
+            'privacy' => $modpack->privacy,
+            'tags' => $modpack->tags,
+            'website' => $modpack->website,
+            'icon' => $modpack->icon,
+            'logo' => $modpack->logo,
+            'background' => $modpack->background,
             'created_at' => $modpack->created_at->format('c'),
             'updated_at' => $modpack->updated_at->format('c'),
         ];
     }
 
-    public function includeLatest(Modpack $modpack)
-    {
-        if (empty($modpack->latest)) {
-            return $this->null();
-        }
-
-        return $this->item($modpack->latest, new ReleaseTransformer(), 'release');
-    }
-
-    public function includePromoted(Modpack $modpack)
-    {
-        if (empty($modpack->promoted)) {
-            return $this->null();
-        }
-
-        return $this->item($modpack->promoted, new ReleaseTransformer(), 'release');
-    }
-
+    /**
+     * Include Builds.
+     * @param Modpack $modpack
+     * @return \League\Fractal\Resource\Collection
+     */
     public function includeBuilds(Modpack $modpack)
     {
-    }
+        $builds = $modpack->builds()->withoutPrivacy(Auth::user())->get();
 
-    public function includeIcon(Modpack $modpack)
-    {
-    }
-
-    public function includeLogo(Modpack $modpack)
-    {
-    }
-
-    public function includeBackground(Modpack $modpack)
-    {
+        return $this->collection($builds, new BuildTransformer(), 'build');
     }
 }
