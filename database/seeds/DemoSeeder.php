@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of TechnicSolder.
+ *
+ * (c) Kyle Klaus <kklaus@indemnity83.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 use Illuminate\Database\Seeder;
 
 class DemoSeeder extends Seeder
@@ -198,6 +207,5 @@ class DemoSeeder extends Seeder
 
         $build->versions()->attach($ironChests->versions->first());
         $build->versions()->attach($buildcraft->versions->last());
-
     }
 }

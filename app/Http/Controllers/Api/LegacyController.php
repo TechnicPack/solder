@@ -14,8 +14,8 @@ namespace App\Http\Controllers\Api;
 use App\Build;
 use App\Token;
 use App\Modpack;
-use App\Resource;
 use App\Version;
+use App\Resource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -186,7 +186,7 @@ class LegacyController extends ApiController
     /**
      * Transform the Modpack entity.
      *
-     * @param Resource $mod
+     * @param resource $mod
      *
      * @return array
      */

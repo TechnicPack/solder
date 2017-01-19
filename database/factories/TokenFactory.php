@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of Solder Framework.
+ * This file is part of TechnicSolder.
  *
  * (c) Kyle Klaus <kklaus@indemnity83.com>
  *
@@ -10,7 +10,6 @@
  */
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
-
 use App\User;
 use App\Token;
 
@@ -18,8 +17,8 @@ $factory->define(Token::class, function (Faker\Generator $faker) {
     return [
         'token' => 'test-token',
         'name' => 'Test Token',
-        'user_id' => function() {
+        'user_id' => function () {
             return factory(User::class)->create()->id;
-        }
+        },
     ];
 });

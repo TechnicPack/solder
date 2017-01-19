@@ -28,7 +28,7 @@ class ResourceTransformer extends TransformerAbstract
     /**
      * Transform the Resource entity.
      *
-     * @param Resource $resource
+     * @param resource $resource
      *
      * @return array
      */
@@ -49,7 +49,7 @@ class ResourceTransformer extends TransformerAbstract
     /**
      * Include Versions.
      *
-     * @param Resource $resource
+     * @param resource $resource
      *
      * @return \League\Fractal\Resource\Collection
      */

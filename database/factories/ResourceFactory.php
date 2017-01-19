@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of Solder Framework.
+ * This file is part of TechnicSolder.
  *
  * (c) Kyle Klaus <kklaus@indemnity83.com>
  *
@@ -10,7 +10,6 @@
  */
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
-
 use App\Resource;
 
 $factory->define(Resource::class, function (Faker\Generator $faker) {
