@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of solder.
+ * This file is part of TechnicSolder.
  *
  * (c) Kyle Klaus <kklaus@indemnity83.com>
  *

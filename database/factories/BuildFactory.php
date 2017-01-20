@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of Solder Framework.
+ * This file is part of TechnicSolder.
  *
  * (c) Kyle Klaus <kklaus@indemnity83.com>
  *
@@ -18,7 +18,7 @@ $factory->define(Build::class, function (Faker\Generator $faker) {
     return [
         'version' => '1.0.0',
         'game_version' => '1.0.0',
-        'modpack_id' => function() {
+        'modpack_id' => function () {
             return factory(Modpack::class)->create()->id;
         },
     ];

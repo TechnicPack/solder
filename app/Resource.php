@@ -11,10 +11,10 @@
 
 namespace App;
 
-use Alsofronie\Uuid\UuidModelTrait;
-use Illuminate\Database\Eloquent\Model;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
+use Alsofronie\Uuid\UuidModelTrait;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * App\Resource.

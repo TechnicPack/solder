@@ -11,8 +11,8 @@
 
 namespace App\Transformers;
 
-use App\Modpack;
 use Auth;
+use App\Modpack;
 use League\Fractal\TransformerAbstract;
 
 class ModpackTransformer extends TransformerAbstract

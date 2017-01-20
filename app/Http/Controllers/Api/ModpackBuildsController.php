@@ -12,8 +12,8 @@
 namespace App\Http\Controllers\Api;
 
 use Auth;
-use App\Privacy;
 use App\Modpack;
+use App\Privacy;
 use Illuminate\Http\Request;
 use App\Traits\ImplementsApi;
 use App\Transformers\BuildTransformer;

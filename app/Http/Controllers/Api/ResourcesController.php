@@ -57,7 +57,7 @@ class ResourcesController extends ApiController
      * Display the specified resource.
      *
      * @param Request $request
-     * @param Resource $resource
+     * @param resource $resource
      *
      * @return \Illuminate\Http\JsonResponse
      */
@@ -93,7 +93,7 @@ class ResourcesController extends ApiController
      * Update the specified resource in storage.
      *
      * @param Request $request
-     * @param Resource $resource
+     * @param resource $resource
      *
      * @return \Illuminate\Http\JsonResponse
      */
@@ -117,7 +117,7 @@ class ResourcesController extends ApiController
     /**
      * Remove the specified resource from storage.
      *
-     * @param Resource $resource
+     * @param resource $resource
      *
      * @return \Illuminate\Http\Response
      */
