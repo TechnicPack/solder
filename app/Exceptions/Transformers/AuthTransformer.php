@@ -12,8 +12,8 @@
 namespace App\Exceptions\Transformers;
 
 use Exception;
-use GrahamCampbell\Exceptions\Transformers\TransformerInterface;
 use Illuminate\Auth\AuthenticationException;
+use GrahamCampbell\Exceptions\Transformers\TransformerInterface;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
 class AuthTransformer implements TransformerInterface

@@ -11,11 +11,11 @@
 
 namespace App\Exceptions\Displayers;
 
-use App\Exceptions\ValidationException;
 use Exception;
-use GrahamCampbell\Exceptions\Displayers\DisplayerInterface;
-use GrahamCampbell\Exceptions\Displayers\JsonApiDisplayer;
 use Illuminate\Http\JsonResponse;
+use App\Exceptions\ValidationException;
+use GrahamCampbell\Exceptions\Displayers\JsonApiDisplayer;
+use GrahamCampbell\Exceptions\Displayers\DisplayerInterface;
 
 class JsonValidationDisplayer extends JsonApiDisplayer implements DisplayerInterface
 {

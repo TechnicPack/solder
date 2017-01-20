@@ -11,10 +11,10 @@
 
 namespace App\Providers;
 
-use App\Guards\LegacyTokenGuard;
 use Auth;
-use Illuminate\Auth\CreatesUserProviders;
 use Laravel\Passport\Passport;
+use App\Guards\LegacyTokenGuard;
+use Illuminate\Auth\CreatesUserProviders;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider

@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of Solder Framework.
+ * This file is part of TechnicSolder.
  *
  * (c) Kyle Klaus <kklaus@indemnity83.com>
  *
@@ -10,15 +10,14 @@
  */
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
-
 use App\Asset;
 use App\Version;
 
 $factory->define(Asset::class, function (Faker\Generator $faker) {
     return [
         'filename' => 'testfile.txt',
-        'version_id' => function() {
+        'version_id' => function () {
             return factory(Version::class)->create()->id;
-        }
+        },
     ];
 });
