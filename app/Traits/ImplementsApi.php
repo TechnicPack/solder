@@ -20,7 +20,7 @@ trait ImplementsApi
      * Check if Transformer has related resource.
      *
      * @param TransformerAbstract $transformer
-     * @param $includeName
+     * @param string $includeName
      *
      * @return bool
      */
@@ -39,9 +39,9 @@ trait ImplementsApi
      * Return the related resource data set.
      *
      * @param Model $model
-     * @param $resource
-     * @param $transformer
-     * @param $relatedResource
+     * @param string $resource
+     * @param TransformerAbstract $transformer
+     * @param string $relatedResource
      *
      * @return array
      */

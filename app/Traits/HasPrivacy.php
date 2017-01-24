@@ -12,7 +12,6 @@
 namespace App\Traits;
 
 use App\Privacy;
-use Illuminate\Foundation\Auth\User;
 use Illuminate\Database\Eloquent\Builder;
 
 trait HasPrivacy
