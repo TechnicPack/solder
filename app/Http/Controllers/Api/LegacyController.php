@@ -186,7 +186,7 @@ class LegacyController extends ApiController
     /**
      * Transform the Modpack entity.
      *
-     * @param resource $mod
+     * @param Resource $mod
      *
      * @return array
      */

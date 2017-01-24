@@ -30,7 +30,7 @@ class ResourceVersionsController extends ApiController
      *
      * @param Request $request
      *
-     * @param resource $resource
+     * @param Resource $resource
      *
      * @return \Illuminate\Http\JsonResponse
      * @throws AuthenticationException
@@ -43,7 +43,7 @@ class ResourceVersionsController extends ApiController
     /**
      * Display relationship data.
      *
-     * @param resource $resource
+     * @param Resource $resource
      *
      * @return \Illuminate\Http\JsonResponse
      *
@@ -65,7 +65,7 @@ class ResourceVersionsController extends ApiController
      * Store a newly created resource in storage.
      *
      * @param \Illuminate\Http\Request $request
-     * @param resource $resource
+     * @param Resource $resource
      *
      * @return Response
      */
