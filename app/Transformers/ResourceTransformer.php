@@ -55,6 +55,6 @@ class ResourceTransformer extends TransformerAbstract
      */
     public function includeVersions(Resource $resource)
     {
-        return $this->collection($resource->versions, VersionTransformer::class, 'version');
+        return $this->collection($resource->versions, new VersionTransformer(), 'version');
     }
 }

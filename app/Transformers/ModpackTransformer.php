@@ -61,6 +61,6 @@ class ModpackTransformer extends TransformerAbstract
     {
         $builds = $modpack->builds()->withoutPrivacy(Auth::user())->get();
 
-        return $this->collection($builds, BuildTransformer::class, 'build');
+        return $this->collection($builds, new BuildTransformer(), 'build');
     }
 }
