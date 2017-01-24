@@ -22,18 +22,19 @@ class JsonValidationDisplayer extends JsonApiDisplayer implements DisplayerInter
     /**
      * Get the error response associated with the given exception.
      *
-     * @param \Exception $exception
-     * @param string     $id
-     * @param int        $code
-     * @param string[]   $headers
+     * @param ValidationException|Exception $exception
+     * @param string $id
+     * @param int $code
+     * @param string[] $headers
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function display(Exception $exception, $id, $code, array $headers)
     {
         $info = $this->info->generate($exception, $id, $code);
+        $sources = [];
 
-        foreach ($exception->validator->messages()->toArray() as $pointer => $messages) {
+        foreach ($exception->validator->getMessageBag()->toArray() as $pointer => $messages) {
             foreach ($messages as $message) {
                 $sources[] = [
                     'pointer' => $this->makePointer($pointer),

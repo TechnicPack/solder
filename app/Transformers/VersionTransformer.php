@@ -51,6 +51,6 @@ class VersionTransformer extends TransformerAbstract
      */
     public function includeAssets(Version $version)
     {
-        return $this->collection($version->assets, new AssetTransformer(), 'asset');
+        return $this->collection($version->assets, AssetTransformer::class, 'asset');
     }
 }

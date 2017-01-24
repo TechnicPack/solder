@@ -190,8 +190,9 @@ class ModpacksController extends ApiController
 
         $data = fractal()
             ->item($modpack)
-            ->transformWith(new ModpackTransformer())
-            ->withResourceName('modpack');
+            ->transformWith(ModpackTransformer::class)
+            ->withResourceName('modpack')
+            ->toArray();
 
         return response()->json($data)->header('Content-Type', 'application/vnd.api+json');
     }
