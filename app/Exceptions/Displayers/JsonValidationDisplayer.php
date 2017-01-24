@@ -72,7 +72,7 @@ class JsonValidationDisplayer extends JsonApiDisplayer implements DisplayerInter
      */
     public function isVerbose()
     {
-        return true;
+        return false;
     }
 
     private function makePointer($pointer)
