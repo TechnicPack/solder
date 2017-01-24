@@ -71,12 +71,12 @@ class LegacyTokenGuard implements Guard
         }
 
         if (! $token = $this->getTokenForRequest()) {
-            return null;
+            return;
         }
 
         // TODO: reaching into the Token model is not ideal
         if (! $userId = Token::where($this->storageKey, $token)->pluck('user_id')->first()) {
-            return null;
+            return;
         }
 
         $user = $this->provider->retrieveById($userId);
