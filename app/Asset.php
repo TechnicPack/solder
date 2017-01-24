@@ -21,6 +21,11 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $version_id
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
+ * @property string $filename
+ * @property string $location
+ * @property int $filesize
+ * @property string $md5
+ * @property string $url
  * @property-read \App\Version $version
  * @method static \Illuminate\Database\Query\Builder|\App\Asset whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Asset whereVersionId($value)

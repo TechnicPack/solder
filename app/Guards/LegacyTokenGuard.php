@@ -31,7 +31,7 @@ class LegacyTokenGuard implements Guard
     /**
      * The name of the query string items from the request containing the API token.
      *
-     * @var string
+     * @var array
      */
     protected $inputKeys;
 
@@ -70,15 +70,13 @@ class LegacyTokenGuard implements Guard
             return $this->user;
         }
 
-        $user = null;
-
         if (! $token = $this->getTokenForRequest()) {
-            return;
+            return null;
         }
 
         // TODO: reaching into the Token model is not ideal
         if (! $userId = Token::where($this->storageKey, $token)->pluck('user_id')->first()) {
-            return;
+            return null;
         }
 
         $user = $this->provider->retrieveById($userId);

@@ -19,6 +19,7 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @property string $id
  * @property string $resource_id
+ * @property string $version
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Asset[] $assets

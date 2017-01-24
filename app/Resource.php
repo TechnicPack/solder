@@ -22,6 +22,9 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $id
  * @property string $name
  * @property string $slug
+ * @property string $author
+ * @property string $description
+ * @property string $website
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Version[] $versions
