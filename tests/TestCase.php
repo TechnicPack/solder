@@ -2,7 +2,6 @@
 
 namespace Tests;
 
-
 /*
  * This file is part of TechnicSolder.
  *

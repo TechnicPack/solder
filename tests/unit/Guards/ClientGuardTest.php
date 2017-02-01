@@ -2,7 +2,6 @@
 
 namespace Tests\unit\Guards;
 
-
 /*
  * This file is part of solder.
  *

@@ -2,7 +2,6 @@
 
 namespace Tests\unit;
 
-
 /*
  * This file is part of solder.
  *

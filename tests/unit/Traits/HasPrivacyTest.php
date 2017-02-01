@@ -2,7 +2,6 @@
 
 namespace Tests\unit\Traits;
 
-
 use App\User;
 use App\Privacy;
 use Illuminate\Database\Eloquent\Builder;

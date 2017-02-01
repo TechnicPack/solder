@@ -2,7 +2,6 @@
 
 namespace Tests\endpoints;
 
-
 /*
  * This file is part of solder.
  *
