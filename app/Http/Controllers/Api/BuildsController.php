@@ -12,6 +12,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Build;
+use App\Modpack;
 use App\Privacy;
 use Illuminate\Http\Request;
 use App\Traits\ImplementsApi;
@@ -87,11 +88,15 @@ class BuildsController extends ApiController
     {
         $this->validate($request, [
             'data.attributes.version' => 'required',
+            'data.attributes.game_version' => 'required',
             'data.attributes.privacy' => 'in:'.implode(',', Privacy::values()),
             'data.attributes.arguments' => 'array',
+            'relationships.modpack.data.id' => 'required|exists:modpacks,id',
         ]);
 
-        $build = Build::create($request->input('data.attributes'));
+        $modpack = Modpack::findOrFail($request->input('relationships.modpack.data.id'));
+
+        $build = $modpack->builds()->create($request->input('data.attributes'));
 
         $location = '/api/'.str_plural($this->resourceName()).'/'.$build->id;
 
@@ -117,6 +122,7 @@ class BuildsController extends ApiController
 
         $this->validate($request, [
             'data.attributes.version' => 'sometimes|required',
+            'data.attributes.game_version' => 'sometimes|required',
             'data.attributes.privacy' => 'in:'.implode(',', Privacy::values()),
             'data.attributes.arguments' => 'array',
         ]);

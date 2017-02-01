@@ -29,7 +29,7 @@ return [
         'GrahamCampbell\Exceptions\Transformers\AuthTransformer',
         'GrahamCampbell\Exceptions\Transformers\CsrfTransformer',
         'GrahamCampbell\Exceptions\Transformers\ModelTransformer',
-        'App\Exceptions\Transformers\AuthTransformer',
+        App\Exceptions\Transformers\AuthTransformer::class,
     ],
 
     /*
@@ -47,11 +47,11 @@ return [
     */
 
     'displayers' => [
-        'App\Exceptions\Displayers\LoginRedirect',
+        App\Exceptions\Displayers\LoginRedirect::class,
         'GrahamCampbell\Exceptions\Displayers\DebugDisplayer',
         'GrahamCampbell\Exceptions\Displayers\ViewDisplayer',
         'GrahamCampbell\Exceptions\Displayers\HtmlDisplayer',
-        'App\Exceptions\Displayers\JsonValidationDisplayer',
+        App\Exceptions\Displayers\JsonValidationDisplayer::class,
         'GrahamCampbell\Exceptions\Displayers\JsonDisplayer',
         'GrahamCampbell\Exceptions\Displayers\JsonApiDisplayer',
     ],
@@ -102,9 +102,9 @@ return [
     */
 
     'levels' => [
-        'Illuminate\Auth\Access\AuthorizationException' => 'warning',
-        'Illuminate\Database\Eloquent\ModelNotFoundException' => 'warning',
-        'Illuminate\Session\TokenMismatchException' => 'notice',
+        Illuminate\Auth\Access\AuthorizationException::class => 'warning',
+        Illuminate\Database\Eloquent\ModelNotFoundException::class => 'warning',
+        Illuminate\Session\TokenMismatchException::class => 'notice',
         'Symfony\Component\HttpKernel\Exception\NotFoundHttpException' => 'notice',
         'Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException' => 'error',
         'Symfony\Component\HttpKernel\Exception\HttpExceptionInterface' => 'warning',

@@ -12,6 +12,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Version;
+use App\Resource;
 use Illuminate\Http\Request;
 use App\Traits\ImplementsApi;
 use League\Fractal\TransformerAbstract;
@@ -77,9 +78,12 @@ class VersionsController extends ApiController
     {
         $this->validate($request, [
             'data.attributes.version' => 'required',
+            'relationships.resource.data.id' => 'required|exists:resources,id',
         ]);
 
-        $version = Version::create($request->input('data.attributes'));
+        $resource = Resource::findOrFail($request->input('relationships.resource.data.id'));
+
+        $version = $resource->versions()->create($request->input('data.attributes'));
 
         $location = '/api/'.str_plural($this->resourceName()).'/'.$version->id;
 

@@ -16,6 +16,7 @@ use App\Privacy;
 $factory->define(Modpack::class, function (Faker\Generator $faker) {
     return [
         'name' => 'Example Modpack',
+        'privacy' => Privacy::PUBLIC,
     ];
 });
 

@@ -13,8 +13,8 @@ namespace App\Exceptions\Displayers;
 
 use Exception;
 use App\Exceptions\ValidationException;
-use GrahamCampbell\Exceptions\Displayers\DisplayerInterface;
 use Illuminate\Auth\AuthenticationException;
+use GrahamCampbell\Exceptions\Displayers\DisplayerInterface;
 
 class LoginRedirect implements DisplayerInterface
 {

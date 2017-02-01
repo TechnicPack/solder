@@ -1,5 +1,7 @@
 <?php
 
+namespace Tests\unit;
+
 /*
  * This file is part of Solder Framework.
  *
@@ -12,6 +14,7 @@
 use App\Token;
 use App\User;
 use Illuminate\Database\Eloquent\Collection;
+use Tests\TestCase;
 
 class UserTest extends TestCase
 {

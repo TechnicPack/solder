@@ -1,13 +1,17 @@
 <?php
 
-use App\User;
+namespace Tests\unit\Traits;
+
 use App\Privacy;
 use Illuminate\Database\Eloquent\Builder;
+use Mockery;
+use Tests\stubs\TestPrivacy;
+use Tests\TestCase;
 
 class HasPrivacyTest extends TestCase
 {
     /** @test */
-    function priding_a_privacy_string_checks_the_string_against_the_model_attribute()
+    public function priding_a_privacy_string_checks_the_string_against_the_model_attribute()
     {
         $model = new TestPrivacy(['privacy' => Privacy::PRIVATE]);
 
@@ -17,7 +21,7 @@ class HasPrivacyTest extends TestCase
     }
 
     /** @test */
-    function displayable_scopes_only_public_records_when_no_user_is_provied()
+    public function displayable_scopes_only_public_records_when_no_user_is_provied()
     {
         $model = new TestPrivacy();
         $mockedQueryBuilder = Mockery::mock('Illuminate\Database\Query\Builder');
@@ -28,7 +32,7 @@ class HasPrivacyTest extends TestCase
     }
 
     /** @test */
-    function displayable_scope_does_not_limit_records_when_a_valid_user_is_provided()
+    public function displayable_scope_does_not_limit_records_when_a_valid_user_is_provided()
     {
         $model = new TestPrivacy();
         $mockedQueryBuilder = Mockery::mock('Illuminate\Database\Query\Builder');
@@ -37,5 +41,4 @@ class HasPrivacyTest extends TestCase
 
         $model->scopeWithoutPrivacy(new Builder($mockedQueryBuilder), true);
     }
-
 }

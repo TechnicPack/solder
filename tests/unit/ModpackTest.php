@@ -1,5 +1,7 @@
 <?php
 
+namespace Tests\unit;
+
 /*
  * This file is part of Solder Framework.
  *
@@ -11,6 +13,7 @@
 
 use App\Build;
 use App\Modpack;
+use Tests\TestCase;
 
 class ModpackTest extends TestCase
 {

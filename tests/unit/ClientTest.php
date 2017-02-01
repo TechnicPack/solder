@@ -1,5 +1,7 @@
 <?php
 
+namespace Tests\unit;
+
 /*
  * This file is part of solder.
  *
@@ -11,6 +13,7 @@
 
 use App\Token;
 use App\User;
+use Tests\TestCase;
 
 class Test extends TestCase
 {
@@ -28,4 +31,3 @@ class Test extends TestCase
         $this->assertEquals($user->id, $returnedClient->id);
     }
 }
-
