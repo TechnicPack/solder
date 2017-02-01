@@ -28,4 +28,3 @@ class Test extends TestCase
         $this->assertEquals($user->id, $returnedClient->id);
     }
 }
-

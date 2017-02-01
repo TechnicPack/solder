@@ -47,7 +47,8 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
      */
     protected function disableExceptionHandling()
     {
-        $this->app->instance(\Illuminate\Contracts\Debug\ExceptionHandler::class,
+        $this->app->instance(
+            \Illuminate\Contracts\Debug\ExceptionHandler::class,
             new class extends \App\Exceptions\Handler {
                 public function __construct()
                 {
@@ -61,7 +62,7 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
                 {
                     throw $e;
                 }
-            });
+            }
+        );
     }
-
 }

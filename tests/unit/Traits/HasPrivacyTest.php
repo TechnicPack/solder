@@ -37,5 +37,4 @@ class HasPrivacyTest extends TestCase
 
         $model->scopeWithoutPrivacy(new Builder($mockedQueryBuilder), true);
     }
-
 }

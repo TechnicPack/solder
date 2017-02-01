@@ -93,7 +93,6 @@ class ClientGuardTest extends TestCase
         $this->assertTrue($guard->guest());
         $this->assertNull($guard->id());
     }
-
 }
 
 class ClientGuardTestUser

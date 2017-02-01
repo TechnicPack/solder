@@ -99,7 +99,13 @@ trait MakesJsonApiRequests
         ], $headers);
 
         $this->call(
-            $method, $uri, [], [], [], $this->transformHeadersToServerVars($headers), $content
+            $method,
+            $uri,
+            [],
+            [],
+            [],
+            $this->transformHeadersToServerVars($headers),
+            $content
         );
 
         return $this;
