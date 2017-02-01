@@ -47,6 +47,7 @@ return [
     */
 
     'displayers' => [
+        'App\Exceptions\Displayers\LoginRedirect',
         'GrahamCampbell\Exceptions\Displayers\DebugDisplayer',
         'GrahamCampbell\Exceptions\Displayers\ViewDisplayer',
         'GrahamCampbell\Exceptions\Displayers\HtmlDisplayer',
