@@ -12,8 +12,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Asset;
-use App\Version;
 use Exception;
+use App\Version;
 use Illuminate\Http\Request;
 use App\Traits\ImplementsApi;
 use App\Transformers\AssetTransformer;

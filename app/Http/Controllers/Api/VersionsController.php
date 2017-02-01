@@ -11,8 +11,8 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Resource;
 use App\Version;
+use App\Resource;
 use Illuminate\Http\Request;
 use App\Traits\ImplementsApi;
 use League\Fractal\TransformerAbstract;
