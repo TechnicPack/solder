@@ -1,5 +1,8 @@
 <?php
 
+namespace Tests\endpoints;
+
+
 /*
  * This file is part of TechnicSolder.
  *
@@ -120,7 +123,7 @@ class ApiModpacksTest extends TestCase
             'name' => 'Example Modpack',
         ]);
 
-        $this->assertResponseStatus(201);
+        $this->assertStatus(201);
         $this->seeModpack(null, [
             'name' => 'Example Modpack',
         ]);
@@ -137,7 +140,7 @@ class ApiModpacksTest extends TestCase
             'name' => 'Updated Modpack',
         ]);
 
-        $this->assertResponseStatus(200);
+        $this->assertStatus(200);
         $this->seeModpack($modpack, [
             'name' => 'Updated Modpack',
         ]);
@@ -154,7 +157,7 @@ class ApiModpacksTest extends TestCase
             'slug' => 'test-slug',
         ]);
 
-        $this->assertResponseStatus(200);
+        $this->assertStatus(200);
         $this->seeModpack($modpack, [
             'slug' => 'test-slug',
         ]);
@@ -168,7 +171,7 @@ class ApiModpacksTest extends TestCase
 
         $this->putModpackAsset($modpack, $file, 'icon');
 
-        $this->assertResponseStatus(200);
+        $this->assertStatus(200);
         $this->seeModpack($modpack, [
             'icon' => config('app.url').'/storage/modpacks/icon_'.$modpack->id.'.png',
         ]);
@@ -181,7 +184,7 @@ class ApiModpacksTest extends TestCase
 
         $this->deleteModpack($modpack);
 
-        $this->assertResponseStatus(204);
+        $this->assertStatus(204);
         $this->assertEmpty($this->response->getContent());
     }
 
@@ -192,7 +195,7 @@ class ApiModpacksTest extends TestCase
 
         $this->showModpack($build->modpack, false, ['include' => 'builds']);
 
-        $this->assertResponseStatus(200);
+        $this->assertStatus(200);
         $this->seeModpack($build->modpack);
         $this->includesBuildCollection($build);
     }
@@ -647,7 +650,7 @@ class ApiModpacksTest extends TestCase
             $data['attributes'] = $attributes;
         }
 
-        $this->seeJsonSubset(['data' => $data]);
+        $this->assertJson(['data' => $data]);
     }
 
     protected function seeModpackCollection()
@@ -665,7 +668,7 @@ class ApiModpacksTest extends TestCase
             ];
         }
 
-        $this->seeJsonSubset(['data' => $data]);
+        $this->assertJson(['data' => $data]);
     }
 
     private function doNotSeeModpack($model)
@@ -688,6 +691,6 @@ class ApiModpacksTest extends TestCase
             ];
         }
 
-        $this->seeJsonSubset(['included' => $data]);
+        $this->assertJson(['included' => $data]);
     }
 }

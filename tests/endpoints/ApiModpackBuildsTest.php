@@ -1,5 +1,8 @@
 <?php
 
+namespace Tests\endpoints;
+
+
 /*
  * This file is part of TechnicSolder.
  *
@@ -79,7 +82,7 @@ class ApiModpackBuildsTest extends TestCase
             'game_version' => '1.0.0',
         ]);
 
-        $this->assertResponseStatus(201);
+        $this->assertStatus(201);
         $this->seeBuild(null, [
             'version' => '1.0.0',
             'game_version' => '1.0.0',
@@ -96,7 +99,7 @@ class ApiModpackBuildsTest extends TestCase
 
         $this->assertResponseOk();
         $this->seeBuildCollection($build);
-        $this->seeJsonSubset([
+        $this->assertJson([
             'links' => [
                 'self' => trim(config('app.url'), '/').'/api/modpacks/'.$modpack->id.'/relationships/builds',
                 'related' => trim(config('app.url'), '/').'/api/modpacks/'.$modpack->id.'/builds',
@@ -245,7 +248,7 @@ class ApiModpackBuildsTest extends TestCase
             $data['attributes'] = $attributes;
         }
 
-        $this->seeJsonSubset(['data' => $data]);
+        $this->assertJson(['data' => $data]);
     }
 
     protected function seeBuildCollection()
@@ -263,7 +266,7 @@ class ApiModpackBuildsTest extends TestCase
             ];
         }
 
-        $this->seeJsonSubset(['data' => $data]);
+        $this->assertJson(['data' => $data]);
     }
 
     private function doNotSeeBuild($model)

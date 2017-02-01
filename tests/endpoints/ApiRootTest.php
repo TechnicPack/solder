@@ -1,5 +1,8 @@
 <?php
 
+namespace Tests\endpoints;
+
+
 /*
  * This file is part of TechnicSolder.
  *
@@ -20,7 +23,7 @@ class ApiRootTest extends TestCase
 
         $this->get('/api')
             ->assertResponseOk()
-            ->seeJsonSubset([
+            ->assertJson([
                 'version' => $version,
             ]);
     }

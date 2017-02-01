@@ -1,4 +1,7 @@
 <?php
+
+namespace Tests\stubs;
+
 /*
  * This file is part of solder.
  *

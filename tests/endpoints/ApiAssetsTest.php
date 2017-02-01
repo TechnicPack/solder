@@ -1,5 +1,8 @@
 <?php
 
+namespace Tests\endpoints;
+
+
 /*
  * This file is part of TechnicSolder.
  *
@@ -47,7 +50,7 @@ class ApiAssetsTest extends TestCase
             'filename' => 'updated-filename',
         ]);
 
-        $this->assertResponseStatus(200);
+        $this->assertStatus(200);
         $this->seeAsset($asset, [
             'filename' => 'updated-filename',
         ]);
@@ -60,7 +63,7 @@ class ApiAssetsTest extends TestCase
 
         $this->deleteAsset($asset);
 
-        $this->assertResponseStatus(204);
+        $this->assertStatus(204);
         $this->assertEmpty($this->response->getContent());
     }
 
@@ -254,7 +257,7 @@ class ApiAssetsTest extends TestCase
             $data['attributes'] = $attributes;
         }
 
-        $this->seeJsonSubset(['data' => $data]);
+        $this->assertJson(['data' => $data]);
     }
 
     protected function seeAssetCollection()
@@ -272,6 +275,6 @@ class ApiAssetsTest extends TestCase
             ];
         }
 
-        $this->seeJsonSubset(['data' => $data]);
+        $this->assertJson(['data' => $data]);
     }
 }

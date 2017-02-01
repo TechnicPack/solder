@@ -1,5 +1,8 @@
 <?php
 
+namespace Tests\unit;
+
+
 /*
  * This file is part of Solder Framework.
  *

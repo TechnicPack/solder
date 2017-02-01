@@ -1,5 +1,8 @@
 <?php
 
+namespace Tests\endpoints;
+
+
 /*
  * This file is part of TechnicSolder.
  *
@@ -45,7 +48,7 @@ class ApiResourcesTest extends TestCase
             'name' => 'Example Mod',
         ]);
 
-        $this->assertResponseStatus(201);
+        $this->assertStatus(201);
         $this->seeResource(null, [
             'name' => 'Example Mod',
         ]);
@@ -62,7 +65,7 @@ class ApiResourcesTest extends TestCase
             'name' => 'Updated Mod',
         ]);
 
-        $this->assertResponseStatus(200);
+        $this->assertStatus(200);
         $this->seeResource($resource, [
             'name' => 'Updated Mod',
         ]);
@@ -75,7 +78,7 @@ class ApiResourcesTest extends TestCase
 
         $this->deleteResource($resource);
 
-        $this->assertResponseStatus(204);
+        $this->assertStatus(204);
         $this->assertEmpty($this->response->getContent());
     }
 
@@ -90,7 +93,7 @@ class ApiResourcesTest extends TestCase
             'slug' => 'test-slug',
         ]);
 
-        $this->assertResponseStatus(200);
+        $this->assertStatus(200);
         $this->seeResource($resource, [
             'slug' => 'test-slug',
         ]);
@@ -403,7 +406,7 @@ class ApiResourcesTest extends TestCase
             $data['attributes'] = $attributes;
         }
 
-        $this->seeJsonSubset(['data' => $data]);
+        $this->assertJson(['data' => $data]);
     }
 
     protected function seeResourceCollection()
@@ -421,6 +424,6 @@ class ApiResourcesTest extends TestCase
             ];
         }
 
-        $this->seeJsonSubset(['data' => $data]);
+        $this->assertJson(['data' => $data]);
     }
 }

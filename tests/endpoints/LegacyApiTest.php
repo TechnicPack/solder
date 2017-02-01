@@ -1,5 +1,8 @@
 <?php
 
+namespace Tests\endpoints;
+
+
 /*
  * This file is part of solder.
  *
@@ -28,14 +31,14 @@ class LegacyApiTest extends TestCase
         $this->getJson('/api/verify/test-token');
 
         $this->assertResponseOk();
-        $this->seeJsonSubset([
+        $this->assertJson([
             'name' => 'Test Token',
             'valid' => 'Key validated.',
         ]);
 
         $this->get('/api/verify/fake_token');
 
-        $this->assertResponseStatus(404);
+        $this->assertStatus(404);
         $this->isJson();
     }
 
@@ -46,7 +49,7 @@ class LegacyApiTest extends TestCase
 
         $this->assertResponseOk();
         $this->seeJson();
-        $this->seeJsonSubset([
+        $this->assertJson([
             'api' => 'TechnicSolder',
             'version' => GitVersionHelper::getVersion(),
             'stream' => config('app.env'),
@@ -82,7 +85,7 @@ class LegacyApiTest extends TestCase
     {
         $this->getJson('api/modpack/bob');
 
-        $this->assertResponseStatus(404);
+        $this->assertStatus(404);
         $this->seeJson();
         $this->seeJsonStructure(['error']);
     }
@@ -117,7 +120,7 @@ class LegacyApiTest extends TestCase
     {
         $this->getJson('api/mod/bob');
 
-        $this->assertResponseStatus(404);
+        $this->assertStatus(404);
         $this->seeJson();
         $this->seeJsonStructure(['error']);
     }

@@ -148,9 +148,9 @@ trait MakesJsonApiRequests
      */
     protected function seeJsonApiError($code, $title = null, $contains = [])
     {
-        $this->assertResponseStatus($code);
+        $this->assertStatus($code);
         $this->seeJsonApi();
-        $this->seeJsonSubset(['errors' => []]);
+        $this->assertJson(['errors' => []]);
 
         if ($title !== null) {
             $this->seeJson(['title' => $title]);

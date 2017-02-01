@@ -1,5 +1,8 @@
 <?php
 
+namespace Tests\endpoints;
+
+
 /*
  * This file is part of TechnicSolder.
  *
@@ -38,7 +41,7 @@ class ApiResourceVersionsTest extends TestCase
             'version' => '1.0.0',
         ]);
 
-        $this->assertResponseStatus(201);
+        $this->assertStatus(201);
         $this->seeVersion(null, [
             'version' => '1.0.0',
         ]);
@@ -54,7 +57,7 @@ class ApiResourceVersionsTest extends TestCase
 
         $this->assertResponseOk();
         $this->seeVersionCollection($version);
-        $this->seeJsonSubset([
+        $this->assertJson([
             'links' => [
                 'self' => trim(config('app.url'), '/').'/api/resources/'.$resource->id.'/relationships/versions',
                 'related' => trim(config('app.url'), '/').'/api/resources/'.$resource->id.'/versions',
@@ -127,7 +130,7 @@ class ApiResourceVersionsTest extends TestCase
             'version' => '1.0.0',
         ]);
 
-        $this->assertResponseStatus(201);
+        $this->assertStatus(201);
         $this->seeVersion(null, [
             'version' => '1.0.0',
         ]);
@@ -192,7 +195,7 @@ class ApiResourceVersionsTest extends TestCase
             $data['attributes'] = $attributes;
         }
 
-        $this->seeJsonSubset(['data' => $data]);
+        $this->assertJson(['data' => $data]);
     }
 
     protected function seeVersionCollection()
@@ -210,7 +213,7 @@ class ApiResourceVersionsTest extends TestCase
             ];
         }
 
-        $this->seeJsonSubset(['data' => $data]);
+        $this->assertJson(['data' => $data]);
     }
 
     /**

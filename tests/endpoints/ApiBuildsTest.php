@@ -1,5 +1,8 @@
 <?php
 
+namespace Tests\endpoints;
+
+
 /*
  * This file is part of TechnicSolder.
  *
@@ -86,7 +89,7 @@ class ApiBuildsTest extends TestCase
             'version' => '1.0.1',
         ]);
 
-        $this->assertResponseStatus(200);
+        $this->assertStatus(200);
         $this->seeBuild($build, [
             'version' => '1.0.1',
         ]);
@@ -103,7 +106,7 @@ class ApiBuildsTest extends TestCase
             'version' => '1.0.0',
         ]);
 
-        $this->assertResponseStatus(200);
+        $this->assertStatus(200);
         $this->seeBuild($build, [
             'version' => '1.0.0',
         ]);
@@ -116,7 +119,7 @@ class ApiBuildsTest extends TestCase
 
         $this->deleteBuild($build);
 
-        $this->assertResponseStatus(204);
+        $this->assertStatus(204);
         $this->assertEmpty($this->response->getContent());
     }
 
@@ -312,6 +315,6 @@ class ApiBuildsTest extends TestCase
             $data['attributes'] = $attributes;
         }
 
-        $this->seeJsonSubset(['data' => $data]);
+        $this->assertJson(['data' => $data]);
     }
 }

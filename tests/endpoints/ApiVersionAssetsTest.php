@@ -1,5 +1,8 @@
 <?php
 
+namespace Tests\endpoints;
+
+
 /*
  * This file is part of TechnicSolder.
  *
@@ -38,7 +41,7 @@ class ApiVersionAssetsTest extends TestCase
             'filename' => 'test-mod.jar',
         ]);
 
-        $this->assertResponseStatus(201);
+        $this->assertStatus(201);
         $this->seeAsset(null, [
             'filename' => 'test-mod.jar',
         ]);
@@ -54,7 +57,7 @@ class ApiVersionAssetsTest extends TestCase
 
         $this->assertResponseOk();
         $this->seeAssetCollection($asset);
-        $this->seeJsonSubset([
+        $this->assertJson([
             'links' => [
                 'self' => trim(config('app.url'), '/').'/api/versions/'.$version->id.'/relationships/assets',
                 'related' => trim(config('app.url'), '/').'/api/versions/'.$version->id.'/assets',
@@ -163,7 +166,7 @@ class ApiVersionAssetsTest extends TestCase
             $data['attributes'] = $attributes;
         }
 
-        $this->seeJsonSubset(['data' => $data]);
+        $this->assertJson(['data' => $data]);
     }
 
     protected function seeAssetCollection()
@@ -181,7 +184,7 @@ class ApiVersionAssetsTest extends TestCase
             ];
         }
 
-        $this->seeJsonSubset(['data' => $data]);
+        $this->assertJson(['data' => $data]);
     }
 
     /**
