@@ -16,13 +16,14 @@ use App\Token;
 use App\Guards\LegacyTokenGuard;
 use Illuminate\Http\Request;
 use Illuminate\Auth\CreatesUserProviders;
+use Tests\TestCase;
 
 class ClientGuardTest extends TestCase
 {
     use CreatesUserProviders;
 
     /** @test */
-    function user_can_be_retrieved_by_query_string_parameter()
+    public function user_can_be_retrieved_by_query_string_parameter()
     {
         $client = factory(Token::class)->create(['token' => 'test-token']);
         $provider = $this->createUserProvider('users');
@@ -51,7 +52,7 @@ class ClientGuardTest extends TestCase
     }
 
     /** @test */
-    function validate_can_determine_if_credentials_are_valid()
+    public function validate_can_determine_if_credentials_are_valid()
     {
         factory(Token::class)->create(['token' => 'test-token']);
         $provider = $this->createUserProvider('users');
@@ -72,7 +73,7 @@ class ClientGuardTest extends TestCase
     }
 
     /** @test */
-    function validate_if_token_is_empty()
+    public function validate_if_token_is_empty()
     {
         factory(Token::class)->create(['token' => 'test-token']);
         $provider = $this->createUserProvider('users');

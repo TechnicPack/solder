@@ -13,6 +13,7 @@ namespace Tests\unit;
 
 use App\Token;
 use App\User;
+use Tests\TestCase;
 
 class Test extends TestCase
 {

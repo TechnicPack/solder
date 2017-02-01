@@ -20,6 +20,19 @@ Route::group(['namespace' => 'Api'], function () {
 
     Route::get('builds/{build}', 'BuildsController@show');
     Route::get('builds/', 'BuildsController@index');
+
+    Route::get('resources/{resource}/relationships/versions', 'ResourceVersionsController@show');
+    Route::get('resources/{resource}/versions', 'ResourceVersionsController@index');
+    Route::get('resources/{resource}', 'ResourcesController@show');
+    Route::get('resources', 'ResourcesController@index');
+
+    Route::get('versions/{version}/relationships/assets', 'VersionAssetsController@show');
+    Route::get('versions/{version}/assets', 'VersionAssetsController@index');
+    Route::get('versions/{version}', 'VersionsController@show');
+    Route::get('versions', 'VersionsController@index');
+
+    Route::get('assets/{asset}', 'AssetsController@show');
+    Route::get('assets', 'AssetsController@index');
 });
 
 // Protected Endpoints
@@ -30,33 +43,25 @@ Route::group(['namespace' => 'Api', 'middleware' => 'auth:api'], function () {
     Route::delete('modpacks/{modpack}', 'ModpacksController@destroy');
     Route::post('modpacks', 'ModpacksController@store');
 
-    Route::get('builds/{build}/{related}', 'BuildsController@related');
     Route::post('builds/{build}/{related}', 'BuildsController@store');
     Route::patch('builds/{build}', 'BuildsController@update');
     Route::delete('builds/{build}', 'BuildsController@destroy');
+    Route::post('builds', 'BuildsController@store');
 
-    Route::get('resources/{resource}/relationships/versions', 'ResourceVersionsController@show');
-    Route::get('resources/{resource}/versions', 'ResourceVersionsController@index');
     Route::post('resources/{resource}/versions', 'ResourceVersionsController@store');
-    Route::get('resources/{resource}', 'ResourcesController@show');
     Route::patch('resources/{resource}', 'ResourcesController@update');
     Route::delete('resources/{resource}', 'ResourcesController@destroy');
-    Route::get('resources', 'ResourcesController@index');
     Route::post('resources', 'ResourcesController@store');
 
-    Route::get('versions/{version}/relationships/assets', 'VersionAssetsController@show');
-    Route::get('versions/{version}/assets', 'VersionAssetsController@index');
     Route::post('versions/{version}/assets', 'VersionAssetsController@store');
-    Route::get('versions/{version}', 'VersionsController@show');
     Route::patch('versions/{version}', 'VersionsController@update');
     Route::delete('versions/{version}', 'VersionsController@destroy');
-    Route::get('versions', 'VersionsController@index');
     Route::post('versions', 'VersionsController@store');
 
-    Route::get('assets/{asset}', 'AssetsController@show');
+    Route::put('assets/{asset}', 'AssetsController@upload');
     Route::patch('assets/{asset}', 'AssetsController@update');
     Route::delete('assets/{asset}', 'AssetsController@destroy');
-    Route::get('assets', 'AssetsController@index');
+    Route::post('assets', 'AssetsController@store');
 });
 
 // Legacy Endpoints

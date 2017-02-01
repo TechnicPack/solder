@@ -13,6 +13,7 @@ namespace Tests\unit;
 
 use App\Resource;
 use App\Version;
+use Tests\TestCase;
 
 class ResourceTest extends TestCase
 {
@@ -80,7 +81,7 @@ class ResourceTest extends TestCase
     }
 
     /** @test */
-    function it_has_an_author_attribute()
+    public function it_has_an_author_attribute()
     {
         /** @var Build $resource */
         $resource = factory(Resource::class)->create();
@@ -93,7 +94,7 @@ class ResourceTest extends TestCase
     }
 
     /** @test */
-    function it_has_a_description_attribute()
+    public function it_has_a_description_attribute()
     {
         /** @var Build $resource */
         $resource = factory(Resource::class)->create();
@@ -106,7 +107,7 @@ class ResourceTest extends TestCase
     }
 
     /** @test */
-    function it_has_a_website_attribute()
+    public function it_has_a_website_attribute()
     {
         /** @var Build $resource */
         $resource = factory(Resource::class)->create();

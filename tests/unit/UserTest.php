@@ -14,6 +14,7 @@ namespace Tests\unit;
 use App\Token;
 use App\User;
 use Illuminate\Database\Eloquent\Collection;
+use Tests\TestCase;
 
 class UserTest extends TestCase
 {

@@ -15,6 +15,7 @@ use App\Asset;
 use App\Build;
 use App\Resource;
 use App\Version;
+use Tests\TestCase;
 
 class VersionTest extends TestCase
 {

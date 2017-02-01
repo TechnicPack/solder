@@ -13,6 +13,7 @@ namespace Tests\unit;
 
 use App\Build;
 use App\Modpack;
+use Tests\TestCase;
 
 class ModpackTest extends TestCase
 {

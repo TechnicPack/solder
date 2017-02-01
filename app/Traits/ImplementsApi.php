@@ -104,6 +104,6 @@ trait ImplementsApi
      */
     private function respond($response, $status = 200)
     {
-        return response()->json($response, $status, ['Content-Type', 'application/vnd.api+json']);
+        return response()->json($response, $status, ['Content-Type' => 'application/vnd.api+json']);
     }
 }

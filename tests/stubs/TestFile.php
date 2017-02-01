@@ -12,6 +12,7 @@ namespace Tests\stubs;
  */
 
 use bheller\ImagesGenerator\ImagesGeneratorProvider;
+use Faker\Factory;
 
 class TestFile
 {
@@ -31,7 +32,7 @@ class TestFile
      */
     public static function imageGenerator($width, $height, $type)
     {
-        $faker = Faker\Factory::create();
+        $faker = Factory::create();
         $faker->addProvider(new ImagesGeneratorProvider($faker));
 
         $image = $faker->imageGenerator(null, $width, $height, $type, true);
@@ -48,7 +49,7 @@ class TestFile
      */
     public static function textGenerator($characters)
     {
-        $faker = Faker\Factory::create();
+        $faker = Factory::create();
         $file = tempnam('/tmp', 'SolderFake');
 
         $handle = fopen($file, 'w');
@@ -143,5 +144,15 @@ class TestFile
         if ($this->transient) {
             unlink($this->getPath());
         }
+    }
+
+    /**
+     * Get file contents as array.
+     *
+     * @return array
+     */
+    public function toArray()
+    {
+        return [$this->getContents()];
     }
 }

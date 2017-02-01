@@ -14,6 +14,7 @@ namespace Tests\unit;
 use App\Build;
 use App\Modpack;
 use App\Version;
+use Tests\TestCase;
 
 class BuildTest extends TestCase
 {
@@ -54,7 +55,7 @@ class BuildTest extends TestCase
     }
 
     /** @test */
-    function it_has_a_game_version_attribute()
+    public function it_has_a_game_version_attribute()
     {
         /** @var Build $build */
         $build = factory(Build::class)->create();

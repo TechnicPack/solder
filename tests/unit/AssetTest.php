@@ -13,6 +13,7 @@ namespace Tests\unit;
 
 use App\Asset;
 use App\Version;
+use Tests\TestCase;
 
 class AssetTest extends TestCase
 {
@@ -40,7 +41,7 @@ class AssetTest extends TestCase
     }
 
     /** @test */
-    function it_has_a_location_attribute()
+    public function it_has_a_location_attribute()
     {
         /** @var Asset $asset */
         $asset = factory(Asset::class)->create();
@@ -53,7 +54,7 @@ class AssetTest extends TestCase
     }
 
     /** @test */
-    function it_has_a_filename_attribute()
+    public function it_has_a_filename_attribute()
     {
         /** @var Asset $asset */
         $asset = factory(Asset::class)->create();
@@ -66,7 +67,7 @@ class AssetTest extends TestCase
     }
 
     /** @test */
-    function it_has_an_md5_attribute()
+    public function it_has_an_md5_attribute()
     {
         /** @var Asset $asset */
         $asset = factory(Asset::class)->create();
@@ -79,7 +80,7 @@ class AssetTest extends TestCase
     }
 
     /** @test */
-    function it_has_a_filezie_attribute()
+    public function it_has_a_filesize_attribute()
     {
         /** @var Asset $asset */
         $asset = factory(Asset::class)->create();

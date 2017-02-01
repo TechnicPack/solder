@@ -12,9 +12,12 @@
 namespace App\Http\Controllers\Api;
 
 use App\Asset;
+use App\Version;
+use Exception;
 use Illuminate\Http\Request;
 use App\Traits\ImplementsApi;
 use App\Transformers\AssetTransformer;
+use Illuminate\Support\Facades\Storage;
 use League\Fractal\TransformerAbstract;
 
 class AssetsController extends ApiController
@@ -77,9 +80,12 @@ class AssetsController extends ApiController
     {
         $this->validate($request, [
             'data.attributes.filename' => 'required',
+            'relationships.version.data.id' => 'required|exists:versions,id',
         ]);
 
-        $asset = Asset::create($request->input('data.attributes'));
+        $version = Version::findOrFail($request->input('relationships.version.data.id'));
+
+        $asset = $version->assets()->create($request->input('data.attributes'));
 
         $location = '/api/'.str_plural($this->resourceName()).'/'.$asset->id;
 
@@ -110,6 +116,28 @@ class AssetsController extends ApiController
         $asset->update($request->input('data.attributes'));
 
         return $this->transformAndRespond($asset);
+    }
+
+    /**
+     * Put an asset for the specified modpack in storage.
+     *
+     * @param Request $request
+     * @param Asset $asset
+     *
+     * @return \Illuminate\Http\JsonResponse
+     * @throws Exception
+     */
+    public function upload(Request $request, Asset $asset)
+    {
+        $contents = $request->getContent(true);
+
+        if (! Storage::put($path = 'assets/'.$asset->id.'/'.$asset->filename, $contents, 'public')) {
+            throw new Exception('Failed to put file');
+        }
+
+        return $this->transformAndRespond($asset)
+            ->header('Location', Storage::url($path))
+            ->setStatusCode(200);
     }
 
     /**
