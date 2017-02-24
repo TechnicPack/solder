@@ -16,7 +16,6 @@ use App\Modpack;
 use App\Version;
 use App\Resource;
 use Tests\TestCase;
-use Tremby\LaravelGitVersion\GitVersionHelper;
 
 class LegacyTest extends TestCase
 {
@@ -46,10 +45,10 @@ class LegacyTest extends TestCase
         $response = $this->json('GET', 'api');
 
         $response->assertStatus(200)
-            ->assertJson([
-                'api' => 'TechnicSolder',
-                'version' => GitVersionHelper::getVersion(),
-                'stream' => config('app.env'),
+            ->assertJsonStructure([
+                'api',
+                'version',
+                'stream',
             ]);
     }
 
