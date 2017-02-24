@@ -11,7 +11,9 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
+use Tremby\LaravelGitVersion\GitVersionHelper;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -22,7 +24,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        View::composer('*', function($view)
+        {
+            $view->with('appVersion', GitVersionHelper::getVersion());
+        });
     }
 
     /**

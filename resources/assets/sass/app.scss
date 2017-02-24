@@ -7,3 +7,8 @@
 
 // Bulma
 @import "node_modules/bulma/bulma";
+
+.nav-item img {
+  max-height: 41px;
+  padding-right: 8px;
+}

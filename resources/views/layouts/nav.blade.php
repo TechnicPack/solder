@@ -2,7 +2,8 @@
   <div class="container">
     <div class="nav-left">
       <a class="nav-item" href="/">
-          Solder
+          <img src="/img/title.png" alt="Solder" />
+          <span class="is-hidden-mobile">{{ $appVersion or null }}</span>
       </a>
     </div>
     <span class="nav-toggle" onclick="toggleNav()">
@@ -11,7 +12,7 @@
       <span></span>
     </span>
     <div id="nav-menu" class="nav-right nav-menu">
-      <a href="/home" class="nav-item is-tab">
+      <a href="{{ route('dashboard') }}" class="nav-item is-tab">
         Dashboard
       </a>
       <a href="#" class="nav-item is-tab">
