@@ -1,17 +1,23 @@
-@extends('layouts.app')
+@component('layouts.app')
 
-@section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">Dashboard</div>
-
-                <div class="panel-body">
-                    You are logged in!
-                </div>
-            </div>
+<section class="hero is-primary">
+    <div class="hero-body">
+        <div class="container">
+            <h1 class="title">
+                Dashboard
+            </h1>
         </div>
     </div>
-</div>
-@endsection
+</section>
+
+<section class="section">
+    <div class="container">
+
+        <div class="notification is-info">
+            <p>You are logged in!</p>
+        </div>
+
+    </div>
+</section>
+
+@endcomponent
