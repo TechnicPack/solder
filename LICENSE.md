@@ -1,6 +1,6 @@
 # The MIT License (MIT)
 
-Copyright (c) 2016 Kyle Klaus <kklaus@indemnity83.com>. Technic, the TechnicSolder name and artwork (c) <2013> <Syndicate LLC> <sct@technicpack.net>
+Copyright (c) 2016 Kyle Klaus <kklaus@indemnity83.com>. Technic, the Solder name and artwork (c) <2013> <Syndicate LLC> <sct@technicpack.net>
 
 
 > Permission is hereby granted, free of charge, to any person obtaining a copy

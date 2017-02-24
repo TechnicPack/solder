@@ -1,3 +1,3 @@
 # Changelog
 
-All Notable changes to `TechnicSolder` will be documented in this file
+All Notable changes to `Solder` will be documented in this file

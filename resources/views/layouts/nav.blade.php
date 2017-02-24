@@ -2,7 +2,7 @@
   <div class="container">
     <div class="nav-left">
       <a class="nav-item" href="/">
-        Technic Solder
+          Solder
       </a>
     </div>
     <span class="nav-toggle" onclick="toggleNav()">

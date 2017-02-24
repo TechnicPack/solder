@@ -79,7 +79,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Technic Solder
+                    Solder
                 </div>
 
                 <div class="links">
@@ -87,7 +87,7 @@
                     <a href="https://www.technicpack.net/modpacks">Modpacks</a>
                     <a href="https://www.technicpack.net/news">News</a>
                     <a href="http://status.technicpack.net/">Platform Status</a>
-                    <a href="https://github.com/indemnity83/technicsolder">GitHub</a>
+                    <a href="https://github.com/indemnity83/solder">GitHub</a>
                 </div>
             </div>
         </div>

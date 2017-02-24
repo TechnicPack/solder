@@ -1,7 +1,7 @@
 FORMAT: 1A
 HOST: http://solder.technicpack.net/
 
-# TechnicSolder
+# Solder
 
 Solder helps you lower bandwidth usage, keep old versions of your modpack
 available to users and provides faster, streamlined updates. You won't
@@ -31,7 +31,7 @@ in order to protect the security of access tokens, and application data.
 # OAuth2
 
 This API implements [OAuth2](https://oauth.net/2/) Authorization. A valid access token is
-REQUIRED for most requests to the TechnicSolder API. It is up to the
+REQUIRED for most requests to the Solder API. It is up to the
 client to determine how to store and handle the token. There are three
 supported methods of getting an authentication token.
 
@@ -62,11 +62,11 @@ secret cannot be garenteed.
 
 Using OAuth2 with authorization codes is how most developers are
 familiar with OAuth2. When using authorization codes, a client
-application will redirect a user to the TechnicSolder server where they
+application will redirect a user to the Solder server where they
 will either approve or deny the request to issue an access token to the
 client.
 
-This method requires establishing a known client in the TechnicSolder
+This method requires establishing a known client in the Solder
 application which will generate a `client_id` and `client_secret`. The
 client gets an authorization token in a two step process
 
@@ -158,9 +158,9 @@ get all the builds of a modpack in one API call).
 There's a lot more too; and you'll see it sprinkled throughout this
 documentation, but it should be relatively obvious whats going on.
 
-# TechnicSolder Root [/api]
+# Solder Root [/api]
 
-This is the TechnicSolder API entry point.
+This is the Solder API entry point.
 
 ## Retrieve the Entry Point [GET]
 
@@ -171,7 +171,7 @@ API version.
 + Response 200 (application/json)
 
         {
-            "api": "TechnicSolder",
+            "api": "Solder",
             "version": "v0.7.3.1",
             "stream": "DEV"
         }
@@ -236,10 +236,10 @@ generate one automatically based on the `name` field.
 
 ### Upload modpack icon [PUT /api/modpacks/{id}/icon]
 
-Uploads MUST be sent as a raw binary request. Each successful PUT request will replace any 
+Uploads MUST be sent as a raw binary request. Each successful PUT request will replace any
 existing file, and SHALL touch the updated_at timestamp for the modpack model.
 
-The icon MUST be an image/jpeg, image/png or image/gif mime type (image/png is RECOMMENDED), 
+The icon MUST be an image/jpeg, image/png or image/gif mime type (image/png is RECOMMENDED),
 and SHOULD be 50x50 pixels. The image MAY be cropped and resized by the server to meet the
 dimension requirements.
 
@@ -250,12 +250,12 @@ dimension requirements.
 + Request
 
     + Header
-    
+
             Content-Type: image/png
             Content-Transfer-Encoding: base64
-        
+
     + Body
-    
+
             iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAKQWlDQ1BJQ0MgUHJvZmlsZQAASA2d
             lndUU9kWh8+9N73QEiIgJfQaegkg0jtIFQRRiUmAUAKGhCZ2RAVGFBEpVmRUwAFHhyJjRRQLg4Ji
             1wnyEFDGwVFEReXdjGsJ7601896a/cdZ39nnt9fZZ+9917oAUPyCBMJ0WAGANKFYFO7rwVwSE8vE
@@ -315,13 +315,13 @@ dimension requirements.
 
 + Response 204
 
-        
+
 ### Upload modpack logo [PUT /api/modpacks/{id}/logo]
 
-Uploads MUST be sent as a raw binary request. Each successful PUT request will replace any 
+Uploads MUST be sent as a raw binary request. Each successful PUT request will replace any
 existing file, and SHALL touch the updated_at timestamp for the modpack model.
 
-The logo MUST be an image/jpeg, image/png or image/gif mime type (image/png is RECOMMENDED), 
+The logo MUST be an image/jpeg, image/png or image/gif mime type (image/png is RECOMMENDED),
 and SHOULD be 370x220 pixels. The image MAY be cropped and resized by the server to meet the
 dimension requirements.
 
@@ -332,12 +332,12 @@ dimension requirements.
 + Request
 
     + Header
-    
+
             Content-Type: image/png
             Content-Transfer-Encoding: base64
-        
+
     + Body
-    
+
             iVBORw0KGgoAAAANSUhEUgAAAXIAAADcCAYAAABtRSojAAAKQWlDQ1BJQ0MgUHJvZmlsZQAASA2d
             lndUU9kWh8+9N73QEiIgJfQaegkg0jtIFQRRiUmAUAKGhCZ2RAVGFBEpVmRUwAFHhyJjRRQLg4Ji
             1wnyEFDGwVFEReXdjGsJ7601896a/cdZ39nnt9fZZ+9917oAUPyCBMJ0WAGANKFYFO7rwVwSE8vE
@@ -423,13 +423,13 @@ dimension requirements.
 
 + Response 204
 
-        
+
 ### Upload modpack background [PUT /api/modpacks/{id}/background]
 
-Uploads MUST be sent as a raw binary request. Each successful PUT request will replace any 
+Uploads MUST be sent as a raw binary request. Each successful PUT request will replace any
 existing file, and SHALL touch the updated_at timestamp for the modpack model.
 
-The background MUST be an image/jpeg, image/png or image/gif mime type (image/jpeg is RECOMMENDED), 
+The background MUST be an image/jpeg, image/png or image/gif mime type (image/jpeg is RECOMMENDED),
 and SHOULD be 900x600 pixels. The image MAY be cropped and resized by the server to meet the
 dimension requirements.
 
@@ -440,12 +440,12 @@ dimension requirements.
 + Request
 
     + Header
-    
+
             Content-Type: image/jpeg
             Content-Transfer-Encoding: base64
-        
+
     + Body
-    
+
             /9j/4AAQSkZJRgABAQAAAQABAAD/4gxYSUNDX1BST0ZJTEUAAQEAAAxITGlubwIQAABtbnRyUkdC
             IFhZWiAHzgACAAkABgAxAABhY3NwTVNGVAAAAABJRUMgc1JHQgAAAAAAAAAAAAAAAAAA9tYAAQAA
             AADTLUhQICAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABFj
@@ -679,7 +679,7 @@ dimension requirements.
 
 
 + Response 204
-              
+
 
 ### Get a modpack [GET /api/modpacks/{id}]
 
@@ -774,7 +774,7 @@ used by the client launcher, or other consumer of the api. For example, it could
 contain a `"memory":2048` tag that a launcher could use to set the memory on
 launch of the game.
 
-<sup>[1]</sup>While it is not a requirement, TechnicSolder assumes the version
+<sup>[1]</sup>While it is not a requirement, Solder assumes the version
 contains a [Semantic Versioning 2.0](http://semver.org/) formatted string.
 
 <sup>[2]</sup>The version attribute must be unique for builds under a
@@ -782,7 +782,7 @@ particular modpack.
 
 ### List builds for a modpack [GET /api/modpacks/{id}/builds]
 
-A `401 Unauthorized` status WILL be returned for unauthenticated requests trying to access a 
+A `401 Unauthorized` status WILL be returned for unauthenticated requests trying to access a
 build for a `private`, or non-existent modpack.
 
 Unauthenticated requests SHALL return `public` builds only. Authenticated requests SHALL return
@@ -792,11 +792,11 @@ access to.
 `unlisted` builds SHALL NOT be included in results for this endpoint.
 
 If you do not provide valid authentication, this endpoint will only return builds
-for published modpacks. 
+for published modpacks.
 
 + Parameters
 
-    + id: `e2d6ff99-de5b-429c-83ea-1660663b7bc4` (string) - The modpack id 
+    + id: `e2d6ff99-de5b-429c-83ea-1660663b7bc4` (string) - The modpack id
 
 + Request
 
@@ -838,8 +838,8 @@ Retrieve details for a single build, similarly to listing builds if the
 modpack associated with this build is not public and the request
 is not authenticated then a `401 Unauthorized` will be returned.
 
-You may also use the include paramater to include additional related attributes in 
-a single api call. 
+You may also use the include paramater to include additional related attributes in
+a single api call.
 
 **This is the the recomended method for getting a build, and related
 asset data for a client to use for downloading data.**
@@ -867,10 +867,10 @@ asset data for a client to use for downloading data.**
                 + assets
                     + links
                         + self: `http://solder.technicpack.net/builds/cac555fe-0325-489c-b3ed-1dc63dcacc2f/relationships/assets` (string) - API URI to asset
-                        + related: `http://solder.technicpack.net/builds/cac555fe-0325-489c-b3ed-1dc63dcacc2f/assets` (string) - 
+                        + related: `http://solder.technicpack.net/builds/cac555fe-0325-489c-b3ed-1dc63dcacc2f/assets` (string) -
                     + data (array[BuildAssets])
         + included (AssetResponse)
-        
+
 
 ### Get assets relationships for a build [GET /api/builds/{id}/relationships/assets]
 
@@ -892,10 +892,10 @@ The following request fetches data about a build’s assets (assets are related 
         + assets
             + links
                 + self: `http://solder.technicpack.net/builds/cac555fe-0325-489c-b3ed-1dc63dcacc2f/relationships/assets` (string) - API URI to asset
-                + related: `http://solder.technicpack.net/builds/cac555fe-0325-489c-b3ed-1dc63dcacc2f/assets` (string) - 
+                + related: `http://solder.technicpack.net/builds/cac555fe-0325-489c-b3ed-1dc63dcacc2f/assets` (string) -
             + data (array[BuildAssets])
-            
-     
+
+
 ### Update a build [PATCH /api/builds/{id}]
 
 If the `version` attribute is provided, it cannot be empty, and must remain
@@ -1107,7 +1107,7 @@ The `versions` resource is made up of the following attributes:
 |-------------|--------------------|--------------------|----------------------------|
 | version     | string<sup>1</sup> | unique<sup>2</sup> | The version of the release |
 
-<sup>[1]</sup>While it is not a requirement, *TechnicSolder* assumes the
+<sup>[1]</sup>While it is not a requirement, *Solder* assumes the
 `version` contains a [Semantic Versioning 2.0](http://semver.org)
 formatted string.
 
@@ -1215,10 +1215,10 @@ will not actually be updated (the `updated_at` field will remain unchanged).
 
 ### Delete a version [DELETE /api/version/{id}]
 
-Deletes a version from the system, will also delete any assets associated with the version. 
+Deletes a version from the system, will also delete any assets associated with the version.
 
 Version must not be part of any build or the server will respond with a `409 Conflict` and the delete
-will fail. 
+will fail.
 
 + Parameters
 
@@ -1273,15 +1273,15 @@ If the `url` attribute is empty, there is no available file for the asset.
 + Response 200 (application/vnd.api+json)
     + Attributes
         + data (array[AssetResponse])
-        
-        
+
+
 ### List assets for a build [GET /api/builds/{id}/assets]
 
 Retreive details for assets related to a given build.
 
-*Its recomended that except for 
+*Its recomended that except for
 very special cases you use the `?include=` query parameter on the `GET /api/builds/{id}` endpoint
-to save an api call.* 
+to save an api call.*
 
 + Parameters
 
@@ -1297,7 +1297,7 @@ to save an api call.*
 + Response 200 (application/vnd.api+json)
     + Attributes
         + data (array[AssetResponse])
-            
+
 
 ### Create an asset [POST /api/versions/{id}/assets]
 
@@ -1354,12 +1354,12 @@ will **permanently overwrite** the original value.
 + Response 200 (application/vnd.api+json)
     + Attributes
         + data (AssetResponse)
-        
+
 
 ### Upload an asset [PUT /api/assets/{id}]
 
-Once an asset has been created in the system, then the file can be uploaded by sending a `PUT` request with the binary 
-data to the server. The encoding types supported will be dependant on the web server. 
+Once an asset has been created in the system, then the file can be uploaded by sending a `PUT` request with the binary
+data to the server. The encoding types supported will be dependant on the web server.
 
 + Parameters
 
@@ -1368,12 +1368,12 @@ data to the server. The encoding types supported will be dependant on the web se
 + Request
 
     + Header
-    
+
             Content-Type: text/plain
             Content-Transfer-Encoding: base64
-        
+
     + Body
-    
+
             IyBDb25maWd1cmF0aW9uIGZpbGUNCg0KRW50aXR5IHsNCiAgICAjIElmIHRydWUsIHVzaW5nIGEg
             cG9ydGFzcGF3bmVyIG9uIGFuIGVtcHR5IG1pbmVjYXJ0IHdpbGwgbWFrZSBpdCBpbnRvIGEgc3Bh
             d25lciBjYXJ0DQogICAgQjpFbmFibGVTcGF3bmVyQ2FydHM9dHJ1ZQ0KICAgIEk6SUQuWm9vbG9n
@@ -1683,8 +1683,8 @@ data to the server. The encoding types supported will be dependant on the web se
             ZXM9dHJ1ZQ0KICAgIH0NCg0KfQ0K
 
 
-+ Response 204            
-        
++ Response 204
+
 
 ### Delete an asset [DELETE /api/assets/{id}]
 
@@ -1949,13 +1949,13 @@ they are fully deprecated and removed. These endpoints MUST NOT require authenti
     + description: A classic tech pack` (string, optional) - Short description to show in search results
     + overview (string, optional) - Long description to show on modpack page
     + help (string, optional) - Content presented to users on a 'help' page
-    + license (string, optional) - Content presented to users on a 'licence' page  
+    + license (string, optional) - Content presented to users on a 'licence' page
     + privacy: `public` (enum, required) - The visibiilty setting for the modpack
         + Members
             + `public`
             + `unlisted`
             + `private`
-    + tags (SearchTags, optional) - Search indexed tags for the modpack 
+    + tags (SearchTags, optional) - Search indexed tags for the modpack
     + website (string, optional) - Link to dedicated website for modpack
     + icon: `http://solder.technnicpack.net/pack-icons/e2d6ff99-de5b-429c-83ea-1660663b7bc4.png` (string, optional) - URI for 50x50 icon image
     + logo: `http://solder.technnicpack.net/pack-logos/e2d6ff99-de5b-429c-83ea-1660663b7bc4.png` (string, optional) - URI for 370x220 logo image
@@ -1970,13 +1970,13 @@ they are fully deprecated and removed. These endpoints MUST NOT require authenti
     + description: A classic tech pack` (string, optional) - Short description to show in search results
     + overview (string, optional) - Long description to show on modpack page
     + help (string, optional) - Content presented to users on a 'help' page
-    + license (string, optional) - Content presented to users on a 'licence' page  
+    + license (string, optional) - Content presented to users on a 'licence' page
     + privacy: `public` (enum, required) - The visibiilty setting for the modpack
         + Members
             + `public`
             + `unlisted`
             + `private`
-    + tags (SearchTags, optional) - Search indexed tags for the modpack 
+    + tags (SearchTags, optional) - Search indexed tags for the modpack
     + website (string, optional) - Link to dedicated website for modpack
     + icon: `http://solder.technnicpack.net/pack-icons/e2d6ff99-de5b-429c-83ea-1660663b7bc4.png` (string, optional) - URI for 50x50 icon image
     + logo: `http://solder.technnicpack.net/pack-logos/e2d6ff99-de5b-429c-83ea-1660663b7bc4.png` (string, optional) - URI for 370x220 logo image
@@ -2017,7 +2017,7 @@ they are fully deprecated and removed. These endpoints MUST NOT require authenti
     + updated_at: `2016-11-12T02:33:10+00:00` - ISO 8601 formated datetime when resource was updated
 + links
     + self: `http://solder.technnicpack.net/api/builds/cac555fe-0325-489c-b3ed-1dc63dcacc2f` - API URI to build
-    
+
 ## BuildAssets (object)
 + type: `asset` (string)
 + id: `aded1578-431c-4fff-97be-e5ff5ac47989` (string)
