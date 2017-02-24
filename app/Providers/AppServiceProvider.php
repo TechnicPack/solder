@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of TechnicSolder.
+ * This file is part of Solder.
  *
  * (c) Kyle Klaus <kklaus@indemnity83.com>
  *
@@ -11,7 +11,9 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
+use Tremby\LaravelGitVersion\GitVersionHelper;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -22,7 +24,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        View::composer('*', function($view)
+        {
+            $view->with('appVersion', GitVersionHelper::getVersion());
+        });
     }
 
     /**

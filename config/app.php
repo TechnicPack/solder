@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of TechnicSolder.
+ * This file is part of Solder.
  *
  * (c) Kyle Klaus <kklaus@indemnity83.com>
  *
@@ -21,7 +21,7 @@ return [
     | any other location as required by the application or its packages.
     */
 
-    'name' => 'TechnicSolder',
+    'name' => 'Solder',
 
     /*
     |--------------------------------------------------------------------------

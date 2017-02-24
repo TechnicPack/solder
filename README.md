@@ -1,11 +1,11 @@
 <img align="right" src="https://raw.githubusercontent.com/TechnicPack/TechnicSolder/master/public/img/500error2.png">
 
-# TechnicSolder
-> Supercharge Your Modpack with TechnicSolder
+# Solder
+> Supercharge Your Modpacks with Solder
 
-[![Build Status](https://travis-ci.org/Indemnity83/TechnicSolder.svg?branch=develop)](https://travis-ci.org/Indemnity83/TechnicSolder)
-[![Code Coverage](https://scrutinizer-ci.com/g/Indemnity83/TechnicSolder/badges/coverage.png?b=develop)](https://scrutinizer-ci.com/g/Indemnity83/TechnicSolder/?branch=develop)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Indemnity83/TechnicSolder/badges/quality-score.png?b=develop)](https://scrutinizer-ci.com/g/Indemnity83/TechnicSolder/?branch=develop)
+[![Build Status](https://travis-ci.org/indemnity83/solder.svg?branch=develop)](https://travis-ci.org/indemnity83/solder)
+[![Code Coverage](https://scrutinizer-ci.com/g/indemnity83/solder/badges/coverage.png?b=develop)](https://scrutinizer-ci.com/g/indemnity83/solder/?branch=develop)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/indemnity83/solder/badges/quality-score.png?b=develop)](https://scrutinizer-ci.com/g/indemnity83/solder/?branch=develop)
 [![StyleCI](https://styleci.io/repos/32042637/shield?branch=develop)](https://styleci.io/repos/32042637)
 
 Solder helps you lower bandwidth usage, keep old versions of your modpack available to users and provides faster, streamlined updates. You won't know how you managed a modpack before you used Solder.
@@ -15,8 +15,8 @@ Solder helps you lower bandwidth usage, keep old versions of your modpack availa
 If you're interested in getting checking out the application locally, or helping out with development; the below series of commands should get you started.
 
 ```shell
-git clone https://github.com/indemnity83/technicsolder
-cd technicsolder
+git clone https://github.com/indemnity83/solder
+cd solder
 composer install
 cp .env.example .env
 touch database/database.sqlite
