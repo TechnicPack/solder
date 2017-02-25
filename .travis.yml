@@ -16,6 +16,7 @@ before_script:
 
 script:
   - vendor/bin/phpunit --verbose --coverage-clover=coverage.clover
+  - php artisan dusk
 
 after_script:
   - wget https://scrutinizer-ci.com/ocular.phar

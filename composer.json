@@ -11,6 +11,7 @@
         "php": ">=5.6.4",
         "alsofronie/eloquent-uuid": "^1.0",
         "graham-campbell/exceptions": "^9.1",
+        "laravel/dusk": "^1.0",
         "laravel/framework": "5.4.*",
         "laravel/passport": "^2.0",
         "laravel/tinker": "~1.0",
