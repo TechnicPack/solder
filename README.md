@@ -3,7 +3,7 @@
 # Solder
 > Supercharge Your Modpacks with Solder
 
-[![Build Status](https://travis-ci.org/indemnity83/solder.svg?branch=develop)](https://travis-ci.org/indemnity83/solder)
+[![Build Status](https://api.travis-ci.org/Indemnity83/solder.svg?branch=develop)](https://travis-ci.org/Indemnity83/solder)
 [![Code Coverage](https://scrutinizer-ci.com/g/indemnity83/solder/badges/coverage.png?b=develop)](https://scrutinizer-ci.com/g/indemnity83/solder/?branch=develop)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/indemnity83/solder/badges/quality-score.png?b=develop)](https://scrutinizer-ci.com/g/indemnity83/solder/?branch=develop)
 [![StyleCI](https://styleci.io/repos/32042637/shield?branch=develop)](https://styleci.io/repos/32042637)
