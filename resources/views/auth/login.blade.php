@@ -46,7 +46,7 @@
                 {{-- Submit --}}
                 <div class="control is-grouped">
                     <p class="control is-horizontal">
-                        <button class="button is-primary" type="submit">Submit</button>
+                        <button class="button is-primary" type="submit">Login</button>
                     </p>
                     <p class="control">
                         <a class="button is-link" href="/">Cancel</a>
