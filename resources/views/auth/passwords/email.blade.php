@@ -15,9 +15,7 @@
 
         @if (session('status'))
         <div class="notification is-success">
-            @foreach($errors->all() as $message)
             {{ session('status') }}
-            @endforeach
         </div>
         @endif
 

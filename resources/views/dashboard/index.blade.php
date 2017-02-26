@@ -11,6 +11,12 @@
 
     <section class="section">
         <div class="container">
+            @if (session('status'))
+                <div class="notification is-info">
+                    {{ session('status') }}
+                </div>
+            @endif
+
             <div class="columns is-mobile is-multiline">
 
                 <!-- Summary -->
