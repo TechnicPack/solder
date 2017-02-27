@@ -38,8 +38,8 @@ class DashboardController extends Controller
         $resourceCount = Resource::all()->count();
         $versionCount = Version::all()->count();
 
-        $recentBuilds = Build::with('modpack')->limit(5)->get();
-        $recentVersions = Version::with('resource')->limit(5)->get();
+        $recentBuilds = Build::with('modpack')->orderby('updated_at', 'desc')->limit(5)->get();
+        $recentVersions = Version::with('resource')->latest()->limit(5)->get();
 
         return view('dashboard.index', compact(
             'modpackCount',
