@@ -20,7 +20,7 @@
         ]); ?>
     </script>
 </head>
-<body>
+<body class="body">
     @include('layouts.nav')
 
     <div id="app">
