@@ -16,4 +16,5 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
+Route::resource('/modpacks', 'ModpacksController');
 Route::get('/security', 'SecurityController@index');

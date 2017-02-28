@@ -15,7 +15,7 @@
       <a href="{{ route('dashboard') }}" class="nav-item is-tab">
         Dashboard
       </a>
-      <a href="#" class="nav-item is-tab">
+      <a href="{{ route('modpacks.index') }}" class="nav-item is-tab">
         Modpacks
       </a>
       <a href="#" class="nav-item is-tab">

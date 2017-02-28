@@ -130,4 +130,14 @@ class Modpack extends Model
 
         return implode(', ', $this->tags);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function delete()
+    {
+        $this->builds()->delete();
+
+        parent::delete();
+    }
 }

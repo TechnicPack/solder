@@ -94,4 +94,16 @@ class ModpackTest extends TestCase
         $this->assertEquals('tag-1, tag-2', $taggedModpack->tags_as_string);
         $this->assertEquals('', $untaggedModpack->tags_as_string);
     }
+
+    /** @test */
+    public function deleting_a_modpack_deletes_its_builds()
+    {
+        $modpack = factory(Modpack::class)->create();
+        $modpack->builds()->save(factory(Build::class)->make());
+
+        $modpack->delete();
+
+        $this->assertDatabaseMissing('modpacks', ['id' => $modpack->id]);
+        $this->assertDatabaseMissing('builds', ['modpack_id' => $modpack->id]);
+    }
 }
