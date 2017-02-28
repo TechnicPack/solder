@@ -20,6 +20,8 @@ cd solder
 composer install
 cp .env.example .env
 touch database/database.sqlite
+nano .env
+  enter the absolute path to the database file you just created at DB_DATABASE
 php artisan key:generate
 php artisan migrate
 php artisan passport:install
