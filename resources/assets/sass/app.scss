@@ -12,3 +12,17 @@
   max-height: 41px;
   padding-right: 8px;
 }
+
+.body{
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+#app{
+  flex: 1;
+}
+
+footer.footer{
+  padding: 2rem 1.5rem 1rem;
+}
