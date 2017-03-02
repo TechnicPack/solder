@@ -1,63 +1,78 @@
 @component('layouts.app')
+<section class="hero is-primary">
+@include('layouts.nav')
 
-    <section class="hero is-primary">
-        <div class="hero-body">
-            <div class="container">
-                <h1 class="title">{{ $modpack->name }}</h1>
-            </div>
+<!-- Hero content: will be in the middle -->
+    <div class="hero-body">
+        <div class="container has-text-centered">
+            <h1 class="title">
+                Modpacks
+            </h1>
+            <h2 class="subtitle">
+                Edit {{ $modpack->name }}
+            </h2>
         </div>
-    </section>
+    </div>
 
-    <section class="section">
-        <div class="container">
-            @if (session('status'))
-                <div class="notification is-info">
-                    {{ session('status') }}
-                </div>
-            @endif
+    <!-- Hero footer: will stick at the bottom -->
+    <div class="hero-foot">
+        <nav class="tabs">
+            <div class="container">
+                <ul>
+                    <li><a href="{{ route('modpacks.index') }}">Overview</a></li>
+                    <li><a href="{{ route('modpacks.create') }}">Create new</a></li>
+                    <li class="is-active"><a>Edit modpack</a></li>
+                    <li><a href="{{ route('modpacks.show', $modpack->id) }}">Show {{ $modpack->name }}</a></li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+</section>
 
-                @if( count($errors) )
-                    <div class="notification is-warning">
-                        <ul>
-                            @foreach($errors->all() as $message)
-                                <li>{{ $message }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
+<section class="section">
+    <div class="container">
+        @if (session('status'))
+            <div class="notification is-info">
+                {{ session('status') }}
+            </div>
+        @endif
 
-                <div class="tabs is-right">
-                    <ul>
-                        <li><a href="{{ route('modpacks.show', $modpack->id) }}">Show</a></li>
-                        <li class="is-active"><a href="{{ route('modpacks.edit', $modpack->id) }}">Edit</a></li>
-                    </ul>
-                </div>
+        @if( count($errors) )
+            <div class="notification is-warning">
+                <ul>
+                    @foreach($errors->all() as $message)
+                        <li>{{ $message }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
 
-                <form method="post" action="{{ route('modpacks.update', $modpack->id) }}">
-                    {{ csrf_field() }}
-                    {{ method_field('patch') }}
+        <form method="post" action="{{ route('modpacks.update', $modpack->id) }}">
+            {{ csrf_field() }}
+            {{ method_field('patch') }}
 
-                    {{-- name --}}
-                    <label class="label">Name</label>
-                    <p class="control">
-                        <input class="input is-expanded" type="text" name="name" value="{{ old('name', $modpack->name) }}">
-                    </p>
+            {{-- name --}}
+            <label class="label">Name</label>
+            <p class="control">
+                <input class="input is-expanded" type="text" name="name" value="{{ old('name', $modpack->name) }}">
+            </p>
 
-                    {{-- slug --}}
-                    <label class="label">Slug</label>
-                    <p class="control">
-                        <input class="input is-expanded" type="text" name="slug" value="{{ old('slug', $modpack->slug) }}">
-                    </p>
+            {{-- slug --}}
+            <label class="label">Slug</label>
+            <p class="control">
+                <input class="input is-expanded" type="text" name="slug" value="{{ old('slug', $modpack->slug) }}">
+            </p>
 
-                    {{-- description --}}
-                    <label class="label">Description</label>
-                    <p class="control">
-                        <input class="input" type="text" name="description" value="{{ old('description', $modpack->description) }}">
-                    </p>
+            {{-- description --}}
+            <label class="label">Description</label>
+            <p class="control">
+                <input class="input" type="text" name="description"
+                       value="{{ old('description', $modpack->description) }}">
+            </p>
 
-                    {{-- privacy --}}
-                    <label class="label">Privacy</label>
-                    <p class="control">
+            {{-- privacy --}}
+            <label class="label">Privacy</label>
+            <p class="control">
                     <span class="select">
                         <select class="input" name="privacy">
                             <option value="public" {{ $modpack->privacy == 'public' ? 'selected' : '' }}>Public</option>
@@ -65,62 +80,62 @@
                             <option value="private" {{ $modpack->privacy == 'private' ? 'selected' : '' }}>Private</option>
                         </select>
                     </span>
-                    </p>
+            </p>
 
-                    {{-- tags --}}
-                    <label class="label">Tags</label>
-                    <p class="control">
-                        <input class="input is-disabled" type="text" name="tags[]" placeholder="Not Yet Implemented">
-                    </p>
+            {{-- tags --}}
+            <label class="label">Tags</label>
+            <p class="control">
+                <input class="input is-disabled" type="text" name="tags[]" placeholder="Not Yet Implemented">
+            </p>
 
-                    {{-- icon --}}
-                    <label class="label">Icon</label>
-                    <p class="control">
-                        <input type="file" name="icon" accept="image/*">
-                    </p>
+            {{-- icon --}}
+            <label class="label">Icon</label>
+            <p class="control">
+                <input type="file" name="icon" accept="image/*">
+            </p>
 
-                    {{-- logo --}}
-                    <label class="label">Logo</label>
-                    <p class="control">
-                        <input type="file" name="logo" accept="image/*">
-                    </p>
+            {{-- logo --}}
+            <label class="label">Logo</label>
+            <p class="control">
+                <input type="file" name="logo" accept="image/*">
+            </p>
 
-                    {{-- background --}}
-                    <label class="label">Background</label>
-                    <p class="control">
-                        <input type="file" name="background" accept="image/*">
-                    </p>
+            {{-- background --}}
+            <label class="label">Background</label>
+            <p class="control">
+                <input type="file" name="background" accept="image/*">
+            </p>
 
-                    {{-- overview --}}
-                    <label class="label">Overview</label>
-                    <p class="control">
-                        <textarea class="input" name="overview" rows="5">{{ old('overview', $modpack->overview) }}</textarea>
-                    </p>
+            {{-- overview --}}
+            <label class="label">Overview</label>
+            <p class="control">
+                <textarea class="input" name="overview" rows="5">{{ old('overview', $modpack->overview) }}</textarea>
+            </p>
 
-                    {{-- help --}}
-                    <label class="label">Help</label>
-                    <p class="control">
-                        <textarea class="input" name="help" rows="5">{{ old('help', $modpack->help) }}</textarea>
-                    </p>
+            {{-- help --}}
+            <label class="label">Help</label>
+            <p class="control">
+                <textarea class="input" name="help" rows="5">{{ old('help', $modpack->help) }}</textarea>
+            </p>
 
-                    {{-- license --}}
-                    <label class="label">License</label>
-                    <p class="control">
-                        <textarea class="input" name="license" rows="5">{{ old('license', $modpack->license) }}</textarea>
-                    </p>
+            {{-- license --}}
+            <label class="label">License</label>
+            <p class="control">
+                <textarea class="input" name="license" rows="5">{{ old('license', $modpack->license) }}</textarea>
+            </p>
 
-                    {{-- Submit --}}
-                    <div class="control is-grouped">
-                        <p class="control is-horizontal">
-                            <button class="button is-primary" type="submit">Update</button>
-                        </p>
-                        <p class="control">
-                            <a class="button is-link" href="{{ route('modpacks.show', $modpack->id) }}">Cancel</a>
-                        </p>
-                    </div>
+            {{-- Submit --}}
+            <div class="control is-grouped">
+                <p class="control is-horizontal">
+                    <button class="button is-primary" type="submit">Update</button>
+                </p>
+                <p class="control">
+                    <a class="button is-link" href="{{ route('modpacks.show', $modpack->id) }}">Cancel</a>
+                </p>
+            </div>
 
-                </form>
-        </div>
-    </section>
+        </form>
+    </div>
+</section>
 
 @endcomponent

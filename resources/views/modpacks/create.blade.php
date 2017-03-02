@@ -1,55 +1,75 @@
 @component('layouts.app')
 
-    <section class="hero is-primary">
-        <div class="hero-body">
-            <div class="container">
-                <h1 class="title">Create Modpack</h1>
-            </div>
+<section class="hero is-primary">
+@include('layouts.nav')
+
+<!-- Hero content: will be in the middle -->
+    <div class="hero-body">
+        <div class="container has-text-centered">
+            <h1 class="title">
+                Modpacks
+            </h1>
+            <h2 class="subtitle">
+                Create a new modpack
+            </h2>
         </div>
-    </section>
+    </div>
 
-    <section class="section">
-        <div class="container">
-            @if (session('status'))
-                <div class="notification is-info">
-                    {{ session('status') }}
-                </div>
-            @endif
+    <!-- Hero footer: will stick at the bottom -->
+    <div class="hero-foot">
+        <nav class="tabs">
+            <div class="container">
+                <ul>
+                    <li><a href="{{ route('modpacks.index') }}">Overview</a></li>
+                    <li class="is-active"><a>Create new</a></li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+</section>
 
-            @if( count($errors) )
-                <div class="notification is-warning">
-                    <ul>
-                        @foreach($errors->all() as $message)
-                            <li>{{ $message }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
+<section class="section">
+    <div class="container">
+        @if (session('status'))
+            <div class="notification is-info">
+                {{ session('status') }}
+            </div>
+        @endif
 
-            <form method="post" action="{{ route('modpacks.store') }}">
-                {{ csrf_field() }}
+        @if( count($errors) )
+            <div class="notification is-warning">
+                <ul>
+                    @foreach($errors->all() as $message)
+                        <li>{{ $message }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
 
-                {{-- name --}}
-                <label class="label">Name</label>
-                <p class="control">
-                    <input class="input" type="text" name="name" value="{{ old('name') }}">
-                </p>
+        <form method="post" action="{{ route('modpacks.store') }}">
+            {{ csrf_field() }}
 
-                {{-- slug --}}
-                <label class="label">Slug</label>
-                <p class="control">
-                    <input class="input" type="text" name="slug" value="{{ old('slug') }}">
-                </p>
+            {{-- name --}}
+            <label class="label">Name</label>
+            <p class="control">
+                <input class="input" type="text" name="name" value="{{ old('name') }}">
+            </p>
 
-                {{-- description --}}
-                <label class="label">Description</label>
-                <p class="control">
-                    <input class="input" type="text" name="description" value="{{ old('description') }}">
-                </p>
+            {{-- slug --}}
+            <label class="label">Slug</label>
+            <p class="control">
+                <input class="input" type="text" name="slug" value="{{ old('slug') }}">
+            </p>
 
-                {{-- privacy --}}
-                <label class="label">Privacy</label>
-                <p class="control">
+            {{-- description --}}
+            <label class="label">Description</label>
+            <p class="control">
+                <input class="input" type="text" name="description" value="{{ old('description') }}">
+            </p>
+
+            {{-- privacy --}}
+            <label class="label">Privacy</label>
+            <p class="control">
                     <span class="select">
                         <select class="input" name="privacy">
                             <option value="public">Public</option>
@@ -57,62 +77,62 @@
                             <option value="private">Private</option>
                         </select>
                     </span>
-                </p>
+            </p>
 
-                {{-- tags --}}
-                <label class="label">Tags</label>
+            {{-- tags --}}
+            <label class="label">Tags</label>
+            <p class="control">
+                <input class="input is-disabled" type="text" name="tags[]" placeholder="Not Yet Implemented">
+            </p>
+
+            {{-- icon --}}
+            <label class="label">Icon</label>
+            <p class="control">
+                <input type="file" name="icon" accept="image/*">
+            </p>
+
+            {{-- logo --}}
+            <label class="label">Logo</label>
+            <p class="control">
+                <input type="file" name="logo" accept="image/*">
+            </p>
+
+            {{-- background --}}
+            <label class="label">Background</label>
+            <p class="control">
+                <input type="file" name="background" accept="image/*">
+            </p>
+
+            {{-- overview --}}
+            <label class="label">Overview</label>
+            <p class="control">
+                <textarea class="input" name="overview" rows="5">{{ old('overview') }}</textarea>
+            </p>
+
+            {{-- help --}}
+            <label class="label">Help</label>
+            <p class="control">
+                <textarea class="input" name="help" rows="5">{{ old('help') }}</textarea>
+            </p>
+
+            {{-- license --}}
+            <label class="label">License</label>
+            <p class="control">
+                <textarea class="input" name="license" rows="5">{{ old('license') }}</textarea>
+            </p>
+
+            {{-- Submit --}}
+            <div class="control is-grouped">
+                <p class="control is-horizontal">
+                    <button class="button is-primary" type="submit">Create</button>
+                </p>
                 <p class="control">
-                    <input class="input is-disabled" type="text" name="tags[]" placeholder="Not Yet Implemented">
+                    <a class="button is-link" href="{{ route('modpacks.index') }}">Cancel</a>
                 </p>
+            </div>
 
-                {{-- icon --}}
-                <label class="label">Icon</label>
-                <p class="control">
-                    <input type="file" name="icon" accept="image/*">
-                </p>
-
-                {{-- logo --}}
-                <label class="label">Logo</label>
-                <p class="control">
-                    <input type="file" name="logo" accept="image/*">
-                </p>
-
-                {{-- background --}}
-                <label class="label">Background</label>
-                <p class="control">
-                    <input type="file" name="background" accept="image/*">
-                </p>
-
-                {{-- overview --}}
-                <label class="label">Overview</label>
-                <p class="control">
-                    <textarea class="input" name="overview" rows="5">{{ old('overview') }}</textarea>
-                </p>
-
-                {{-- help --}}
-                <label class="label">Help</label>
-                <p class="control">
-                    <textarea class="input" name="help" rows="5">{{ old('help') }}</textarea>
-                </p>
-
-                {{-- license --}}
-                <label class="label">License</label>
-                <p class="control">
-                    <textarea class="input" name="license" rows="5">{{ old('license') }}</textarea>
-                </p>
-
-                {{-- Submit --}}
-                <div class="control is-grouped">
-                    <p class="control is-horizontal">
-                        <button class="button is-primary" type="submit">Create</button>
-                    </p>
-                    <p class="control">
-                        <a class="button is-link" href="{{ route('modpacks.index') }}">Cancel</a>
-                    </p>
-                </div>
-
-            </form>
-        </div>
-    </section>
+        </form>
+    </div>
+</section>
 
 @endcomponent
