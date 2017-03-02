@@ -1,0 +1,15 @@
+div.is-overlay{
+  img.modpack-card__logo{
+    height: auto;
+    width: 85%;
+    position: relative;
+  }
+}
+.modpack-card__overlay{
+  display: flex;
+  flex: 1 1 0%;
+  flex-direction: row;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+}
