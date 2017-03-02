@@ -1,28 +1,31 @@
-
 // Fonts
 @import "node_modules/font-awesome/scss/font-awesome";
-
 // Variables
 @import "variables";
-
 // Bulma
 @import "~bulma";
 
-.nav-item img {
-  max-height: 41px;
-  padding-right: 8px;
+.nav-item {
+  img {
+    max-height:    41px;
+    width:         41px;
+    padding-right: 8px;
+  }
+  span.title {
+    font-size: 23px;
+  }
 }
 
-.body{
-  display: flex;
-  min-height: 100vh;
+.body {
+  display:        flex;
+  min-height:     100vh;
   flex-direction: column;
 }
 
-#app{
+#app {
   flex: 1;
 }
 
-footer.footer{
+footer.footer {
   padding: 2rem 1.5rem 1rem;
 }
