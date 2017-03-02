@@ -13,3 +13,10 @@ div.is-overlay{
   align-content: center;
   justify-content: center;
 }
+.modpack-card__action{
+  display: flex;
+  justify-content: space-around;
+  &.is-danger{
+    color: $danger;
+  }
+}
