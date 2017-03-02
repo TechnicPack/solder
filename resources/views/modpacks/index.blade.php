@@ -57,10 +57,18 @@
 
                         </div>
                         <footer class="card-footer">
-                            <a href="{{ route('modpacks.edit', $modpack->id) }}" class="card-footer-item">Edit</a>
-                            <a class="card-footer-item"
+                            <a href="{{ route('modpacks.edit', $modpack->id) }}" class="card-footer-item modpack-card__action">
+                                <span class="icon">
+                                  <i class="fa fa-pencil"></i>
+                                </span>
+                                <span>Edit</span>
+                            </a>
+                            <a class="card-footer-item modpack-card__action is-danger"
                                onclick="event.preventDefault();document.getElementById('modpack-{{ $modpack->slug }}').submit();">
-                                Delete
+                                <span class="icon">
+                                  <i class="fa fa-trash"></i>
+                                </span>
+                                <span>Delete</span>
                             </a>
 
                             <form id="modpack-{{ $modpack->slug }}"
