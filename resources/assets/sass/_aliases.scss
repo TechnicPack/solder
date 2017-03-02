@@ -1,0 +1,11 @@
+.fa-private {
+  @extend .fa-lock;
+}
+
+.fa-unlisted {
+  @extend .fa-eye-slash;
+}
+
+.fa-public {
+  @extend .fa-globe;
+}

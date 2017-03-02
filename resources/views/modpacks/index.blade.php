@@ -56,18 +56,12 @@
                                 <div class="level">
                                     <div class="level-left">
                                         <div class="level-item">
-                                            <span class="icon"><i class="fa fa-star-o"></i></span> <span>v1.3.12</span>
+                                            <i class="fa fa-fw fa-star-o"></i> v1.3.12
                                         </div>
                                     </div>
                                     <div class="level-right">
                                         <div class="level-item">
-                                            @if($modpack->privacy == 'public')
-                                                <span>Public&nbsp;</span><span class="icon"><i class="fa fa-globe"></i></span>
-                                            @elseif($modpack->privacy == 'unlisted')
-                                                <span>Unlisted&nbsp;</span><span class="icon"><i class="fa fa-eye-slash"></i></span>
-                                            @else
-                                                <span>Private&nbsp;</span><span class="icon"><i class="fa fa-lock"></i></span>
-                                            @endif
+                                            <i class="fa fa-fw fa-{{ $modpack->privacy }}"></i> {{ $modpack->privacy }}
                                         </div>
                                     </div>
                                 </div>
@@ -77,10 +71,7 @@
                         <footer class="card-footer">
                             <a href="{{ route('modpacks.edit', $modpack->id) }}"
                                class="card-footer-item modpack-card__action">
-                                <span class="icon">
-                                  <i class="fa fa-pencil"></i>
-                                </span>
-                                <span>&nbsp;Edit</span>
+                                <i class="fa fa-fw fa-pencil"></i> Edit
                             </a>
                             {{--This is up here to prvent ugly double borders--}}
                             <form id="modpack-{{ $modpack->slug }}"
@@ -91,10 +82,7 @@
                             </form>
                             <a class="card-footer-item modpack-card__action is-danger"
                                onclick="event.preventDefault();document.getElementById('modpack-{{ $modpack->slug }}').submit();">
-                                <span class="icon">
-                                  <i class="fa fa-trash"></i>
-                                </span>
-                                <span>&nbsp;Delete</span>
+                                <i class="fa fa-fw fa-trash"></i> Delete
                             </a>
                         </footer>
                     </div>
