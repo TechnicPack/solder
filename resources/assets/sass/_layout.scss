@@ -1,0 +1,42 @@
+#app {
+  flex: 1;
+}
+
+.body {
+  display:        flex;
+  min-height:     100vh;
+  flex-direction: column;
+}
+
+section.hero.is-primary {
+  div.hero-head {
+    background-color: rgba(0, 0, 0, 0.2);
+  }
+}
+
+.nav-item {
+  img {
+    max-height:    41px;
+    width:         41px;
+    padding-right: 8px;
+  }
+  span.title {
+    font-size: 23px;
+  }
+}
+
+footer.footer {
+  padding:    2rem 1.5rem 1rem;
+  background: $grey-darker;
+  div.is-inverted {
+    color: $text-invert;
+    a {
+      color: $grey-light;
+      &:hover {
+        color: $grey;
+      }
+    }
+  }
+}
+
+
