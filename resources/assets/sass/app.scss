@@ -5,6 +5,12 @@
 // Bulma
 @import "~bulma";
 
+section.hero.is-primary {
+  div.hero-head {
+    background-color: rgba(0, 0, 0, 0.2);
+  }
+}
+
 .nav-item {
   img {
     max-height:    41px;
@@ -27,7 +33,17 @@
 }
 
 footer.footer {
-  padding: 2rem 1.5rem 1rem;
+  padding:    2rem 1.5rem 1rem;
+  background: $grey-darker;
+  div.is-inverted {
+    color: $text-invert;
+    a {
+      color: $grey-light;
+      &:hover {
+        color: $grey;
+      }
+    }
+  }
 }
 
 @import "modpacks";
