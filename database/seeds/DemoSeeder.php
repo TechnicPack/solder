@@ -101,8 +101,8 @@ class DemoSeeder extends Seeder
             'tags' => $faker->words,
             'website' => $faker->url,
             'icon' => $faker->imageUrl(50, 50),
-            'logo' => $faker->imageUrl(150, 120),
-            'background' => $faker->imageUrl(900, 1000),
+            'logo' => $faker->imageUrl(370, 220),
+            'background' => $faker->imageUrl(900, 600),
         ]);
 
         /** @var \App\Build $build */
