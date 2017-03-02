@@ -21,7 +21,7 @@
     </script>
 </head>
 <body class="body">
-    @include('layouts.nav')
+    {{--@include('layouts.nav')--}}
 
     <div id="app">
         {{ $slot }}
