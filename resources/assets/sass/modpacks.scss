@@ -14,8 +14,6 @@ div.is-overlay{
   justify-content: center;
 }
 .modpack-card__action{
-  display: flex;
-  justify-content: space-around;
   &.is-danger{
     color: $danger;
   }
@@ -25,6 +23,6 @@ div.is-overlay{
   margin-bottom: 10px !important;
   font-size: $size-5;
 }
-.modpack-card__privacy{
+.modpack-card__details{
   color: $text-light;
 }
