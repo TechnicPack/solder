@@ -52,15 +52,24 @@
                             <div class="content modpack-card__title">
                                 {{ $modpack->name }}
                             </div>
-                            <div class="content modpack-card__privacy">
-                                <div>
-                                    @if($modpack->privacy == 'public')
-                                        <span class="icon"><i class="fa fa-globe"></i></span> <span>Public</span>
-                                    @elseif($modpack->privacy == 'unlisted')
-                                        <span class="icon"><i class="fa fa-eye-slash"></i></span> <span>Unlisted</span>
-                                    @else
-                                        <span class="icon"><i class="fa fa-lock"></i></span> <span>Private</span>
-                                    @endif
+                            <div class="content modpack-card__details">
+                                <div class="level">
+                                    <div class="level-left">
+                                        <div class="level-item">
+                                            <span class="icon"><i class="fa fa-star-o"></i></span> <span>v1.3.12</span>
+                                        </div>
+                                    </div>
+                                    <div class="level-right">
+                                        <div class="level-item">
+                                            @if($modpack->privacy == 'public')
+                                                <span>Public&nbsp;</span><span class="icon"><i class="fa fa-globe"></i></span>
+                                            @elseif($modpack->privacy == 'unlisted')
+                                                <span>Unlisted&nbsp;</span><span class="icon"><i class="fa fa-eye-slash"></i></span>
+                                            @else
+                                                <span>Private&nbsp;</span><span class="icon"><i class="fa fa-lock"></i></span>
+                                            @endif
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
@@ -71,7 +80,7 @@
                                 <span class="icon">
                                   <i class="fa fa-pencil"></i>
                                 </span>
-                                <span>Edit</span>
+                                <span>&nbsp;Edit</span>
                             </a>
                             {{--This is up here to prvent ugly double borders--}}
                             <form id="modpack-{{ $modpack->slug }}"
@@ -85,7 +94,7 @@
                                 <span class="icon">
                                   <i class="fa fa-trash"></i>
                                 </span>
-                                <span>Delete</span>
+                                <span>&nbsp;Delete</span>
                             </a>
                         </footer>
                     </div>
