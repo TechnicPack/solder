@@ -1,6 +1,6 @@
 <footer class="footer">
   <div class="container">
-    <div class="content has-text-centered">
+    <div class="content has-text-centered is-inverted">
       <p>
         <strong>Technic Solder</strong> by <a href="#">Syndicate LLC</a> and <a href="http://indemnity83.com">Indemnity83</a>. The source code is licensed
         <a href="http://opensource.org/licenses/mit-license.php">MIT</a>.
