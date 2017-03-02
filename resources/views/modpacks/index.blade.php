@@ -49,20 +49,37 @@
                         </a>
                         <div class="card-content">
 
-                            <div class="content">
+                            <div class="content modpack-card__title">
                                 {{ $modpack->name }}
-                                <br>
-                                <small>{{ $modpack->privacy }}</small>
+                            </div>
+                            <div class="content modpack-card__privacy">
+                                <div>
+                                    @if($modpack->privacy == 'public')
+                                        <span class="icon"><i class="fa fa-globe"></i></span> <span>Public</span>
+                                    @elseif($modpack->privacy == 'unlisted')
+                                        <span class="icon"><i class="fa fa-eye-slash"></i></span> <span>Unlisted</span>
+                                    @else
+                                        <span class="icon"><i class="fa fa-lock"></i></span> <span>Private</span>
+                                    @endif
+                                </div>
                             </div>
 
                         </div>
                         <footer class="card-footer">
-                            <a href="{{ route('modpacks.edit', $modpack->id) }}" class="card-footer-item modpack-card__action">
+                            <a href="{{ route('modpacks.edit', $modpack->id) }}"
+                               class="card-footer-item modpack-card__action">
                                 <span class="icon">
                                   <i class="fa fa-pencil"></i>
                                 </span>
                                 <span>Edit</span>
                             </a>
+                            {{--This is up here to prvent ugly double borders--}}
+                            <form id="modpack-{{ $modpack->slug }}"
+                                  action="{{ route('modpacks.destroy', $modpack->id) }}" method="POST"
+                                  style="display: none;">
+                                {{ method_field('delete') }}
+                                {{ csrf_field() }}
+                            </form>
                             <a class="card-footer-item modpack-card__action is-danger"
                                onclick="event.preventDefault();document.getElementById('modpack-{{ $modpack->slug }}').submit();">
                                 <span class="icon">
@@ -70,13 +87,6 @@
                                 </span>
                                 <span>Delete</span>
                             </a>
-
-                            <form id="modpack-{{ $modpack->slug }}"
-                                  action="{{ route('modpacks.destroy', $modpack->id) }}" method="POST"
-                                  style="display: none;">
-                                {{ method_field('delete') }}
-                                {{ csrf_field() }}
-                            </form>
                         </footer>
                     </div>
                 </div>

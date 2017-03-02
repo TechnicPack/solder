@@ -20,3 +20,11 @@ div.is-overlay{
     color: $danger;
   }
 }
+.modpack-card__title{
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.3);
+  margin-bottom: 10px !important;
+  font-size: $size-5;
+}
+.modpack-card__privacy{
+  color: $text-light;
+}
