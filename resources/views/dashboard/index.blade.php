@@ -1,19 +1,9 @@
 @component('layouts.app')
-<section class="hero is-primary">
-@include('layouts.nav')
 
-<!-- Hero content: will be in the middle -->
-    <div class="hero-body">
-        <div class="container has-text-centered">
-            <h1 class="title">
-                Dashboard
-            </h1>
-            <h2 class="subtitle">
-                Welcome to solder
-            </h2>
-        </div>
-    </div>
-</section>
+    @slot('hero')
+        <h1 class="title">Dashboard</h1>
+        <h2 class="subtitle">Welcome to solder</h2>
+    @endslot
 
     <section class="section">
         <div class="container">

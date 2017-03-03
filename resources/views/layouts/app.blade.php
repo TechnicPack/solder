@@ -21,7 +21,11 @@
     </script>
 </head>
 <body class="body">
-    {{--@include('layouts.nav')--}}
+    <section class="hero is-primary">
+        @include('layouts.hero.head')
+        @include('layouts.hero.body')
+        @include('layouts.hero.foot')
+    </section>
 
     <div id="app">
         {{ $slot }}

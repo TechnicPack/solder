@@ -1,32 +1,16 @@
 @component('layouts.app')
 
-<section class="hero is-primary">
-@include('layouts.nav')
+    @slot('hero')
+        <h1 class="title">Modpacks</h1>
+        <h2 class="subtitle">Create a new modpack</h2>
+    @endslot
 
-<!-- Hero content: will be in the middle -->
-    <div class="hero-body">
-        <div class="container has-text-centered">
-            <h1 class="title">
-                Modpacks
-            </h1>
-            <h2 class="subtitle">
-                Create a new modpack
-            </h2>
-        </div>
-    </div>
-
-    <!-- Hero footer: will stick at the bottom -->
-    <div class="hero-foot">
-        <nav class="tabs">
-            <div class="container">
-                <ul>
-                    <li><a href="{{ route('modpacks.index') }}">Overview</a></li>
-                    <li class="is-active"><a>Create new</a></li>
-                </ul>
-            </div>
-        </nav>
-    </div>
-</section>
+    @slot('links')
+        <ul>
+            <li><a href="{{ route('modpacks.index') }}">Overview</a></li>
+            <li class="is-active"><a>Create new</a></li>
+        </ul>
+    @endslot
 
 <section class="section">
     <div class="container">
