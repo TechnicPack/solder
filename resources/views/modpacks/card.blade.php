@@ -1,7 +1,7 @@
 <div class="column is-3">
     <div class="card">
 
-        <a href="{{ route('modpacks.show', $modpack->id) }}" class="card-image">
+        <a href="{{ route('builds.index', $modpack->id) }}" class="card-image">
             <figure class="image is-3by2">
                 <img src="{{ $modpack->background }}">
                 <div class="is-overlay modpack-card__overlay">

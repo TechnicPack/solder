@@ -17,7 +17,7 @@ Auth::routes();
 
 Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
 Route::resource('/modpacks', 'ModpacksController');
-Route::get('/modpacks/{modpack}/overview', 'ModpacksController@overview')->name('modpacks.overview');
+Route::resource('/modpacks/{modpack}/builds', 'ModpackBuildsController');
 Route::get('/modpacks/{modpack}/help', 'ModpacksController@help')->name('modpacks.help');
 Route::get('/modpacks/{modpack}/license', 'ModpacksController@license')->name('modpacks.license');
 Route::get('/security', 'SecurityController@index');
