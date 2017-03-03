@@ -1,14 +1,8 @@
 @component('layouts.app')
 
-<section class="hero is-primary">
-    <div class="hero-body">
-        <div class="container">
-            <h1 class="title">
-                Reset Password
-            </h1>
-        </div>
-    </div>
-</section>
+    @slot('hero')
+        <h1 class="title">Reset Password</h1>
+    @endslot
 
 <section class="section">
     <div class="container">
