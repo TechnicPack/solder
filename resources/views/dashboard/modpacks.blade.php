@@ -12,8 +12,8 @@
             </tr>
             @foreach($recentBuilds as $build)
             <tr>
-                <td><a href="#">{{ $build->version }}</a></td>
-                <td><a href="#">{{ $build->modpack->name }}</a></td>
+                <td><a href="{{ route('builds.show', ['modpack' => $build->modpack->id, 'build' => $build->id]) }}">{{ $build->version }}</a></td>
+                <td><a href="{{ route('builds.index', $build->modpack->id) }}">{{ $build->modpack->name }}</a></td>
                 <td>{{ $build->game_version }}</td>
                 <td>{{ $build->updated_at->diffForHumans() }}</td>
             </tr>
