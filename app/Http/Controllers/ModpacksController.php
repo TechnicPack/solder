@@ -63,6 +63,39 @@ class ModpacksController extends Controller
     }
 
     /**
+     * Display the specified resource.
+     *
+     * @param  \App\Modpack  $modpack
+     * @return \Illuminate\Http\Response
+     */
+    public function overview(Modpack $modpack)
+    {
+        return view('modpacks.overview', compact('modpack'));
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Modpack  $modpack
+     * @return \Illuminate\Http\Response
+     */
+    public function help(Modpack $modpack)
+    {
+        return view('modpacks.help', compact('modpack'));
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Modpack  $modpack
+     * @return \Illuminate\Http\Response
+     */
+    public function license(Modpack $modpack)
+    {
+        return view('modpacks.license', compact('modpack'));
+    }
+
+    /**
      * Show the form for editing the specified resource.
      *
      * @param  \App\Modpack  $modpack

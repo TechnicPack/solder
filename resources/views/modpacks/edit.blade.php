@@ -1,16 +1,17 @@
 @component('layouts.app')
 
     @slot('hero')
-        <h1 class="title">Modpacks</h1>
-        <h2 class="subtitle">Edit {{ $modpack->name }}</h2>
+        <h1 class="title">{{ $modpack->name }}</h1>
+        <h2 class="subtitle">{{ $modpack->description }}</h2>
     @endslot
 
     @slot('links')
         <ul>
-            <li><a href="{{ route('modpacks.index') }}">Overview</a></li>
-            <li><a href="{{ route('modpacks.create') }}">Create new</a></li>
-            <li class="is-active"><a>Edit {{ $modpack->name }}</a></li>
-            <li><a href="{{ route('modpacks.show', $modpack->id) }}">Show {{ $modpack->name }}</a></li>
+            <li><a href="{{ route('modpacks.show', $modpack->id) }}">Builds</a></li>
+            <li><a href="{{ route('modpacks.overview', $modpack->id) }}">Overview</a></li>
+            <li><a href="{{ route('modpacks.help', $modpack->id) }}">Help</a></li>
+            <li><a href="{{ route('modpacks.license', $modpack->id) }}">License</a></li>
+            <li class="is-active"><a href="{{ route('modpacks.edit', $modpack->id) }}">Settings</a></li>
         </ul>
     @endslot
 
