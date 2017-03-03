@@ -19,8 +19,8 @@
                 <a class="nav-item is-tab" href="#">Settings</a>
 
                 @if (Auth::guest()) <span class="nav-item">
-                    <a class="button is-inverted" href="{{ route('login') }}">Log in</a>
-                    <a class="button is-info is-inverted" href="{{ route('register') }}">Sign up</a>
+                    <a class="button is-inverted is-primary" href="{{ route('login') }}">Log in</a>
+                    <a class="button is-inverted is-primary" href="{{ route('register') }}">Sign up</a>
                 </span> @else <span class="nav-item">
                     <a class="button is-inverted is-primary" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><span>Logout</span></a>
 
