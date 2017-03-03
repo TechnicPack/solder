@@ -66,7 +66,7 @@ class AuthenticationTest extends DuskTestCase
         $token = resolve('auth.password')->broker()->getRepository()->create($user);
 
         $this->browse(function ($browser) use ($user, $token) {
-            $browser->visit('/password/reset/' . $token)
+            $browser->visit('/password/reset/'.$token)
                 ->type('email', $user->email)
                 ->type('password', 'newsecret')
                 ->type('password_confirmation', 'newsecret')
