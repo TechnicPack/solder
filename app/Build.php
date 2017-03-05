@@ -96,6 +96,16 @@ class Build extends Model
     }
 
     /**
+     * Get the count of resources in the build.
+     *
+     * @return int
+     */
+    public function getResourceCountAttribute()
+    {
+        return $this->versions->count();
+    }
+
+    /**
      * Flag as the promoted build.
      */
     public function promote()

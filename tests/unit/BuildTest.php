@@ -113,4 +113,15 @@ class BuildTest extends TestCase
         $promotedBuilds = Build::where('is_promoted', true)->get();
         $this->assertEquals(3, count($promotedBuilds));
     }
+
+    /** @test */
+    public function has_count_of_resources()
+    {
+        $build = factory(Build::class)->create();
+        $build->versions()->saveMany(factory(Version::class, 3)->make());
+
+        $resourceCount = $build->resource_count;
+
+        $this->assertEquals(3, $resourceCount);
+    }
 }

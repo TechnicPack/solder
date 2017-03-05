@@ -50,7 +50,7 @@
                             @endif
                         </td>
                         <td>{{ $build->game_version }}</td>
-                        <td>{{ count($build->versions) }}</td>
+                        <td>{{ $build->resource_count }}</td>
                         <td>{{ $build->created_at->diffForHumans() }}</td>
                         <td><i class="fa fa-fw fa-{{ $build->privacy }}"></i> {{ $build->privacy }}</td>
                         <td class="text-right">
