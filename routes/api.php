@@ -43,6 +43,7 @@ Route::group(['namespace' => 'Api', 'middleware' => 'auth:api'], function () {
     Route::delete('modpacks/{modpack}', 'ModpacksController@destroy');
     Route::post('modpacks', 'ModpacksController@store');
 
+    Route::post('builds/{build}/promote', 'BuildsController@promote');
     Route::post('builds/{build}/{related}', 'BuildsController@store');
     Route::patch('builds/{build}', 'BuildsController@update');
     Route::delete('builds/{build}', 'BuildsController@destroy');

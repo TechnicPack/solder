@@ -102,6 +102,22 @@ class BuildsTest extends TestCase
     }
 
     /** @test */
+    public function a_build_can_be_promoted()
+    {
+        $user = factory(User::class)->create();
+        $build = factory(Build::class)->create();
+
+        $response = $this->actingAs($user, 'api')->postApi('api/builds/'.$build->id.'/promote');
+
+        $response->assertStatus(200);
+        $response->assertHeader('Content-Type', 'application/vnd.api+json');
+        $this->assertDatabaseHas('builds', [
+            'id' => $build->id,
+            'is_promoted' => true,
+        ]);
+    }
+
+    /** @test */
     public function a_build_can_be_destroyed()
     {
         $build = factory(Build::class)->create();

@@ -25,6 +25,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $changelog
  * @property string $privacy
  * @property array $arguments
+ * @property bool $is_promoted
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * @property-read \App\Modpack $modpack
@@ -65,6 +66,7 @@ class Build extends Model
      */
     protected $attributes = [
         'privacy' => Privacy::PRIVATE,
+        'is_promoted' => false,
     ];
 
     /**
@@ -74,6 +76,7 @@ class Build extends Model
      */
     protected $casts = [
         'arguments' => 'array',
+        'is_promoted' => 'boolean',
     ];
 
     /**
@@ -90,5 +93,18 @@ class Build extends Model
     public function versions()
     {
         return $this->belongsToMany(Version::class);
+    }
+
+    /**
+     * Flag as the promoted build.
+     */
+    public function promote()
+    {
+        self::where('modpack_id', $this->modpack_id)->update([
+            'is_promoted' => false,
+        ]);
+
+        $this->is_promoted = true;
+        $this->save();
     }
 }

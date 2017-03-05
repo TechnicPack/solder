@@ -159,7 +159,7 @@ class LegacyController extends ApiController
             'logo_md5' => null,
             'background' => $modpack->background,
             'background_md5' => null,
-            'recommended' => null,
+            'recommended' => $modpack->promoted_build_version,
             'latest' => null,
             'builds' => $modpack->builds->pluck('version'),
         ];

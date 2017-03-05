@@ -41,6 +41,48 @@ class ModpackTest extends TestCase
     }
 
     /** @test */
+    public function has_a_promoted_build()
+    {
+        $modpack = factory(Modpack::class)->create();
+        $build = factory(Build::class)->create([
+            'modpack_id' => $modpack->id,
+            'is_promoted' => true,
+        ]);
+
+        $promotedBuild = $modpack->promotedBuild;
+
+        $this->assertEquals($build->id, $promotedBuild->id);
+    }
+
+    /** @test */
+    public function has_a_promoted_build_version_attribute()
+    {
+        $modpack = factory(Modpack::class)->create();
+        $build = factory(Build::class)->create([
+            'modpack_id' => $modpack->id,
+            'is_promoted' => true,
+        ]);
+
+        $promoted_build_version = $modpack->promoted_build_version;
+
+        $this->assertEquals($build->version, $promoted_build_version);
+    }
+
+    /** @test */
+    public function a_modpack_without_a_promoted_build_returns_empty_string_as_promoted_build_version()
+    {
+        $modpack = factory(Modpack::class)->create();
+        factory(Build::class)->create([
+            'modpack_id' => $modpack->id,
+            'is_promoted' => false,
+        ]);
+
+        $promoted_build_version = $modpack->promoted_build_version;
+
+        $this->assertEmpty($promoted_build_version);
+    }
+
+    /** @test */
     public function it_can_generate_a_slug_from_name_on_create()
     {
         $modpack = new Modpack([

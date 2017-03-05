@@ -66,4 +66,51 @@ class BuildTest extends TestCase
 
         $this->assertEquals('1.0.0', $build->fresh()->game_version);
     }
+
+    /** @test */
+    public function a_build_can_be_promoted()
+    {
+        /** @var Build $build */
+        $build = factory(Build::class)->create();
+        $this->assertFalse($build->is_promoted);
+
+        $build->promote();
+
+        $this->assertTrue($build->fresh()->is_promoted);
+    }
+
+    /** @test */
+    public function only_one_promoted_build_can_exist_for_a_modpack()
+    {
+        // Create multiple builds, each for the same modpack
+        $modpack = factory(Modpack::class)->create();
+        $builds = factory(Build::class, 2)->create([
+            'modpack_id' => $modpack->id,
+        ]);
+
+        // Attempt to promote every build
+        $builds->each(function ($build) {
+            $build->promote();
+        });
+
+        // Assert that only one build was tagged promoted
+        $promotedBuilds = Build::where('is_promoted', true)->get();
+        $this->assertEquals(1, count($promotedBuilds));
+    }
+
+    /** @test */
+    public function all_modpacks_can_have_a_promoted_build()
+    {
+        // Create multiple builds, each with a different modpack
+        $builds = factory(Build::class, 3)->create();
+
+        // Attempt to promote every build
+        $builds->each(function ($build) {
+            $build->promote();
+        });
+
+        // Assert that every build was tagged promoted
+        $promotedBuilds = Build::where('is_promoted', true)->get();
+        $this->assertEquals(3, count($promotedBuilds));
+    }
 }

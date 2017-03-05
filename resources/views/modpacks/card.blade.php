@@ -18,7 +18,7 @@
                 <div class="level">
                     <div class="level-left">
                         <div class="level-item">
-                            <i class="fa fa-fw fa-star-o"></i> v1.3.12
+                            <i class="fa fa-fw fa-star-o"></i> {{ $modpack->promoted_build_version }}
                         </div>
                     </div>
                     <div class="level-right">

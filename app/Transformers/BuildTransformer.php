@@ -39,6 +39,7 @@ class BuildTransformer extends TransformerAbstract
             'privacy' => $build->privacy,
             'arguments' => $build->arguments,
             'game_version' => $build->game_version,
+            'is_promoted' => $build->is_promoted,
             'created_at' => $build->created_at->format('c'),
             'updated_at' => $build->updated_at->format('c'),
         ];

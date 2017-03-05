@@ -39,6 +39,7 @@ use Illuminate\Database\Eloquent\Collection;
  * @property Carbon $updated_at
  * @property Collection $builds
  * @property-read string $tags_as_string
+ * @property-read string $promoted_build_version
  * @method static \Illuminate\Database\Query\Builder|\App\Modpack whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Modpack whereName($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Modpack whereSlug($value)
@@ -106,6 +107,30 @@ class Modpack extends Model
     public function builds()
     {
         return $this->hasMany(Build::class);
+    }
+
+    /**
+     * The promoted build.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function promotedBuild()
+    {
+        return $this->hasOne(Build::class)->where('is_promoted', true);
+    }
+
+    /**
+     * Get promoted build version.
+     *
+     * @return string
+     */
+    public function getPromotedBuildVersionAttribute()
+    {
+        if (empty($this->promotedBuild)) {
+            return '';
+        }
+
+        return $this->promotedBuild->version;
     }
 
     /**

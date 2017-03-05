@@ -27,6 +27,7 @@
                 <thead>
                     <tr>
                         <th>Build</th>
+                        <th>Tag</th>
                         <th>For Minecraft</th>
                         <th>Resources</th>
                         <th>Created</th>
@@ -38,7 +39,16 @@
                 <tbody>
                     @foreach($builds as $build)
                     <tr>
-                        <th class="is-expanded"><a href="{{ route('builds.show', ['modpack' => $modpack->id, 'build' => $build->id]) }}">{{ $build->version }}</a></th>
+                        <th>
+                            <a href="{{ route('builds.show', ['modpack' => $modpack->id, 'build' => $build->id]) }}">{{ $build->version }}</a>
+                        </th>
+                        <td>
+                            @if( $build->is_promoted )
+                                <span class="tag is-success">
+                                    Promoted
+                                </span>
+                            @endif
+                        </td>
                         <td>{{ $build->game_version }}</td>
                         <td>{{ count($build->versions) }}</td>
                         <td>{{ $build->created_at->diffForHumans() }}</td>

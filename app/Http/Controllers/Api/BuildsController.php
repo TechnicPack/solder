@@ -106,6 +106,20 @@ class BuildsController extends ApiController
     }
 
     /**
+     * Promote a build.
+     *
+     * @param Build $build
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function promote(Build $build)
+    {
+        $build->promote();
+
+        return $this->transformAndRespond($build);
+    }
+
+    /**
      * Update the specified build in storage.
      *
      * @param Request $request
