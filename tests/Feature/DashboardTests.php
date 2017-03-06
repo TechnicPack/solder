@@ -1,19 +1,15 @@
 <?php
 
-namespace Tests\Browser;
+namespace Tests\Feature;
 
-use App\Modpack;
-use App\User;
 use App\Build;
+use App\User;
 use App\Version;
 use Carbon\Carbon;
-use Tests\DuskTestCase;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Tests\TestCase;
 
-class DashboardTest extends DuskTestCase
+class DashboardTests extends TestCase
 {
-    use DatabaseMigrations;
-
     /** @test */
     public function dashboard_lists_five_most_recent_modpack_builds()
     {
@@ -23,12 +19,12 @@ class DashboardTest extends DuskTestCase
         factory(Build::class, 4)->create(['updated_at' => Carbon::now()->subDays(1)]);
         factory(Build::class)->create(['version' => 'modpack-build-5']);
 
-        $this->browse(function ($browser) use ($user) {
-            $browser->loginAs($user)
-                    ->visit('/dashboard')
-                    ->assertSee('modpack-build-5')
-                    ->assertDontSee('modpack-build-1');
-        });
+        $response = $this->actingAs($user)->get('/dashboard', [
+            'email' => $user->email,
+        ]);
+
+        $response->assertSee('modpack-build-5');
+        $response->assertDontSee('modpack-build-1');
     }
 
     /** @test */
@@ -40,11 +36,11 @@ class DashboardTest extends DuskTestCase
         factory(Version::class, 4)->create(['created_at' => Carbon::now()->subDays(1)]);
         factory(Version::class)->create(['version' => 'resource-version-5']);
 
-        $this->browse(function ($browser) use ($user) {
-            $browser->loginAs($user)
-                ->visit('/dashboard')
-                ->assertSee('resource-version-5')
-                ->assertDontSee('resource-version-1');
-        });
+        $response = $this->actingAs($user)->get('/dashboard', [
+            'email' => $user->email,
+        ]);
+
+        $response->assertSee('resource-version-5');
+        $response->assertDontSee('resource-version-1');
     }
 }
