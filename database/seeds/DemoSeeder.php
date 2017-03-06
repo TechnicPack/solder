@@ -130,6 +130,7 @@ class DemoSeeder extends Seeder
             ],
         ]);
 
+        $build->promote();
         $build->versions()->attach($ironTanks->versions->last());
         $build->versions()->attach($buildcraft->versions->first());
 
@@ -205,6 +206,7 @@ class DemoSeeder extends Seeder
             'arguments' => array_combine($faker->words, $faker->words),
         ]);
 
+        $build->promote();
         $build->versions()->attach($ironChests->versions->first());
         $build->versions()->attach($buildcraft->versions->last());
     }
