@@ -69,6 +69,38 @@ class ModpackTest extends TestCase
     }
 
     /** @test */
+    public function latest_build_returns_first_build_sorted_by_version()
+    {
+        $modpack = factory(Modpack::class)->create();
+        factory(Build::class)->create([
+            'version' => '1.2.3',
+            'modpack_id' => $modpack->id,
+        ]);
+        $build = factory(Build::class)->create([
+            'version' => '4.5.6',
+            'modpack_id' => $modpack->id,
+        ]);
+
+        $latestBuild = $modpack->latestBuild;
+
+        $this->assertEquals($build->id, $latestBuild->id);
+    }
+
+    /** @test */
+    public function has_a_latest_build_version_attribute()
+    {
+        $modpack = factory(Modpack::class)->create();
+        $build = factory(Build::class)->create([
+            'version' => '4.5.6',
+            'modpack_id' => $modpack->id,
+        ]);
+
+        $latest_build_attribute = $modpack->latest_build_version;
+
+        $this->assertEquals($build->version, $latest_build_attribute);
+    }
+
+    /** @test */
     public function a_modpack_without_a_promoted_build_returns_empty_string_as_promoted_build_version()
     {
         $modpack = factory(Modpack::class)->create();
@@ -80,6 +112,16 @@ class ModpackTest extends TestCase
         $promoted_build_version = $modpack->promoted_build_version;
 
         $this->assertEmpty($promoted_build_version);
+    }
+
+    /** @test */
+    public function a_modpack_without_a_latest_build_returns_empty_string_as_latest_build_version()
+    {
+        $modpack = factory(Modpack::class)->create();
+
+        $latest_version_build = $modpack->latest_version_build;
+
+        $this->assertEmpty($latest_version_build);
     }
 
     /** @test */

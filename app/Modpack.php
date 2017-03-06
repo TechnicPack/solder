@@ -40,6 +40,7 @@ use Illuminate\Database\Eloquent\Collection;
  * @property Collection $builds
  * @property-read string $tags_as_string
  * @property-read string $promoted_build_version
+ * @property-read string $latest_build_version
  * @method static \Illuminate\Database\Query\Builder|\App\Modpack whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Modpack whereName($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Modpack whereSlug($value)
@@ -110,6 +111,16 @@ class Modpack extends Model
     }
 
     /**
+     * The latest build.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function latestBuild()
+    {
+        return $this->hasOne(Build::class)->orderBy('version', 'desc');
+    }
+
+    /**
      * The promoted build.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
@@ -131,6 +142,20 @@ class Modpack extends Model
         }
 
         return $this->promotedBuild->version;
+    }
+
+    /**
+     * Get latest build version.
+     *
+     * @return string
+     */
+    public function getLatestBuildVersionAttribute()
+    {
+        if (empty($this->latestBuild)) {
+            return '';
+        }
+
+        return $this->latestBuild->version;
     }
 
     /**

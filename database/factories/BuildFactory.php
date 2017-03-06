@@ -16,7 +16,7 @@ use App\Privacy;
 
 $factory->define(Build::class, function (Faker\Generator $faker) {
     return [
-        'version' => '1.0.0',
+        'version' => $faker->numerify('#.#.#'),
         'game_version' => '1.0.0',
         'privacy' => Privacy::PUBLIC,
         'modpack_id' => function () {

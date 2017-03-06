@@ -80,6 +80,17 @@ class BuildTest extends TestCase
     }
 
     /** @test */
+    public function the_build_with_the_highest_version_should_be_marked_latest()
+    {
+        $modpack = factory(Modpack::class)->create();
+        $build1 = factory(Build::class)->create(['version' => '1.8.9', 'modpack_id' => $modpack->id]);
+        $build2 = factory(Build::class)->create(['version' => '1.8.8', 'modpack_id' => $modpack->id]);
+
+        $this->assertTrue($build1->is_latest);
+        $this->assertFalse($build2->is_latest);
+    }
+
+    /** @test */
     public function only_one_promoted_build_can_exist_for_a_modpack()
     {
         // Create multiple builds, each for the same modpack
@@ -96,6 +107,23 @@ class BuildTest extends TestCase
         // Assert that only one build was tagged promoted
         $promotedBuilds = Build::where('is_promoted', true)->get();
         $this->assertEquals(1, count($promotedBuilds));
+    }
+
+    /** @test */
+    public function only_one_latest_build_can_exist_for_a_modpack()
+    {
+        // Create multiple builds, each for the same modpack
+        $builds = factory(Build::class, 5)->create([
+            'modpack_id' => factory(Modpack::class)->create()->id,
+        ]);
+
+        // Get all the "latest" builds
+        $latestBuilds = $builds->filter(function ($build) {
+            return $build->is_latest;
+        });
+
+        // Assert that only one build says its latest
+        $this->assertEquals(1, count($latestBuilds));
     }
 
     /** @test */

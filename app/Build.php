@@ -106,6 +106,16 @@ class Build extends Model
     }
 
     /**
+     * Get determination if build is latest.
+     *
+     * @return bool
+     */
+    public function getIsLatestAttribute()
+    {
+        return $this->modpack->latestBuild->id == $this->id;
+    }
+
+    /**
      * Flag as the promoted build.
      */
     public function promote()

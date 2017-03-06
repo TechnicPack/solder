@@ -48,6 +48,12 @@
                                     Promoted
                                 </span>
                             @endif
+
+                            @if( $build->is_latest )
+                                <span class="tag is-warning">
+                                    Latest
+                                </span>
+                            @endif
                         </td>
                         <td>{{ $build->game_version }}</td>
                         <td>{{ $build->resource_count }}</td>
