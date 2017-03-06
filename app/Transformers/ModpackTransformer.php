@@ -71,13 +71,13 @@ class ModpackTransformer extends TransformerAbstract
      * Include Promoted Build.
      *
      * @param Modpack $modpack
-     * @return \League\Fractal\Resource\Collection
+     * @return \League\Fractal\Resource\Item
      */
     public function includePromotedBuild(Modpack $modpack)
     {
-        $builds = $modpack->promotedBuild()->withoutPrivacy(Auth::user())->get();
+        $build = $modpack->promotedBuild()->withoutPrivacy(Auth::user())->get();
 
-        return $this->collection($builds, new BuildTransformer(), 'build');
+        return $this->item($build, new BuildTransformer(), 'build');
     }
 
     /**
