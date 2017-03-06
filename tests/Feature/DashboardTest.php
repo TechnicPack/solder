@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of solder.
+ *
+ * (c) Kyle Klaus <kklaus@indemnity83.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Tests\Feature;
 
 use App\Build;
@@ -8,7 +17,7 @@ use App\Version;
 use Carbon\Carbon;
 use Tests\TestCase;
 
-class DashboardTests extends TestCase
+class DashboardTest extends TestCase
 {
     /** @test */
     public function dashboard_lists_five_most_recent_modpack_builds()
