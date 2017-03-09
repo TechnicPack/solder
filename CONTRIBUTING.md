@@ -6,11 +6,10 @@ today! Here are the guidelines we'd like you to follow:
  - [Question or Problem?](#question)
  - [Issues and Bugs](#issue)
  - [Feature Requests](#feature)
+ - [Documentation Updates](#docs)
  - [Submission Guidelines](#submit)
  - [Coding Rules](#rules)
  - [Commit Message Guidelines](#commit)
- - [Signing the CLA](#cla)
- - [Further Info](#info)
  
 ## <a name="question"></a> Got a Question or Problem?
 
@@ -179,7 +178,7 @@ To ensure consistency throughout the source code, keep these rules in mind as yo
  * All features or bug fixes **must be tested** by one or more [tests][unit-testing].
  * All public methods **must be documented** with [DocBlock][phpdoc].
  * With the exceptions and additions listed below, we follow the rules contained in the [PSR-2][psr2] coding standard.
-     * Sort imports by string length (ask @taylorotwell)
+  * Sort imports by string length (ask @taylorotwell)
 
 ## <a name="commit"></a> Git Commit Guidelines
 
