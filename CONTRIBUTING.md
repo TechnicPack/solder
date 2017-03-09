@@ -12,23 +12,23 @@ today! Here are the guidelines we'd like you to follow:
  - [Signing the CLA](#cla)
  - [Further Info](#info)
  
- ## <a name="question"></a> Got a Question or Problem?
+## <a name="question"></a> Got a Question or Problem?
+
+If you have questions about how to use Solder, or problems getting a server up and running, please direct these to 
+the [Technic Development][discord] Discord server.
+
+## <a name="issue"></a> Found an Issue?
  
- If you have questions about how to use Solder, or problems getting a server up and running, please direct these to 
- the [Technic Development][discord] Discord server.
- 
- ## <a name="issue"></a> Found an Issue?
- 
- If you find a bug in the source code or a mistake in the documentation, you can help us by
- submitting an issue to our [GitHub Repository][github]. Even better you can submit a Pull Request
- with a fix.
- 
- **Please see the [Submission Guidelines](#submit) below.**
- 
- ## <a name="feature"></a> Want a Feature?
- 
- You can request a new feature by submitting an issue to our [GitHub Repository][github].  If you
- would like to implement a new feature then consider what kind of change it is:
+If you find a bug in the source code or a mistake in the documentation, you can help us by
+submitting an issue to our [GitHub Repository][github]. Even better you can submit a Pull Request
+with a fix.
+
+**Please see the [Submission Guidelines](#submit) below.**
+
+## <a name="feature"></a> Want a Feature?
+
+You can request a new feature by submitting an issue to our [GitHub Repository][github].  If you
+would like to implement a new feature then consider what kind of change it is:
  
  * **Major Changes** that you wish to contribute to the project should be discussed first on the
    [Technic Development][discord] discord chat so that we can better coordinate our efforts,
@@ -38,32 +38,32 @@ today! Here are the guidelines we'd like you to follow:
    Request.
    
  ## <a name="docs"></a> Want a Doc Fix?
+
+If you want to help improve the docs, it's a good idea to let others know what you're working on to
+minimize duplication of effort. Create a new issue (or comment on a related existing one) to let
+others know what you're working on.
+
+For large fixes, please build and test the documentation before submitting the PR to be sure you
+haven't accidentally introduced any layout or formatting issues. You should also make sure that your
+commit message starts with "docs" and follows the **[Commit Message Guidelines](#commit)** outlined
+below.
+
+If you're just making a small change, don't worry about filing an issue first. Use the friendly blue
+"Improve this doc" button at the top right of the doc page to fork the repository in-place and make
+a quick change on the fly. When naming the commit, it is advised to follow the commit message
+guidelines below, by starting the commit message with **docs** and referencing the filename. Since
+this is not obvious and some changes are made on the fly, this is not strictly necessary and we will
+understand if this isn't done the first few times.
+
+## <a name="submit"></a> Submission Guidelines
+
+### Submitting an Issue
+Before you submit your issue search the archive, maybe your question was already answered.
  
- If you want to help improve the docs, it's a good idea to let others know what you're working on to
- minimize duplication of effort. Create a new issue (or comment on a related existing one) to let
- others know what you're working on.
- 
- For large fixes, please build and test the documentation before submitting the PR to be sure you
- haven't accidentally introduced any layout or formatting issues. You should also make sure that your
- commit message starts with "docs" and follows the **[Commit Message Guidelines](#commit)** outlined
- below.
- 
- If you're just making a small change, don't worry about filing an issue first. Use the friendly blue
- "Improve this doc" button at the top right of the doc page to fork the repository in-place and make
- a quick change on the fly. When naming the commit, it is advised to follow the commit message
- guidelines below, by starting the commit message with **docs** and referencing the filename. Since
- this is not obvious and some changes are made on the fly, this is not strictly necessary and we will
- understand if this isn't done the first few times.
- 
- ## <a name="submit"></a> Submission Guidelines
- 
- ### Submitting an Issue
- Before you submit your issue search the archive, maybe your question was already answered.
- 
- If your issue appears to be a bug, and hasn't been reported, open a new issue. Help us to maximize
- the effort we can spend fixing issues and adding new features, by not reporting duplicate issues.
- Providing the following information will increase the chances of your issue being dealt with
- quickly:
+If your issue appears to be a bug, and hasn't been reported, open a new issue. Help us to maximize
+the effort we can spend fixing issues and adding new features, by not reporting duplicate issues.
+Providing the following information will increase the chances of your issue being dealt with
+quickly:
  
  * **Overview of the Issue** - if an error is being thrown a non-minified stack trace helps
  * **Motivation for or Use Case** - explain why this is a bug for you
@@ -76,12 +76,12 @@ today! Here are the guidelines we'd like you to follow:
  * **Suggest a Fix** - if you can't fix the bug yourself, perhaps you can point to what might be
    causing the problem (line of code or commit)
  
- Here is a great example of a well defined issue: https://github.com/angular/angular.js/issues/5069
- 
- **If you get help, help others. Good karma rulez!**
-   
- ### Submitting a Pull Request
- Before you submit your pull request consider the following guidelines:
+Here is a great example of a well defined issue: https://github.com/angular/angular.js/issues/5069
+
+**If you get help, help others. Good karma rulez!**
+
+### Submitting a Pull Request
+Before you submit your pull request consider the following guidelines:
  
  * Search [GitHub](https://github.com/indemnity83/solder/pulls) for an open or closed Pull Request
    that relates to your submission. You don't want to duplicate effort.
@@ -123,25 +123,25 @@ today! Here are the guidelines we'd like you to follow:
  
   * In GitHub, send a pull request to `solder:develop`.
  
- If we suggest changes, then:
+If we suggest changes, then:
  
  * Make the required updates.
  * Re-run the Solder test suite to ensure tests are still passing.
  * Commit your changes to your branch (e.g. `my-fix-branch`).
  * Push the changes to your GitHub repository (this will update your Pull Request).
  
- If the PR gets too outdated we may ask you to rebase and force push to update the PR:
+If the PR gets too outdated we may ask you to rebase and force push to update the PR:
  
- ```shell
- git rebase develop -i
- git push origin my-fix-branch -f
- ```
+     ```shell
+     git rebase develop -i
+     git push origin my-fix-branch -f
+     ```
  
- _WARNING: Squashing or reverting commits and force-pushing thereafter may remove GitHub comments
- on code that were previously made by you or others in your commits. Avoid any form of rebasing
- unless necessary._
- 
- That's it! Thank you for your contribution!
+_WARNING: Squashing or reverting commits and force-pushing thereafter may remove GitHub comments
+on code that were previously made by you or others in your commits. Avoid any form of rebasing
+unless necessary._
+
+That's it! Thank you for your contribution!
 
 #### After your pull request is merged
 
@@ -170,10 +170,11 @@ from the main (upstream) repository:
 
     ```shell
     git pull --ff upstream develop
+    ```
     
- ## <a name="rules"></a> Coding Rules
+## <a name="rules"></a> Coding Rules
  
- To ensure consistency throughout the source code, keep these rules in mind as you are working:
+To ensure consistency throughout the source code, keep these rules in mind as you are working:
  
  * All features or bug fixes **must be tested** by one or more [tests][unit-testing].
  * All public methods **must be documented** with [DocBlock][phpdoc].
@@ -194,13 +195,13 @@ wizard ([Commitizen](https://github.com/commitizen/cz-cli)). To use the wizard, 
 Each commit message consists of a **header**, a **body** and a **footer**.  The header has a special
 format that includes a **type**, a **scope** and a **subject**:
 
-```
-<type>(<scope>): <subject>
-<BLANK LINE>
-<body>
-<BLANK LINE>
-<footer>
-```
+     ```
+     <type>(<scope>): <subject>
+     <BLANK LINE>
+     <body>
+     <BLANK LINE>
+     <footer>
+     ```
 
 The **header** is mandatory and the **scope** of the header is optional.
 
