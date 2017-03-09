@@ -3,10 +3,10 @@
 # Solder
 > Supercharge Your Modpacks with Solder
 
-[![Build Status](https://travis-ci.org/Indemnity83/solder.svg?branch=develop)](https://travis-ci.org/Indemnity83/solder)
-[![Code Coverage](https://scrutinizer-ci.com/g/indemnity83/solder/badges/coverage.png?b=develop)](https://scrutinizer-ci.com/g/indemnity83/solder/?branch=develop)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/indemnity83/solder/badges/quality-score.png?b=develop)](https://scrutinizer-ci.com/g/indemnity83/solder/?branch=develop)
-[![StyleCI](https://styleci.io/repos/32042637/shield?branch=develop)](https://styleci.io/repos/32042637)
+[![Build Status](https://travis-ci.org/Indemnity83/solder.svg?branch=master)](https://travis-ci.org/Indemnity83/solder)
+[![Code Coverage](https://scrutinizer-ci.com/g/indemnity83/solder/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/indemnity83/solder/?branch=master)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/indemnity83/solder/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/indemnity83/solder/?branch=master)
+[![StyleCI](https://styleci.io/repos/32042637/shield?branch=master)](https://styleci.io/repos/32042637)
 
 Solder helps you lower bandwidth usage, keep old versions of your modpack available to users and provides faster, streamlined updates. You won't know how you managed a modpack before you used Solder.
 
