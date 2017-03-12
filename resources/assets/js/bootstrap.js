@@ -35,3 +35,8 @@ window.axios.defaults.headers.common = {
 //     broadcaster: 'pusher',
 //     key: 'your-pusher-key'
 // });
+
+/**
+ * Setup Sweetalert
+ */
+window.swal = require('sweetalert');

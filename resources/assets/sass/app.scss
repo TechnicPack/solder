@@ -5,6 +5,9 @@
 @import "variables";
 @import "~bulma";
 
+// Third Party
+@import 'node_modules/sweetalert/dev/sweetalert';
+
 // Application
 @import "aliases";
 @import "layout";
