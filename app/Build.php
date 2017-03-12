@@ -29,6 +29,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * @property-read \App\Modpack $modpack
+ * @property-read int $resource_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Version[] $versions
  * @method static \Illuminate\Database\Query\Builder|\App\Build whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Build whereModpackId($value)

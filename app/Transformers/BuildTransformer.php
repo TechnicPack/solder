@@ -40,6 +40,7 @@ class BuildTransformer extends TransformerAbstract
             'arguments' => $build->arguments,
             'game_version' => $build->game_version,
             'is_promoted' => $build->is_promoted,
+            'resource_count' => $build->resource_count,
             'created_at' => $build->created_at->format('c'),
             'updated_at' => $build->updated_at->format('c'),
         ];
