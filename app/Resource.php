@@ -71,4 +71,14 @@ class Resource extends Model
     {
         return $this->hasMany(Version::class);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function delete()
+    {
+        $this->versions()->delete();
+
+        parent::delete();
+    }
 }

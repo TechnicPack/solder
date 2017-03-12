@@ -118,4 +118,16 @@ class ResourceTest extends TestCase
 
         $this->assertEquals('http://example.com', $resource->fresh()->website);
     }
+
+    /** @test */
+    public function deleting_a_resource_deletes_its_versions()
+    {
+        $resource = factory(Resource::class)->create();
+        $resource->versions()->save(factory(Version::class)->make());
+
+        $resource->delete();
+
+        $this->assertDatabaseMissing('resources', ['id' => $resource->id]);
+        $this->assertDatabaseMissing('versions', ['resource_id' => $resource->id]);
+    }
 }
