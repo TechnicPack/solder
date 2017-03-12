@@ -973,6 +973,7 @@ __webpack_require__(30);
 // Vue.component('passport-clients', require('./components/passport/Clients.vue'));
 // Vue.component('passport-authorized-clients', require('./components/passport/AuthorizedClients.vue'));
 // Vue.component('passport-personal-access-tokens', require('./components/passport/PersonalAccessTokens.vue'));
+Vue.component('solder-builds', __webpack_require__(32));
 
 var app = new Vue({
   el: '#app'
@@ -1826,7 +1827,168 @@ module.exports = function spread(callback) {
 
 
 /***/ }),
-/* 29 */,
+/* 29 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = {
+    props: ['modpackId'],
+
+    /*
+     * The component's data.
+     */
+    data: function data() {
+        return {
+            builds: []
+        };
+    },
+
+
+    /**
+    * Prepare the component.
+    */
+    mounted: function mounted() {
+        this.getBuilds();
+    },
+
+
+    methods: {
+        /**
+         * Promote a build.
+         */
+        promote: function promote(build) {
+            var _this = this;
+
+            axios.post('/api/builds/' + build.id + '/promote').then(function (response) {
+                _this.builds.map(function (item) {
+                    item.attributes.is_promoted = item.id == build.id;
+                });
+            }).catch(function (error) {
+                var firstError = error.response.data.errors[0];
+                swal(firstError.title, firstError.detail + "\n\nid: " + firstError.id, "error");
+            });
+        },
+
+
+        /**
+         * Update a builds privacy.
+         */
+        updatePrivacy: function updatePrivacy(build) {
+            var _this2 = this;
+
+            axios.patch('/api/builds/' + build.id, {
+                data: { build: build }
+            }).then(function (response) {
+                _this2.getBuilds();
+            });
+        },
+
+
+        /**
+         * Delete a build.
+         */
+        destroy: function destroy(build) {
+            swal({
+                title: "Are you sure?",
+                text: "You will not be able to recover this build!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#ff3860",
+                confirmButtonText: "Yes, delete it!"
+            }, function () {
+                axios.delete('/api/builds/' + build.id).then(function (response) {
+                    this.builds = this.builds.filter(function (item) {
+                        return build.id != item.id;
+                    });
+                }.bind(this)).catch(function (error) {
+                    if (error.response) {
+                        var firstError = error.response.data.errors[0];
+                        swal(firstError.title, firstError.detail + "\n\nid: " + firstError.id, "error");
+                    } else {
+                        swal("Error", error.message, "error");
+                    }
+                });
+            }.bind(this));
+        },
+
+
+        /**
+         * Load builds from API.
+         */
+        getBuilds: function getBuilds() {
+            axios.get('/api/modpacks/' + this.modpackId + '/builds').then(function (response) {
+                this.builds = response.data.data;
+            }.bind(this));
+        }
+    }
+};
+
+/***/ }),
 /* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -18966,9 +19128,180 @@ window.swal = __webpack_require__(54);
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8), __webpack_require__(36)(module)))
 
 /***/ }),
-/* 32 */,
-/* 33 */,
-/* 34 */,
+/* 32 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(33)(
+  /* script */
+  __webpack_require__(29),
+  /* template */
+  __webpack_require__(34),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "/Users/kklaus/code/solder/resources/assets/js/components/Builds.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] Builds.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-27b7855a", Component.options)
+  } else {
+    hotAPI.reload("data-v-27b7855a", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 33 */
+/***/ (function(module, exports) {
+
+module.exports = function normalizeComponent (
+  rawScriptExports,
+  compiledTemplate,
+  scopeId,
+  cssModules
+) {
+  var esModule
+  var scriptExports = rawScriptExports = rawScriptExports || {}
+
+  // ES6 modules interop
+  var type = typeof rawScriptExports.default
+  if (type === 'object' || type === 'function') {
+    esModule = rawScriptExports
+    scriptExports = rawScriptExports.default
+  }
+
+  // Vue.extend constructor export interop
+  var options = typeof scriptExports === 'function'
+    ? scriptExports.options
+    : scriptExports
+
+  // render functions
+  if (compiledTemplate) {
+    options.render = compiledTemplate.render
+    options.staticRenderFns = compiledTemplate.staticRenderFns
+  }
+
+  // scopedId
+  if (scopeId) {
+    options._scopeId = scopeId
+  }
+
+  // inject cssModules
+  if (cssModules) {
+    var computed = options.computed || (options.computed = {})
+    Object.keys(cssModules).forEach(function (key) {
+      var module = cssModules[key]
+      computed[key] = function () { return module }
+    })
+  }
+
+  return {
+    esModule: esModule,
+    exports: scriptExports,
+    options: options
+  }
+}
+
+
+/***/ }),
+/* 34 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', [(_vm.builds.length === 0) ? _c('p', [_vm._v("\n        You have not created any Builds.\n    ")]) : _vm._e(), _vm._v(" "), (_vm.builds.length > 0) ? _c('table', {
+    staticClass: "table"
+  }, [_vm._m(0), _vm._v(" "), _c('tbody', _vm._l((_vm.builds), function(build) {
+    return _c('tr', [_c('th', {
+      staticStyle: {
+        "vertical-align": "middle"
+      }
+    }, [(build.attributes.is_promoted == false) ? _c('a', {
+      staticStyle: {
+        "color": "inherit"
+      },
+      attrs: {
+        "role": "radio"
+      },
+      on: {
+        "click": function($event) {
+          _vm.promote(build)
+        }
+      }
+    }, [_c('i', {
+      staticClass: "fa fa-fw fa-star-o"
+    })]) : _vm._e(), _vm._v(" "), (build.attributes.is_promoted) ? _c('i', {
+      staticClass: "fa fa-fw fa-star",
+      attrs: {
+        "role": "radio"
+      }
+    }) : _vm._e(), _vm._v("\n                    " + _vm._s(build.attributes.version) + "\n                ")]), _vm._v(" "), _c('td', {
+      staticStyle: {
+        "vertical-align": "middle"
+      }
+    }, [_vm._v("\n                    " + _vm._s(build.attributes.game_version) + "\n                ")]), _vm._v(" "), _c('td', {
+      staticStyle: {
+        "vertical-align": "middle"
+      }
+    }, [_vm._v("\n                    " + _vm._s(build.attributes.resource_count) + "\n                ")]), _vm._v(" "), _c('td', {
+      staticStyle: {
+        "vertical-align": "middle"
+      }
+    }, [_vm._v("\n                    " + _vm._s(build.attributes.created_at) + "\n                ")]), _vm._v(" "), _c('td', {
+      staticStyle: {
+        "vertical-align": "middle"
+      }
+    }, [_vm._v("\n                    " + _vm._s(build.attributes.privacy) + "\n                ")]), _vm._v(" "), _c('td', {
+      staticStyle: {
+        "vertical-align": "middle",
+        "text-align": "right"
+      }
+    }, [_c('a', {
+      staticClass: "button is-outlined is-primary",
+      attrs: {
+        "href": '/modpacks/' + _vm.modpackId + '/builds/' + build.id
+      }
+    }, [_vm._v("Manage")]), _vm._v(" "), _c('a', {
+      staticClass: "button is-outlined is-disabled",
+      attrs: {
+        "href": "#"
+      }
+    }, [_vm._v("Duplicate")]), _vm._v(" "), _c('a', {
+      staticClass: "button is-outlined is-disabled",
+      attrs: {
+        "href": "#"
+      }
+    }, [_vm._v("Settings")]), _vm._v(" "), _c('a', {
+      staticClass: "button is-outlined is-danger",
+      on: {
+        "click": function($event) {
+          _vm.destroy(build)
+        }
+      }
+    }, [_vm._v("Delete")])])])
+  }))]) : _vm._e()])
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('thead', [_c('tr', [_c('th', [_vm._v("Build")]), _vm._v(" "), _c('th', [_vm._v("For Minecraft")]), _vm._v(" "), _c('th', [_vm._v("Resources")]), _vm._v(" "), _c('th', [_vm._v("Created")]), _vm._v(" "), _c('th', [_vm._v("Privacy")]), _vm._v(" "), _c('th', [_vm._v(" ")])])])
+}]}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-27b7855a", module.exports)
+  }
+}
+
+/***/ }),
 /* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 

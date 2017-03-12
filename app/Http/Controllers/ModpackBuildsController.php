@@ -35,9 +35,7 @@ class ModpackBuildsController extends Controller
      */
     public function index(Modpack $modpack)
     {
-        $builds = $modpack->builds()->orderBy('version', 'desc')->get();
-
-        return view('builds.index', compact('modpack', 'builds'));
+        return view('builds.index', compact('modpack'));
     }
 
     /**
