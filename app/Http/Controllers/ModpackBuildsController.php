@@ -13,6 +13,7 @@ namespace App\Http\Controllers;
 
 use App\Build;
 use App\Modpack;
+use App\Privacy;
 use App\Resource;
 use Illuminate\Http\Request;
 
@@ -60,7 +61,15 @@ class ModpackBuildsController extends Controller
      */
     public function store(Request $request, Modpack $modpack)
     {
-        //
+        $this->validate($request, [
+            'version' => 'required|unique:builds,version,NULL,id,modpack_id,'.$modpack->id,
+            'game_version' => 'required',
+            'privacy' => 'in:'.implode(',', Privacy::values()),
+        ]);
+
+        $build = $modpack->builds()->create($request->all());
+
+        return redirect()->route('builds.index', $modpack->id)->with('status', 'build '.$build->version.' created');
     }
 
     /**
