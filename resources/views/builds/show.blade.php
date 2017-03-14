@@ -33,7 +33,7 @@
             @endif
 
             {{-- this template will be replaced with a Vue component --}}
-            @include('builds.add')
+            @include('builds.add-resource')
 
             <table class="table">
                 <thead>

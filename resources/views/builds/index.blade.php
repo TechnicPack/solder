@@ -23,7 +23,7 @@
                 </div>
             @endif
 
-            @include('builds.add')
+            @include('builds.create')
 
             <solder-builds modpack-id="{{ $modpack->id }}"></solder-builds>
         </div>
