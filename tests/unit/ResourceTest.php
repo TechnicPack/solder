@@ -130,4 +130,14 @@ class ResourceTest extends TestCase
         $this->assertDatabaseMissing('resources', ['id' => $resource->id]);
         $this->assertDatabaseMissing('versions', ['resource_id' => $resource->id]);
     }
+
+    /** @test */
+    public function a_resource_can_report_if_it_has_versions()
+    {
+        $resource = factory(Resource::class)->create();
+
+        $this->assertFalse($resource->hasVersions());
+        $resource->versions()->save(factory(Version::class)->make());
+        $this->assertTrue($resource->fresh()->hasVersions());
+    }
 }

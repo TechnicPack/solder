@@ -12,8 +12,8 @@
             </tr>
             @foreach($recentVersions as $version)
             <tr>
-                <td><a href="#">{{ $version->resource->name }}</a></td>
-                <td><a href="#">{{ $version->version }}</a></td>
+                <td><a href="{{ route('resources.edit', $version->resource->id) }}">{{ $version->resource->name }}</a></td>
+                <td><a href="{{ route('versions.show', ['resource' => $version->resource->id, 'version' => $version->id]) }}">{{ $version->version }}</a></td>
                 <td>{{-- TODO: Application doesn't actually implement this yet --}}</td>
                 <td>{{ $version->created_at->diffForHumans() }}</td>
             </tr>

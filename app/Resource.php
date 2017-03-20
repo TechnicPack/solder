@@ -73,6 +73,14 @@ class Resource extends Model
     }
 
     /**
+     * Report if resource has versions.
+     */
+    public function hasVersions()
+    {
+        return count($this->versions) >= 1;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function delete()

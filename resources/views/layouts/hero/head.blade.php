@@ -15,7 +15,7 @@
             <div class="nav-right nav-menu">
                 <a class="nav-item is-tab" href="{{ route('dashboard') }}">Dashboard</a>
                 <a class="nav-item is-tab" href="{{ route('modpacks.index') }}">Modpacks</a>
-                <a class="nav-item is-tab" href="#">Resources</a>
+                <a class="nav-item is-tab" href="{{ route('resources.index') }}">Resources</a>
                 <a class="nav-item is-tab" href="#">Settings</a>
 
                 @if (Auth::guest()) <span class="nav-item">

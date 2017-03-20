@@ -20,4 +20,6 @@ Route::resource('/modpacks', 'ModpacksController');
 Route::resource('/modpacks/{modpack}/builds', 'ModpackBuildsController');
 Route::get('/modpacks/{modpack}/help', 'ModpacksController@help')->name('modpacks.help');
 Route::get('/modpacks/{modpack}/license', 'ModpacksController@license')->name('modpacks.license');
+Route::resource('/resources', 'ResourcesController');
+Route::resource('/resources/{resource}/versions', 'ResourceVersionsController');
 Route::get('/security', 'SecurityController@index');
