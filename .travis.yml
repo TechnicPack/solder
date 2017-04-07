@@ -1,4 +1,3 @@
-
 language: php
 
 php:
@@ -6,13 +5,8 @@ php:
 
 sudo: false
 
-services:
-  - mysql
-
 before_script:
   - travis_retry composer install --no-interaction
-  - mysql -e 'CREATE DATABASE test;'
-  - php artisan passport:keys
 
 script:
   - vendor/bin/phpunit --verbose --coverage-clover=coverage.clover
