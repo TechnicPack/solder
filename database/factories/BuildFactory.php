@@ -16,9 +16,6 @@ use App\Privacy;
 
 $factory->define(Build::class, function (Faker\Generator $faker) {
     return [
-        'version' => $faker->numerify('#.#.#'),
-        'game_version' => '1.0.0',
-        'privacy' => Privacy::PUBLIC,
         'modpack_id' => function () {
             return factory(Modpack::class)->create()->id;
         },
@@ -27,18 +24,15 @@ $factory->define(Build::class, function (Faker\Generator $faker) {
 
 $factory->state(Build::class, 'public', function () {
     return [
-        'privacy' => Privacy::PUBLIC,
     ];
 });
 
 $factory->state(Build::class, 'unlisted', function () {
     return [
-        'privacy' => Privacy::UNLISTED,
     ];
 });
 
 $factory->state(Build::class, 'private', function () {
     return [
-        'privacy' => Privacy::PRIVATE,
     ];
 });

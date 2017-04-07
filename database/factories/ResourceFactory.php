@@ -14,6 +14,5 @@ use App\Resource;
 
 $factory->define(Resource::class, function (Faker\Generator $faker) {
     return [
-        'name' => 'Example Resource',
     ];
 });
