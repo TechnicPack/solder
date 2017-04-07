@@ -23,9 +23,6 @@ class CreateVersionsTable extends Migration
     public function up()
     {
         Schema::create('versions', function (Blueprint $table) {
-            $table->uuid('id');
-            $table->uuid('resource_id');
-            $table->string('version');
             $table->timestamps();
         });
     }

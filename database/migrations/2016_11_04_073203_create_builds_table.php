@@ -23,14 +23,6 @@ class CreateBuildsTable extends Migration
     public function up()
     {
         Schema::create('builds', function (Blueprint $table) {
-            $table->uuid('id');
-            $table->uuid('modpack_id');
-            $table->string('version');
-            $table->text('changelog')->nullable();
-            $table->string('privacy');
-            $table->string('arguments')->nullable();
-            $table->string('game_version');
-            $table->boolean('is_promoted')->default(false);
             $table->timestamps();
         });
     }

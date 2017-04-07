@@ -4,49 +4,9 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "e5df563b22fb45b4236782bb133aa6c7",
-    "content-hash": "4a537875649ecd646385b433d5d949d1",
+    "hash": "5fa804cd3bd5b1287319e1bf047692c3",
+    "content-hash": "b8fcd4d72ef21d1a0f223d935bff99b7",
     "packages": [
-        {
-            "name": "alsofronie/eloquent-uuid",
-            "version": "v1.0.5",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/alsofronie/eloquent-uuid.git",
-                "reference": "565a8dd79f432b01c9f5d4dd7389329f107aa037"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/alsofronie/eloquent-uuid/zipball/565a8dd79f432b01c9f5d4dd7389329f107aa037",
-                "reference": "565a8dd79f432b01c9f5d4dd7389329f107aa037",
-                "shasum": ""
-            },
-            "require": {
-                "webpatser/laravel-uuid": "2.*"
-            },
-            "require-dev": {
-                "laravel/framework": "^5.1.0",
-                "phpunit/phpunit": "~4.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Alsofronie\\Uuid\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Alex Sofronie",
-                    "email": "alsofronie@gmail.com"
-                }
-            ],
-            "description": "A Laravel Eloquent Model trait for using UUID's as primary keys",
-            "time": "2016-10-22 20:21:20"
-        },
         {
             "name": "dnoegel/php-xdg-base-dir",
             "version": "0.1",
@@ -190,55 +150,6 @@
             "time": "2016-11-02 15:56:58"
         },
         {
-            "name": "facebook/webdriver",
-            "version": "1.3.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/facebook/php-webdriver.git",
-                "reference": "77300c4ab2025d4316635f592ec849ca7323bd8c"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/facebook/php-webdriver/zipball/77300c4ab2025d4316635f592ec849ca7323bd8c",
-                "reference": "77300c4ab2025d4316635f592ec849ca7323bd8c",
-                "shasum": ""
-            },
-            "require": {
-                "ext-curl": "*",
-                "php": "^5.5 || ~7.0",
-                "symfony/process": "^2.8 || ^3.1"
-            },
-            "require-dev": {
-                "friendsofphp/php-cs-fixer": "^1.11",
-                "php-mock/php-mock-phpunit": "^1.1",
-                "phpunit/phpunit": "4.6.* || ~5.0",
-                "satooshi/php-coveralls": "^1.0",
-                "squizlabs/php_codesniffer": "^2.6"
-            },
-            "suggest": {
-                "phpdocumentor/phpdocumentor": "2.*"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Facebook\\WebDriver\\": "lib/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "Apache-2.0"
-            ],
-            "description": "A PHP client for WebDriver",
-            "homepage": "https://github.com/facebook/php-webdriver",
-            "keywords": [
-                "facebook",
-                "php",
-                "selenium",
-                "webdriver"
-            ],
-            "time": "2017-01-13 15:48:08"
-        },
-        {
             "name": "firebase/php-jwt",
             "version": "v4.0.0",
             "source": {
@@ -280,75 +191,6 @@
             "description": "A simple library to encode and decode JSON Web Tokens (JWT) in PHP. Should conform to the current spec.",
             "homepage": "https://github.com/firebase/php-jwt",
             "time": "2016-07-18 04:51:16"
-        },
-        {
-            "name": "graham-campbell/exceptions",
-            "version": "v9.3.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/GrahamCampbell/Laravel-Exceptions.git",
-                "reference": "b2001ce4e992ca473af6f470cddfcf6e0a83430d"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/GrahamCampbell/Laravel-Exceptions/zipball/b2001ce4e992ca473af6f470cddfcf6e0a83430d",
-                "reference": "b2001ce4e992ca473af6f470cddfcf6e0a83430d",
-                "shasum": ""
-            },
-            "require": {
-                "illuminate/contracts": "5.1.*|5.2.*|5.3.*|5.4.*",
-                "illuminate/support": "5.1.*|5.2.*|5.3.*|5.4.*",
-                "paragonie/random_compat": "^1.1|^2.0",
-                "php": ">=5.5.9",
-                "psr/log": "^1.0",
-                "symfony/debug": "^2.7|^3.0",
-                "symfony/http-foundation": "^2.7|^3.0"
-            },
-            "require-dev": {
-                "filp/whoops": "^1.1|^2.0",
-                "graham-campbell/testbench": "^3.1",
-                "mockery/mockery": "^0.9.4",
-                "phpunit/phpunit": "^4.8|^5.0"
-            },
-            "suggest": {
-                "filp/whoops": "Enables use of the debug displayer."
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "9.3-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "GrahamCampbell\\Exceptions\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Graham Campbell",
-                    "email": "graham@alt-three.com"
-                }
-            ],
-            "description": "Provides A Powerful Error Response System For Both Development And Production",
-            "keywords": [
-                "Graham Campbell",
-                "GrahamCampbell",
-                "Laravel Exceptions",
-                "Laravel-Exceptions",
-                "error",
-                "errors",
-                "exception",
-                "exceptions",
-                "framework",
-                "laravel",
-                "whoops"
-            ],
-            "time": "2017-01-21 16:49:20"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -614,61 +456,6 @@
                 }
             ],
             "time": "2015-04-20 18:58:01"
-        },
-        {
-            "name": "laravel/dusk",
-            "version": "v1.0.7",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/laravel/dusk.git",
-                "reference": "8c7ee8c7e99f8a6feb0c88410ef6a389fc28196e"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/laravel/dusk/zipball/8c7ee8c7e99f8a6feb0c88410ef6a389fc28196e",
-                "reference": "8c7ee8c7e99f8a6feb0c88410ef6a389fc28196e",
-                "shasum": ""
-            },
-            "require": {
-                "facebook/webdriver": "~1.0",
-                "illuminate/support": "~5.3",
-                "nesbot/carbon": "~1.20",
-                "php": ">=5.6.4",
-                "symfony/console": "~3.2",
-                "symfony/process": "~3.2"
-            },
-            "require-dev": {
-                "mockery/mockery": "^0.9.6",
-                "phpunit/phpunit": "^5.7"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.0-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Laravel\\Dusk\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Taylor Otwell",
-                    "email": "taylor@laravel.com"
-                }
-            ],
-            "description": "Laravel Dusk provides simple end-to-end testing and browser automation.",
-            "keywords": [
-                "laravel",
-                "testing",
-                "webdriver"
-            ],
-            "time": "2017-02-22 15:25:37"
         },
         {
             "name": "laravel/framework",
@@ -1113,69 +900,6 @@
             "time": "2017-02-09 11:33:58"
         },
         {
-            "name": "league/fractal",
-            "version": "0.15.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/thephpleague/fractal.git",
-                "reference": "0546bd5c2aba414ba50c6ac676f507d42c6150a5"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/fractal/zipball/0546bd5c2aba414ba50c6ac676f507d42c6150a5",
-                "reference": "0546bd5c2aba414ba50c6ac676f507d42c6150a5",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.4"
-            },
-            "require-dev": {
-                "illuminate/contracts": "~5.0",
-                "mockery/mockery": "~0.9",
-                "pagerfanta/pagerfanta": "~1.0.0",
-                "phpunit/phpunit": "~4.0",
-                "squizlabs/php_codesniffer": "~1.5",
-                "zendframework/zend-paginator": "~2.3"
-            },
-            "suggest": {
-                "illuminate/pagination": "The Illuminate Pagination component.",
-                "pagerfanta/pagerfanta": "Pagerfanta Paginator",
-                "zendframework/zend-paginator": "Zend Framework Paginator"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "0.13-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "League\\Fractal\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Phil Sturgeon",
-                    "email": "me@philsturgeon.uk",
-                    "homepage": "http://philsturgeon.uk/",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Handle the output of complex data structures ready for API output.",
-            "homepage": "http://fractal.thephpleague.com/",
-            "keywords": [
-                "api",
-                "json",
-                "league",
-                "rest"
-            ],
-            "time": "2016-12-28 01:30:30"
-        },
-        {
             "name": "league/oauth2-server",
             "version": "5.1.3",
             "source": {
@@ -1374,50 +1098,6 @@
             "time": "2017-01-23 04:29:33"
         },
         {
-            "name": "myclabs/php-enum",
-            "version": "1.5.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/myclabs/php-enum.git",
-                "reference": "e42fa9d2ae5dd660dbd0fb573d94c61e5a0dbb02"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/myclabs/php-enum/zipball/e42fa9d2ae5dd660dbd0fb573d94c61e5a0dbb02",
-                "reference": "e42fa9d2ae5dd660dbd0fb573d94c61e5a0dbb02",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "4.*",
-                "squizlabs/php_codesniffer": "1.*"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "MyCLabs\\Enum\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "PHP Enum contributors",
-                    "homepage": "https://github.com/myclabs/php-enum/graphs/contributors"
-                }
-            ],
-            "description": "PHP Enum implementation",
-            "homepage": "http://github.com/myclabs/php-enum",
-            "keywords": [
-                "enum"
-            ],
-            "time": "2016-10-09 21:43:05"
-        },
-        {
             "name": "nesbot/carbon",
             "version": "1.22.1",
             "source": {
@@ -1523,16 +1203,16 @@
         },
         {
             "name": "paragonie/random_compat",
-            "version": "v2.0.4",
+            "version": "v2.0.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/paragonie/random_compat.git",
-                "reference": "a9b97968bcde1c4de2a5ec6cbd06a0f6c919b46e"
+                "reference": "634bae8e911eefa89c1abfbf1b66da679ac8f54d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/paragonie/random_compat/zipball/a9b97968bcde1c4de2a5ec6cbd06a0f6c919b46e",
-                "reference": "a9b97968bcde1c4de2a5ec6cbd06a0f6c919b46e",
+                "url": "https://api.github.com/repos/paragonie/random_compat/zipball/634bae8e911eefa89c1abfbf1b66da679ac8f54d",
+                "reference": "634bae8e911eefa89c1abfbf1b66da679ac8f54d",
                 "shasum": ""
             },
             "require": {
@@ -1567,7 +1247,7 @@
                 "pseudorandom",
                 "random"
             ],
-            "time": "2016-11-07 23:38:38"
+            "time": "2017-03-13 16:27:32"
         },
         {
             "name": "phpseclib/phpseclib",
@@ -1914,115 +1594,6 @@
             "time": "2016-11-22 19:21:44"
         },
         {
-            "name": "spatie/fractalistic",
-            "version": "1.0.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/spatie/fractalistic.git",
-                "reference": "59a2e7dfbd49e58b7de7d5621c1e7365786809f9"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/spatie/fractalistic/zipball/59a2e7dfbd49e58b7de7d5621c1e7365786809f9",
-                "reference": "59a2e7dfbd49e58b7de7d5621c1e7365786809f9",
-                "shasum": ""
-            },
-            "require": {
-                "league/fractal": "^0.14.0|^0.15.0",
-                "php": "^5.6|^7.0"
-            },
-            "require-dev": {
-                "illuminate/pagination": "^5.3",
-                "phpunit/phpunit": "^5.7"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Spatie\\Fractalistic\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Freek Van der Herten",
-                    "email": "freek@spatie.be",
-                    "homepage": "https://spatie.be",
-                    "role": "Developer"
-                }
-            ],
-            "description": "A developer friendly wrapper around Fractal",
-            "homepage": "https://github.com/spatie/fractalistic",
-            "keywords": [
-                "api",
-                "fractal",
-                "fractalistic",
-                "spatie",
-                "transform"
-            ],
-            "time": "2017-01-19 20:51:03"
-        },
-        {
-            "name": "spatie/laravel-fractal",
-            "version": "3.5.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/spatie/laravel-fractal.git",
-                "reference": "16689b0ce340bc139ba767f0bf2904e4eab2b254"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-fractal/zipball/16689b0ce340bc139ba767f0bf2904e4eab2b254",
-                "reference": "16689b0ce340bc139ba767f0bf2904e4eab2b254",
-                "shasum": ""
-            },
-            "require": {
-                "illuminate/contracts": "~5.1.0|~5.2.0|~5.3.0|~5.4.0",
-                "illuminate/support": "~5.1.0|~5.2.0|~5.3.0|~5.4.0",
-                "php": "^5.6|^7.0",
-                "spatie/fractalistic": "^1.0"
-            },
-            "require-dev": {
-                "orchestra/testbench": "~3.2.0|3.3.0|~3.4.0",
-                "phpunit/phpunit": "^5.7.5"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Spatie\\Fractal\\": "src"
-                },
-                "files": [
-                    "src/helpers.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Freek Van der Herten",
-                    "email": "freek@spatie.be",
-                    "homepage": "https://spatie.be",
-                    "role": "Developer"
-                }
-            ],
-            "description": "A Fractal service provider for Laravel and Lumen",
-            "homepage": "https://github.com/spatie/laravel-fractal",
-            "keywords": [
-                "api",
-                "fractal",
-                "laravel",
-                "laravel-fractal",
-                "lumen",
-                "spatie",
-                "transform"
-            ],
-            "time": "2017-02-21 23:17:02"
-        },
-        {
             "name": "spatie/laravel-sluggable",
             "version": "1.4.0",
             "source": {
@@ -2128,16 +1699,16 @@
         },
         {
             "name": "symfony/console",
-            "version": "v3.2.4",
+            "version": "v3.2.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
-                "reference": "0e5e6899f82230fcb1153bcaf0e106ffaa44b870"
+                "reference": "c30243cc51f726812be3551316b109a2f5deaf8d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/console/zipball/0e5e6899f82230fcb1153bcaf0e106ffaa44b870",
-                "reference": "0e5e6899f82230fcb1153bcaf0e106ffaa44b870",
+                "url": "https://api.github.com/repos/symfony/console/zipball/c30243cc51f726812be3551316b109a2f5deaf8d",
+                "reference": "c30243cc51f726812be3551316b109a2f5deaf8d",
                 "shasum": ""
             },
             "require": {
@@ -2187,7 +1758,7 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "https://symfony.com",
-            "time": "2017-02-16 14:07:22"
+            "time": "2017-04-04 14:33:42"
         },
         {
             "name": "symfony/css-selector",
@@ -2244,16 +1815,16 @@
         },
         {
             "name": "symfony/debug",
-            "version": "v3.2.4",
+            "version": "v3.2.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/debug.git",
-                "reference": "9b98854cb45bc59d100b7d4cc4cf9e05f21026b9"
+                "reference": "56f613406446a4a0a031475cfd0a01751de22659"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/debug/zipball/9b98854cb45bc59d100b7d4cc4cf9e05f21026b9",
-                "reference": "9b98854cb45bc59d100b7d4cc4cf9e05f21026b9",
+                "url": "https://api.github.com/repos/symfony/debug/zipball/56f613406446a4a0a031475cfd0a01751de22659",
+                "reference": "56f613406446a4a0a031475cfd0a01751de22659",
                 "shasum": ""
             },
             "require": {
@@ -2297,7 +1868,7 @@
             ],
             "description": "Symfony Debug Component",
             "homepage": "https://symfony.com",
-            "time": "2017-02-16 16:34:18"
+            "time": "2017-03-28 21:38:24"
         },
         {
             "name": "symfony/event-dispatcher",
@@ -2410,16 +1981,16 @@
         },
         {
             "name": "symfony/http-foundation",
-            "version": "v3.2.4",
+            "version": "v3.2.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/http-foundation.git",
-                "reference": "a90da6dd679605d88c9803a57a6fc1fb7a19a6e0"
+                "reference": "cb0b6418f588952c9290b3df4ca650f1b7ab570a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/http-foundation/zipball/a90da6dd679605d88c9803a57a6fc1fb7a19a6e0",
-                "reference": "a90da6dd679605d88c9803a57a6fc1fb7a19a6e0",
+                "url": "https://api.github.com/repos/symfony/http-foundation/zipball/cb0b6418f588952c9290b3df4ca650f1b7ab570a",
+                "reference": "cb0b6418f588952c9290b3df4ca650f1b7ab570a",
                 "shasum": ""
             },
             "require": {
@@ -2459,7 +2030,7 @@
             ],
             "description": "Symfony HttpFoundation Component",
             "homepage": "https://symfony.com",
-            "time": "2017-02-16 22:46:52"
+            "time": "2017-04-04 15:30:56"
         },
         {
             "name": "symfony/http-kernel",
@@ -2604,16 +2175,16 @@
         },
         {
             "name": "symfony/process",
-            "version": "v3.2.4",
+            "version": "v3.2.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/process.git",
-                "reference": "0ab87c1e7570b3534a6e51eb4ca8e9f6d7327856"
+                "reference": "57fdaa55827ae14d617550ebe71a820f0a5e2282"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/process/zipball/0ab87c1e7570b3534a6e51eb4ca8e9f6d7327856",
-                "reference": "0ab87c1e7570b3534a6e51eb4ca8e9f6d7327856",
+                "url": "https://api.github.com/repos/symfony/process/zipball/57fdaa55827ae14d617550ebe71a820f0a5e2282",
+                "reference": "57fdaa55827ae14d617550ebe71a820f0a5e2282",
                 "shasum": ""
             },
             "require": {
@@ -2649,7 +2220,7 @@
             ],
             "description": "Symfony Process Component",
             "homepage": "https://symfony.com",
-            "time": "2017-02-16 14:07:22"
+            "time": "2017-03-27 18:07:02"
         },
         {
             "name": "symfony/psr-http-message-bridge",
@@ -2788,16 +2359,16 @@
         },
         {
             "name": "symfony/translation",
-            "version": "v3.2.4",
+            "version": "v3.2.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/translation.git",
-                "reference": "d6825c6bb2f1da13f564678f9f236fe8242c0029"
+                "reference": "c740eee70783d2af4d3d6b70d5146f209e6b4d13"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/translation/zipball/d6825c6bb2f1da13f564678f9f236fe8242c0029",
-                "reference": "d6825c6bb2f1da13f564678f9f236fe8242c0029",
+                "url": "https://api.github.com/repos/symfony/translation/zipball/c740eee70783d2af4d3d6b70d5146f209e6b4d13",
+                "reference": "c740eee70783d2af4d3d6b70d5146f209e6b4d13",
                 "shasum": ""
             },
             "require": {
@@ -2810,7 +2381,7 @@
             "require-dev": {
                 "psr/log": "~1.0",
                 "symfony/config": "~2.8|~3.0",
-                "symfony/intl": "~2.8|~3.0",
+                "symfony/intl": "^2.8.18|^3.2.5",
                 "symfony/yaml": "~2.8|~3.0"
             },
             "suggest": {
@@ -2848,7 +2419,7 @@
             ],
             "description": "Symfony Translation Component",
             "homepage": "https://symfony.com",
-            "time": "2017-02-16 22:46:52"
+            "time": "2017-03-21 21:44:32"
         },
         {
             "name": "symfony/var-dumper",
@@ -3047,53 +2618,6 @@
             "time": "2016-09-01 10:05:43"
         },
         {
-            "name": "webpatser/laravel-uuid",
-            "version": "2.0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/webpatser/laravel-uuid.git",
-                "reference": "6ed2705775e3edf066b90e1292f76f157ec00507"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/webpatser/laravel-uuid/zipball/6ed2705775e3edf066b90e1292f76f157ec00507",
-                "reference": "6ed2705775e3edf066b90e1292f76f157ec00507",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.0"
-            },
-            "require-dev": {
-                "fzaninotto/faker": "1.5.*",
-                "phpunit/phpunit": "4.7.*"
-            },
-            "suggest": {
-                "paragonie/random_compat": "A random_bytes Php 5.x polyfill."
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "Webpatser\\Uuid": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Christoph Kempen",
-                    "email": "christoph@downsized.nl"
-                }
-            ],
-            "description": "Class to generate a UUID according to the RFC 4122 standard. Support for version 1, 3, 4 and 5 UUID are built-in.",
-            "homepage": "https://github.com/webpatser/uuid",
-            "keywords": [
-                "UUID RFC4122"
-            ],
-            "time": "2016-05-09 09:22:18"
-        },
-        {
             "name": "zendframework/zend-diactoros",
             "version": "1.3.10",
             "source": {
@@ -3145,56 +2669,6 @@
         }
     ],
     "packages-dev": [
-        {
-            "name": "bheller/images-generator",
-            "version": "1.0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/bruceheller/images-generator.git",
-                "reference": "50b61fe1dcf1b72b6a830debec4db22afd1e8ee1"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/bruceheller/images-generator/zipball/50b61fe1dcf1b72b6a830debec4db22afd1e8ee1",
-                "reference": "50b61fe1dcf1b72b6a830debec4db22afd1e8ee1",
-                "shasum": ""
-            },
-            "require": {
-                "fzaninotto/faker": "~1.4",
-                "php": ">=5.3.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "*",
-                "squizlabs/php_codesniffer": "2.*"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "bheller\\ImagesGenerator\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Bruce Heller",
-                    "email": "bheller@bheller.com",
-                    "homepage": "http://www.bheller.com"
-                }
-            ],
-            "description": "Generator of placeholder images for Faker",
-            "homepage": "https://github.com/bruceheller/images-generator",
-            "keywords": [
-                "data",
-                "faker",
-                "fixtures",
-                "images-generator",
-                "imagesgenerator"
-            ],
-            "time": "2016-03-03 08:40:48"
-        },
         {
             "name": "doctrine/instantiator",
             "version": "1.0.5",
@@ -3248,66 +2722,6 @@
                 "instantiate"
             ],
             "time": "2015-06-14 21:17:01"
-        },
-        {
-            "name": "filp/whoops",
-            "version": "2.1.6",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/filp/whoops.git",
-                "reference": "92bdc6800ac6e233c9e161a1768e082389a73530"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/filp/whoops/zipball/92bdc6800ac6e233c9e161a1768e082389a73530",
-                "reference": "92bdc6800ac6e233c9e161a1768e082389a73530",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^5.5.9 || ^7.0"
-            },
-            "require-dev": {
-                "mockery/mockery": "0.9.*",
-                "phpunit/phpunit": "^4.8 || ^5.0",
-                "symfony/var-dumper": "^2.6 || ^3.0"
-            },
-            "suggest": {
-                "symfony/var-dumper": "Pretty print complex values better with var-dumper available",
-                "whoops/soap": "Formats errors as SOAP responses"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.0-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Whoops\\": "src/Whoops/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Filipe Dobreira",
-                    "homepage": "https://github.com/filp",
-                    "role": "Developer"
-                }
-            ],
-            "description": "php error handling for cool kids",
-            "homepage": "https://filp.github.io/whoops/",
-            "keywords": [
-                "error",
-                "exception",
-                "handling",
-                "library",
-                "whoops",
-                "zf2"
-            ],
-            "time": "2017-02-18 14:22:27"
         },
         {
             "name": "fzaninotto/faker",

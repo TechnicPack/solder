@@ -23,12 +23,7 @@ class CreateResourcesTable extends Migration
     public function up()
     {
         Schema::create('resources', function (Blueprint $table) {
-            $table->uuid('id');
-            $table->string('name');
             $table->string('slug');
-            $table->string('author')->nullable();
-            $table->string('description')->nullable();
-            $table->string('website')->nullable();
             $table->timestamps();
         });
     }
