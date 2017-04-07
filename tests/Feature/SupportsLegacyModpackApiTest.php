@@ -226,4 +226,16 @@ class SupportsLegacyModpackApiTest extends TestCase
         $response->assertJson(['latest' => '1.0.0']);
 
     }
+
+    /** @test */
+    public function modpack_list_includes_mirror_url()
+    {
+        config(['app.mirror' => 'http://mirror.example.com/']);
+
+        $response = $this->json('GET', 'api/modpack');
+
+        $response->assertStatus(200);
+        $response->assertJson(['mirror_url' => 'http://mirror.example.com/']);
+
+    }
 }

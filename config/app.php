@@ -61,6 +61,7 @@ return [
     */
 
     'url' => env('APP_URL', 'http://localhost'),
+    'mirror' => env('APP_MIRROR', 'http://localhost'),
 
     /*
     |--------------------------------------------------------------------------

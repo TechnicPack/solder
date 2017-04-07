@@ -45,7 +45,7 @@ class LegacyModpackController extends Controller
 
         return response()->json([
             'modpacks' => $this->transformModpacks($modpacks),
-            'mirror_url' => 'http://solder.example.com/files/',
+            'mirror_url' => config('app.mirror'),
         ]);
     }
 
