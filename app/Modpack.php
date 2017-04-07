@@ -76,6 +76,8 @@ class Modpack extends Model
         return [
             'name' => $this->slug,
             'display_name' => $this->name,
+            'recommended' => $this->recommended,
+            'latest' => $this->latest,
             'builds' => $this->builds->pluck('build_number')->all(),
         ];
     }

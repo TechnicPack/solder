@@ -126,6 +126,8 @@ class ModpackTest extends TestCase
         $modpack = factory(Modpack::class)->create([
             'slug' => 'example-modpack',
             'name' => 'Example Modpack',
+            'recommended' => '1.2.3',
+            'latest' => '4.5.6',
         ]);
         $modpack->builds()->save(factory(Build::class)->create(['build_number' => '1.2.3']));
         $modpack->builds()->save(factory(Build::class)->create(['build_number' => '4.5.6']));
@@ -136,6 +138,8 @@ class ModpackTest extends TestCase
         $this->assertEquals([
             'name' => 'example-modpack',
             'display_name' => 'Example Modpack',
+            'recommended' => '1.2.3',
+            'latest' => '4.5.6',
             'builds' => [
                 '1.2.3',
                 '4.5.6',

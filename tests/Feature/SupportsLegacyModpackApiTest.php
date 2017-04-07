@@ -184,7 +184,7 @@ class SupportsLegacyModpackApiTest extends TestCase
         $response = $this->json('GET', 'api/modpack?include=full');
 
         $response->assertStatus(200);
-        $response->assertExactJson([
+        $response->assertJson([
                 'modpacks' => [
                     'test' => [
                     'name' => 'test',
@@ -194,7 +194,36 @@ class SupportsLegacyModpackApiTest extends TestCase
                     ],
                 ],
             ],
-            'mirror_url' => 'http://solder.example.com/files/',
         ]);
+    }
+
+    /** @test */
+    public function modpacks_have_a_recommended_build()
+    {
+        factory(Modpack::class)->states(['public'])->create([
+            'slug' => 'test',
+            'recommended' => '1.0.0',
+        ]);
+
+        $response = $this->json('GET', 'api/modpack/test');
+
+        $response->assertStatus(200);
+        $response->assertJson(['recommended' => '1.0.0']);
+
+    }
+
+    /** @test */
+    public function modpacks_have_a_latest_build()
+    {
+        factory(Modpack::class)->states(['public'])->create([
+            'slug' => 'test',
+            'latest' => '1.0.0',
+        ]);
+
+        $response = $this->json('GET', 'api/modpack/test');
+
+        $response->assertStatus(200);
+        $response->assertJson(['latest' => '1.0.0']);
+
     }
 }
