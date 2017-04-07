@@ -9,7 +9,6 @@
  * file that was distributed with this source code.
  */
 
-
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
