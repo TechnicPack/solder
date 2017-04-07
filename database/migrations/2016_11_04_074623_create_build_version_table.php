@@ -24,6 +24,8 @@ class CreateBuildVersionTable extends Migration
     {
         Schema::create('build_version', function (Blueprint $table) {
             $table->increments('id');
+            $table->unsignedInteger('build_id');
+            $table->unsignedInteger('version_id');
             $table->timestamps();
         });
     }

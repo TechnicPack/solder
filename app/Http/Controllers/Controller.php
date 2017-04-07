@@ -19,4 +19,19 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+
+    /**
+     * Return a not found error.
+     *
+     * @param $error
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    protected function notFoundError($error)
+    {
+        return response()->json([
+            'status' => 404,
+            'error' => $error,
+        ], 404);
+    }
 }

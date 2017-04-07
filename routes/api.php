@@ -11,8 +11,13 @@
 
 // Public Endpoints
 Route::group(['namespace' => 'Api'], function () {
+    Route::get('/', 'ApiController@index');
 });
 
 // Legacy Endpoints
 Route::group(['namespace' => 'Api'], function () {
+    Route::get('verify/{tokenValue}', 'LegacyTokenController@show');
+    Route::get('modpack/{modpackSlug}/{buildNumber}', 'LegacyBuildController@show');
+    Route::get('modpack/{modpackSlug}', 'LegacyModpackController@show');
+    Route::get('modpack', 'LegacyModpackController@index');
 });

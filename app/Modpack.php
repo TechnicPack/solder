@@ -11,10 +11,15 @@
 
 namespace App;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 
 class Modpack extends Model
 {
+    const STATUS_PUBLIC = 1;
+    const STATUS_PRIVATE = 2;
+    const STATUS_UNLISTED = 3;
 
     /**
      * Related builds.
@@ -26,22 +31,52 @@ class Modpack extends Model
         return $this->hasMany(Build::class);
     }
 
-    public function getPromotedBuildVersionAttribute()
+    public function users()
     {
+        return $this->belongsToMany(User::class);
     }
 
-    public function getLatestBuildVersionAttribute()
+    public function authorizeUser(User $user)
     {
+        $this->users()->attach($user);
 
+        return $this;
     }
 
-    public function getSlugOptions()
+    public function scopeWhereStatus(Builder $query, $status, $user = null)
     {
+        $statusCollection = collect($status);
 
+        return $query->where(function ($query) use ($statusCollection, $user) {
+            if ($statusCollection->contains('public')) {
+                $query->orWhere('status', self::STATUS_PUBLIC);
+            }
 
+            if ($statusCollection->contains('unlisted')) {
+                $query->orWhere('status', self::STATUS_UNLISTED);
+            }
+
+            if ($statusCollection->contains('private')) {
+                $query->orWhere('status', self::STATUS_PRIVATE);
+            }
+
+            if ($statusCollection->contains('authorized')) {
+                $query->orWhereExists(function ($query) use ($user) {
+                    $query->select(DB::raw(1))
+                        ->from('modpack_user')
+                        ->whereRaw('modpack_user.modpack_id = modpacks.id')
+                        ->where('user_id', $user ? $user->id : null);
+                });
+            }
+        });
     }
 
-    public function delete()
+    public function toArray()
     {
+        return [
+            'name' => $this->slug,
+            'display_name' => $this->name,
+            'builds' => $this->builds->pluck('build_number')->all(),
+        ];
     }
 }

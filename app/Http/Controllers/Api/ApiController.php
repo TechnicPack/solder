@@ -9,12 +9,20 @@
  * file that was distributed with this source code.
  */
 
+
 namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
+use Tremby\LaravelGitVersion\GitVersionHelper;
 
-class ApiController extends BaseController
+class ApiController extends Controller
 {
-    protected function throwValidationException(Request $request, $validator)
+    public function index()
     {
+        return response()->json([
+            'api' => config('app.name'),
+            'version' => GitVersionHelper::getVersion(),
+            'stream' => config('app.env'),
+        ]);
     }
 }
