@@ -16,6 +16,9 @@ use App\Privacy;
 
 $factory->define(Build::class, function (Faker\Generator $faker) {
     return [
+        'build_number' => $faker->numerify('#.#.#'),
+        'minecraft_version' => '1.2.3',
+        'status' => Build::STATE_PUBLIC,
         'modpack_id' => function () {
             return factory(Modpack::class)->create()->id;
         },
@@ -24,15 +27,18 @@ $factory->define(Build::class, function (Faker\Generator $faker) {
 
 $factory->state(Build::class, 'public', function () {
     return [
+        'status' => Build::STATE_PUBLIC,
     ];
 });
 
-$factory->state(Build::class, 'unlisted', function () {
+$factory->state(Build::class, 'draft', function () {
     return [
+        'status' => Build::STATE_DRAFT,
     ];
 });
 
 $factory->state(Build::class, 'private', function () {
     return [
+        'status' => Build::STATE_PRIVATE,
     ];
 });

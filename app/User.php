@@ -41,8 +41,39 @@ class User extends Authenticatable
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function legacyTokens()
+    public function tokens()
     {
         return $this->hasMany(Token::class);
+    }
+
+    /**
+     * Users legacy tokens.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function modpacks()
+    {
+        return $this->belongsToMany(Modpack::class);
+    }
+
+    public static function findByToken($value)
+    {
+        if ($value === null) {
+            return;
+        }
+
+        return self::whereHas('tokens', function ($query) use ($value) {
+            $query->where('value', $value);
+        })->first();
+    }
+
+    public function addToken($name, $value)
+    {
+        $this->tokens()->create([
+            'name' => $name,
+            'value' => $value,
+        ]);
+
+        return $this;
     }
 }

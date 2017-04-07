@@ -23,6 +23,11 @@ class CreateVersionsTable extends Migration
     public function up()
     {
         Schema::create('versions', function (Blueprint $table) {
+            $table->increments('id');
+            $table->unsignedInteger('resource_id');
+            $table->string('version_number');
+            $table->string('zip_md5');
+            $table->string('zip_url');
             $table->timestamps();
         });
     }

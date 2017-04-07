@@ -65,6 +65,8 @@ $rules = [
     'no_unused_imports' => true,
     'visibility_required' => true,
     'no_whitespace_in_blank_line' => true,
+    'ordered_imports' => ['sortAlgorithm' => 'length'],
+    'header_comment' => ['header' => "This file is part of Solder.\n\n(c) Kyle Klaus <kklaus@indemnity83.com>\n\nFor the full copyright and license information, please view the LICENSE\nfile that was distributed with this source code."],
 ];
 
 $finder = PhpCsFixer\Finder::create()

@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Version extends Model
 {
+    protected $guarded = [];
 
     /**
      * Belongs to a resource.

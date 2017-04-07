@@ -26,6 +26,7 @@ class CreateTokensTable extends Migration
             $table->increments('id');
             $table->integer('user_id');
             $table->string('name');
+            $table->string('value');
             $table->timestamps();
         });
     }
