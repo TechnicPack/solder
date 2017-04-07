@@ -12,7 +12,6 @@
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 use App\Build;
 use App\Modpack;
-use App\Privacy;
 
 $factory->define(Build::class, function (Faker\Generator $faker) {
     return [
