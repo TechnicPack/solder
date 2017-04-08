@@ -21,6 +21,8 @@ class Modpack extends Model
     const STATUS_PRIVATE = 2;
     const STATUS_UNLISTED = 3;
 
+    protected $guarded = [];
+
     /**
      * Related builds.
      *

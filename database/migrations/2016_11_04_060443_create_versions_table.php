@@ -26,8 +26,8 @@ class CreateVersionsTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('resource_id');
             $table->string('version_number');
-            $table->string('zip_md5');
-            $table->string('zip_url');
+            $table->string('zip_md5')->nullable();
+            $table->string('zip_url')->nullable();
             $table->timestamps();
         });
     }

@@ -32,13 +32,14 @@ class SupportsLegacyModpackApiTest extends TestCase
         $response = $this->json('GET', 'api/modpack');
 
         $response->assertStatus(200);
-        $response->assertExactJson([
+        $response->assertJson([
             'modpacks' => [
                 'test1' => 'Example Modpack 1',
                 'test2' => 'Example Modpack 2',
             ],
-            'mirror_url' => 'http://solder.example.com/files/',
         ]);
+        $response->assertDontSee('Unlisted Modpack');
+        $response->assertDontSee('Private Modpack');
     }
 
     /** @test */
@@ -52,13 +53,13 @@ class SupportsLegacyModpackApiTest extends TestCase
         $response = $this->json('GET', 'api/modpack?cid=TESTTOKEN');
 
         $response->assertStatus(200);
-        $response->assertExactJson([
+        $response->assertJson([
             'modpacks' => [
                 'public' => 'Public Modpack',
                 'private' => 'Private Modpack',
             ],
-            'mirror_url' => 'http://solder.example.com/files/',
         ]);
+        $response->assertDontSee('Unlisted Modpack');
     }
 
     /** @test */
