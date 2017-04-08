@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "5fa804cd3bd5b1287319e1bf047692c3",
-    "content-hash": "b8fcd4d72ef21d1a0f223d935bff99b7",
+    "hash": "7ae9fa87ddc187967156a6610b2c83e2",
+    "content-hash": "5aaa6fed3d6603da4b8638ecaeb22d98",
     "packages": [
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -2486,6 +2486,55 @@
                 "dump"
             ],
             "time": "2017-03-12 16:07:05"
+        },
+        {
+            "name": "technicpack/solderclient",
+            "version": "v0.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/TechnicPack/SolderClient.git",
+                "reference": "24b2e5c54f66857785d7a495a4340c5ec8e9db06"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/TechnicPack/SolderClient/zipball/24b2e5c54f66857785d7a495a4340c5ec8e9db06",
+                "reference": "24b2e5c54f66857785d7a495a4340c5ec8e9db06",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "~6.0",
+                "php": ">=5.5.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "5.5.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "TechnicPack\\SolderClient\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ryan Cohen",
+                    "email": "sct@technicpack.net",
+                    "homepage": "http://www.technicpack.net",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Dylan Page",
+                    "email": "genpage@technicpack.net",
+                    "homepage": "http://www.technicpack.net",
+                    "role": "Developer"
+                }
+            ],
+            "description": "PHP Library to communicate with Technic Solder",
+            "homepage": "https://github.com/Technic/SolderClient",
+            "time": "2017-02-17 18:12:55"
         },
         {
             "name": "tijsverkoyen/css-to-inline-styles",
