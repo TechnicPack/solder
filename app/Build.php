@@ -20,6 +20,12 @@ class Build extends Model
     const STATE_DRAFT = 2;
     const STATE_PRIVATE = 3;
 
+    protected $statuses = [
+        self::STATE_PRIVATE => 'private',
+        self::STATE_PUBLIC => 'public',
+        self::STATE_DRAFT => 'draft',
+    ];
+
     protected $guarded = [];
 
     /**
@@ -83,6 +89,16 @@ class Build extends Model
     public function versions()
     {
         return $this->belongsToMany(Version::class);
+    }
+
+    public function getStatusAsStringAttribute()
+    {
+        return $this->statuses[$this->status];
+    }
+
+    public function getLinkSelfAttribute()
+    {
+        return \Config::get('app.url')."/api/builds/{$this->id}";
     }
 
     public function toArray()

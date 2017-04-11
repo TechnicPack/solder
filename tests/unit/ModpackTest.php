@@ -121,6 +121,43 @@ class ModpackTest extends TestCase
     }
 
     /** @test */
+    public function can_get_status_as_string()
+    {
+        $publicModpack = factory(Modpack::class)->states(['public'])->create();
+        $privateModpack = factory(Modpack::class)->states(['private'])->create();
+        $unlistedModpack = factory(Modpack::class)->states(['unlisted'])->create();
+
+        $this->assertEquals('public', $publicModpack->status_as_string);
+        $this->assertEquals('private', $privateModpack->status_as_string);
+        $this->assertEquals('unlisted', $unlistedModpack->status_as_string);
+    }
+
+    /** @test */
+    public function can_set_status_as_string()
+    {
+        $publicModpack = new Modpack;
+        $privateModpack = new Modpack;
+        $unlistedModpack = new Modpack;
+
+        $publicModpack->status_as_string = 'public';
+        $privateModpack->status_as_string = 'private';
+        $unlistedModpack->status_as_string = 'unlisted';
+
+        $this->assertEquals(Modpack::STATUS_PUBLIC, $publicModpack->status);
+        $this->assertEquals(Modpack::STATUS_PRIVATE, $privateModpack->status);
+        $this->assertEquals(Modpack::STATUS_UNLISTED, $unlistedModpack->status);
+    }
+
+    /** @test */
+    public function can_get_link_to_modpack()
+    {
+        \Config::set('app.url', 'http://example.com');
+        $modpack = factory(Modpack::class)->create();
+
+        $this->assertEquals("http://example.com/api/modpacks/{$modpack->id}", $modpack->link_self);
+    }
+
+    /** @test */
     public function converting_to_array()
     {
         $modpack = factory(Modpack::class)->create([
