@@ -21,7 +21,7 @@ class CreateModpacksTable extends Migration
     public function up()
     {
         Schema::create('modpacks', function (Blueprint $table) {
-            $table->increments('id');
+            $table->uuid('id');
             $table->string('name');
             $table->string('slug');
             $table->string('recommended')->nullable();

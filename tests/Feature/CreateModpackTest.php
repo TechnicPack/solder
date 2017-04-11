@@ -11,9 +11,10 @@
 
 namespace Tests\Feature;
 
-use App\Modpack;
 use App\User;
+use App\Modpack;
 use Tests\TestCase;
+use App\Facades\Uuid;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class CreateModpackTest extends TestCase
@@ -25,24 +26,24 @@ class CreateModpackTest extends TestCase
     {
         $this->disableExceptionHandling();
         \Config::set('app.url', 'http://example.com');
+        Uuid::shouldReceive('generate')->andReturn('000000000-0000-4000-A000-000000000000');
         $this->actingAs(factory(User::class)->create());
-        $modpackId = 1; // This isn't good, fix it
 
         $response = $this->json('POST', 'api/modpacks', $this->validParams());
 
         $response->assertStatus(201);
-        $response->assertHeader('Location', "http://example.com/api/modpacks/{$modpackId}");
+        $response->assertHeader('Location', 'http://example.com/api/modpacks/000000000-0000-4000-A000-000000000000');
         $response->assertJson([
             'data' => [
                 'type' => 'modpack',
-                'id' => $modpackId,
+                'id' => '000000000-0000-4000-A000-000000000000',
                 'attributes' => [
                     'name' => 'My First Modpack',
                     'slug' => 'my-first-modpack',
                     'status' => 'public',
                 ],
                 'links' => [
-                    'self' => 'http://example.com/api/modpacks/'.$modpackId,
+                    'self' => 'http://example.com/api/modpacks/000000000-0000-4000-A000-000000000000',
                 ],
             ],
         ]);
@@ -55,11 +56,10 @@ class CreateModpackTest extends TestCase
     /** @test */
     public function requires_authentication()
     {
-        $response = $this->json('POST', 'api/modpacks');
+        $response = $this->json('POST', 'api/modpacks', $this->validParams());
 
         $response->assertStatus(401);
         $this->assertEquals(0, Modpack::count());
-
     }
 
     /**
