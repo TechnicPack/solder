@@ -11,7 +11,6 @@
 
 namespace App;
 
-use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -61,7 +60,7 @@ class Build extends Model
                 $query->orWhere(function ($query) use ($statusCollection, $user) {
                     $query->where('status', self::STATE_PRIVATE)
                         ->WhereExists(function ($query) use ($user) {
-                            $query->select(DB::raw(1))
+                            $query->select(\DB::raw(1))
                             ->from('modpack_user')
                             ->whereRaw('modpack_user.modpack_id = builds.modpack_id')
                             ->where('user_id', $user ? $user->id : null);
@@ -93,14 +92,6 @@ class Build extends Model
             'forge' => $this->arguments['forge_version'] ?? null,
             'java' => $this->arguments['java_version'] ?? null,
             'memory' => $this->arguments['java_memory'] ?? null,
-            'mods' => $this->versions->map(function ($version) {
-                return [
-                    'name' => $version->resource->slug,
-                    'version' => $version->version_number,
-                    'md5' => $version->zip_md5,
-                    'url' => $version->zip_url,
-                ];
-            })->all(),
         ];
     }
 }

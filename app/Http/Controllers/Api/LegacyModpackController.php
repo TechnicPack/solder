@@ -13,10 +13,9 @@ namespace App\Http\Controllers\Api;
 
 use App\User;
 use App\Modpack;
-use App\Http\Controllers\Controller;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
-class LegacyModpackController extends Controller
+class LegacyModpackController extends ApiController
 {
     protected $user;
 
@@ -69,7 +68,7 @@ class LegacyModpackController extends Controller
             return $this->notFoundError('Modpack does not exist');
         }
 
-        return response()->json($modpack);
+        return response()->json($this->formatModpackWithBuilds($modpack));
     }
 
     /**
@@ -83,10 +82,23 @@ class LegacyModpackController extends Controller
     {
         return $modpacks->keyBy('slug')->transform(function ($modpack) {
             if (request()->query('include') == 'full') {
-                return $modpack;
+                return $this->formatModpackWithBuilds($modpack);
             }
 
             return $modpack->name;
         })->all();
+    }
+
+    /**
+     * @param $modpack
+     *
+     * @return array
+     */
+    private function formatModpackWithBuilds($modpack): array
+    {
+        return array_merge(
+            $modpack->toArray(),
+            ['builds' => $modpack->builds->pluck('build_number')->all()]
+        );
     }
 }

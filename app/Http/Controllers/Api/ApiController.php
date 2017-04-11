@@ -24,4 +24,19 @@ class ApiController extends Controller
             'stream' => config('app.env'),
         ]);
     }
+
+    /**
+     * Return a not found error.
+     *
+     * @param $error
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    protected function notFoundError($error)
+    {
+        return response()->json([
+            'status' => 404,
+            'error' => $error,
+        ], 404);
+    }
 }

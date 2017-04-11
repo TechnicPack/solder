@@ -14,8 +14,6 @@ namespace Tests\Unit;
 use App\User;
 use App\Build;
 use App\Modpack;
-use App\Version;
-use App\Resource;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
@@ -93,18 +91,6 @@ class BuildTest extends TestCase
                 'java_memory' => 1024,
             ],
         ]);
-        $build->versions()->attach(factory(Version::class)->create([
-            'version_number' => '1',
-            'zip_md5' => 'file-hash-1',
-            'zip_url' => 'http://example.com/mod-version-1',
-            'resource_id' => factory(Resource::class)->create(['slug' => 'resource-1'])->id,
-        ]));
-        $build->versions()->attach(factory(Version::class)->create([
-            'version_number' => '2',
-            'zip_md5' => 'file-hash-2',
-            'zip_url' => 'http://example.com/mod-version-2',
-            'resource_id' => factory(Resource::class)->create(['slug' => 'resource-2'])->id,
-        ]));
 
         $result = $build->toArray();
 
@@ -113,20 +99,6 @@ class BuildTest extends TestCase
             'forge' => '10.1.12.345',
             'java' => '1.7',
             'memory' => 1024,
-            'mods' => [
-                [
-                    'name' => 'resource-1',
-                    'version' => '1',
-                    'md5' => 'file-hash-1',
-                    'url' => 'http://example.com/mod-version-1',
-                ],
-                [
-                    'name' => 'resource-2',
-                    'version' => '2',
-                    'md5' => 'file-hash-2',
-                    'url' => 'http://example.com/mod-version-2',
-                ],
-            ],
         ], $result);
     }
 }

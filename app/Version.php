@@ -24,4 +24,14 @@ class Version extends Model
     {
         return $this->belongsTo(Resource::class);
     }
+
+    public function toArray()
+    {
+        return [
+            'name' => $this->resource->slug,
+            'version' => $this->version_number,
+            'url' => \Storage::url($this->zip_path),
+            'md5' => $this->zip_md5,
+        ];
+    }
 }

@@ -12,10 +12,9 @@
 namespace App\Http\Controllers\Api;
 
 use App\Token;
-use App\Http\Controllers\Controller;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
-class LegacyTokenController extends Controller
+class LegacyTokenController extends ApiController
 {
     /**
      * Display the specified token.

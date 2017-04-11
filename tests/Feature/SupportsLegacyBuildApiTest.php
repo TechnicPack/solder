@@ -143,10 +143,11 @@ class SupportsLegacyBuildApiTest extends TestCase
     /** @test */
     public function build_details_include_a_mod_list()
     {
+        \Storage::shouldReceive('url', 'url')->andReturn('http://example.com/mod-version-1.zip', 'http://example.com/mod-version-2.zip');
         $modpack = factory(Modpack::class)->states(['public'])->create(['slug' => 'test']);
         $build = $modpack->builds()->save(factory(Build::class)->states(['public'])->make(['build_number' => '1.0.0']));
-        $modVersion1 = factory(Resource::class)->create(['slug' => 'mod-1'])->versions()->create(['version_number' => '1.2.3', 'zip_md5' => 'somehash123', 'zip_url' => 'someurl']);
-        $modVersion2 = factory(Resource::class)->create(['slug' => 'mod-2'])->versions()->create(['version_number' => '4.5.6', 'zip_md5' => 'somehash123', 'zip_url' => 'someurl']);
+        $modVersion1 = factory(Resource::class)->create(['slug' => 'mod-1'])->versions()->create(['version_number' => '1.2.3', 'zip_md5' => 'somehash123', 'zip_path' => 'path-to-file-1']);
+        $modVersion2 = factory(Resource::class)->create(['slug' => 'mod-2'])->versions()->create(['version_number' => '4.5.6', 'zip_md5' => 'somehash123', 'zip_path' => 'path-to-file-2']);
         $build->addVersion($modVersion1)->addVersion($modVersion2);
 
         $response = $this->get('api/modpack/test/1.0.0');
@@ -158,13 +159,13 @@ class SupportsLegacyBuildApiTest extends TestCase
                     'name' => 'mod-1',
                     'version' => '1.2.3',
                     'md5' => 'somehash123',
-                    'url' => 'someurl',
+                    'url' => 'http://example.com/mod-version-1.zip',
                 ],
                 [
                     'name' => 'mod-2',
                     'version' => '4.5.6',
                     'md5' => 'somehash123',
-                    'url' => 'someurl',
+                    'url' => 'http://example.com/mod-version-2.zip',
                 ],
             ],
         ]);
