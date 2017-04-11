@@ -11,6 +11,7 @@
 
 namespace App;
 
+use App\Facades\Uuid;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
@@ -28,6 +29,17 @@ class Modpack extends Model
     ];
 
     protected $guarded = [];
+
+    public $incrementing = false;
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            $model->{$model->getKeyName()} = Uuid::generate();
+        });
+    }
 
     /**
      * Related builds.
