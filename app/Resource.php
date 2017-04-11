@@ -24,4 +24,9 @@ class Resource extends Model
     {
         return $this->hasMany(Version::class);
     }
+
+    public function getLinkSelfAttribute()
+    {
+        return \Config::get('app.url')."/api/resources/{$this->id}";
+    }
 }

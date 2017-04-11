@@ -21,6 +21,12 @@ class Modpack extends Model
     const STATUS_PRIVATE = 2;
     const STATUS_UNLISTED = 3;
 
+    protected $statuses = [
+        self::STATUS_PRIVATE => 'private',
+        self::STATUS_PUBLIC => 'public',
+        self::STATUS_UNLISTED => 'unlisted',
+    ];
+
     protected $guarded = [];
 
     /**
@@ -71,6 +77,21 @@ class Modpack extends Model
                 });
             }
         });
+    }
+
+    public function getStatusAsStringAttribute()
+    {
+        return $this->statuses[$this->status];
+    }
+
+    public function setStatusAsStringAttribute($value)
+    {
+        $this->status = collect($this->statuses)->search($value);
+    }
+
+    public function getLinkSelfAttribute()
+    {
+        return \Config::get('app.url')."/api/modpacks/{$this->id}";
     }
 
     public function toArray()

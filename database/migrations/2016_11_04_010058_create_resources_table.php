@@ -25,6 +25,11 @@ class CreateResourcesTable extends Migration
         Schema::create('resources', function (Blueprint $table) {
             $table->increments('id');
             $table->string('slug');
+            $table->string('name');
+            $table->string('author')->nullable();
+            $table->string('link')->nullable();
+            $table->string('donate')->nullable();
+            $table->text('description')->nullable();
             $table->timestamps();
         });
     }

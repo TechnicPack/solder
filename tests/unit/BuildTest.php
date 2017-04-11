@@ -80,6 +80,27 @@ class BuildTest extends TestCase
     }
 
     /** @test */
+    public function can_get_status_as_string()
+    {
+        $publicBuild = factory(Build::class)->states(['public'])->create();
+        $privateBuild = factory(Build::class)->states(['private'])->create();
+        $draftBuild = factory(Build::class)->states(['draft'])->create();
+
+        $this->assertEquals('public', $publicBuild->status_as_string);
+        $this->assertEquals('private', $privateBuild->status_as_string);
+        $this->assertEquals('draft', $draftBuild->status_as_string);
+    }
+
+    /** @test */
+    public function can_get_link_to_self()
+    {
+        \Config::set('app.url', 'http://example.com');
+        $build = factory(Build::class)->create();
+
+        $this->assertEquals("http://example.com/api/builds/{$build->id}", $build->link_self);
+    }
+
+    /** @test */
     public function converting_to_array()
     {
         $build = factory(Build::class)->create([
