@@ -113,7 +113,6 @@ class Modpack extends Model
             'display_name' => $this->name,
             'recommended' => $this->recommended,
             'latest' => $this->latest,
-            'builds' => $this->builds->pluck('build_number')->all(),
         ];
     }
 }

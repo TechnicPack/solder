@@ -177,11 +177,6 @@ class ModpackTest extends TestCase
             'display_name' => 'Example Modpack',
             'recommended' => '1.2.3',
             'latest' => '4.5.6',
-            'builds' => [
-                '1.2.3',
-                '4.5.6',
-                '7.8.9',
-            ],
         ], $result);
     }
 }
