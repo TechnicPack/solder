@@ -13,10 +13,9 @@ namespace App\Http\Controllers\Api;
 
 use App\User;
 use App\Modpack;
-use App\Http\Controllers\Controller;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
-class LegacyBuildController extends Controller
+class LegacyBuildController extends ApiController
 {
     protected $user;
 
@@ -58,6 +57,9 @@ class LegacyBuildController extends Controller
             return $this->notFoundError('Build does not exist');
         }
 
-        return response()->json($build);
+        return response()->json(array_merge(
+            $build->toArray(),
+            ['mods' => $build->versions->all()]
+        ));
     }
 }

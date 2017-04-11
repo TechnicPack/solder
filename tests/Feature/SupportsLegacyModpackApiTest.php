@@ -210,7 +210,6 @@ class SupportsLegacyModpackApiTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertJson(['recommended' => '1.0.0']);
-
     }
 
     /** @test */
@@ -225,7 +224,6 @@ class SupportsLegacyModpackApiTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertJson(['latest' => '1.0.0']);
-
     }
 
     /** @test */
@@ -237,6 +235,5 @@ class SupportsLegacyModpackApiTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertJson(['mirror_url' => 'http://mirror.example.com/']);
-
     }
 }
