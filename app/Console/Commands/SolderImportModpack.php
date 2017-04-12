@@ -14,7 +14,6 @@ namespace App\Console\Commands;
 use App\Modpack;
 use App\Resource;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Storage;
 use TechnicPack\SolderClient\SolderClient;
 
 class SolderImportModpack extends Command
@@ -144,16 +143,21 @@ class SolderImportModpack extends Command
      */
     private function findOrCreateVersion($modVersion)
     {
-        $version = Resource::firstOrCreate(['slug' => $modVersion->name])
-            ->versions()->firstOrCreate(['version_number' => $modVersion->version]);
+        $version = Resource::updateOrCreate([
+            'slug' => $modVersion->name,
+        ], [
+            'name' => $modVersion->pretty_name,
+        ])->versions()->firstOrCreate([
+            'version_number' => $modVersion->version,
+        ]);
 
         if ($modVersion->md5 != $version->zip_md5) {
             $filename = "{$modVersion->name}/{$modVersion->name}-{$modVersion->version}.zip";
 
-            Storage::put($filename, fopen($modVersion->url, 'r'));
+            \Storage::put($filename, fopen($modVersion->url, 'r'), 'public');
 
             $version->update([
-                'zip_url' => Storage::url($filename),
+                'zip_path' => $filename,
                 'zip_md5' => $modVersion->md5,
             ]);
         }
