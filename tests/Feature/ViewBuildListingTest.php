@@ -22,7 +22,6 @@ class ViewBuildListingTest extends TestCase
     /** @test */
     public function get_public_build_details()
     {
-        $this->disableExceptionHandling();
         \Config::set('app.url', 'http://example.com');
         $build = factory(Build::class)->states(['public'])->create([
             'build_number' => '1.0.0',
@@ -61,6 +60,7 @@ class ViewBuildListingTest extends TestCase
     /** @test */
     public function private_build_details_requires_authentication()
     {
+        $this->withExceptionHandling();
         $build = factory(Build::class)->states(['private'])->create();
 
         $response = $this->json('GET', 'api/builds/'.$build->id);
@@ -71,6 +71,7 @@ class ViewBuildListingTest extends TestCase
     /** @test */
     public function draft_build_details_requires_authentication()
     {
+        $this->withExceptionHandling();
         $build = factory(Build::class)->states(['draft'])->create();
 
         $response = $this->json('GET', 'api/builds/'.$build->id);

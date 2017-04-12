@@ -76,6 +76,7 @@ class ViewBuildVersionsTest extends TestCase
     /** @test */
     public function private_build_requires_authentication()
     {
+        $this->withExceptionHandling();
         $build = factory(Build::class)->states(['private'])->create();
 
         $response = $this->json('GET', "api/builds/{$build->id}/versions");
@@ -98,6 +99,7 @@ class ViewBuildVersionsTest extends TestCase
     /** @test */
     public function draft_build_requires_authentication()
     {
+        $this->withExceptionHandling();
         $build = factory(Build::class)->states(['draft'])->create();
 
         $response = $this->json('GET', "api/builds/{$build->id}/versions");
