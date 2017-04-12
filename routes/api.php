@@ -18,6 +18,7 @@ Route::group(['namespace' => 'Api'], function () {
     Route::delete('modpacks/{modpack}', 'ModpackController@destroy');
     Route::get('modpacks/{modpack}/builds', 'ModpackBuildsController@index');
     Route::post('modpacks/{modpack}/builds', 'ModpackBuildsController@store');
+    Route::post('builds', 'BuildController@store');
     Route::get('builds/{build}', 'BuildController@show');
     Route::get('builds/{build}/versions', 'BuildVersionController@index');
     Route::get('resources', 'ResourceController@index');
