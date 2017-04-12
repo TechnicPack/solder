@@ -18,7 +18,7 @@ use Tests\TestCase;
 use App\Facades\Uuid;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
-class CreateBuildTest extends TestCase
+class CreateBuildOnModpackTest extends TestCase
 {
     use DatabaseMigrations;
 
