@@ -11,6 +11,7 @@
 
 namespace App;
 
+use App\Facades\Uuid;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -27,6 +28,17 @@ class Build extends Model
     ];
 
     protected $guarded = [];
+
+    public $incrementing = false;
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            $model->{$model->getKeyName()} = Uuid::generate();
+        });
+    }
 
     /**
      * The attributes that should be cast to native types.
@@ -94,6 +106,11 @@ class Build extends Model
     public function getStatusAsStringAttribute()
     {
         return $this->statuses[$this->status];
+    }
+
+    public function setStatusAsStringAttribute($value)
+    {
+        $this->status = collect($this->statuses)->search($value);
     }
 
     public function getLinkSelfAttribute()

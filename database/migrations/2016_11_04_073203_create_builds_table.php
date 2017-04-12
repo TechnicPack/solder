@@ -23,7 +23,7 @@ class CreateBuildsTable extends Migration
     public function up()
     {
         Schema::create('builds', function (Blueprint $table) {
-            $table->increments('id');
+            $table->uuid('id');
             $table->uuid('modpack_id');
             $table->string('build_number');
             $table->string('minecraft_version');
