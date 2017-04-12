@@ -13,11 +13,20 @@ namespace App\Http\Controllers\Api;
 
 use App\Modpack;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
 use Illuminate\Auth\Access\AuthorizationException;
 
 class ModpackBuildsController extends Controller
 {
+    /**
+     * ResourceController constructor.
+     */
+    public function __construct()
+    {
+        $this->middleware('auth')->only('store');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -40,75 +49,52 @@ class ModpackBuildsController extends Controller
 
         return response()->json([
             'data' => $modpack->builds->map(function ($build) {
-                return [
-                    'type' => 'build',
-                    'id' => $build->id,
-                    'attributes' => [
-                        'build_number' => $build->build_number,
-                        'minecraft_version' => $build->minecraft_version,
-                        'state' => $build->status_as_string,
-                        'arguments' => $build->arguments,
-                    ],
-                    'links' => [
-                        'self' => $build->link_self,
-                    ],
-                ];
+                return $this->transformBuild($build);
             }),
         ]);
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create(Modpack $modpack)
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  \Illuminate\Http\Request $request
+     * @param Modpack $modpack
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request, Modpack $modpack)
     {
-        //
+        $this->validate($request, [
+            'data.attributes.build_number' => ['required', Rule::unique('builds', 'build_number')->where('modpack_id', $modpack->id)],
+            'data.attributes.minecraft_version' => ['required'],
+        ]);
+
+        $build = $modpack->builds()->create([
+            'build_number' => $request->input('data.attributes.build_number'),
+            'minecraft_version' => $request->input('data.attributes.minecraft_version'),
+            'status_as_string' => $request->input('data.attributes.state'),
+            'arguments' => $request->input('data.attributes.arguments'),
+        ]);
+
+        return response()
+            ->json(['data' => $this->transformBuild($build)], 201)
+            ->withHeaders(['Location' => $build->link_self]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Modpack  $modpack
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Modpack $modpack)
+    private function transformBuild($build)
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Modpack  $modpack
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Modpack $modpack)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Modpack  $modpack
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Modpack $modpack)
-    {
-        //
+        return [
+            'type' => 'build',
+            'id' => $build->id,
+            'attributes' => [
+                'build_number' => $build->build_number,
+                'minecraft_version' => $build->minecraft_version,
+                'state' => $build->status_as_string,
+                'arguments' => $build->arguments,
+            ],
+            'links' => [
+                'self' => $build->link_self,
+            ],
+        ];
     }
 }

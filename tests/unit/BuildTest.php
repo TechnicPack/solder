@@ -92,6 +92,22 @@ class BuildTest extends TestCase
     }
 
     /** @test */
+    public function can_set_status_as_string()
+    {
+        $publicBuild = new Build;
+        $privateBuild = new Build;
+        $draftBuild = new Build;
+
+        $publicBuild->status_as_string = 'public';
+        $privateBuild->status_as_string = 'private';
+        $draftBuild->status_as_string = 'draft';
+
+        $this->assertEquals(Build::STATE_PUBLIC, $publicBuild->status);
+        $this->assertEquals(Build::STATE_PRIVATE, $privateBuild->status);
+        $this->assertEquals(Build::STATE_DRAFT, $draftBuild->status);
+    }
+
+    /** @test */
     public function can_get_link_to_self()
     {
         \Config::set('app.url', 'http://example.com');

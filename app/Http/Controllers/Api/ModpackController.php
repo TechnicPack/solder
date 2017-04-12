@@ -13,6 +13,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Modpack;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
 use Illuminate\Auth\Access\AuthorizationException;
 
@@ -23,7 +24,7 @@ class ModpackController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth')->only('store');;
+        $this->middleware('auth')->except('index', 'show');
     }
 
     /**
@@ -57,6 +58,11 @@ class ModpackController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validate($request, [
+            'data.attributes.name' => ['required'],
+            'data.attributes.slug' => [Rule::unique('modpacks', 'slug')],
+        ]);
+
         $modpack = Modpack::create([
             'name' => $request->input('data.attributes.name'),
             'slug' => $request->input('data.attributes.slug'),
@@ -94,11 +100,24 @@ class ModpackController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Modpack  $modpack
-     * @return \Illuminate\Http\Response
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, Modpack $modpack)
     {
-        //
+        $this->validate($request, [
+            'data.attributes.name' => ['filled'],
+            'data.attributes.slug' => [Rule::unique('modpacks', 'slug')->ignore($modpack->id)],
+        ]);
+
+        $modpack->name = $request->input('data.attributes.name', $modpack->name);
+        $modpack->slug = $request->input('data.attributes.slug', $modpack->slug);
+        $modpack->status_as_string = $request->input('data.attributes.status', $modpack->status_as_string);
+        $modpack->save();
+
+        return response()->json([
+            'data' => $this->transformModpack($modpack),
+        ]);
     }
 
     /**
@@ -109,7 +128,9 @@ class ModpackController extends Controller
      */
     public function destroy(Modpack $modpack)
     {
-        //
+        $modpack->delete();
+
+        return response()->json([], 204);
     }
 
     /**
