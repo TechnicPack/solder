@@ -15,6 +15,8 @@ Route::group(['namespace' => 'Api'], function () {
     Route::post('modpacks', 'ModpackController@store');
     Route::get('modpacks/{modpack}', 'ModpackController@show');
     Route::get('modpacks/{modpack}/builds', 'ModpackBuildsController@index');
+    Route::get('builds/{build}', 'BuildController@show');
+    Route::get('builds/{build}/versions', 'BuildVersionController@index');
     Route::get('resources', 'ResourceController@index');
     Route::get('resources/{resource}', 'ResourceController@show');
 });

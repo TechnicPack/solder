@@ -25,12 +25,22 @@ class Version extends Model
         return $this->belongsTo(Resource::class);
     }
 
+    public function getLinkSelfAttribute()
+    {
+        return \Config::get('app.url')."/api/versions/{$this->id}";
+    }
+
+    public function getZipUrlAttribute()
+    {
+        return \Storage::url($this->zip_path);
+    }
+
     public function toArray()
     {
         return [
             'name' => $this->resource->slug,
             'version' => $this->version_number,
-            'url' => \Storage::url($this->zip_path),
+            'url' => $this->zip_url,
             'md5' => $this->zip_md5,
         ];
     }

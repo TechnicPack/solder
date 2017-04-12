@@ -15,6 +15,7 @@ use App\Resource;
 
 $factory->define(Version::class, function (Faker\Generator $faker) {
     return [
+        'version_number' => $faker->numerify('#.#.#'),
         'resource_id' => function () {
             return factory(Resource::class)->create()->id;
         },

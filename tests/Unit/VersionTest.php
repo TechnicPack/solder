@@ -21,6 +21,31 @@ class VersionTest extends TestCase
     use DatabaseMigrations;
 
     /** @test */
+    public function can_get_self_link()
+    {
+        \Config::set('app.url', 'http://example.com');
+        $version = factory(Version::class)->create();
+
+        $this->assertEquals("http://example.com/api/versions/{$version->id}", $version->link_self);
+    }
+
+    /** @test */
+    public function can_get_zip_url()
+    {
+        $version = factory(Version::class)->create([
+            'zip_path' => 'path/to/mod-version-1.zip',
+        ]);
+
+        \Storage::shouldReceive('url')
+            ->with('path/to/mod-version-1.zip')
+            ->andReturn('http://example.com/mod-version-1.zip');
+
+        $zipUrl = $version->zip_url;
+
+        $this->assertEquals('http://example.com/mod-version-1.zip', $zipUrl);
+    }
+
+    /** @test */
     public function converting_to_array()
     {
         // Arrange
