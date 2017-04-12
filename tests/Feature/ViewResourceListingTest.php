@@ -84,6 +84,8 @@ class ViewResourceListingTest extends TestCase
     /** @test */
     public function index_requires_authentication()
     {
+        $this->withExceptionHandling();
+
         $response = $this->json('GET', 'api/resources');
 
         $response->assertStatus(401);
@@ -92,7 +94,6 @@ class ViewResourceListingTest extends TestCase
     /** @test */
     public function get_resource_details()
     {
-        $this->disableExceptionHandling();
         \Config::set('app.url', 'http://example.com');
         $this->actingAs(factory(User::class)->create());
         $resource = factory(Resource::class)->create([
@@ -129,6 +130,8 @@ class ViewResourceListingTest extends TestCase
     /** @test */
     public function show_requires_authentication()
     {
+        $this->withExceptionHandling();
+        
         $response = $this->json('GET', 'api/resources/1');
 
         $response->assertStatus(401);

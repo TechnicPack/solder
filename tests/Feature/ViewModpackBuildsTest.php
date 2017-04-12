@@ -105,6 +105,7 @@ class ViewModpackBuildsTest extends TestCase
     /** @test */
     public function private_modpack_requires_authentication()
     {
+        $this->withExceptionHandling();
         $privateModpack = factory(Modpack::class)->states(['private'])->create();
 
         $response = $this->json('GET', "api/modpacks/{$privateModpack->id}/builds");

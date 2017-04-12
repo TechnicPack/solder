@@ -24,7 +24,6 @@ class CreateModpackTest extends TestCase
     /** @test */
     public function adding_a_new_modpack()
     {
-        $this->disableExceptionHandling();
         \Config::set('app.url', 'http://example.com');
         Uuid::shouldReceive('generate')->andReturn('000000000-0000-4000-A000-000000000000');
         $this->actingAs(factory(User::class)->create());
@@ -56,6 +55,8 @@ class CreateModpackTest extends TestCase
     /** @test */
     public function requires_authentication()
     {
+        $this->withExceptionHandling();
+
         $response = $this->json('POST', 'api/modpacks', $this->validParams());
 
         $response->assertStatus(401);

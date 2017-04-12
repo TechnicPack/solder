@@ -81,6 +81,7 @@ class ViewModpackListingTest extends TestCase
     /** @test */
     public function get_any_status_with_authentication()
     {
+        $this->withExceptionHandling();
         $this->actingAs(factory(User::class)->create());
         factory(Modpack::class)->states(['public'])->create();
         factory(Modpack::class)->states(['private'])->create();
@@ -123,6 +124,7 @@ class ViewModpackListingTest extends TestCase
     /** @test */
     public function private_modpack_details_requires_authentication()
     {
+        $this->withExceptionHandling();
         $modpack = factory(Modpack::class)->states(['private'])->create();
 
         $response = $this->json('GET', 'api/modpacks/'.$modpack->id);

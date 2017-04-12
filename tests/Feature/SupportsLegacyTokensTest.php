@@ -36,7 +36,6 @@ class SupportsLegacyTokensTest extends TestCase
     /** @test */
     public function invalid_tokens_return_an_error()
     {
-        $this->disableExceptionHandling();
         $response = $this->get('api/verify/TOKEN123');
 
         $response->assertStatus(404);

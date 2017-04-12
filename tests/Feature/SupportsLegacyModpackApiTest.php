@@ -100,7 +100,6 @@ class SupportsLegacyModpackApiTest extends TestCase
     /** @test */
     public function a_guest_cannot_get_list_of_private_or_draft_builds_of_a_public_modpack()
     {
-        $this->disableExceptionHandling();
         $modpack = factory(Modpack::class)->states(['public'])->create(['slug' => 'test']);
         $modpack->builds()->save(factory(Build::class)->states(['private'])->make(['build_number' => 'private-build']));
         $modpack->builds()->save(factory(Build::class)->states(['draft'])->make(['build_number' => 'draft-build']));
