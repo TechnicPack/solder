@@ -58,6 +58,14 @@ class ModpackController extends Controller
      */
     public function store(Request $request)
     {
+        if ($request->has('data.id')) {
+            abort(403, 'Unsupported request to create a resource with a client-generated ID.');
+        }
+
+        if ($request->input('data.type') != 'modpack') {
+            abort(409, 'The resource objects type is not supported for the collection represented by this endpoint.');
+        }
+
         $this->validate($request, [
             'data.attributes.name' => ['required'],
             'data.attributes.slug' => [Rule::unique('modpacks', 'slug')],
@@ -105,6 +113,14 @@ class ModpackController extends Controller
      */
     public function update(Request $request, Modpack $modpack)
     {
+        if ($request->input('data.type') != 'modpack') {
+            abort(409, 'The resource objects type is not supported for the collection represented by this endpoint.');
+        }
+
+        if ($request->input('data.id') != $modpack->id) {
+            abort(409, 'The submitted resource id does not match the resource id of this endpoint.');
+        }
+
         $this->validate($request, [
             'data.attributes.name' => ['filled'],
             'data.attributes.slug' => [Rule::unique('modpacks', 'slug')->ignore($modpack->id)],
