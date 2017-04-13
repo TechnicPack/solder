@@ -47,7 +47,7 @@ trait CreatesBuilds
         Uuid::shouldReceive('generate')->andReturn('000000000-0000-4000-A000-000000000000');
         Config::set('app.url', 'http://example.com');
 
-        $response = $this->actingAs($user)
+        $response = $this->actingAs($user, 'api')
             ->postJson($this->validUri($modpack), $this->validPayload($modpack));
 
         $response->assertStatus(201);
@@ -94,7 +94,7 @@ trait CreatesBuilds
         $modpack = factory(Modpack::class)->create();
         $user = factory(User::class)->create();
 
-        $response = $this->actingAs($user)
+        $response = $this->actingAs($user, 'api')
             ->withExceptionHandling()
             ->postJson($this->validUri($modpack), $this->validPayload($modpack, [
                 'build_number' => null,
@@ -110,7 +110,7 @@ trait CreatesBuilds
         $modpack = factory(Modpack::class)->create();
         $user = factory(User::class)->create();
 
-        $response = $this->actingAs($user)
+        $response = $this->actingAs($user, 'api')
             ->withExceptionHandling()
             ->postJson($this->validUri($modpack), $this->validPayload($modpack, [
                 'minecraft_version' => null,

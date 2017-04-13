@@ -12,9 +12,9 @@
 namespace App\Http\Controllers\Api;
 
 use App\Build;
-use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Auth\Access\AuthorizationException;
 
 class BuildVersionController extends Controller
 {

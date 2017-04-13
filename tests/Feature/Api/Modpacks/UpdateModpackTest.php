@@ -39,7 +39,7 @@ class UpdateModpackTest extends TestCase
     /** @test */
     public function updating_a_new_modpack()
     {
-        $response = $this->actingAs($this->user)->patchJson("api/modpacks/{$this->modpack->id}", $this->emptyResource([
+        $response = $this->actingAs($this->user, 'api')->patchJson("api/modpacks/{$this->modpack->id}", $this->emptyResource([
             'name' => 'My Revised Modpack',
             'slug' => 'my-revised-modpack',
             'status' => 'private',
@@ -83,7 +83,7 @@ class UpdateModpackTest extends TestCase
     {
         $this->withExceptionHandling();
 
-        $response = $this->actingAs($this->user)->patchJson("api/modpacks/{$this->modpack->id}", $this->emptyResource([
+        $response = $this->actingAs($this->user, 'api')->patchJson("api/modpacks/{$this->modpack->id}", $this->emptyResource([
             'name' => null,
         ]));
 
@@ -97,7 +97,7 @@ class UpdateModpackTest extends TestCase
         $this->withExceptionHandling();
         factory(Modpack::class)->create(['slug' => 'existing-slug']);
 
-        $response = $this->actingAs($this->user)->patchJson("api/modpacks/{$this->modpack->id}", $this->emptyResource([
+        $response = $this->actingAs($this->user, 'api')->patchJson("api/modpacks/{$this->modpack->id}", $this->emptyResource([
             'slug' => 'existing-slug',
         ]));
 
@@ -110,7 +110,7 @@ class UpdateModpackTest extends TestCase
     {
         $this->withExceptionHandling();
 
-        $response = $this->actingAs($this->user)->patchJson("api/modpacks/{$this->modpack->id}", $this->emptyResource([
+        $response = $this->actingAs($this->user, 'api')->patchJson("api/modpacks/{$this->modpack->id}", $this->emptyResource([
             'slug' => 'my-first-modpack',
         ]));
 
@@ -120,7 +120,7 @@ class UpdateModpackTest extends TestCase
 
     /**
      * @param array $attributes
-     *
+     *php
      * @return array
      */
     private function emptyResource($attributes = []): array

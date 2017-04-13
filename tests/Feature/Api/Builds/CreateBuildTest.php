@@ -29,7 +29,7 @@ class CreateBuildTest extends TestCase
         $modpack = factory(Modpack::class)->create();
         $user = factory(User::class)->create();
 
-        $response = $this->actingAs($user)
+        $response = $this->actingAs($user, 'api')
             ->withExceptionHandling()
             ->postJson($this->validUri($modpack), [
             'data' => [
@@ -55,7 +55,7 @@ class CreateBuildTest extends TestCase
         $modpack = factory(Modpack::class)->create();
         $user = factory(User::class)->create();
 
-        $response = $this->actingAs($user)
+        $response = $this->actingAs($user, 'api')
             ->withExceptionHandling()
             ->postJson($this->validUri($modpack), [
             'data' => [

@@ -87,7 +87,7 @@ class ViewRelatedVersionsTest extends TestCase
     /** @test */
     public function private_build_with_authentication()
     {
-        $this->actingAs(factory(User::class)->create());
+        $this->actingAs(factory(User::class)->create(), 'api');
         $build = factory(Build::class)->states(['private'])->create();
 
         $response = $this->json('GET', "api/builds/{$build->id}/versions");
@@ -110,7 +110,7 @@ class ViewRelatedVersionsTest extends TestCase
     /** @test */
     public function draft_build_with_authentication()
     {
-        $this->actingAs(factory(User::class)->create());
+        $this->actingAs(factory(User::class)->create(), 'api');
         $build = factory(Build::class)->states(['draft'])->create();
 
         $response = $this->json('GET', "api/builds/{$build->id}/versions");
