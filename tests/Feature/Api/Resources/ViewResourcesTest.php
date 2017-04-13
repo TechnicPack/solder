@@ -9,14 +9,14 @@
  * file that was distributed with this source code.
  */
 
-namespace Tests\Feature;
+namespace Tests\Feature\Api\Resources;
 
 use App\User;
 use App\Resource;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
-class ViewResourceListingTest extends TestCase
+class ViewResourcesTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -131,7 +131,7 @@ class ViewResourceListingTest extends TestCase
     public function show_requires_authentication()
     {
         $this->withExceptionHandling();
-        
+
         $response = $this->json('GET', 'api/resources/1');
 
         $response->assertStatus(401);

@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Tests\Feature;
+namespace Tests\Feature\Api\Modpacks;
 
 use App\User;
 use App\Build;
@@ -17,7 +17,7 @@ use App\Modpack;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
-class ViewModpackBuildsTest extends TestCase
+class ViewRelatedBuildsTest extends TestCase
 {
     use DatabaseMigrations;
 
