@@ -119,4 +119,36 @@ trait CreatesBuilds
         $response->assertStatus(422);
         $this->assertEquals(0, Build::count());
     }
+
+    /** @test */
+    public function payload_must_be_a_build_resource()
+    {
+        $modpack = factory(Modpack::class)->create();
+        $user = factory(User::class)->create();
+        $invalidPayload = $this->validPayload($modpack);
+        array_set($invalidPayload, 'data.type', 'foopack');
+
+        $response = $this->actingAs($user, 'api')
+            ->withExceptionHandling()
+            ->postJson($this->validUri($modpack), $invalidPayload);
+
+        $response->assertStatus(409);
+        $this->assertEquals(0, Build::count());
+    }
+
+    /** @test */
+    public function builds_do_not_support_client_generated_ids()
+    {
+        $modpack = factory(Modpack::class)->create();
+        $user = factory(User::class)->create();
+        $invalidPayload = $this->validPayload($modpack);
+        array_set($invalidPayload, 'data.id', 'my-fancy-id');
+
+        $response = $this->actingAs($user, 'api')
+            ->withExceptionHandling()
+            ->postJson($this->validUri($modpack), $invalidPayload);
+
+        $response->assertStatus(403);
+        $this->assertEquals(0, Build::count());
+    }
 }

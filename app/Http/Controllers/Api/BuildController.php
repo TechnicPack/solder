@@ -30,21 +30,32 @@ class BuildController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      *
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
-        $modpackId = $request->input('relationships.modpack.data.id');
+        if (! $request->has('relationships.modpack.data.id')) {
+            abort(403, 'Unsupported request to create a build without a related modpack.');
+        }
+
+        if ($request->has('data.id')) {
+            abort(403, 'Unsupported request to create a resource with a client-generated ID.');
+        }
+
+        if ($request->input('data.type') != 'build') {
+            abort(409, 'The resource objects type is not supported for the collection represented by this endpoint.');
+        }
+
+        $modpack = Modpack::findOrFail($request->input('relationships.modpack.data.id'));
 
         $this->validate($request, [
             'relationships.modpack.data.id' => ['bail', 'required'],
-            'data.attributes.build_number' => ['required', 'unique:builds,build_number,NULL,NULL,modpack_id,'.$modpackId], // could this be done in a closure?
+            'data.attributes.build_number' => ['required', 'unique:builds,build_number,NULL,NULL,modpack_id,'.$modpack->id],
             'data.attributes.minecraft_version' => ['required'],
         ]);
 
-        $modpack = Modpack::findOrFail($modpackId);
 
         $build = $modpack->builds()->create([
             'build_number' => $request->input('data.attributes.build_number'),
