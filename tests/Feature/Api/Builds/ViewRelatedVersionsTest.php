@@ -9,15 +9,15 @@
  * file that was distributed with this source code.
  */
 
-namespace Tests\Feature;
+namespace Tests\Feature\Api\Builds;
 
-use App\Build;
 use App\User;
+use App\Build;
 use App\Version;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
-class ViewBuildVersionsTest extends TestCase
+class ViewRelatedVersionsTest extends TestCase
 {
     use DatabaseMigrations;
 
