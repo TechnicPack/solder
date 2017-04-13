@@ -64,6 +64,14 @@ class ModpackBuildsController extends Controller
      */
     public function store(Request $request, Modpack $modpack)
     {
+        if ($request->has('data.id')) {
+            abort(403, 'Unsupported request to create a resource with a client-generated ID.');
+        }
+
+        if ($request->input('data.type') != 'build') {
+            abort(409, 'The resource objects type is not supported for the collection represented by this endpoint.');
+        }
+
         $this->validate($request, [
             'data.attributes.build_number' => ['required', Rule::unique('builds', 'build_number')->where('modpack_id', $modpack->id)],
             'data.attributes.minecraft_version' => ['required'],
