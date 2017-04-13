@@ -24,7 +24,7 @@ class BuildController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth')->only('store');
+        $this->middleware('auth:api')->only('store');
     }
 
     /**

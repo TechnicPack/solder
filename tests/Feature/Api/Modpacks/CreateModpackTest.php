@@ -36,7 +36,7 @@ class CreateModpackTest extends TestCase
     {
         Uuid::shouldReceive('generate')->andReturn('000000000-0000-4000-A000-000000000000');
 
-        $response = $this->actingAs($this->user)->postJson('api/modpacks', $this->validParams());
+        $response = $this->actingAs($this->user, 'api')->postJson('api/modpacks', $this->validParams());
 
         $response->assertStatus(201);
         $response->assertHeader('Location', 'http://example.com/api/modpacks/000000000-0000-4000-A000-000000000000');
@@ -76,7 +76,7 @@ class CreateModpackTest extends TestCase
     {
         $this->withExceptionHandling();
 
-        $response = $this->actingAs($this->user)->postJson('api/modpacks', $this->validParams([
+        $response = $this->actingAs($this->user, 'api')->postJson('api/modpacks', $this->validParams([
             'name' => null,
         ]));
 
@@ -91,7 +91,7 @@ class CreateModpackTest extends TestCase
         factory(Modpack::class)->create(['slug' => 'existing-slug']);
         $this->assertEquals(1, Modpack::count());
 
-        $response = $this->actingAs($this->user)->postJson('api/modpacks', $this->validParams([
+        $response = $this->actingAs($this->user, 'api')->postJson('api/modpacks', $this->validParams([
             'slug' => 'existing-slug',
         ]));
 

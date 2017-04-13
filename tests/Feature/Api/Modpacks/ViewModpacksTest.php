@@ -82,7 +82,7 @@ class ViewModpacksTest extends TestCase
     public function get_any_status_with_authentication()
     {
         $this->withExceptionHandling();
-        $this->actingAs(factory(User::class)->create());
+        $this->actingAs(factory(User::class)->create(), 'api');
         factory(Modpack::class)->states(['public'])->create();
         factory(Modpack::class)->states(['private'])->create();
         factory(Modpack::class)->states(['unlisted'])->create();

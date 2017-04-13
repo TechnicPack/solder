@@ -116,7 +116,7 @@ class ViewRelatedBuildsTest extends TestCase
     /** @test */
     public function get_any_status_with_authentication()
     {
-        $this->actingAs(factory(User::class)->create());
+        $this->actingAs(factory(User::class)->create(), 'api');
         factory(Build::class)->states(['draft'])->create(['modpack_id' => $this->modpack->id]);
         factory(Build::class)->states(['private'])->create(['modpack_id' => $this->modpack->id]);
         factory(Build::class)->states(['public'])->create(['modpack_id' => $this->modpack->id]);

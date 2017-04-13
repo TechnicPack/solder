@@ -23,7 +23,7 @@ class DeleteModpackTest extends TestCase
     /** @test */
     public function delete_modpack()
     {
-        $this->actingAs(factory(User::class)->create());
+        $this->actingAs(factory(User::class)->create(), 'api');
         $modpack = factory(Modpack::class)->create();
         $this->assertEquals(1, Modpack::count());
 

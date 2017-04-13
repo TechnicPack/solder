@@ -24,7 +24,7 @@ class ViewResourcesTest extends TestCase
     public function get_resource_list()
     {
         \Config::set('app.url', 'http://example.com');
-        $this->actingAs(factory(User::class)->create());
+        $this->actingAs(factory(User::class)->create(), 'api');
         $resource1 = factory(Resource::class)->create([
             'name' => 'Iron Tanks',
             'slug' => 'iron-tanks',
@@ -95,7 +95,7 @@ class ViewResourcesTest extends TestCase
     public function get_resource_details()
     {
         \Config::set('app.url', 'http://example.com');
-        $this->actingAs(factory(User::class)->create());
+        $this->actingAs(factory(User::class)->create(), 'api');
         $resource = factory(Resource::class)->create([
             'name' => 'Iron Tanks',
             'slug' => 'iron-tanks',
