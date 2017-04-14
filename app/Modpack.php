@@ -39,6 +39,10 @@ class Modpack extends Model
         static::creating(function ($model) {
             $model->{$model->getKeyName()} = Uuid::generate();
         });
+
+        static::addGlobalScope('buildCount', function (Builder $builder) {
+            $builder->withCount('builds');
+        });
     }
 
     /**

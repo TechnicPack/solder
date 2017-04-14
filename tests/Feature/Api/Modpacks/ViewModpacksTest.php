@@ -49,6 +49,16 @@ class ViewModpacksTest extends TestCase
                     'links' => [
                         'self' => 'http://example.com/api/modpacks/'.$modpack1->id,
                     ],
+                    'relationships' => [
+                        'builds' => [
+                            'links' => [
+                                'related' => [
+                                    'href' => 'http://example.com/api/modpacks/'.$modpack1->id.'/builds',
+                                    'meta' => ['count' => 0],
+                                ],
+                            ],
+                        ],
+                    ],
                 ],
                 [
                     'type' => 'modpack',
@@ -60,6 +70,16 @@ class ViewModpacksTest extends TestCase
                     ],
                     'links' => [
                         'self' => 'http://example.com/api/modpacks/'.$modpack2->id,
+                    ],
+                    'relationships' => [
+                        'builds' => [
+                            'links' => [
+                                'related' => [
+                                    'href' => 'http://example.com/api/modpacks/'.$modpack2->id.'/builds',
+                                    'meta' => ['count' => 0],
+                                ],
+                            ],
+                        ],
                     ],
                 ],
             ],
@@ -116,6 +136,16 @@ class ViewModpacksTest extends TestCase
                 ],
                 'links' => [
                     'self' => 'http://example.com/api/modpacks/'.$modpack->id,
+                ],
+                'relationships' => [
+                    'builds' => [
+                        'links' => [
+                            'related' => [
+                                'href' => 'http://example.com/api/modpacks/'.$modpack->id.'/builds',
+                                'meta' => ['count' => 0],
+                            ],
+                        ],
+                    ],
                 ],
             ],
         ]);

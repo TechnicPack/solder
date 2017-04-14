@@ -167,6 +167,16 @@ class ModpackController extends Controller
             'links' => [
                 'self' => $modpack->link_self,
             ],
+            'relationships' => [
+                'builds' => [
+                    'links' => [
+                        'related' => [
+                            'href' => $modpack->link_self.'/builds',
+                            'meta' => ['count' => $modpack->builds_count],
+                        ],
+                    ],
+                ],
+            ],
         ];
     }
 }
