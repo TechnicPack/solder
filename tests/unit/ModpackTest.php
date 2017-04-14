@@ -158,6 +158,17 @@ class ModpackTest extends TestCase
     }
 
     /** @test */
+    public function can_get_builds_count()
+    {
+        $modpack = factory(Modpack::class)->create();
+        $modpack->builds()->saveMany(factory(Build::class, 3)->make());
+
+        $modpack = Modpack::first();
+
+        $this->assertEquals(3, $modpack->builds_count);
+    }
+
+    /** @test */
     public function converting_to_array()
     {
         $modpack = factory(Modpack::class)->create([
