@@ -16,6 +16,7 @@
     "conventional-changelog-cli": "^1.2.0",
     "cross-env": "^3.2.3",
     "cz-conventional-changelog": "^2.0.0",
+    "json-api-store": "^0.7.0",
     "laravel-mix": "^0.5.0",
     "line-awesome": "icons8/line-awesome",
     "lodash": "^4.16.2",

@@ -9,10 +9,12 @@
  * file that was distributed with this source code.
  */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+namespace App\Http\Controllers;
 
-Auth::routes();
-
-Route::resource('/modpacks', 'ModpacksController');
+class ModpacksController extends Controller
+{
+    public function index()
+    {
+        return view('modpacks.index');
+    }
+}
