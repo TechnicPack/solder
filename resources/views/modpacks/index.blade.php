@@ -19,11 +19,8 @@
                 {{ session('status') }}
             </div>
         @endif
-        <div class="columns is-mobile is-multiline">
-            @foreach($modpacks as $modpack)
-                @include('modpacks.card')
-            @endforeach
-        </div>
+
+        <solder-modpacks></solder-modpacks>
     </div>
 </section>
 

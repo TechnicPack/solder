@@ -6,6 +6,7 @@
  */
 
 require('./bootstrap');
+require('./api');
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -17,6 +18,7 @@ require('./bootstrap');
 // Vue.component('passport-authorized-clients', require('./components/passport/AuthorizedClients.vue'));
 // Vue.component('passport-personal-access-tokens', require('./components/passport/PersonalAccessTokens.vue'));
 Vue.component('solder-builds', require('./components/Builds.vue'));
+Vue.component('solder-modpacks', require('./components/Modpacks.vue'));
 
 const app = new Vue({
     el: '#app'
