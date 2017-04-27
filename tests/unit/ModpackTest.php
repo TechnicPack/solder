@@ -151,10 +151,9 @@ class ModpackTest extends TestCase
     /** @test */
     public function can_get_link_to_modpack()
     {
-        \Config::set('app.url', 'http://example.com');
         $modpack = factory(Modpack::class)->create();
 
-        $this->assertEquals("http://example.com/api/modpacks/{$modpack->id}", $modpack->link_self);
+        $this->assertEquals(url("/api/modpacks/{$modpack->id}"), $modpack->link_self);
     }
 
     /** @test */

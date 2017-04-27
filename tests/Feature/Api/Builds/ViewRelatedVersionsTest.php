@@ -24,7 +24,6 @@ class ViewRelatedVersionsTest extends TestCase
     /** @test */
     public function get_versions_linked_to_a_public_build()
     {
-        \Config::set('app.url', 'http://example.com');
         \Storage::shouldReceive('url', 'url')->andReturn('http://example.com/storage/filename.zip', 'http://example.com/storage/another-filename.zip');
         $build = factory(Build::class)->states(['public'])->create();
         $version1 = factory(Version::class)->create([
@@ -54,7 +53,7 @@ class ViewRelatedVersionsTest extends TestCase
                         'zip_md5' => 'md5hash1234',
                     ],
                     'links' => [
-                        'self' => "http://example.com/api/versions/{$version1->id}",
+                        'self' => url("/api/versions/{$version1->id}"),
                     ],
                 ],
                 [
@@ -66,7 +65,7 @@ class ViewRelatedVersionsTest extends TestCase
                         'zip_md5' => 'md5hash5678',
                     ],
                     'links' => [
-                        'self' => "http://example.com/api/versions/{$version2->id}",
+                        'self' => url("/api/versions/{$version2->id}"),
                     ],
                 ],
             ],

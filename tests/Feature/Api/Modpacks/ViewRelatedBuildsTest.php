@@ -27,7 +27,6 @@ class ViewRelatedBuildsTest extends TestCase
     {
         parent::setUp();
 
-        \Config::set('app.url', 'http://example.com');
         $this->modpack = factory(Modpack::class)->states(['public'])->create();
     }
 
@@ -69,7 +68,7 @@ class ViewRelatedBuildsTest extends TestCase
                         ],
                     ],
                     'links' => [
-                        'self' => "http://example.com/api/builds/{$build1->id}",
+                        'self' => url("/api/builds/{$build1->id}"),
                     ],
                 ],
                 [
@@ -82,7 +81,7 @@ class ViewRelatedBuildsTest extends TestCase
                         'arguments' => null,
                     ],
                     'links' => [
-                        'self' => "http://example.com/api/builds/{$build2->id}",
+                        'self' => url("/api/builds/{$build2->id}"),
                     ],
                 ],
             ],
