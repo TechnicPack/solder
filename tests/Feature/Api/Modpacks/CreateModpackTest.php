@@ -36,7 +36,11 @@ class CreateModpackTest extends TestCase
     {
         Uuid::shouldReceive('generate')->andReturn('000000000-0000-4000-A000-000000000000');
 
-        $response = $this->actingAs($this->user, 'api')->postJson('api/modpacks', $this->validPayload());
+        $response = $this->actingAs($this->user, 'api')->postJson('api/modpacks', $this->validPayload([
+            'name' => 'My First Modpack',
+            'slug' => 'my-first-modpack',
+            'status' => 'public',
+        ]));
 
         $response->assertStatus(201);
         $response->assertHeader('Location', 'http://example.com/api/modpacks/000000000-0000-4000-A000-000000000000');
@@ -55,8 +59,10 @@ class CreateModpackTest extends TestCase
             ],
         ]);
         $this->assertDatabaseHas('modpacks', [
+            'id' => '000000000-0000-4000-A000-000000000000',
             'name' => 'My First Modpack',
             'slug' => 'my-first-modpack',
+            'status' => Modpack::STATUS_PUBLIC,
         ]);
     }
 
