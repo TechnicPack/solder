@@ -56,7 +56,6 @@ class BuildController extends Controller
             'data.attributes.minecraft_version' => ['required'],
         ]);
 
-
         $build = $modpack->builds()->create([
             'build_number' => $request->input('data.attributes.build_number'),
             'minecraft_version' => $request->input('data.attributes.minecraft_version'),
