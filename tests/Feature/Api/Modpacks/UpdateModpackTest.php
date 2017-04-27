@@ -11,7 +11,6 @@
 
 namespace Tests\Feature\Api\Modpacks;
 
-use Config;
 use App\User;
 use App\Modpack;
 use Tests\TestCase;
@@ -31,8 +30,6 @@ class UpdateModpackTest extends TestCase
             'status' => Modpack::STATUS_PUBLIC,
         ]);
 
-        Config::set('app.url', 'http://example.com');
-
         $response = $this->actingAs($user, 'api')
             ->patchJson($this->validUri($modpack), $this->validPayload($modpack, [
                 'data.attributes.name' => 'My Revised Modpack',
@@ -51,7 +48,7 @@ class UpdateModpackTest extends TestCase
                     'status' => 'private',
                 ],
                 'links' => [
-                    'self' => "http://example.com/api/modpacks/{$modpack->id}",
+                    'self' => url("/api/modpacks/{$modpack->id}"),
                 ],
             ],
         ]);

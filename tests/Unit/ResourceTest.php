@@ -32,9 +32,8 @@ class ResourceTest extends TestCase
     /** @test */
     public function can_get_link_to_self()
     {
-        \Config::set('app.url', 'http://example.com');
         $resource = factory(Resource::class)->create();
 
-        $this->assertEquals("http://example.com/api/resources/{$resource->id}", $resource->link_self);
+        $this->assertEquals(url("/api/resources/{$resource->id}"), $resource->link_self);
     }
 }

@@ -110,10 +110,9 @@ class BuildTest extends TestCase
     /** @test */
     public function can_get_link_to_self()
     {
-        \Config::set('app.url', 'http://example.com');
         $build = factory(Build::class)->create();
 
-        $this->assertEquals("http://example.com/api/builds/{$build->id}", $build->link_self);
+        $this->assertEquals(url("/api/builds/{$build->id}"), $build->link_self);
     }
 
     /** @test */

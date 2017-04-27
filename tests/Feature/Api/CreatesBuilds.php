@@ -11,7 +11,6 @@
 
 namespace Tests\Feature\Api;
 
-use Config;
 use App\User;
 use App\Build;
 use App\Modpack;
@@ -45,14 +44,12 @@ trait CreatesBuilds
         $user = factory(User::class)->create();
 
         Uuid::shouldReceive('generate')->andReturn('000000000-0000-4000-A000-000000000000');
-        Config::set('app.url', 'http://example.com');
 
         $response = $this->actingAs($user, 'api')
             ->postJson($this->validUri($modpack), $this->validPayload($modpack));
 
         $response->assertStatus(201);
-        $response->assertHeader('Location',
-            'http://example.com/api/builds/000000000-0000-4000-A000-000000000000');
+        $response->assertHeader('Location', url('/api/builds/000000000-0000-4000-A000-000000000000'));
         $response->assertJson([
             'data' => [
                 'type' => 'build',
@@ -66,7 +63,7 @@ trait CreatesBuilds
                     ],
                 ],
                 'links' => [
-                    'self' => 'http://example.com/api/builds/000000000-0000-4000-A000-000000000000',
+                    'self' => url('/api/builds/000000000-0000-4000-A000-000000000000'),
                 ],
             ],
         ]);

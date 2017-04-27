@@ -28,7 +28,6 @@ class CreateModpackTest extends TestCase
         parent::setUp();
 
         $this->user = factory(User::class)->create();
-        \Config::set('app.url', 'http://example.com');
     }
 
     /** @test */
@@ -43,7 +42,7 @@ class CreateModpackTest extends TestCase
         ]));
 
         $response->assertStatus(201);
-        $response->assertHeader('Location', 'http://example.com/api/modpacks/000000000-0000-4000-A000-000000000000');
+        $response->assertHeader('Location', url('/api/modpacks/000000000-0000-4000-A000-000000000000'));
         $response->assertJson([
             'data' => [
                 'type' => 'modpack',
@@ -54,7 +53,7 @@ class CreateModpackTest extends TestCase
                     'status' => 'public',
                 ],
                 'links' => [
-                    'self' => 'http://example.com/api/modpacks/000000000-0000-4000-A000-000000000000',
+                    'self' => url('/api/modpacks/000000000-0000-4000-A000-000000000000'),
                 ],
             ],
         ]);

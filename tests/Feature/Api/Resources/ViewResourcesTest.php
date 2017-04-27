@@ -23,7 +23,6 @@ class ViewResourcesTest extends TestCase
     /** @test */
     public function get_resource_list()
     {
-        \Config::set('app.url', 'http://example.com');
         $this->actingAs(factory(User::class)->create(), 'api');
         $resource1 = factory(Resource::class)->create([
             'name' => 'Iron Tanks',
@@ -59,7 +58,7 @@ class ViewResourcesTest extends TestCase
                         'donate' => 'http://some-donate-link.com',
                     ],
                     'link' => [
-                        'self' => "http://example.com/api/resources/{$resource1->id}",
+                        'self' => url("/api/resources/{$resource1->id}"),
                     ],
                 ],
                 [
@@ -74,7 +73,7 @@ class ViewResourcesTest extends TestCase
                         'donate' => 'http://donate.somewhere.com',
                     ],
                     'link' => [
-                        'self' => "http://example.com/api/resources/{$resource2->id}",
+                        'self' => url("/api/resources/{$resource2->id}"),
                     ],
                 ],
             ],
@@ -94,7 +93,6 @@ class ViewResourcesTest extends TestCase
     /** @test */
     public function get_resource_details()
     {
-        \Config::set('app.url', 'http://example.com');
         $this->actingAs(factory(User::class)->create(), 'api');
         $resource = factory(Resource::class)->create([
             'name' => 'Iron Tanks',
@@ -121,7 +119,7 @@ class ViewResourcesTest extends TestCase
                     'donate' => 'http://some-donate-link.com',
                 ],
                 'link' => [
-                    'self' => "http://example.com/api/resources/{$resource->id}",
+                    'self' => url("/api/resources/{$resource->id}"),
                 ],
             ],
         ]);

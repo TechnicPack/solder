@@ -23,7 +23,6 @@ class ViewModpacksTest extends TestCase
     /** @test */
     public function get_public_modpack_list()
     {
-        \Config::set('app.url', 'http://example.com');
         $modpack1 = factory(Modpack::class)->states(['public'])->create([
             'slug' => 'test-1',
             'name' => 'Test Modpack 1',
@@ -47,13 +46,13 @@ class ViewModpacksTest extends TestCase
                         'status' => 'public',
                     ],
                     'links' => [
-                        'self' => 'http://example.com/api/modpacks/'.$modpack1->id,
+                        'self' => url("/api/modpacks/{$modpack1->id}"),
                     ],
                     'relationships' => [
                         'builds' => [
                             'links' => [
                                 'related' => [
-                                    'href' => 'http://example.com/api/modpacks/'.$modpack1->id.'/builds',
+                                    'href' => url("/api/modpacks/{$modpack1->id}/builds"),
                                     'meta' => ['count' => 0],
                                 ],
                             ],
@@ -69,13 +68,13 @@ class ViewModpacksTest extends TestCase
                         'status' => 'public',
                     ],
                     'links' => [
-                        'self' => 'http://example.com/api/modpacks/'.$modpack2->id,
+                        'self' => url("/api/modpacks/{$modpack2->id}"),
                     ],
                     'relationships' => [
                         'builds' => [
                             'links' => [
                                 'related' => [
-                                    'href' => 'http://example.com/api/modpacks/'.$modpack2->id.'/builds',
+                                    'href' => url("/api/modpacks/{$modpack2->id}/builds"),
                                     'meta' => ['count' => 0],
                                 ],
                             ],
@@ -116,7 +115,6 @@ class ViewModpacksTest extends TestCase
     /** @test */
     public function get_public_modpack_details()
     {
-        \Config::set('app.url', 'http://example.com');
         $modpack = factory(Modpack::class)->states(['public'])->create([
             'slug' => 'test-1',
             'name' => 'Test Modpack 1',
@@ -135,13 +133,13 @@ class ViewModpacksTest extends TestCase
                     'status' => 'public',
                 ],
                 'links' => [
-                    'self' => 'http://example.com/api/modpacks/'.$modpack->id,
+                    'self' => url("/api/modpacks/{$modpack->id}"),
                 ],
                 'relationships' => [
                     'builds' => [
                         'links' => [
                             'related' => [
-                                'href' => 'http://example.com/api/modpacks/'.$modpack->id.'/builds',
+                                'href' => url("/api/modpacks/{$modpack->id}/builds"),
                                 'meta' => ['count' => 0],
                             ],
                         ],

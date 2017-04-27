@@ -22,7 +22,6 @@ class ViewBuildsTest extends TestCase
     /** @test */
     public function get_public_build_details()
     {
-        \Config::set('app.url', 'http://example.com');
         $build = factory(Build::class)->states(['public'])->create([
             'build_number' => '1.0.0',
             'minecraft_version' => '1.7.10',
@@ -51,7 +50,7 @@ class ViewBuildsTest extends TestCase
                     ],
                 ],
                 'links' => [
-                    'self' => "http://example.com/api/builds/{$build->id}",
+                    'self' => url("/api/builds/{$build->id}"),
                 ],
             ],
         ]);
