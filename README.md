@@ -26,6 +26,9 @@ php artisan passport:install
 php artisan serve
 ```
 
+## Api specifications
+Available on [apiary.io](http://docs.technicsolder.apiary.io/#)
+
 ## Change log
 
 Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recently.
