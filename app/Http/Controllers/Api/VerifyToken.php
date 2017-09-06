@@ -1,0 +1,33 @@
+<?php
+
+/*
+ * This file is part of Solder.
+ *
+ * (c) Kyle Klaus <kklaus@indemnity83.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+namespace App\Http\Controllers\Api;
+
+use App\Key;
+use App\Http\Controllers\Controller;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+
+class VerifyToken extends Controller
+{
+    public function __invoke($token)
+    {
+        try {
+            $key = Key::where('token', $token)->firstOrFail();
+
+            return response([
+                'name' => $key->name,
+                'valid' => 'Key Validated.',
+            ]);
+        } catch (ModelNotFoundException $e) {
+            return response(['error' => 'Key does not exist.']);
+        }
+    }
+}
