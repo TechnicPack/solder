@@ -13,36 +13,17 @@ namespace App\Http\Controllers\Api;
 
 use App\Key;
 use App\Build;
-use App\Client;
 use App\Modpack;
 use App\Http\Controllers\Controller;
 
 class ModpackBuildController extends Controller
 {
-    public function show($slug, $build)
+    public function show($slug, $version)
     {
-        if ($this->requestHasValidKey()) {
-            $modpack = Modpack::whereIn('status', ['public','private'])
-                ->whereSlug($slug)
-                ->with('builds')
-                ->first();
-        } elseif (request()->has('cid')) {
-            $modpack = Modpack::public()
-                ->orWhere(function ($query) {
-                    $client = Client::where('token', request()->get('cid'))->first();
-
-                    $query->where('status', 'private')
-                        ->whereIn('id', $client->modpacks->pluck('id'));
-                })
-                ->whereSlug($slug)
-                ->with('builds')
-                ->first();
-        } else {
-            $modpack = Modpack::public()
-                ->whereSlug($slug)
-                ->with('builds')
-                ->first();
-        }
+        $modpack = Modpack::with('builds')
+            ->where('slug', $slug)
+            ->whereToken(request()->get('k'), request()->get('cid'))
+            ->first();
 
         if ($modpack === null) {
             return response()->json([
@@ -50,25 +31,11 @@ class ModpackBuildController extends Controller
             ], 404);
         }
 
-        if ($this->requestHasValidKey()) {
-            $build = Build::whereIn('status', ['private', 'public'])
-                ->whereVersion($build)
-                ->whereModpackId($modpack->id)
-                ->with('releases', 'releases.package')
-                ->first();
-        } elseif (request()->has('cid')) {
-            $build = Build::whereIn('status', ['private', 'public'])
-                ->whereVersion($build)
-                ->whereModpackId($modpack->id)
-                ->with('releases', 'releases.package')
-                ->first();
-        } else {
-            $build = Build::public()
-                ->whereVersion($build)
-                ->whereModpackId($modpack->id)
-                ->with('releases', 'releases.package')
-                ->first();
-        }
+        $build = Build::with('releases', 'releases.package')
+            ->whereVersion($version)
+            ->whereModpackId($modpack->id)
+            ->whereToken(request()->get('k'), request()->get('cid'))
+            ->first();
 
         if ($build === null) {
             return response()->json([

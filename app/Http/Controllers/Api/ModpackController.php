@@ -12,7 +12,6 @@
 namespace App\Http\Controllers\Api;
 
 use App\Key;
-use App\Client;
 use App\Modpack;
 use App\Http\Controllers\Controller;
 
@@ -20,26 +19,7 @@ class ModpackController extends Controller
 {
     public function index()
     {
-        if ($this->requestHasValidKey()) {
-            $modpacks = Modpack::public()
-                ->orWhere('status', 'private')
-                ->with('builds')
-                ->get();
-        } elseif (request()->has('cid')) {
-            $modpacks = Modpack::public()
-                ->orWhere(function ($query) {
-                    $client = Client::where('token', request()->get('cid'))->first();
-
-                    $query->where('status', 'private')
-                        ->whereIn('id', $client->modpacks->pluck('id'));
-                })
-                ->with('builds')
-                ->get();
-        } else {
-            $modpacks = Modpack::public()
-                ->with('builds')
-                ->get();
-        }
+        $modpacks = Modpack::whereToken(request()->get('k'), request()->get('cid'))->get();
 
         return response()->json([
             'modpacks' => $modpacks->keyBy('slug')->transform(function ($modpack) {
@@ -56,31 +36,14 @@ class ModpackController extends Controller
     public function show($slug)
     {
         $showPrivate = false;
-
-        if (request()->has('k') && Key::isValid(request()->get('k'))) {
+        if ($this->requestHasValidKey() || request()->has('cid')) {
             $showPrivate = true;
-            $modpack = Modpack::whereIn('status', ['public', 'private'])
-                ->whereSlug($slug)
-                ->with('builds')
-                ->first();
-        } elseif (request()->has('cid')) {
-            $showPrivate = true;
-            $modpack = Modpack::public()
-                ->orWhere(function ($query) {
-                    $client = Client::where('token', request()->get('cid'))->first();
-
-                    $query->where('status', 'private')
-                        ->whereIn('id', $client->modpacks->pluck('id'));
-                })
-                ->whereSlug($slug)
-                ->with('builds')
-                ->first();
-        } else {
-            $modpack = Modpack::public()
-                ->whereSlug($slug)
-                ->with('builds')
-                ->first();
         }
+
+        $modpack = Modpack::with('builds')
+            ->where('slug', $slug)
+            ->whereToken(request()->get('k'), request()->get('cid'))
+            ->first();
 
         if ($modpack === null) {
             return response()->json([

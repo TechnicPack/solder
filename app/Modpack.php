@@ -11,7 +11,9 @@
 
 namespace App;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 
 class Modpack extends Model
 {
@@ -27,19 +29,39 @@ class Modpack extends Model
         return $this->belongsToMany(Client::class);
     }
 
-    public function scopePublic($query)
+    /**
+     * Filter query results to public modpack, private modpacks
+     * that have been authorized with the provided client token
+     * and all private modpacks with a valid provided api key.
+     *
+     * @param Builder $query
+     * @param string|null $apiToken
+     * @param string|null $clientToken
+     *
+     * @return Builder
+     */
+    public function scopeWhereToken($query, $apiToken, $clientToken)
     {
-        return $query->where('status', 'public');
-    }
-
-    public function scopeDraft($query)
-    {
-        return $query->where('status', 'draft');
-    }
-
-    public function scopePrivate($query)
-    {
-        return $query->where('status', 'private');
+        return $query->where(function ($query) use ($apiToken, $clientToken) {
+            $query->where('status', 'public')
+                ->orWhere(function ($query) use ($apiToken, $clientToken) {
+                    $query->where('status', 'private')
+                        ->whereIn('id', function ($query) use ($clientToken) {
+                            return $query->select('modpack_id')
+                                ->from('client_modpack')
+                                ->join('clients', 'client_modpack.client_id', '=', 'clients.id')
+                                ->where('token', $clientToken);
+                        });
+                })
+                ->orWhere(function ($query) use ($apiToken) {
+                    $query->where('status', 'private')
+                        ->whereExists(function ($query) use ($apiToken) {
+                            $query->select(DB::raw(1))
+                                ->from('keys')
+                                ->where('token', $apiToken);
+                        });
+                });
+        });
     }
 
     public function getPromotedBuildAttribute()
