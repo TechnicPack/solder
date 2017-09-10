@@ -15,6 +15,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Key extends Model
 {
+    /**
+     * Determine if the given token is valid.
+     *
+     * @param string $token
+     *
+     * @return bool
+     */
     public static function isValid($token)
     {
         return self::where('token', $token)->exists();

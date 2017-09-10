@@ -17,6 +17,11 @@ use Illuminate\Database\Eloquent\Builder;
 
 class Build extends Model
 {
+    /**
+     * A Build contains many Releases of various Packages.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function releases()
     {
         return $this->belongsToMany(Release::class);

@@ -15,6 +15,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Release extends Model
 {
+    /**
+     * A Release belongs to a Package.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function package()
     {
         return $this->belongsTo(Package::class);

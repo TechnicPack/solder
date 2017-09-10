@@ -18,6 +18,15 @@ use App\Http\Controllers\Controller;
 
 class ModpackBuildController extends Controller
 {
+    /**
+     * Return a JSON response containing the releases for a given
+     * Modpack slug and Build version.
+     *
+     * @param string $slug
+     * @param string $version
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function show($slug, $version)
     {
         $modpack = Modpack::with('builds')

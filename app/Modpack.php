@@ -19,11 +19,21 @@ class Modpack extends Model
 {
     protected $guarded = [];
 
+    /**
+     * A Modpack has many builds.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function builds()
     {
         return $this->hasMany(Build::class);
     }
 
+    /**
+     * A Modpack has many authorized clients.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function clients()
     {
         return $this->belongsToMany(Client::class);
@@ -43,6 +53,7 @@ class Modpack extends Model
     public function scopeWhereToken($query, $apiToken, $clientToken)
     {
         return $query->where(function ($query) use ($apiToken, $clientToken) {
+            /* @var Builder $query */
             $query->where('status', 'public')
                 ->orWhere(function ($query) use ($apiToken, $clientToken) {
                     $query->where('status', 'private')
@@ -64,11 +75,21 @@ class Modpack extends Model
         });
     }
 
+    /**
+     * Get the promoted build for the Modpack.
+     *
+     * @return mixed
+     */
     public function getPromotedBuildAttribute()
     {
         return optional(Build::where('id', $this->promoted_build_id)->first());
     }
 
+    /**
+     * Get the latest build for the Modpack.
+     *
+     * @return mixed
+     */
     public function getLatestBuildAttribute()
     {
         return optional(Build::where('id', $this->latest_build_id)->first());

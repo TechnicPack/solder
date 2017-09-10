@@ -15,6 +15,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Client extends Model
 {
+    /**
+     * A Client belongs to many Modpacks.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function modpacks()
     {
         return $this->belongsToMany(Modpack::class);
