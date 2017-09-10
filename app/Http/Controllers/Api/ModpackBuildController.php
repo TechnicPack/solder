@@ -11,7 +11,6 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Key;
 use App\Build;
 use App\Modpack;
 use App\Http\Controllers\Controller;
@@ -63,13 +62,5 @@ class ModpackBuildController extends Controller
                 ];
             }),
         ]);
-    }
-
-    /**
-     * @return bool
-     */
-    private function requestHasValidKey(): bool
-    {
-        return request()->has('k') && Key::isValid(request()->get('k'));
     }
 }

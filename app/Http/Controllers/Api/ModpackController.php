@@ -11,9 +11,10 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Key;
+use App\Build;
 use App\Modpack;
 use App\Http\Controllers\Controller;
+use Illuminate\Database\Eloquent\Collection;
 
 class ModpackController extends Controller
 {
@@ -34,10 +35,19 @@ class ModpackController extends Controller
     {
         $modpacks = Modpack::whereToken(request()->get('k'), request()->get('cid'))->get();
 
+        $builds = Build::whereIn('modpack_id', $modpacks->pluck('id'))
+            ->whereToken(request()->get('k'), request()->get('cid'))
+            ->get();
+
         return response()->json([
-            'modpacks' => $modpacks->keyBy('slug')->transform(function ($modpack) {
+            'modpacks' => $modpacks->keyBy('slug')->transform(function ($modpack) use ($builds) {
                 if (request()->query('include') == 'full') {
-                    return $this->formatModpack($modpack, $this->requestHasValidKey());
+                    return $this->formatModpackWithBuilds(
+                        $modpack,
+                        $builds->filter(function ($build) use ($modpack) {
+                            return $build->modpack_id == $modpack->id;
+                        })
+                    );
                 }
 
                 return $modpack->name;
@@ -59,13 +69,7 @@ class ModpackController extends Controller
      */
     public function show($slug)
     {
-        $showPrivate = false;
-        if ($this->requestHasValidKey() || request()->has('cid')) {
-            $showPrivate = true;
-        }
-
-        $modpack = Modpack::with('builds')
-            ->where('slug', $slug)
+        $modpack = Modpack::where('slug', $slug)
             ->whereToken(request()->get('k'), request()->get('cid'))
             ->first();
 
@@ -75,37 +79,29 @@ class ModpackController extends Controller
             ], 404);
         }
 
-        return response()->json($this->formatModpack($modpack, $showPrivate));
+        $builds = Build::whereModpackId($modpack->id)
+            ->whereToken(request()->get('k'), request()->get('cid'))
+            ->get();
+
+        return response()->json($this->formatModpackWithBuilds($modpack, $builds));
     }
 
     /**
-     * Return modpack details formatted for API response.
+     * Return modpack and build details formatted for API response.
      *
      * @param Modpack $modpack
-     * @param bool $includePrivate
+     * @param Collection $builds
      *
      * @return array
      */
-    private function formatModpack($modpack, $includePrivate = false): array
+    private function formatModpackWithBuilds($modpack, $builds)
     {
         return [
             'name' => $modpack->slug,
             'display_name' => $modpack->name,
             'recommended' => $modpack->promoted_build->version,
             'latest' => $modpack->latest_build->version,
-            'builds' => $modpack->builds->filter(function ($value) use ($includePrivate) {
-                return $value->status == 'public' || ($includePrivate && $value->status == 'private');
-            })->pluck('version'),
+            'builds' => $builds->pluck('version'),
         ];
-    }
-
-    /**
-     * Check if the request contains a valid API key.
-     *
-     * @return bool
-     */
-    private function requestHasValidKey(): bool
-    {
-        return request()->has('k') && Key::isValid(request()->get('k'));
     }
 }
