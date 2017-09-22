@@ -1,0 +1,49 @@
+.directory {
+  @extend .has-text-centered;
+
+  .directory-item {
+    @extend .image;
+    @extend .is-64x64;
+    margin: $size-7;
+    border-radius: $radius;
+    font-size: $size-2;
+    color: $light;
+
+    &:hover {
+      background-color: $primary;
+    }
+
+    &.is-active {
+      background-color: $primary;
+
+      &:before {
+        content: "";
+        position: absolute;
+        left: -17px;
+        min-height: 64px;
+        width: 10px;
+        background-color: $light;
+        border-radius: $radius;
+      }
+    }
+  }
+
+  .directory-brand {
+    padding-bottom: $size-6;
+    margin-bottom: $size-6;
+    border-bottom: 3px $primary solid;
+
+    .directory-item:hover {
+      background: none;
+    }
+
+    .brand-image {
+      fill: $brand;
+
+      &:hover {
+        fill: $light;
+      }
+    }
+  }
+}
+

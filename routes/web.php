@@ -11,6 +11,6 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::view('/', 'template.dashboard');
+Route::view('/modpacks/show', 'template.modpacks.show');
+Route::view('/modpacks/show/build', 'template.builds.show');
