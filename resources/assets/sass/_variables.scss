@@ -2,11 +2,13 @@
 $brand: #2789CA;
 $primary: #347AB7;
 $dark: #2A6292;
+
+// Menu Tweaks
 $menu-item-color: rgba(255,255,255,0.5);
 $menu-label-color: rgba(255,255,255,0.4);
 $menu-item-hover-background-color: $dark;
 $menu-item-hover-color: whitesmoke;
 $menu-item-active-background-color: $dark;
 
-// Tweaks
-$radius: 0.5rem;
+// Fonts
+$family-sans-serif: 'Open Sans', BlinkMacSystemFont, -apple-system, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif

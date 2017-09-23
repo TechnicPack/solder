@@ -1,4 +1,4 @@
-/*! bulma.io v0.5.3 | MIT License | github.com/jgthms/bulma */
+@import url(https://fonts.googleapis.com/css?family=Open+Sans);/*! bulma.io v0.5.3 | MIT License | github.com/jgthms/bulma */
 
 @-webkit-keyframes spinAround {
   from {
@@ -143,7 +143,7 @@ button,
 input,
 select,
 textarea {
-  font-family: BlinkMacSystemFont, -apple-system, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+  font-family: "Open Sans", BlinkMacSystemFont, -apple-system, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
 }
 
 code,
@@ -1299,7 +1299,7 @@ a.box:active {
       -ms-flex-align: center;
           align-items: center;
   border: 1px solid transparent;
-  border-radius: 0.5rem;
+  border-radius: 3px;
   -webkit-box-shadow: none;
           box-shadow: none;
   display: -webkit-inline-box;
@@ -2672,7 +2672,7 @@ a.box:active {
       -ms-flex-align: center;
           align-items: center;
   border: 1px solid transparent;
-  border-radius: 0.5rem;
+  border-radius: 3px;
   -webkit-box-shadow: none;
           box-shadow: none;
   display: -webkit-inline-box;
@@ -3050,7 +3050,7 @@ a.box:active {
       -ms-flex-align: center;
           align-items: center;
   border: 1px solid transparent;
-  border-radius: 0.5rem;
+  border-radius: 3px;
   -webkit-box-shadow: none;
           box-shadow: none;
   display: -webkit-inline-box;
@@ -3671,20 +3671,20 @@ a.box:active {
 }
 
 .file.is-boxed.has-name .file-cta {
-  border-radius: 0.5rem 0.5rem 0 0;
+  border-radius: 3px 3px 0 0;
 }
 
 .file.is-boxed.has-name .file-name {
-  border-radius: 0 0 0.5rem 0.5rem;
+  border-radius: 0 0 3px 3px;
   border-width: 0 1px 1px;
 }
 
 .file.is-right .file-cta {
-  border-radius: 0 0.5rem 0.5rem 0;
+  border-radius: 0 3px 3px 0;
 }
 
 .file.is-right .file-name {
-  border-radius: 0.5rem 0 0 0.5rem;
+  border-radius: 3px 0 0 3px;
   border-width: 1px 0 1px 1px;
   -webkit-box-ordinal-group: 0;
       -ms-flex-order: -1;
@@ -3752,7 +3752,7 @@ a.box:active {
       -ms-flex-align: center;
           align-items: center;
   border: 1px solid transparent;
-  border-radius: 0.5rem;
+  border-radius: 3px;
   -webkit-box-shadow: none;
           box-shadow: none;
   display: -webkit-inline-box;
@@ -3771,7 +3771,7 @@ a.box:active {
   position: relative;
   vertical-align: top;
   border-color: #dbdbdb;
-  border-radius: 0.5rem;
+  border-radius: 3px;
   font-size: 1em;
   padding-left: 1em;
   padding-right: 1em;
@@ -3914,15 +3914,15 @@ a.box:active {
 .field.has-addons .control:first-child .button,
 .field.has-addons .control:first-child .input,
 .field.has-addons .control:first-child .select select {
-  border-bottom-left-radius: 0.5rem;
-  border-top-left-radius: 0.5rem;
+  border-bottom-left-radius: 3px;
+  border-top-left-radius: 3px;
 }
 
 .field.has-addons .control:last-child .button,
 .field.has-addons .control:last-child .input,
 .field.has-addons .control:last-child .select select {
-  border-bottom-right-radius: 0.5rem;
-  border-top-right-radius: 0.5rem;
+  border-bottom-right-radius: 3px;
+  border-top-right-radius: 3px;
 }
 
 .field.has-addons .control .button,
@@ -4410,7 +4410,7 @@ a.box:active {
 
 .notification {
   background-color: whitesmoke;
-  border-radius: 0.5rem;
+  border-radius: 3px;
   padding: 1.25rem 2.5rem 1.25rem 1.5rem;
   position: relative;
 }
@@ -4807,7 +4807,7 @@ a.box:active {
       -ms-flex-align: center;
           align-items: center;
   background-color: whitesmoke;
-  border-radius: 0.5rem;
+  border-radius: 3px;
   color: #4a4a4a;
   display: -webkit-inline-box;
   display: -ms-inline-flexbox;
@@ -5460,7 +5460,7 @@ a.tag:hover {
 
 .dropdown-content {
   background-color: white;
-  border-radius: 0.5rem;
+  border-radius: 3px;
   -webkit-box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
           box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
   padding-bottom: 0.5rem;
@@ -5513,7 +5513,7 @@ a.dropdown-item.is-active {
 }
 
 .level code {
-  border-radius: 0.5rem;
+  border-radius: 3px;
 }
 
 .level img {
@@ -5793,7 +5793,7 @@ a.dropdown-item.is-active {
 
 .message {
   background-color: whitesmoke;
-  border-radius: 0.5rem;
+  border-radius: 3px;
   font-size: 1rem;
 }
 
@@ -5953,7 +5953,7 @@ a.dropdown-item.is-active {
       -ms-flex-align: center;
           align-items: center;
   background-color: #4a4a4a;
-  border-radius: 0.5rem 0.5rem 0 0;
+  border-radius: 3px 3px 0 0;
   color: #fff;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -5983,7 +5983,7 @@ a.dropdown-item.is-active {
 
 .message-body {
   border: 1px solid #dbdbdb;
-  border-radius: 0.5rem;
+  border-radius: 3px;
   color: #4a4a4a;
   padding: 1em 1.25em;
 }
@@ -7472,7 +7472,7 @@ a.navbar-item.is-active,
       -ms-flex-align: center;
           align-items: center;
   border: 1px solid transparent;
-  border-radius: 0.5rem;
+  border-radius: 3px;
   -webkit-box-shadow: none;
           box-shadow: none;
   display: -webkit-inline-box;
@@ -7716,7 +7716,7 @@ a.navbar-item.is-active,
 
 .panel-heading {
   background-color: whitesmoke;
-  border-radius: 0.5rem 0.5rem 0 0;
+  border-radius: 3px 3px 0 0;
   color: #363636;
   font-size: 1.25em;
   font-weight: 300;
@@ -7947,7 +7947,7 @@ label.panel-block:hover {
 
 .tabs.is-boxed a {
   border: 1px solid transparent;
-  border-radius: 0.5rem 0.5rem 0 0;
+  border-radius: 3px 3px 0 0;
 }
 
 .tabs.is-boxed a:hover {
@@ -7988,11 +7988,11 @@ label.panel-block:hover {
 }
 
 .tabs.is-toggle li:first-child a {
-  border-radius: 0.5rem 0 0 0.5rem;
+  border-radius: 3px 0 0 3px;
 }
 
 .tabs.is-toggle li:last-child a {
-  border-radius: 0 0.5rem 0.5rem 0;
+  border-radius: 0 3px 3px 0;
 }
 
 .tabs.is-toggle li.is-active a {
@@ -10864,7 +10864,7 @@ label.panel-block:hover {
 
 .directory .directory-item {
   margin: 0.75rem;
-  border-radius: 0.5rem;
+  border-radius: 5px;
   font-size: 2.5rem;
   color: whitesmoke;
 }
@@ -10884,7 +10884,7 @@ label.panel-block:hover {
   min-height: 64px;
   width: 10px;
   background-color: whitesmoke;
-  border-radius: 0.5rem;
+  border-radius: 5px;
 }
 
 .directory .directory-brand {

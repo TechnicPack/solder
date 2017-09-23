@@ -10,7 +10,11 @@
                 <a class="navbar-link"> Indemnity83 </a>
                 <div class="navbar-dropdown is-right is-radiusless">
                     <a class="navbar-item"> Account Settings </a>
-                    <a class="navbar-item"> Log Out </a>
+                    <a class="navbar-item" href="javascript:{}" onclick="document.getElementById('logout').submit(); return false;"> Log Out </a>
+
+                    <form id="logout" action="{{ route('auth.logout') }}" method="POST">
+                        {{ csrf_field() }}
+                    </form>
                 </div>
             </div>
         </div>

@@ -11,6 +11,6 @@
 |
 */
 
-Route::view('/', 'template.dashboard');
-Route::view('/modpacks/show', 'template.modpacks.show');
-Route::view('/modpacks/show/build', 'template.builds.show');
+Route::view('/login', 'auth.login')->name('auth.show-login');
+Route::post('/login', 'Auth\LoginController@login')->name('auth.login');
+Route::post('/logout', 'Auth\LoginController@logout')->name('auth.logout');
