@@ -57,7 +57,7 @@
                     <tr>
                         <td>{{ $release->version }}</td>
                         <td>{{ $release->package->name }}</td>
-                        <td>{{ \Carbon\Carbon::parse($release->created_on)->diffForHumans() }}</td>
+                        <td>{{ $release->created }}</td>
                     </tr>
                     @endforeach
                     </tbody>
