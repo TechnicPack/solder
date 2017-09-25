@@ -14,7 +14,6 @@ namespace Tests\Feature;
 use App\User;
 use App\Modpack;
 use BuildFactory;
-use Carbon\Carbon;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -79,7 +78,7 @@ class ShowModpackTest extends TestCase
         $response->data('modpack')->builds->assertEquals([
             $buildC,
             $buildB,
-            $buildA
+            $buildA,
         ]);
     }
 }

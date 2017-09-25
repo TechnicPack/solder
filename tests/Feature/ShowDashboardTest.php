@@ -20,7 +20,7 @@ use ReleaseFactory;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class DashboardTest extends TestCase
+class ShowDashboardTest extends TestCase
 {
     use RefreshDatabase;
 

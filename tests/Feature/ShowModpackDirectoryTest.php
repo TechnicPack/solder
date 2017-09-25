@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Route;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class DirectoryTest extends TestCase
+class ShowModpackDirectoryTest extends TestCase
 {
     use RefreshDatabase;
 
