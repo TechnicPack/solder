@@ -17,7 +17,7 @@
                 @foreach($modpack->builds as $build)
                 <li>
                     <a href="/modpacks/{{ $modpack->slug }}/{{ $build->version }}">
-                        <i class="fa fa-fw {{ $build->isPromoted ? 'fa-star' : '' }}"></i>
+                        <i class="fa fa-fw {{ $modpack->promoted_build_id == $build->id ? 'fa-star' : '' }}"></i>
                         {{ $build->version }}
                     </a>
                 </li>

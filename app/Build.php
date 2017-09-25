@@ -83,16 +83,6 @@ class Build extends Model
     }
 
     /**
-     * Is this build the promoted build.
-     *
-     * @return bool
-     */
-    public function getIsPromotedAttribute()
-    {
-        return $this->modpack->promoted_build_id == $this->id;
-    }
-
-    /**
      * Get the most recent builds and associated modpacks.
      *
      * @param $count
