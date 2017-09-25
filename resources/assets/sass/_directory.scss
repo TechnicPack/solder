@@ -9,6 +9,10 @@
     font-size: $size-2;
     color: $light;
 
+    abbr {
+      text-decoration: none;
+    }
+
     &:hover {
       background-color: $primary;
     }

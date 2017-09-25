@@ -17,12 +17,10 @@
         <p class="is-size-7">v0.8.0</p>
     </div>
     <div class="directory-menu">
-        <a class="directory-item is-active" href="/modpacks/show">
-            <img src="https://cdn.getforge.com/turtle-365.getforge.io/1494819942/img/552556.png">
+        @foreach($directory as $modpack)
+        <a class="directory-item" href="/modpacks/{{ $modpack->slug }}">
+            <abbr title="{{ $modpack->name }}">{{ $modpack->monogram }}</abbr>
         </a>
-        <a class="directory-item" href="/modpacks/show">
-            <img src="https://cdn.getforge.com/turtle-365.getforge.io/1494819942/img/552679.png">
-        </a>
-        <a class="directory-item" href="/modpacks/show"> K </a>
+        @endforeach
     </div>
 </aside>

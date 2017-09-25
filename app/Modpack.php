@@ -94,4 +94,14 @@ class Modpack extends Model
     {
         return optional(Build::where('id', $this->latest_build_id)->first());
     }
+
+    /**
+     * Get the two letter Monogram of the Modpack.
+     *
+     * @return string
+     */
+    public function getMonogramAttribute()
+    {
+        return substr($this->name, 0, 2);
+    }
 }

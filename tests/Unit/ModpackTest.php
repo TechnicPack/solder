@@ -39,4 +39,12 @@ class ModpackTest extends TestCase
 
         $this->assertInstanceOf(Optional::class, $modpack->latest_build);
     }
+
+    /** @test */
+    public function can_get_monogram_attribute()
+    {
+        $modpack = factory(Modpack::class)->create(['name' => 'Example Modpack']);
+
+        $this->assertEquals('Ex', $modpack->monogram);
+    }
 }

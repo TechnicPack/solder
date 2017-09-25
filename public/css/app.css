@@ -10869,6 +10869,10 @@ label.panel-block:hover {
   color: whitesmoke;
 }
 
+.directory .directory-item abbr {
+  text-decoration: none;
+}
+
 .directory .directory-item:hover {
   background-color: #347AB7;
 }
