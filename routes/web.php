@@ -17,4 +17,5 @@ Route::post('/logout', 'Auth\LoginController@logout')->name('auth.logout');
 
 Route::group(['middleware' => 'auth'], function() {
     Route::get('/dashboard', 'DashboardController');
+    Route::get('/modpacks/{modpack}', 'ModpacksController@show');
 });

@@ -41,4 +41,17 @@ class BuildTest extends TestCase
 
         $this->assertEquals('3 days ago', $build->created);
     }
+
+    /** @test */
+    public function is_promoted()
+    {
+        $build = factory(Build::class)->create();
+        $this->assertFalse($build->isPromoted);
+
+        $build->modpack->update([
+            'promoted_build_id' => $build->id,
+        ]);
+
+        $this->assertTrue($build->isPromoted);
+    }
 }
