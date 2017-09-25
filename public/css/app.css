@@ -10894,7 +10894,8 @@ label.panel-block:hover {
 .directory .directory-brand {
   padding-bottom: 1rem;
   margin-bottom: 1rem;
-  border-bottom: 3px #347AB7 solid;
+  -webkit-box-shadow: 0px 23px 0px -20px #347AB7;
+          box-shadow: 0px 23px 0px -20px #347AB7;
 }
 
 .directory .directory-brand .directory-item:hover {
