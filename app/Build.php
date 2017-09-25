@@ -28,6 +28,16 @@ class Build extends Model
     }
 
     /**
+     * A Build belongs to a Modpack.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function modpack()
+    {
+        return $this->belongsTo(Modpack::class);
+    }
+
+    /**
      * Filter query results to public builds, private builds
      * that have been authorized with the provided client token
      * and all private builds with a valid provided api key.
@@ -60,5 +70,27 @@ class Build extends Model
                         });
                 });
         });
+    }
+
+    /**
+     * Get created date formatted for humans.
+     *
+     * @return string
+     */
+    public function getCreatedAttribute()
+    {
+        return $this->created_at->diffForHumans();
+    }
+
+    /**
+     * Get the most recent builds and associated modpacks.
+     *
+     * @param $count
+     *
+     * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Support\Collection|static[]
+     */
+    public static function recent($count)
+    {
+        return self::latest()->take($count)->with('modpack')->get();
     }
 }

@@ -15,5 +15,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Package extends Model
 {
-    //
+    /**
+     * A Package has many Releases.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function releases()
+    {
+        return $this->hasMany(self::class);
+    }
 }

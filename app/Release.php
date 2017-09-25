@@ -24,4 +24,26 @@ class Release extends Model
     {
         return $this->belongsTo(Package::class);
     }
+
+    /**
+     * Get created date formatted for humans.
+     *
+     * @return string
+     */
+    public function getCreatedAttribute()
+    {
+        return $this->created_at->diffForHumans();
+    }
+
+    /**
+     * Get the most recent releases and associated packages.
+     *
+     * @param $count
+     *
+     * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Support\Collection|static[]
+     */
+    public static function recent($count)
+    {
+        return self::latest()->take($count)->with('package')->get();
+    }
 }

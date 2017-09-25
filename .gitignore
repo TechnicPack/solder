@@ -12,3 +12,5 @@ yarn-error.log
 .env
 .env.dusk.local
 .php_cs.cache
+
+storage/app/public/.DS_Store

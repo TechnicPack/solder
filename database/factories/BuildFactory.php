@@ -15,6 +15,7 @@ $factory->define(App\Build::class, function (Faker $faker) {
     return [
         'minecraft' => '1.7.10',
         'version' => '1.0.0',
+        'status' => 'public',
         'modpack_id' => function () {
             return factory(App\Modpack::class)->states('public')->create()->id;
         },

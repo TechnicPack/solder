@@ -13,6 +13,10 @@ use Faker\Generator as Faker;
 
 $factory->define(App\Release::class, function (Faker $faker) {
     return [
+        'package_id' => function() {
+            return factory(\App\Package::class)->create()->id;
+        },
+        'version' => $faker->numerify('#.#.#'),
         'md5' => 'example-md5-hash',
         'url' => 'http://example.com/example-file.zip',
     ];

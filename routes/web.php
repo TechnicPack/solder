@@ -14,3 +14,7 @@
 Route::view('/login', 'auth.login')->name('auth.show-login');
 Route::post('/login', 'Auth\LoginController@login')->name('auth.login');
 Route::post('/logout', 'Auth\LoginController@logout')->name('auth.logout');
+
+Route::group(['middleware' => 'auth'], function() {
+    Route::get('/dashboard', 'DashboardController');
+});
