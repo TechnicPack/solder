@@ -17,6 +17,7 @@ use App\Build;
 use App\Modpack;
 use App\Package;
 use App\Release;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -397,11 +398,12 @@ class LegacyEndpointsTest extends TestCase
     /** @test */
     public function guest_can_show_public_build()
     {
+        Storage::shouldReceive('url')->andReturn('http://technicpack.net/mod-a/file-a.zip', 'http://technicpack.net/mod-b/file-b.zip');
         tap(factory(Modpack::class)->states('public')->create(['name' => 'Attack of the B-Team', 'slug' => 'b-team']), function ($modpack) {
-            $packageA = factory(Package::class)->create(['name' => 'Example Mod A']);
-            $releaseA = factory(Release::class)->create(['package_id' => $packageA->id, 'version' => '1.2.3', 'md5' => 'MD5HASHA', 'url' => 'http://technicpack.net/file-a.zip']);
-            $packageB = factory(Package::class)->create(['name' => 'Example Mod B']);
-            $releaseB = factory(Release::class)->create(['package_id' => $packageB->id, 'version' => '4.5.6', 'md5' => 'MD5HASHB', 'url' => 'http://technicpack.net/file-b.zip']);
+            $packageA = factory(Package::class)->create(['name' => 'Example Mod A', 'slug' => 'mod-a']);
+            $releaseA = factory(Release::class)->create(['package_id' => $packageA->id, 'version' => '1.2.3', 'md5' => 'MD5HASHA']);
+            $packageB = factory(Package::class)->create(['name' => 'Example Mod B', 'slug' => 'mod-b']);
+            $releaseB = factory(Release::class)->create(['package_id' => $packageB->id, 'version' => '4.5.6', 'md5' => 'MD5HASHB']);
             factory(Build::class)->states('public')
                 ->create(['version' => '1.0.0', 'modpack_id' => $modpack->id])
                 ->releases()->attach([$releaseA->id, $releaseB->id]);
@@ -417,13 +419,13 @@ class LegacyEndpointsTest extends TestCase
                     'name' => 'Example Mod A',
                     'version' => '1.2.3',
                     'md5' => 'MD5HASHA',
-                    'url' => 'http://technicpack.net/file-a.zip',
+                    'url' => 'http://technicpack.net/mod-a/file-a.zip',
                 ],
                 [
                     'name' => 'Example Mod B',
                     'version' => '4.5.6',
                     'md5' => 'MD5HASHB',
-                    'url' => 'http://technicpack.net/file-b.zip',
+                    'url' => 'http://technicpack.net/mod-b/file-b.zip',
                 ],
             ],
         ]);
@@ -432,13 +434,13 @@ class LegacyEndpointsTest extends TestCase
     /** @test */
     public function authorized_clients_can_show_private_modpack_and_build()
     {
-        $this->withoutExceptionHandling();
+        Storage::shouldReceive('url')->andReturn('http://technicpack.net/mod-a/file-a.zip', 'http://technicpack.net/mod-b/file-b.zip');
 
         tap(factory(Modpack::class)->states('private')->create(['name' => 'Attack of the B-Team', 'slug' => 'b-team']), function ($modpack) {
-            $packageA = factory(Package::class)->create(['name' => 'Example Mod A']);
-            $releaseA = factory(Release::class)->create(['package_id' => $packageA->id, 'version' => '1.2.3', 'md5' => 'MD5HASHA', 'url' => 'http://technicpack.net/file-a.zip']);
-            $packageB = factory(Package::class)->create(['name' => 'Example Mod B']);
-            $releaseB = factory(Release::class)->create(['package_id' => $packageB->id, 'version' => '4.5.6', 'md5' => 'MD5HASHB', 'url' => 'http://technicpack.net/file-b.zip']);
+            $packageA = factory(Package::class)->create(['name' => 'Example Mod A', 'slug' => 'mod-a']);
+            $releaseA = factory(Release::class)->create(['package_id' => $packageA->id, 'version' => '1.2.3', 'md5' => 'MD5HASHA']);
+            $packageB = factory(Package::class)->create(['name' => 'Example Mod B', 'slug' => 'mod-b']);
+            $releaseB = factory(Release::class)->create(['package_id' => $packageB->id, 'version' => '4.5.6', 'md5' => 'MD5HASHB']);
             factory(Build::class)->states('private')
                 ->create(['version' => '1.0.0', 'modpack_id' => $modpack->id])
                 ->releases()->attach([$releaseA->id, $releaseB->id]);
@@ -455,13 +457,13 @@ class LegacyEndpointsTest extends TestCase
                     'name' => 'Example Mod A',
                     'version' => '1.2.3',
                     'md5' => 'MD5HASHA',
-                    'url' => 'http://technicpack.net/file-a.zip',
+                    'url' => 'http://technicpack.net/mod-a/file-a.zip',
                 ],
                 [
                     'name' => 'Example Mod B',
                     'version' => '4.5.6',
                     'md5' => 'MD5HASHB',
-                    'url' => 'http://technicpack.net/file-b.zip',
+                    'url' => 'http://technicpack.net/mod-b/file-b.zip',
                 ],
             ],
         ]);
@@ -470,14 +472,14 @@ class LegacyEndpointsTest extends TestCase
     /** @test */
     public function valid_api_key_can_show_private_modpack_and_build()
     {
-        $this->withoutExceptionHandling();
+        Storage::shouldReceive('url')->andReturn('http://technicpack.net/mod-a/file-a.zip', 'http://technicpack.net/mod-b/file-b.zip');
 
         factory(Key::class)->create(['token' => 'APIKEY1234']);
         tap(factory(Modpack::class)->states('private')->create(['name' => 'Attack of the B-Team', 'slug' => 'b-team']), function ($modpack) {
-            $packageA = factory(Package::class)->create(['name' => 'Example Mod A']);
-            $releaseA = factory(Release::class)->create(['package_id' => $packageA->id, 'version' => '1.2.3', 'md5' => 'MD5HASHA', 'url' => 'http://technicpack.net/file-a.zip']);
-            $packageB = factory(Package::class)->create(['name' => 'Example Mod B']);
-            $releaseB = factory(Release::class)->create(['package_id' => $packageB->id, 'version' => '4.5.6', 'md5' => 'MD5HASHB', 'url' => 'http://technicpack.net/file-b.zip']);
+            $packageA = factory(Package::class)->create(['name' => 'Example Mod A', 'slug' => 'mod-a']);
+            $releaseA = factory(Release::class)->create(['package_id' => $packageA->id, 'version' => '1.2.3', 'md5' => 'MD5HASHA']);
+            $packageB = factory(Package::class)->create(['name' => 'Example Mod B', 'slug' => 'mod-b']);
+            $releaseB = factory(Release::class)->create(['package_id' => $packageB->id, 'version' => '4.5.6', 'md5' => 'MD5HASHB']);
             factory(Build::class)->states('private')
                 ->create(['version' => '1.0.0', 'modpack_id' => $modpack->id])
                 ->releases()->attach([$releaseA->id, $releaseB->id]);
@@ -493,13 +495,13 @@ class LegacyEndpointsTest extends TestCase
                     'name' => 'Example Mod A',
                     'version' => '1.2.3',
                     'md5' => 'MD5HASHA',
-                    'url' => 'http://technicpack.net/file-a.zip',
+                    'url' => 'http://technicpack.net/mod-a/file-a.zip',
                 ],
                 [
                     'name' => 'Example Mod B',
                     'version' => '4.5.6',
                     'md5' => 'MD5HASHB',
-                    'url' => 'http://technicpack.net/file-b.zip',
+                    'url' => 'http://technicpack.net/mod-b/file-b.zip',
                 ],
             ],
         ]);

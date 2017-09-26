@@ -16,6 +16,13 @@ use Illuminate\Database\Eloquent\Model;
 class Release extends Model
 {
     /**
+     * The attributes that aren't mass assignable.
+     *
+     * @var array
+     */
+    protected $guarded = [];
+
+    /**
      * A Release belongs to a Package.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

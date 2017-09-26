@@ -12,6 +12,8 @@
 namespace App\Providers;
 
 use App\Modpack;
+use App\Md5HashGenerator;
+use App\FileHashGenerator;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
@@ -41,6 +43,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->bind(FileHashGenerator::class, Md5HashGenerator::class);
     }
 }

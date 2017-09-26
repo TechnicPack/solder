@@ -17,7 +17,7 @@ $factory->define(App\Release::class, function (Faker $faker) {
             return factory(\App\Package::class)->create()->id;
         },
         'version' => $faker->numerify('#.#.#'),
+        'path' => 'package\package-version.zip',
         'md5' => 'example-md5-hash',
-        'url' => 'http://example.com/example-file.zip',
     ];
 });

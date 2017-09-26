@@ -14,6 +14,7 @@ namespace App\Http\Controllers\Api;
 use App\Build;
 use App\Modpack;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
 
 class ModpackBuildController extends Controller
 {
@@ -58,7 +59,7 @@ class ModpackBuildController extends Controller
                     'name' => $release->package->name,
                     'version' => $release->version,
                     'md5' => $release->md5,
-                    'url' => $release->url,
+                    'url' => Storage::url($release->path),
                 ];
             }),
         ]);

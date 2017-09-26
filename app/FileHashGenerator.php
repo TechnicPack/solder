@@ -9,11 +9,9 @@
  * file that was distributed with this source code.
  */
 
-use Faker\Generator as Faker;
+namespace App;
 
-$factory->define(App\Package::class, function (Faker $faker) {
-    return [
-        'name' => 'Example Package',
-        'slug' => 'example-package',
-    ];
-});
+interface FileHashGenerator
+{
+    public function hash($url);
+}

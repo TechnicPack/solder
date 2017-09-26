@@ -9,11 +9,12 @@
  * file that was distributed with this source code.
  */
 
-use Faker\Generator as Faker;
+namespace App;
 
-$factory->define(App\Package::class, function (Faker $faker) {
-    return [
-        'name' => 'Example Package',
-        'slug' => 'example-package',
-    ];
-});
+class Md5HashGenerator implements FileHashGenerator
+{
+    public function hash($url)
+    {
+        return md5_file($url);
+    }
+}

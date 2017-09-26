@@ -27,7 +27,7 @@ class CreateReleasesTable extends Migration
             $table->unsignedInteger('package_id');
             $table->string('version');
             $table->string('md5');
-            $table->string('url');
+            $table->string('path');
             $table->timestamps();
         });
     }
