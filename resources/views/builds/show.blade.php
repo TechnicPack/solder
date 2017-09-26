@@ -41,27 +41,7 @@
                 </p>
             </header>
             <div class="card-content">
-                <div class="field has-addons">
-                    <div class="control is-expanded">
-                        <div class="select is-fullwidth">
-                            <select name="package">
-                                @foreach($packages as $package)
-                                <option value="{{ $package->id }}">{{ $package->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                    <div class="control">
-                        <div class="select">
-                            <select name="release" disabled>
-                                <option>loading versions</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="control">
-                        <button type="submit" class="button is-primary">Add Package</button>
-                    </div>
-                </div>
+                <release-picker />
             </div>
             <div class="card-content is-paddingless">
                 <table class="table is-fullwidth">

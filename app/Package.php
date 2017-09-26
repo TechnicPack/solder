@@ -22,6 +22,6 @@ class Package extends Model
      */
     public function releases()
     {
-        return $this->hasMany(self::class);
+        return $this->hasMany(Release::class);
     }
 }

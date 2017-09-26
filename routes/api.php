@@ -1,7 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
-
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -13,8 +11,9 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::group(['middleware' => 'auth:api', 'namespace' => 'Api'], function() {
+    Route::get('packages', 'PackagesController@index');
+    Route::get('packages/{package}', 'PackagesController@show');
 });
 
 Route::get('verify/{token}', 'Api\VerifyToken');
