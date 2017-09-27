@@ -12,6 +12,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Release extends Model
 {
@@ -40,6 +41,21 @@ class Release extends Model
     public function getCreatedAttribute()
     {
         return $this->created_at->diffForHumans();
+    }
+
+    /**
+     * Get the full download url for the file.
+     *
+     * @return string
+     */
+    public function getUrlAttribute()
+    {
+        return Storage::url($this->path);
+    }
+
+    public function getFilenameAttribute()
+    {
+        return basename($this->path);
     }
 
     /**

@@ -28,7 +28,7 @@ abstract class TestCase extends BaseTestCase
         });
 
         Collection::macro('assertEquals', function ($items) {
-            Assert::assertEquals(count($this), count($items));
+            Assert::assertEquals(count($items), count($this));
 
             $this->zip($items)->each(function ($pair) {
                 list($a, $b) = $pair;

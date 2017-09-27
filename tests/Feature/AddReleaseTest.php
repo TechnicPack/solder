@@ -25,50 +25,29 @@ class AddReleaseTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function users_can_view_the_add_release_form()
-    {
-        $user = factory(User::class)->create();
-        factory(Package::class, 5)->create();
-
-        $response = $this->actingAs($user)->get('/releases/new');
-
-        $response->assertStatus(200);
-        $response->assertViewHas('packages');
-    }
-
-    /** @test */
-    public function guests_cannot_view_the_add_release_form()
-    {
-        $response = $this->get('/releases/new');
-
-        $response->assertStatus(302);
-        $response->assertRedirect('/login');
-    }
-
-    /** @test */
     public function adding_a_valid_release()
     {
+        $this->withoutExceptionHandling();
         $user = factory(User::class)->create();
         $package = factory(Package::class)->create([
-            'slug' => 'example-package',
+            'slug' => 'iron-tanks',
         ]);
         Storage::fake();
         FileHash::shouldReceive('hash')->andReturn('generated-hash');
 
-        $response = $this->actingAs($user)->post('/releases', [
-            'package_id' => $package->id,
+        $response = $this->actingAs($user)->post('/library/iron-tanks/releases', [
             'version' => '1.2.3',
             'archive' => UploadedFile::fake()->create('fake-file.zip'),
         ]);
 
         tap(Release::first(), function ($release) use ($package, $response) {
-            $response->assertRedirect('/dashboard');
+            $response->assertRedirect('/library/iron-tanks');
 
             $this->assertEquals($package->id, $release->package_id);
             $this->assertEquals('1.2.3', $release->version);
             $this->assertEquals('generated-hash', $release->md5);
-            $this->assertEquals('example-package/example-package-1.2.3.zip', $release->path);
-            Storage::disk()->assertExists('example-package/example-package-1.2.3.zip');
+            $this->assertEquals('iron-tanks/iron-tanks-1.2.3.zip', $release->path);
+            Storage::assertExists('iron-tanks/iron-tanks-1.2.3.zip');
         });
     }
 
@@ -78,8 +57,7 @@ class AddReleaseTest extends TestCase
         $package = factory(Package::class)->create();
         Storage::fake();
 
-        $response = $this->post('/releases', [
-            'package_id' => $package->id,
+        $response = $this->post('/library/' . $package->slug . '/releases', [
             'version' => '1.2.3',
             'archive' => UploadedFile::fake()->create('fake-file.zip'),
         ]);

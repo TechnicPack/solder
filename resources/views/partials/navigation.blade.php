@@ -4,7 +4,7 @@
     </div>
     <div class="navbar-menu">
         <div class="navbar-end">
-            <a class="navbar-item"> Library </a>
+            <a class="navbar-item" href="/library"> Library </a>
             <a class="navbar-item"> Settings </a>
             <div class="navbar-item has-dropdown is-hoverable">
                 <a class="navbar-link"> Indemnity83 </a>

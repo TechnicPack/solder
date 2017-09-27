@@ -17,42 +17,32 @@ use App\Facades\FileHash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
-class ReleasesController extends Controller
+class PackageReleasesController extends Controller
 {
-    /**
-     * Show the create form.
-     *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function create()
-    {
-        return view('releases.create', [
-            'packages' => Package::all(),
-        ]);
-    }
-
     /**
      * Store the posted Release.
      *
      * @param Request $request
      *
+     * @param $packageSlug
+     *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function store(Request $request)
+    public function store(Request $request, $packageSlug)
     {
-        $package = Package::findOrFail($request->package_id);
+        $package = Package::where('slug', $packageSlug)->firstOrFail();
 
         $archive = request()
             ->file('archive')
             ->storeAs($package->slug, "{$package->slug}-{$request->version}.zip");
 
         Release::create([
-            'package_id' => $request->package_id,
+            'package_id' => $package->id,
             'version' => $request->version,
             'path' => $archive,
             'md5' => FileHash::hash(Storage::url($archive)),
         ]);
 
-        return redirect('/dashboard');
+        return redirect("/library/$packageSlug");
     }
 }
