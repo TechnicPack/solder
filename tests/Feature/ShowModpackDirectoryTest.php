@@ -1,10 +1,19 @@
 <?php
 
+/*
+ * This file is part of Solder.
+ *
+ * (c) Kyle Klaus <kklaus@indemnity83.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Tests\Feature;
 
 use App\Modpack;
-use Illuminate\Support\Facades\Route;
 use Tests\TestCase;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ShowModpackDirectoryTest extends TestCase
@@ -25,7 +34,7 @@ class ShowModpackDirectoryTest extends TestCase
         $response->data('directory')->assertEquals([
             $modpackA,
             $modpackB,
-            $modpackC
+            $modpackC,
         ]);
     }
 }

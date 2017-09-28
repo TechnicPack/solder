@@ -52,7 +52,7 @@ class ListPackagesTest extends TestCase
         $user = factory(User::class)->create();
         $package = factory(Package::class)->create(['name' => 'Buildcraft']);
 
-        $response = $this->actingAs($user, 'api')->getJson('/api/packages/' . $package->id);
+        $response = $this->actingAs($user, 'api')->getJson('/api/packages/'.$package->id);
 
         $response->assertStatus(200);
         $response->assertJsonFragment([
@@ -63,13 +63,12 @@ class ListPackagesTest extends TestCase
         ]);
     }
 
-
     /** @test */
     public function a_guest_cannot_get_details_about_a_package()
     {
         $package = factory(Package::class)->create(['name' => 'Buildcraft']);
 
-        $response = $this->getJson('/api/packages/' . $package->id);
+        $response = $this->getJson('/api/packages/'.$package->id);
 
         $response->assertStatus(401);
     }
@@ -83,7 +82,7 @@ class ListPackagesTest extends TestCase
         $releaseB = \ReleaseFactory::createForPackage($package, ['version' => '2.0.0']);
         $releaseC = \ReleaseFactory::createForPackage($package, ['version' => '3.0.0']);
 
-        $response = $this->actingAs($user, 'api')->getJson('/api/packages/' . $package->id . '?include=releases');
+        $response = $this->actingAs($user, 'api')->getJson('/api/packages/'.$package->id.'?include=releases');
 
         $response->assertStatus(200);
         $response->assertJsonFragment([
@@ -92,9 +91,8 @@ class ListPackagesTest extends TestCase
                     ['id' => $releaseA->id, 'version' => '1.0.0'],
                     ['id' => $releaseB->id, 'version' => '2.0.0'],
                     ['id' => $releaseC->id, 'version' => '3.0.0'],
-                ]
-            ]
+                ],
+            ],
         ]);
     }
-
 }

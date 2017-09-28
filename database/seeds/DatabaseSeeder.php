@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         factory(App\User::class)->create([
-            'email' => "admin@example.com",
+            'email' => 'admin@example.com',
             'password' => bcrypt('secret'),
         ]);
     }

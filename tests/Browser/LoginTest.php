@@ -36,6 +36,7 @@ class LoginTest extends DuskTestCase
                 ->assertPathIs('/dashboard');
         });
     }
+
     /** @test */
     public function logging_in_with_invalid_credentials()
     {

@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of Solder.
+ *
+ * (c) Kyle Klaus <kklaus@indemnity83.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Tests;
 
 use Laravel\Dusk\TestCase as BaseTestCase;
@@ -31,7 +40,7 @@ abstract class DuskTestCase extends BaseTestCase
     {
         $options = (new ChromeOptions)->addArguments([
             '--disable-gpu',
-            '--headless'
+            '--headless',
         ]);
 
         return RemoteWebDriver::create(

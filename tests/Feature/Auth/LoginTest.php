@@ -79,9 +79,8 @@ class LoginTest extends TestCase
         $this->assertFalse(Auth::check());
     }
 
-
     /** @test */
-    function logging_out_the_current_user()
+    public function logging_out_the_current_user()
     {
         Auth::login(factory(User::class)->create());
         $sessionId = session('id');

@@ -57,7 +57,7 @@ class AddReleaseTest extends TestCase
         $package = factory(Package::class)->create();
         Storage::fake();
 
-        $response = $this->post('/library/' . $package->slug . '/releases', [
+        $response = $this->post('/library/'.$package->slug.'/releases', [
             'version' => '1.2.3',
             'archive' => UploadedFile::fake()->create('fake-file.zip'),
         ]);

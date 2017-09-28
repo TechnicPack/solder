@@ -13,7 +13,7 @@ use Faker\Generator as Faker;
 
 $factory->define(App\Release::class, function (Faker $faker) {
     return [
-        'package_id' => function() {
+        'package_id' => function () {
             return factory(\App\Package::class)->create()->id;
         },
         'version' => $faker->numerify('#.#.#'),

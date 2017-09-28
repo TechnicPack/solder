@@ -11,14 +11,14 @@
 
 namespace Tests\Feature\Api;
 
-use App\Client;
 use App\Key;
 use App\Build;
+use App\Client;
 use App\Modpack;
 use App\Package;
 use App\Release;
-use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class LegacyEndpointsTest extends TestCase
@@ -195,7 +195,7 @@ class LegacyEndpointsTest extends TestCase
                     'latest' => '2.0.0',
                     'builds' => [
                         '1.0.0',
-                        '1.5.0'
+                        '1.5.0',
                     ],
                 ],
                 'tekkit' => [

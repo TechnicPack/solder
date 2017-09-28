@@ -11,8 +11,8 @@
 
 namespace Tests\Feature;
 
-use App\Build;
 use App\User;
+use App\Build;
 use App\Modpack;
 use App\Package;
 use App\Release;
@@ -102,7 +102,6 @@ class ManageBuildTest extends TestCase
         $response->data('build')->releases->assertNotContains($releaseB);
     }
 
-
     /** @test */
     public function a_user_cannot_view_a_non_existent_modpack()
     {
@@ -113,7 +112,6 @@ class ManageBuildTest extends TestCase
 
         $response->assertStatus(404);
     }
-
 
     /** @test */
     public function a_user_cannot_view_a_non_existent_build()
@@ -145,7 +143,6 @@ class ManageBuildTest extends TestCase
             $packageC,
         ]);
     }
-
 
     /** @test */
     public function modpack_includes_builds_in_reverse_order()
