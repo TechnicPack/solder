@@ -16,6 +16,7 @@ window.Vue = require('vue');
  */
 
 Vue.component('release-picker', require('./components/ReleasePicker.vue'));
+Vue.component('release-table', require('./components/ReleaseTable.vue'));
 
 const app = new Vue({
     el: '#app'

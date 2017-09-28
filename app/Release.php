@@ -17,11 +17,30 @@ use Illuminate\Support\Facades\Storage;
 class Release extends Model
 {
     /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = ['url', 'filename'];
+
+    /**
      * The attributes that aren't mass assignable.
      *
      * @var array
      */
     protected $guarded = [];
+
+    /**
+     * The "booting" method of the model.
+     */
+    public static function boot()
+    {
+        parent::boot();
+
+        self::deleting(function ($release) {
+            Storage::delete($release->path);
+        });
+    }
 
     /**
      * A Release belongs to a Package.
@@ -53,6 +72,11 @@ class Release extends Model
         return Storage::url($this->path);
     }
 
+    /**
+     * Get the filename based on the stored path.
+     *
+     * @return string
+     */
     public function getFilenameAttribute()
     {
         return basename($this->path);

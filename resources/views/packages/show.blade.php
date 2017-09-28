@@ -85,32 +85,33 @@
                 </form>
             </div>
             <div class="card-content is-paddingless">
-                <table class="table is-fullwidth">
-                    <thead>
-                    <tr>
-                        <th>Version</th>
-                        <th>MD5</th>
-                        <th>Download</th>
-                        <th>&nbsp;</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    @foreach($package->releases as $release)
-                        <tr>
-                            <td>{{ $release->version }}</td>
-                            <td><small>{{ $release->md5 }}</small></td>
-                            <td>
-                                <a href="{{ $release->url }}">
-                                   {{ $release->filename }}
-                                </a>
-                            </td>
-                            <td class="has-text-right">
-                                <a class="button is-small is-outlined is-danger">Remove</a>
-                            </td>
-                        </tr>
-                    @endforeach
-                    </tbody>
-                </table>
+                <release-table :releases='@json($package->releases)'></release-table>
+                {{--<table class="table is-fullwidth">--}}
+                    {{--<thead>--}}
+                    {{--<tr>--}}
+                        {{--<th>Version</th>--}}
+                        {{--<th>MD5</th>--}}
+                        {{--<th>Download</th>--}}
+                        {{--<th>&nbsp;</th>--}}
+                    {{--</tr>--}}
+                    {{--</thead>--}}
+                    {{--<tbody>--}}
+                    {{--@foreach($package->releases as $release)--}}
+                        {{--<tr>--}}
+                            {{--<td>{{ $release->version }}</td>--}}
+                            {{--<td><small>{{ $release->md5 }}</small></td>--}}
+                            {{--<td>--}}
+                                {{--<a href="{{ $release->url }}">--}}
+                                   {{--{{ $release->filename }}--}}
+                                {{--</a>--}}
+                            {{--</td>--}}
+                            {{--<td class="has-text-right">--}}
+                                {{--<a class="button is-small is-outlined is-danger">Remove</a>--}}
+                            {{--</td>--}}
+                        {{--</tr>--}}
+                    {{--@endforeach--}}
+                    {{--</tbody>--}}
+                {{--</table>--}}
             </div>
         </div>
     </section>
