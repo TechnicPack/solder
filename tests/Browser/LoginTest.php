@@ -33,7 +33,7 @@ class LoginTest extends DuskTestCase
                 ->type('email', 'jane@example.com')
                 ->type('password', 'super-secret-password')
                 ->press('Log in')
-                ->assertPathIs('/dashboard');
+                ->assertPathIs('/');
         });
     }
 

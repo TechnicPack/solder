@@ -35,7 +35,7 @@ class LoginTest extends TestCase
             'password' => 'super-secret-password',
         ]);
 
-        $response->assertRedirect('/dashboard');
+        $response->assertRedirect('/');
         $this->assertTrue(Auth::check());
         $this->assertTrue(Auth::user()->is($user));
     }
@@ -83,7 +83,6 @@ class LoginTest extends TestCase
     public function logging_out_the_current_user()
     {
         Auth::login(factory(User::class)->create());
-        $sessionId = session('id');
 
         $response = $this->post('/logout');
 

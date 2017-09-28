@@ -19,7 +19,7 @@ class LoginController extends Controller
     public function login()
     {
         if (Auth::attempt(request(['email', 'password']))) {
-            return redirect('/dashboard');
+            return redirect('/');
         }
 
         return redirect('/login')->withInput(request(['email']))->withErrors([
