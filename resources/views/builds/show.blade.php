@@ -41,34 +41,14 @@
                 </p>
             </header>
             <div class="card-content">
-                <release-picker />
+                <form method="post" action="/bundles">
+                    {{ csrf_field() }}
+                    <input type="hidden" name="build_id" value="{{ $build->id }}" />
+                    <release-picker />
+                </form>
             </div>
             <div class="card-content is-paddingless">
-                <table class="table is-fullwidth">
-                    <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Version</th>
-                        <th>&nbsp;</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    @foreach($build->releases as $release)
-                    <tr>
-                        <td>
-                            {{ $release->package->name }}
-                        </td>
-                        <td>
-                            {{ $release->version }}
-                        </td>
-                        <td class="has-text-right">
-                            <a class="button is-small is-outlined is-primary">Update</a>
-                            <a class="button is-small is-outlined is-danger">Remove</a>
-                        </td>
-                    </tr>
-                    @endforeach
-                    </tbody>
-                </table>
+                <build-table :releases='@json($build->releases)'></build-table>
             </div>
         </div>
     </section>

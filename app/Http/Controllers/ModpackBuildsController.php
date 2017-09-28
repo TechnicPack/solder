@@ -25,7 +25,7 @@ class ModpackBuildsController extends Controller
             }])
             ->firstOrFail();
 
-        $build = Build::with(['releases' => function ($query) {
+        $build = Build::with(['releases.package', 'releases' => function ($query) {
             $query->join('packages', 'releases.package_id', '=', 'packages.id')
                 ->orderBy('packages.name');
         }])

@@ -2,7 +2,7 @@
     <div class="field has-addons">
         <div class="control is-expanded">
             <div class="select is-fullwidth" :class="{ 'is-loading': loadingPackage }">
-                <select name="package" v-model="selectedPackage">
+                <select name="package_id" v-model="selectedPackage">
                     <option v-for="package in packages" :value="package.id">
                         {{ package.name }}
                     </option>
@@ -11,7 +11,7 @@
         </div>
         <div class="control">
             <div class="select" :class="{ 'is-loading': loadingRelease }">
-                <select name="release" v-model="selectedRelease">
+                <select name="release_id" v-model="selectedRelease">
                     <option v-for="release in releases" :value="release.id">
                         {{ release.version }}
                     </option>

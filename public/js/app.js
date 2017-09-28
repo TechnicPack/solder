@@ -1615,6 +1615,70 @@ module.exports = {
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/BuildTable.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: ['releases'],
+    data: function data() {
+        return {
+            rows: []
+        };
+    },
+    mounted: function mounted() {
+        this.rows = this.releases;
+    },
+
+    methods: {
+        destroy: function destroy(row) {
+            var _this = this;
+
+            axios.delete('/bundles', {
+                params: {
+                    build_id: row.pivot.build_id,
+                    release_id: row.pivot.release_id
+                }
+            }).then(function (response) {
+                _this.rows.splice(_this.rows.indexOf(row), 1);
+            }).catch(function (error) {
+                console.log(error);
+            });
+        }
+    }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/ReleasePicker.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -19165,6 +19229,82 @@ module.exports = function normalizeComponent (
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-57b23b95\",\"hasScoped\":false}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/BuildTable.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("table", { staticClass: "table is-fullwidth" }, [
+    _vm._m(0),
+    _vm._v(" "),
+    _vm.rows.length == 0 ? _c("tfoot", [_vm._m(1)]) : _vm._e(),
+    _vm._v(" "),
+    _c(
+      "tbody",
+      _vm._l(_vm.rows, function(row) {
+        return _c("tr", [
+          _c("td", [_vm._v(_vm._s(row.package.name))]),
+          _vm._v(" "),
+          _c("td", [_vm._v(_vm._s(row.version))]),
+          _vm._v(" "),
+          _c("td", { staticClass: "has-text-right" }, [
+            _c(
+              "a",
+              {
+                staticClass: "button is-small is-outlined is-danger",
+                on: {
+                  click: function($event) {
+                    _vm.destroy(row)
+                  }
+                }
+              },
+              [_vm._v("Remove")]
+            )
+          ])
+        ])
+      })
+    )
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("Name")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Version")]),
+        _vm._v(" "),
+        _c("th", [_vm._v(" ")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", [
+      _c("td", { staticClass: "has-text-centered", attrs: { colspan: "4" } }, [
+        _vm._v("There are no included packages, get started by bundling one.")
+      ])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-57b23b95", module.exports)
+  }
+}
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-5a90bf70\",\"hasScoped\":false}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/ReleasePicker.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -19192,7 +19332,7 @@ var render = function() {
                   expression: "selectedPackage"
                 }
               ],
-              attrs: { name: "package" },
+              attrs: { name: "package_id" },
               on: {
                 change: function($event) {
                   var $$selectedVal = Array.prototype.filter
@@ -19239,7 +19379,7 @@ var render = function() {
                   expression: "selectedRelease"
                 }
               ],
-              attrs: { name: "release" },
+              attrs: { name: "release_id" },
               on: {
                 change: function($event) {
                   var $$selectedVal = Array.prototype.filter
@@ -29666,6 +29806,7 @@ window.Vue = __webpack_require__("./node_modules/vue/dist/vue.common.js");
 
 Vue.component('release-picker', __webpack_require__("./resources/assets/js/components/ReleasePicker.vue"));
 Vue.component('release-table', __webpack_require__("./resources/assets/js/components/ReleaseTable.vue"));
+Vue.component('build-table', __webpack_require__("./resources/assets/js/components/BuildTable.vue"));
 
 var app = new Vue({
   el: '#app'
@@ -29717,6 +29858,53 @@ if (token) {
 //     broadcaster: 'pusher',
 //     key: 'your-pusher-key'
 // });
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/BuildTable.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/BuildTable.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-57b23b95\",\"hasScoped\":false}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/BuildTable.vue")
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/BuildTable.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] BuildTable.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-57b23b95", Component.options)
+  } else {
+    hotAPI.reload("data-v-57b23b95", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
 
 /***/ }),
 

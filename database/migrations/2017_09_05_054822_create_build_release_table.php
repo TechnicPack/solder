@@ -26,6 +26,7 @@ class CreateBuildReleaseTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('build_id');
             $table->unsignedInteger('release_id');
+            $table->timestamps();
         });
     }
 
