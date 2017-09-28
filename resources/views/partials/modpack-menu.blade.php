@@ -28,7 +28,7 @@
         </p>
         <ul class="menu-list">
             <li>
-                <a href="">
+                <a href="/modpacks/{{ $modpack->slug }}/builds/new">
                     <i class="fa fa-fw fa-plus"></i>
                     New Build
                 </a>

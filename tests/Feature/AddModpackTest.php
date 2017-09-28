@@ -36,7 +36,7 @@ class AddModpackTest extends TestCase
             $this->assertEquals('iron-tanks', $modpack->slug);
             $this->assertEquals('public', $modpack->status);
 
-            $response->assertRedirect('/modpacks/iron-tanks');
+            $response->assertRedirect('/modpacks/iron-tanks/builds/new');
         });
     }
 

@@ -17,6 +17,14 @@ use App\Package;
 
 class ModpackBuildsController extends Controller
 {
+    /**
+     * Show the modpack build.
+     *
+     * @param $modpackSlug
+     * @param $buildVersion
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function show($modpackSlug, $buildVersion)
     {
         $modpack = Modpack::where('slug', $modpackSlug)
@@ -38,5 +46,36 @@ class ModpackBuildsController extends Controller
             'build' => $build,
             'packages' => Package::orderBy('name')->get(),
         ]);
+    }
+
+    /**
+     * Show the build create form.
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function create($modpackSlug)
+    {
+        $modpack = Modpack::where('slug', $modpackSlug)
+            ->with(['builds' => function ($query) {
+                $query->orderBy('version', 'desc');
+            }])
+            ->first();
+
+        return view('builds.create', [
+            'modpack' => $modpack,
+        ]);
+    }
+
+    public function store($modpackSlug)
+    {
+        $modpack = Modpack::where('slug', $modpackSlug)->first();
+
+        $build = $modpack->builds()->create([
+            'version' => request()->version,
+            'minecraft' => request()->minecraft,
+            'status' => request()->status,
+        ]);
+
+        return redirect("/modpacks/$modpackSlug/{$build->version}");
     }
 }

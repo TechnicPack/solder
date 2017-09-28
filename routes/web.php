@@ -17,6 +17,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/', 'DashboardController');
     Route::get('/modpacks/new', 'ModpacksController@create');
     Route::get('/modpacks/{modpack}', 'ModpacksController@show');
+    Route::post('/modpacks/{modpack}/builds', 'ModpackBuildsController@store');
+    Route::get('/modpacks/{modpack}/builds/new', 'ModpackBuildsController@create');
     Route::get('/modpacks/{modpack}/{build}', 'ModpackBuildsController@show');
     Route::post('/modpacks', 'ModpacksController@store');
     Route::post('/library/{package}/releases', 'PackageReleasesController@store');
