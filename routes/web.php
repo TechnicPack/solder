@@ -21,8 +21,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/modpacks/{modpack}/builds/new', 'ModpackBuildsController@create');
     Route::get('/modpacks/{modpack}/{build}', 'ModpackBuildsController@show');
     Route::post('/modpacks', 'ModpacksController@store');
+    Route::get('/library/new', 'PackagesController@create');
     Route::post('/library/{package}/releases', 'PackageReleasesController@store');
     Route::get('/library/{package}', 'PackagesController@show');
+    Route::post('/library', 'PackagesController@store');
     Route::get('/library', 'PackagesController@index');
     Route::delete('/releases/{release}', 'ReleasesController@destroy');
     Route::delete('/bundles', 'BundlesController@destroy');

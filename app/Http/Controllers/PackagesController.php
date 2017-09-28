@@ -47,4 +47,31 @@ class PackagesController extends Controller
             'packages' => Package::orderBy('name')->get(),
         ]);
     }
+
+    /**
+     * Show the package creation form.
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function create()
+    {
+        return view('packages.create', [
+            'packages' => Package::orderBy('name')->get(),
+        ]);
+    }
+
+    /**
+     * Store the posted package.
+     *
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function store()
+    {
+        $package = Package::create([
+            'name' => request()->name,
+            'slug' => request()->slug,
+        ]);
+
+        return redirect('/library/'.$package->slug);
+    }
 }

@@ -16,6 +16,13 @@ use Illuminate\Database\Eloquent\Model;
 class Package extends Model
 {
     /**
+     * The attributes that aren't mass assignable.
+     *
+     * @var array
+     */
+    protected $guarded = [];
+
+    /**
      * A Package has many Releases.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany

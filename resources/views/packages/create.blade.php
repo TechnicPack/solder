@@ -53,13 +53,52 @@
 @endsection
 
 @section('content')
-    <section class="section">
-        <nav class="level">
-            <div class="level-item has-text-centered">
-                <div>
-                    <p class="heading">Select a Package</p>
+<section class="section">
+    <div class="card">
+        <header class="card-header">
+            <p class="card-header-title">
+                New Package
+            </p>
+        </header>
+        <div class="card-content">
+
+            <form method="post" action="/library">
+                {{ csrf_field() }}
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Name</label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field">
+                            <p class="control is-expanded">
+                                <input class="input" type="text" name="name" placeholder="Name">
+                            </p>
+                        </div>
+                        <div class="field">
+                            <p class="control is-expanded">
+                                <input class="input" type="text" name="slug" placeholder="Slug">
+                            </p>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </nav>
-    </section>
+
+                <div class="field is-horizontal">
+                    <div class="field-label">
+                        <!-- Left empty for spacing -->
+                    </div>
+                    <div class="field-body">
+                        <div class="field">
+                            <div class="control">
+                                <button class="button is-primary">
+                                    Create Package
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</section>
 @endsection
