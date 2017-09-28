@@ -29,7 +29,7 @@ class ShowDashboardTest extends TestCase
     {
         $user = factory(User::class)->create();
 
-        $response = $this->actingAs($user)->get('/dashboard');
+        $response = $this->actingAs($user)->get('/');
 
         $response->assertStatus(200);
         $response->assertViewIs('dashboard');
@@ -48,7 +48,7 @@ class ShowDashboardTest extends TestCase
         $recentBuild4 = BuildFactory::createForModpack($modpack, ['created_at' => Carbon::parse('2 days ago')]);
         $recentBuild5 = BuildFactory::createForModpack($modpack, ['created_at' => Carbon::parse('1 days ago')]);
 
-        $response = $this->actingAs($user)->get('/dashboard');
+        $response = $this->actingAs($user)->get('/');
 
         $response->data('builds')->assertNotContains($oldBuild);
         $response->data('builds')->assertEquals([
@@ -73,7 +73,7 @@ class ShowDashboardTest extends TestCase
         $recentRelease4 = ReleaseFactory::createForPackage($package, ['created_at' => Carbon::parse('2 days ago')]);
         $recentRelease5 = ReleaseFactory::createForPackage($package, ['created_at' => Carbon::parse('1 days ago')]);
 
-        $response = $this->actingAs($user)->get('/dashboard');
+        $response = $this->actingAs($user)->get('/');
 
         $response->data('releases')->assertNotContains($oldRelease);
         $response->data('releases')->assertEquals([
@@ -88,7 +88,7 @@ class ShowDashboardTest extends TestCase
     /** @test */
     public function guests_cannot_view_the_dashboard()
     {
-        $response = $this->get('/dashboard');
+        $response = $this->get('/');
 
         $response->assertRedirect('/login');
     }
