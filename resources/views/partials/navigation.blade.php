@@ -5,7 +5,7 @@
     <div class="navbar-menu">
         <div class="navbar-end">
             <a class="navbar-item" href="/library"> Library </a>
-            <a class="navbar-item"> Settings </a>
+            <a class="navbar-item" href="/settings/keys"> Settings </a>
             <div class="navbar-item has-dropdown is-hoverable">
                 <a class="navbar-link"> Indemnity83 </a>
                 <div class="navbar-dropdown is-right is-radiusless">

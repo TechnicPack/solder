@@ -29,4 +29,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::delete('/releases/{release}', 'ReleasesController@destroy');
     Route::delete('/bundles', 'BundlesController@destroy');
     Route::post('/bundles', 'BundlesController@store');
+    Route::get('/settings/keys', 'KeysController@index');
+    Route::post('/settings/keys', 'KeysController@store');
+    Route::delete('/settings/keys/{key}', 'KeysController@destroy');
 });

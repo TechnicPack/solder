@@ -1267,7 +1267,8 @@ a.has-text-danger:focus {
   user-select: none;
 }
 
-.box {
+.box,
+.list-group {
   background-color: white;
   border-radius: 5px;
   -webkit-box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
@@ -1277,17 +1278,21 @@ a.has-text-danger:focus {
   padding: 1.25rem;
 }
 
-.box:not(:last-child) {
+.box:not(:last-child),
+.list-group:not(:last-child) {
   margin-bottom: 1.5rem;
 }
 
 a.box:hover,
-a.box:focus {
+a.list-group:hover,
+a.box:focus,
+a.list-group:focus {
   -webkit-box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px #347AB7;
           box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px #347AB7;
 }
 
-a.box:active {
+a.box:active,
+a.list-group:active {
   -webkit-box-shadow: inset 0 1px 2px rgba(10, 10, 10, 0.2), 0 0 0 1px #347AB7;
           box-shadow: inset 0 1px 2px rgba(10, 10, 10, 0.2), 0 0 0 1px #347AB7;
 }
@@ -11096,5 +11101,10 @@ label.panel-block:hover {
 
 .border-dashed-white-bis {
   border: 1px #fafafa dashed;
+}
+
+.list-group .list-group-item:not(:last-child) {
+  border-bottom: 1px solid #b5b5b5;
+  padding-bottom: 1.5rem;
 }
 

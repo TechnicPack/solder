@@ -16,6 +16,13 @@ use Illuminate\Database\Eloquent\Model;
 class Key extends Model
 {
     /**
+     * The attributes that aren't mass assignable.
+     *
+     * @var array
+     */
+    protected $guarded = [];
+
+    /**
      * Determine if the given token is valid.
      *
      * @param string $token
