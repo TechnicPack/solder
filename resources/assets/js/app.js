@@ -18,6 +18,9 @@ window.Vue = require('vue');
 Vue.component('release-picker', require('./components/ReleasePicker.vue'));
 Vue.component('release-table', require('./components/ReleaseTable.vue'));
 Vue.component('build-table', require('./components/BuildTable.vue'));
+Vue.component('passport-personal-access-tokens', require('./components/passport/PersonalAccessTokens.vue'));
+Vue.component('passport-clients', require('./components/passport/Clients.vue'));
+Vue.component('passport-authorized-clients', require('./components/passport/AuthorizedClients.vue'));
 
 const app = new Vue({
     el: '#app'

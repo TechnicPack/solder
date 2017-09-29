@@ -32,7 +32,7 @@ class ManageKeyTest extends TestCase
         $response = $this->actingAs($user)->get('/settings/keys');
 
         $response->assertStatus(200);
-        $response->assertViewIs('keys.index');
+        $response->assertViewIs('settings.keys');
         $response->data('keys')->assertEquals([
             $keyA,
             $keyB,

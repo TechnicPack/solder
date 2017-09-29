@@ -9,6 +9,14 @@
 @import "list-group";
 @import "menu";
 
+p.code {
+  @extend code;
+
+  &.is-wrapped {
+    word-break: break-all;
+  }
+}
+
 .box {
   padding: $size-5 1px;
 

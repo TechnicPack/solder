@@ -22,7 +22,7 @@ class KeysController extends Controller
      */
     public function index()
     {
-        return view('keys.index', [
+        return view('settings.keys', [
             'keys' => Key::orderBy('name')->get(),
         ]);
     }

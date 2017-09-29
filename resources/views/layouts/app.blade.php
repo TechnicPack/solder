@@ -24,7 +24,7 @@
         </div>
 
         @if (View::hasSection('menu'))
-            <div class="column is-one-quarter has-background-primary">
+            <div class="column is-one-quarter is-2-fullhd has-background-primary">
                 @yield('menu')
             </div>
         @endif
@@ -37,5 +37,6 @@
     </div>
 
 <script src="{{ asset('js/app.js') }}"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </body>
 </html>

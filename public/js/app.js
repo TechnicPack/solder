@@ -1846,6 +1846,718 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/passport/AuthorizedClients.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    /*
+     * The component's data.
+     */
+    data: function data() {
+        return {
+            tokens: []
+        };
+    },
+
+
+    /**
+     * Prepare the component (Vue 1.x).
+     */
+    ready: function ready() {
+        this.prepareComponent();
+    },
+
+
+    /**
+     * Prepare the component (Vue 2.x).
+     */
+    mounted: function mounted() {
+        this.prepareComponent();
+    },
+
+
+    methods: {
+        /**
+         * Prepare the component (Vue 2.x).
+         */
+        prepareComponent: function prepareComponent() {
+            this.getTokens();
+        },
+
+
+        /**
+         * Get all of the authorized tokens for the user.
+         */
+        getTokens: function getTokens() {
+            var _this = this;
+
+            axios.get('/oauth/tokens').then(function (response) {
+                _this.tokens = response.data;
+            });
+        },
+
+
+        /**
+         * Revoke the given token.
+         */
+        revoke: function revoke(token) {
+            var _this2 = this;
+
+            axios.delete('/oauth/tokens/' + token.id).then(function (response) {
+                _this2.getTokens();
+            });
+        }
+    }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/passport/Clients.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    /*
+     * The component's data.
+     */
+    data: function data() {
+        return {
+            clients: [],
+
+            createForm: {
+                errors: [],
+                name: '',
+                redirect: ''
+            },
+
+            editForm: {
+                errors: [],
+                name: '',
+                redirect: ''
+            }
+        };
+    },
+
+
+    /**
+     * Prepare the component (Vue 1.x).
+     */
+    ready: function ready() {
+        this.prepareComponent();
+    },
+
+
+    /**
+     * Prepare the component (Vue 2.x).
+     */
+    mounted: function mounted() {
+        this.prepareComponent();
+    },
+
+
+    methods: {
+        /**
+         * Prepare the component.
+         */
+        prepareComponent: function prepareComponent() {
+            this.getClients();
+        },
+
+
+        /**
+         * Get all of the OAuth clients for the user.
+         */
+        getClients: function getClients() {
+            var _this = this;
+
+            axios.get('/oauth/clients').then(function (response) {
+                _this.clients = response.data;
+            });
+        },
+
+
+        /**
+         * Create a new OAuth client for the user.
+         */
+        store: function store() {
+            this.persistClient('post', '/oauth/clients', this.createForm);
+        },
+
+
+        /**
+         * Edit the given client.
+         */
+        edit: function edit(client) {
+            this.editForm.id = client.id;
+            this.editForm.name = client.name;
+            this.editForm.redirect = client.redirect;
+
+            // $('#modal-edit-client').modal('show');
+        },
+
+
+        /**
+         * Update the client being edited.
+         */
+        update: function update() {
+            this.persistClient('put', '/oauth/clients/' + this.editForm.id, this.editForm);
+        },
+
+
+        /**
+         * Persist the client to storage using the given form.
+         */
+        persistClient: function persistClient(method, uri, form) {
+            var _this2 = this;
+
+            form.errors = [];
+
+            axios[method](uri, form).then(function (response) {
+                _this2.getClients();
+
+                form.name = '';
+                form.redirect = '';
+                form.errors = [];
+            }).catch(function (error) {
+                if (_typeof(error.response.data) === 'object') {
+                    form.errors = _.flatten(_.toArray(error.response.data));
+                } else {
+                    form.errors = ['Something went wrong. Please try again.'];
+                }
+            });
+        },
+
+
+        /**
+         * Destroy the given client.
+         */
+        destroy: function destroy(client) {
+            var _this3 = this;
+
+            axios.delete('/oauth/clients/' + client.id).then(function (response) {
+                _this3.getClients();
+            });
+        }
+    }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/passport/PersonalAccessTokens.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    /*
+     * The component's data.
+     */
+    data: function data() {
+        return {
+            accessToken: null,
+
+            tokens: [],
+            scopes: [],
+
+            form: {
+                name: '',
+                scopes: [],
+                errors: []
+            }
+        };
+    },
+
+
+    /**
+     * Prepare the component (Vue 1.x).
+     */
+    ready: function ready() {
+        this.prepareComponent();
+    },
+
+
+    /**
+     * Prepare the component (Vue 2.x).
+     */
+    mounted: function mounted() {
+        this.prepareComponent();
+    },
+
+
+    methods: {
+        /**
+         * Prepare the component.
+         */
+        prepareComponent: function prepareComponent() {
+            this.getTokens();
+            this.getScopes();
+        },
+
+
+        /**
+         * Get all of the personal access tokens for the user.
+         */
+        getTokens: function getTokens() {
+            var _this = this;
+
+            axios.get('/oauth/personal-access-tokens').then(function (response) {
+                _this.tokens = response.data;
+            });
+        },
+
+
+        /**
+         * Get all of the available scopes.
+         */
+        getScopes: function getScopes() {
+            var _this2 = this;
+
+            axios.get('/oauth/scopes').then(function (response) {
+                _this2.scopes = response.data;
+            });
+        },
+
+
+        /**
+         * Create a new personal access token.
+         */
+        store: function store() {
+            var _this3 = this;
+
+            this.accessToken = null;
+
+            this.form.errors = [];
+
+            axios.post('/oauth/personal-access-tokens', this.form).then(function (response) {
+                _this3.form.name = '';
+                _this3.form.scopes = [];
+                _this3.form.errors = [];
+
+                _this3.tokens.push(response.data.token);
+
+                _this3.showAccessToken(response.data.accessToken);
+            }).catch(function (error) {
+                if (_typeof(error.response.data) === 'object') {
+                    _this3.form.errors = _.flatten(_.toArray(error.response.data));
+                } else {
+                    _this3.form.errors = ['Something went wrong. Please try again.'];
+                }
+            });
+        },
+
+
+        /**
+         * Toggle the given scope in the list of assigned scopes.
+         */
+        toggleScope: function toggleScope(scope) {
+            if (this.scopeIsAssigned(scope)) {
+                this.form.scopes = _.reject(this.form.scopes, function (s) {
+                    return s == scope;
+                });
+            } else {
+                this.form.scopes.push(scope);
+            }
+        },
+
+
+        /**
+         * Determine if the given scope has been assigned to the token.
+         */
+        scopeIsAssigned: function scopeIsAssigned(scope) {
+            return _.indexOf(this.form.scopes, scope) >= 0;
+        },
+
+
+        /**
+         * Show the given access token to the user.
+         */
+        showAccessToken: function showAccessToken(accessToken) {
+            this.accessToken = accessToken;
+
+            swal({
+                title: "Personal Access Token",
+                content: this.$refs.accessToken,
+                icon: "success"
+            });
+        },
+
+
+        /**
+         * Revoke the given token.
+         */
+        revoke: function revoke(token) {
+            var _this4 = this;
+
+            axios.delete('/oauth/personal-access-tokens/' + token.id).then(function (response) {
+                _this4.getTokens();
+            });
+        }
+    }
+});
+
+/***/ }),
+
 /***/ "./node_modules/is-buffer/index.js":
 /***/ (function(module, exports) {
 
@@ -19256,6 +19968,370 @@ module.exports = function normalizeComponent (
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-06f19685\",\"hasScoped\":false}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/passport/AuthorizedClients.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _vm.tokens.length > 0
+      ? _c("div", { staticClass: "box" }, [
+          _c("h1", [_vm._v("Authorized Applications")]),
+          _vm._v(" "),
+          _c("div", { staticClass: "box-body" }, [
+            _c(
+              "ul",
+              { staticClass: "list-group" },
+              _vm._l(_vm.tokens, function(token) {
+                return _c("li", { staticClass: "list-group-item" }, [
+                  _c("div", { staticClass: "level" }, [
+                    _c("div", { staticClass: "level-left" }, [
+                      _vm._m(0, true),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "level-item" }, [
+                        _c("div", { staticClass: "content" }, [
+                          _c("p", [
+                            _c("strong", [_vm._v(_vm._s(token.client.name))])
+                          ]),
+                          _vm._v(" "),
+                          token.scopes.length > 0
+                            ? _c(
+                                "div",
+                                { staticClass: "tags" },
+                                _vm._l(token.scopes, function(scope) {
+                                  return _c("span", { staticClass: "tag" }, [
+                                    _vm._v(
+                                      "\n                                            " +
+                                        _vm._s(scope) +
+                                        "\n                                        "
+                                    )
+                                  ])
+                                })
+                              )
+                            : _vm._e()
+                        ])
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "level-right" }, [
+                      _c("div", { staticClass: "level-item" }, [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "button is-danger is-outlined",
+                            on: {
+                              click: function($event) {
+                                _vm.revoke(token)
+                              }
+                            }
+                          },
+                          [_vm._v("Revoke")]
+                        )
+                      ])
+                    ])
+                  ])
+                ])
+              })
+            )
+          ])
+        ])
+      : _vm._e()
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      { staticClass: "level-item", staticStyle: { width: "100px" } },
+      [
+        _c("span", { staticClass: "icon is-large" }, [
+          _c("i", { staticClass: "fa fa-id-badge fa-2x" })
+        ])
+      ]
+    )
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-06f19685", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-56dc6b96\",\"hasScoped\":false}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/passport/PersonalAccessTokens.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c("div", { staticClass: "box" }, [
+      _c("h1", [_vm._v("Create Personal Access Token")]),
+      _vm._v(" "),
+      _c("div", { staticClass: "box-body" }, [
+        _c(
+          "form",
+          {
+            attrs: { role: "form" },
+            on: {
+              submit: function($event) {
+                $event.preventDefault()
+                _vm.store($event)
+              }
+            }
+          },
+          [
+            _vm.form.errors.length > 0
+              ? _c("div", { staticClass: "field is-horizontal" }, [
+                  _c("div", { staticClass: "field-label is-normal" }, [
+                    _vm._v("\n                         \n                    ")
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "field-body" }, [
+                    _c("div", { staticClass: "notification is-danger" }, [
+                      _c(
+                        "ul",
+                        _vm._l(_vm.form.errors, function(error) {
+                          return _c("li", [
+                            _vm._v(
+                              "\n                                    " +
+                                _vm._s(error) +
+                                "\n                                "
+                            )
+                          ])
+                        })
+                      )
+                    ])
+                  ])
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _c("div", { staticClass: "field is-horizontal" }, [
+              _vm._m(0),
+              _vm._v(" "),
+              _c("div", { staticClass: "field-body" }, [
+                _c("div", { staticClass: "field" }, [
+                  _c("div", { staticClass: "control" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.form.name,
+                          expression: "form.name"
+                        }
+                      ],
+                      staticClass: "input",
+                      attrs: {
+                        id: "create-token-name",
+                        type: "text",
+                        name: "name"
+                      },
+                      domProps: { value: _vm.form.name },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.form.name = $event.target.value
+                        }
+                      }
+                    })
+                  ])
+                ])
+              ])
+            ]),
+            _vm._v(" "),
+            _vm.scopes.length > 0
+              ? _c("div", { staticClass: "field is-horizontal" }, [
+                  _vm._m(1),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "field-body" }, [
+                    _c(
+                      "div",
+                      { staticClass: "field" },
+                      _vm._l(_vm.scopes, function(scope) {
+                        return _c("div", { staticClass: "control" }, [
+                          _c("label", [
+                            _c("input", {
+                              attrs: { type: "checkbox" },
+                              domProps: {
+                                checked: _vm.scopeIsAssigned(scope.id)
+                              },
+                              on: {
+                                click: function($event) {
+                                  _vm.toggleScope(scope.id)
+                                }
+                              }
+                            }),
+                            _vm._v(
+                              "\n\n                                    " +
+                                _vm._s(scope.id) +
+                                "\n                                "
+                            )
+                          ])
+                        ])
+                      })
+                    )
+                  ])
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _vm._m(2)
+          ]
+        )
+      ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "is-hidden" }, [
+      _c("div", { ref: "accessToken", staticClass: "content" }, [
+        _c("p", [
+          _vm._v(
+            "\n                Here is your new personal access token.\n                This is the only time it will be shown so don't lose it!\n                You may now use this token to make API requests.\n            "
+          )
+        ]),
+        _vm._v(" "),
+        _c("p", { staticClass: "code is-wrapped has-text-left" }, [
+          _vm._v(_vm._s(_vm.accessToken))
+        ])
+      ])
+    ]),
+    _vm._v(" "),
+    _vm.tokens.length > 0
+      ? _c("div", { staticClass: "box" }, [
+          _c("h1", [_vm._v("Personal Access Tokens")]),
+          _vm._v(" "),
+          _c("div", { staticClass: "box-body" }, [
+            _c(
+              "ul",
+              { staticClass: "list-group" },
+              _vm._l(_vm.tokens, function(token) {
+                return _c("li", { staticClass: "list-group-item" }, [
+                  _c("div", { staticClass: "level" }, [
+                    _c("div", { staticClass: "level-left" }, [
+                      _vm._m(3, true),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "level-item" }, [
+                        _c("div", { staticClass: "content" }, [
+                          _c("p", [_c("strong", [_vm._v(_vm._s(token.name))])]),
+                          _vm._v(" "),
+                          token.scopes.length > 0
+                            ? _c(
+                                "div",
+                                { staticClass: "tags" },
+                                _vm._l(token.scopes, function(scope) {
+                                  return _c("span", { staticClass: "tag" }, [
+                                    _vm._v(
+                                      "\n                                            " +
+                                        _vm._s(scope) +
+                                        "\n                                        "
+                                    )
+                                  ])
+                                })
+                              )
+                            : _vm._e()
+                        ])
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "level-right" }, [
+                      _c("div", { staticClass: "level-item" }, [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "button is-danger is-outlined",
+                            on: {
+                              click: function($event) {
+                                _vm.revoke(token)
+                              }
+                            }
+                          },
+                          [_vm._v("Delete")]
+                        )
+                      ])
+                    ])
+                  ])
+                ])
+              })
+            )
+          ])
+        ])
+      : _vm._e()
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "field-label is-normal" }, [
+      _c("label", { staticClass: "label" }, [_vm._v("Name")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "field-label is-normal" }, [
+      _c("label", { staticClass: "label" }, [_vm._v("Scopes")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "field is-horizontal" }, [
+      _c("div", { staticClass: "field-label" }, [
+        _vm._v("\n                         \n                    ")
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "field-body" }, [
+        _c("div", { staticClass: "control" }, [
+          _c(
+            "button",
+            { staticClass: "button is-primary", attrs: { type: "submit" } },
+            [_vm._v("Create Token")]
+          )
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      { staticClass: "level-item", staticStyle: { width: "100px" } },
+      [
+        _c("span", { staticClass: "icon is-large" }, [
+          _c("i", { staticClass: "fa fa-user-circle-o fa-2x" })
+        ])
+      ]
+    )
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-56dc6b96", module.exports)
+  }
+}
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-57b23b95\",\"hasScoped\":false}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/BuildTable.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -19591,6 +20667,465 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
      require("vue-hot-reload-api").rerender("data-v-6e426a48", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-d23df9c0\",\"hasScoped\":false}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/passport/Clients.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c("div", { staticClass: "box" }, [
+      _c("h1", [_vm._v("Create OAuth Client")]),
+      _vm._v(" "),
+      _c("div", { staticClass: "box-body" }, [
+        _c(
+          "form",
+          {
+            staticClass: "form-horizontal",
+            attrs: { role: "form" },
+            on: {
+              submit: function($event) {
+                $event.preventDefault()
+                _vm.store()
+              }
+            }
+          },
+          [
+            _vm.createForm.errors.length > 0
+              ? _c("div", { staticClass: "field is-horizontal" }, [
+                  _c("div", { staticClass: "field-label is-normal" }, [
+                    _vm._v("\n                         \n                    ")
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "field-body" }, [
+                    _c("div", { staticClass: "notification is-danger" }, [
+                      _c(
+                        "ul",
+                        _vm._l(_vm.createForm.errors, function(error) {
+                          return _c("li", [
+                            _vm._v(
+                              "\n                                    " +
+                                _vm._s(error) +
+                                "\n                                "
+                            )
+                          ])
+                        })
+                      )
+                    ])
+                  ])
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _c("div", { staticClass: "field is-horizontal" }, [
+              _vm._m(0),
+              _vm._v(" "),
+              _c("div", { staticClass: "field-body" }, [
+                _c("div", { staticClass: "field" }, [
+                  _c("div", { staticClass: "control" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.createForm.name,
+                          expression: "createForm.name"
+                        }
+                      ],
+                      staticClass: "input",
+                      attrs: { id: "create-client-name", type: "text" },
+                      domProps: { value: _vm.createForm.name },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.createForm.name = $event.target.value
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("p", { staticClass: "help" }, [
+                    _vm._v("Something your users will recognize and trust.")
+                  ])
+                ])
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "field is-horizontal" }, [
+              _vm._m(1),
+              _vm._v(" "),
+              _c("div", { staticClass: "field-body" }, [
+                _c("div", { staticClass: "field" }, [
+                  _c("div", { staticClass: "control" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.createForm.redirect,
+                          expression: "createForm.redirect"
+                        }
+                      ],
+                      staticClass: "input",
+                      attrs: { type: "text", name: "redirect" },
+                      domProps: { value: _vm.createForm.redirect },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.createForm.redirect = $event.target.value
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("p", { staticClass: "help" }, [
+                    _vm._v("Your application's authorization callback URL.")
+                  ])
+                ])
+              ])
+            ]),
+            _vm._v(" "),
+            _vm._m(2)
+          ]
+        )
+      ])
+    ]),
+    _vm._v(" "),
+    _vm.clients.length > 0
+      ? _c("div", { staticClass: "box" }, [
+          _c("h1", [_vm._v("OAuth Clients")]),
+          _vm._v(" "),
+          _c("div", { staticClass: "box-body" }, [
+            _c(
+              "ul",
+              { staticClass: "list-group" },
+              _vm._l(_vm.clients, function(client) {
+                return _c("li", { staticClass: "list-group-item" }, [
+                  _c("div", { staticClass: "level" }, [
+                    _c("div", { staticClass: "level-left" }, [
+                      _vm._m(3, true),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "level-item" }, [
+                        _c("div", { staticClass: "content" }, [
+                          _c("p", [
+                            _c("strong", [_vm._v(_vm._s(client.name))]),
+                            _c("br"),
+                            _vm._v(
+                              "\n                                        Client ID: "
+                            ),
+                            _c("code", [_vm._v(_vm._s(client.id))]),
+                            _c("br"),
+                            _vm._v(
+                              "\n                                        Client Secret: "
+                            ),
+                            _c("code", [_vm._v(_vm._s(client.secret))])
+                          ])
+                        ])
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "level-right" }, [
+                      _c("div", { staticClass: "level-item" }, [
+                        _c("div", { staticClass: "field is-grouped" }, [
+                          _c("p", { staticClass: "control" }, [
+                            _c(
+                              "a",
+                              {
+                                staticClass: "button is-primary is-outlined",
+                                on: {
+                                  click: function($event) {
+                                    _vm.edit(client)
+                                  }
+                                }
+                              },
+                              [_vm._v("Edit")]
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("p", { staticClass: "control" }, [
+                            _c(
+                              "a",
+                              {
+                                staticClass: "button is-danger is-outlined",
+                                on: {
+                                  click: function($event) {
+                                    _vm.destroy(client)
+                                  }
+                                }
+                              },
+                              [_vm._v("Delete")]
+                            )
+                          ])
+                        ])
+                      ])
+                    ])
+                  ])
+                ])
+              })
+            )
+          ])
+        ])
+      : _vm._e(),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "modal fade",
+        attrs: { id: "modal-edit-client", tabindex: "-1", role: "dialog" }
+      },
+      [
+        _c("div", { staticClass: "modal-dialog" }, [
+          _c("div", { staticClass: "modal-content" }, [
+            _vm._m(4),
+            _vm._v(" "),
+            _c("div", { staticClass: "modal-body" }, [
+              _vm.editForm.errors.length > 0
+                ? _c("div", { staticClass: "alert alert-danger" }, [
+                    _vm._m(5),
+                    _vm._v(" "),
+                    _c("br"),
+                    _vm._v(" "),
+                    _c(
+                      "ul",
+                      _vm._l(_vm.editForm.errors, function(error) {
+                        return _c("li", [
+                          _vm._v(
+                            "\n                                " +
+                              _vm._s(error) +
+                              "\n                            "
+                          )
+                        ])
+                      })
+                    )
+                  ])
+                : _vm._e(),
+              _vm._v(" "),
+              _c(
+                "form",
+                { staticClass: "form-horizontal", attrs: { role: "form" } },
+                [
+                  _c("div", { staticClass: "form-group" }, [
+                    _c("label", { staticClass: "col-md-3 control-label" }, [
+                      _vm._v("Name")
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-7" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.editForm.name,
+                            expression: "editForm.name"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { id: "edit-client-name", type: "text" },
+                        domProps: { value: _vm.editForm.name },
+                        on: {
+                          keyup: function($event) {
+                            if (
+                              !("button" in $event) &&
+                              _vm._k($event.keyCode, "enter", 13)
+                            ) {
+                              return null
+                            }
+                            _vm.update($event)
+                          },
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.editForm.name = $event.target.value
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("span", { staticClass: "help-block" }, [
+                        _vm._v(
+                          "\n                                    Something your users will recognize and trust.\n                                "
+                        )
+                      ])
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group" }, [
+                    _c("label", { staticClass: "col-md-3 control-label" }, [
+                      _vm._v("Redirect URL")
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-7" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.editForm.redirect,
+                            expression: "editForm.redirect"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "text", name: "redirect" },
+                        domProps: { value: _vm.editForm.redirect },
+                        on: {
+                          keyup: function($event) {
+                            if (
+                              !("button" in $event) &&
+                              _vm._k($event.keyCode, "enter", 13)
+                            ) {
+                              return null
+                            }
+                            _vm.update($event)
+                          },
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.editForm.redirect = $event.target.value
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("span", { staticClass: "help-block" }, [
+                        _vm._v(
+                          "\n                                    Your application's authorization callback URL.\n                                "
+                        )
+                      ])
+                    ])
+                  ])
+                ]
+              )
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "modal-footer" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-default",
+                  attrs: { type: "button", "data-dismiss": "modal" }
+                },
+                [_vm._v("Close")]
+              ),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-primary",
+                  attrs: { type: "button" },
+                  on: { click: _vm.update }
+                },
+                [
+                  _vm._v(
+                    "\n                        Save Changes\n                    "
+                  )
+                ]
+              )
+            ])
+          ])
+        ])
+      ]
+    )
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "field-label is-normal" }, [
+      _c("label", { staticClass: "label" }, [_vm._v("Name")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "field-label is-normal" }, [
+      _c("label", { staticClass: "label" }, [_vm._v("Redirect URL")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "field is-horizontal" }, [
+      _c("div", { staticClass: "field-label" }, [
+        _vm._v("\n                         \n                    ")
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "field-body" }, [
+        _c("div", { staticClass: "control" }, [
+          _c(
+            "button",
+            { staticClass: "button is-primary", attrs: { type: "submit" } },
+            [_vm._v("Create Client")]
+          )
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      { staticClass: "level-item", staticStyle: { width: "100px" } },
+      [
+        _c("span", { staticClass: "icon is-large" }, [
+          _c("i", { staticClass: "fa fa-exchange fa-2x" })
+        ])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: {
+            type: "button ",
+            "data-dismiss": "modal",
+            "aria-hidden": "true"
+          }
+        },
+        [_vm._v("×")]
+      ),
+      _vm._v(" "),
+      _c("h4", { staticClass: "modal-title" }, [
+        _vm._v("\n                        Edit Client\n                    ")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("p", [
+      _c("strong", [_vm._v("Whoops!")]),
+      _vm._v(" Something went wrong!")
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-d23df9c0", module.exports)
   }
 }
 
@@ -29877,6 +31412,9 @@ window.Vue = __webpack_require__("./node_modules/vue/dist/vue.common.js");
 Vue.component('release-picker', __webpack_require__("./resources/assets/js/components/ReleasePicker.vue"));
 Vue.component('release-table', __webpack_require__("./resources/assets/js/components/ReleaseTable.vue"));
 Vue.component('build-table', __webpack_require__("./resources/assets/js/components/BuildTable.vue"));
+Vue.component('passport-personal-access-tokens', __webpack_require__("./resources/assets/js/components/passport/PersonalAccessTokens.vue"));
+Vue.component('passport-clients', __webpack_require__("./resources/assets/js/components/passport/Clients.vue"));
+Vue.component('passport-authorized-clients', __webpack_require__("./resources/assets/js/components/passport/AuthorizedClients.vue"));
 
 var app = new Vue({
   el: '#app'
@@ -30061,6 +31599,147 @@ if (false) {(function () {
     hotAPI.createRecord("data-v-6e426a48", Component.options)
   } else {
     hotAPI.reload("data-v-6e426a48", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/passport/AuthorizedClients.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/passport/AuthorizedClients.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-06f19685\",\"hasScoped\":false}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/passport/AuthorizedClients.vue")
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/passport/AuthorizedClients.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] AuthorizedClients.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-06f19685", Component.options)
+  } else {
+    hotAPI.reload("data-v-06f19685", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/passport/Clients.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/passport/Clients.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-d23df9c0\",\"hasScoped\":false}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/passport/Clients.vue")
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/passport/Clients.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] Clients.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-d23df9c0", Component.options)
+  } else {
+    hotAPI.reload("data-v-d23df9c0", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/passport/PersonalAccessTokens.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/passport/PersonalAccessTokens.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-56dc6b96\",\"hasScoped\":false}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/passport/PersonalAccessTokens.vue")
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/passport/PersonalAccessTokens.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] PersonalAccessTokens.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-56dc6b96", Component.options)
+  } else {
+    hotAPI.reload("data-v-56dc6b96", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true

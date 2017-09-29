@@ -147,6 +147,7 @@ textarea {
 }
 
 code,
+p.code,
 pre {
   -moz-osx-font-smoothing: auto;
   -webkit-font-smoothing: auto;
@@ -174,7 +175,8 @@ a:hover {
   color: #363636;
 }
 
-code {
+code,
+p.code {
   background-color: whitesmoke;
   color: #ff3860;
   font-size: 0.875em;
@@ -225,7 +227,8 @@ pre {
   word-wrap: normal;
 }
 
-pre code {
+pre code,
+pre p.code {
   background-color: transparent;
   color: currentColor;
   font-size: 1em;
@@ -4438,11 +4441,13 @@ a.box:active {
 }
 
 .notification code,
+.notification p.code,
 .notification pre {
   background: white;
 }
 
-.notification pre code {
+.notification pre code,
+.notification pre p.code {
   background: transparent;
 }
 
@@ -5540,7 +5545,8 @@ a.dropdown-item.is-active {
   margin-bottom: 1.5rem;
 }
 
-.level code {
+.level code,
+.level p.code {
   border-radius: 3px;
 }
 
@@ -6020,11 +6026,13 @@ a.dropdown-item.is-active {
 }
 
 .message-body code,
+.message-body p.code,
 .message-body pre {
   background-color: white;
 }
 
-.message-body pre code {
+.message-body pre code,
+.message-body pre p.code {
   background-color: transparent;
 }
 
@@ -11203,6 +11211,7 @@ label.panel-block:hover {
 .list-group .list-group-item:not(:last-child) {
   border-bottom: 1px solid #b5b5b5;
   padding-bottom: 1.5rem;
+  margin-bottom: 1.5rem;
 }
 
 .menu.is-dark .menu-list a {
@@ -11221,6 +11230,10 @@ label.panel-block:hover {
 
 .menu.is-dark .menu-label {
   color: rgba(255, 255, 255, 0.4);
+}
+
+p.code.is-wrapped {
+  word-break: break-all;
 }
 
 .box {

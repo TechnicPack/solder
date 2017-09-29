@@ -13,7 +13,7 @@
                                 <span class="icon">
                                     <i class="fa fa-key"></i>
                                 </span>
-                                Legacy Keys
+                                Keys
                             </a>
                         </li>
                     </ul>
@@ -37,7 +37,7 @@
                                 </div>
                                 <div class="field-body">
                                     <div class="notification">
-                                        Legacy keys provide the bearer with access to <strong>all private modpacks and builds</strong> but they only operate on the legacy api endpoints. Grant this sparingly.
+                                        Keys provide the bearer with access to <strong>all private modpacks and builds</strong> but they only operate on the legacy api endpoints. Grant this sparingly.
                                     </div>
                                 </div>
                             </div>
