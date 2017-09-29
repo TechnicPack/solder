@@ -57,7 +57,7 @@ class ManageKeyTest extends TestCase
 
         $response = $this->actingAs($user)->delete('/settings/keys/'.$key->id);
 
-        $response->assertStatus(204);
+        $response->assertRedirect('/settings/keys');
         $this->assertCount(0, Key::all());
     }
 

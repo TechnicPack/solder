@@ -53,6 +53,6 @@ class KeysController extends Controller
     {
         Key::findOrFail($keyId)->delete();
 
-        return response(null, 204);
+        return redirect('/settings/keys');
     }
 }
