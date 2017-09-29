@@ -42,9 +42,11 @@
             </div>
         </div>
 
+        @if(count($build->releases))
         <div class="box">
             <h1>Bundled Releases</h1>
             <build-table :releases='@json($build->releases)'></build-table>
         </div>
+        @endif
     </section>
 @endsection

@@ -70,6 +70,7 @@
                     </div>
                 </div>
 
+                @if(count($builds))
                 <div class="box">
                     <h1>Recently Updated Modpacks</h1>
                     <table class="table is-fullwidth">
@@ -101,7 +102,9 @@
                         </tbody>
                     </table>
                 </div>
+                @endif
 
+                @if(count($releases))
                 <div class="box">
                     <h1>Recently Uploaded Package Versions</h1>
                     <table class="table is-fullwidth">
@@ -127,6 +130,7 @@
                         </tbody>
                     </table>
                 </div>
+                @endif
 
 
             </div>

@@ -82,6 +82,7 @@
                     </div>
                 </div>
 
+                @if(count($keys))
                 <div class="box">
                     <h1>Active Keys</h1>
                     <div class="box-body">
@@ -124,6 +125,7 @@
                         </ul>
                     </div>
                 </div>
+                @endif
 
             </div>
         </div>

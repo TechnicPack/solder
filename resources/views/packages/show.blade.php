@@ -113,11 +113,13 @@
                     </div>
                 </div>
 
+                @if(count($package->releases))
                 <div class="box">
                     <h1>Releases</h1>
 
                     <release-table :releases='@json($package->releases)'></release-table>
                 </div>
+                @endif
 
     </section>
 @endsection
