@@ -6,7 +6,7 @@
     </div>
 </nav>
 <section class="section is-small">
-    <aside class="menu">
+    <aside class="menu is-dark">
         <p class="menu-label">
             Builds
         </p>
@@ -22,23 +22,6 @@
                     </a>
                 </li>
             @endforeach
-        </ul>
-        <p class="menu-label">
-            Actions
-        </p>
-        <ul class="menu-list">
-            <li>
-                <a href="/modpacks/{{ $modpack->slug }}/builds/new">
-                    <i class="fa fa-fw fa-plus"></i>
-                    New Build
-                </a>
-            </li>
-            <li>
-                <a href="">
-                    <i class="fa fa-fw fa-pencil"></i>
-                    Edit Modpack
-                </a>
-            </li>
         </ul>
     </aside>
 </section>

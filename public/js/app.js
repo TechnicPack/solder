@@ -1710,6 +1710,33 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -19312,105 +19339,124 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "field has-addons" }, [
-    _c("div", { staticClass: "control is-expanded" }, [
-      _c(
-        "div",
-        {
-          staticClass: "select is-fullwidth",
-          class: { "is-loading": _vm.loadingPackage }
-        },
-        [
-          _c(
-            "select",
-            {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.selectedPackage,
-                  expression: "selectedPackage"
-                }
-              ],
-              attrs: { name: "package_id" },
-              on: {
-                change: function($event) {
-                  var $$selectedVal = Array.prototype.filter
-                    .call($event.target.options, function(o) {
-                      return o.selected
-                    })
-                    .map(function(o) {
-                      var val = "_value" in o ? o._value : o.value
-                      return val
-                    })
-                  _vm.selectedPackage = $event.target.multiple
-                    ? $$selectedVal
-                    : $$selectedVal[0]
-                }
-              }
-            },
-            _vm._l(_vm.packages, function(package) {
-              return _c("option", { domProps: { value: package.id } }, [
-                _vm._v(
-                  "\n                    " +
-                    _vm._s(package.name) +
-                    "\n                "
+  return _c("div", [
+    _c("div", { staticClass: "field is-horizontal" }, [
+      _vm._m(0),
+      _vm._v(" "),
+      _c("div", { staticClass: "field-body" }, [
+        _c("div", { staticClass: "field" }, [
+          _c("div", { staticClass: "control is-expanded" }, [
+            _c(
+              "div",
+              {
+                staticClass: "select is-fullwidth",
+                class: { "is-loading": _vm.loadingPackage }
+              },
+              [
+                _c(
+                  "select",
+                  {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.selectedPackage,
+                        expression: "selectedPackage"
+                      }
+                    ],
+                    attrs: { name: "package_id" },
+                    on: {
+                      change: function($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function(o) {
+                            return o.selected
+                          })
+                          .map(function(o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.selectedPackage = $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      }
+                    }
+                  },
+                  _vm._l(_vm.packages, function(package) {
+                    return _c("option", { domProps: { value: package.id } }, [
+                      _vm._v(
+                        "\n                                " +
+                          _vm._s(package.name) +
+                          "\n                            "
+                      )
+                    ])
+                  })
                 )
-              ])
-            })
-          )
-        ]
-      )
+              ]
+            )
+          ])
+        ])
+      ])
     ]),
     _vm._v(" "),
-    _c("div", { staticClass: "control" }, [
-      _c(
-        "div",
-        { staticClass: "select", class: { "is-loading": _vm.loadingRelease } },
-        [
-          _c(
-            "select",
-            {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.selectedRelease,
-                  expression: "selectedRelease"
-                }
-              ],
-              attrs: { name: "release_id" },
-              on: {
-                change: function($event) {
-                  var $$selectedVal = Array.prototype.filter
-                    .call($event.target.options, function(o) {
-                      return o.selected
-                    })
-                    .map(function(o) {
-                      var val = "_value" in o ? o._value : o.value
-                      return val
-                    })
-                  _vm.selectedRelease = $event.target.multiple
-                    ? $$selectedVal
-                    : $$selectedVal[0]
-                }
-              }
-            },
-            _vm._l(_vm.releases, function(release) {
-              return _c("option", { domProps: { value: release.id } }, [
-                _vm._v(
-                  "\n                    " +
-                    _vm._s(release.version) +
-                    "\n                "
+    _c("div", { staticClass: "field is-horizontal" }, [
+      _vm._m(1),
+      _vm._v(" "),
+      _c("div", { staticClass: "field-body" }, [
+        _c("div", { staticClass: "field" }, [
+          _c("div", { staticClass: "control is-expanded" }, [
+            _c(
+              "div",
+              {
+                staticClass: "select is-fullwidth",
+                class: { "is-loading": _vm.loadingRelease }
+              },
+              [
+                _c(
+                  "select",
+                  {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.selectedRelease,
+                        expression: "selectedRelease"
+                      }
+                    ],
+                    attrs: { name: "release_id" },
+                    on: {
+                      change: function($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function(o) {
+                            return o.selected
+                          })
+                          .map(function(o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.selectedRelease = $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      }
+                    }
+                  },
+                  _vm._l(_vm.releases, function(release) {
+                    return _c("option", { domProps: { value: release.id } }, [
+                      _vm._v(
+                        "\n                                " +
+                          _vm._s(release.version) +
+                          "\n                            "
+                      )
+                    ])
+                  })
                 )
-              ])
-            })
-          )
-        ]
-      )
+              ]
+            )
+          ])
+        ])
+      ])
     ]),
     _vm._v(" "),
-    _vm._m(0)
+    _vm._m(2)
   ])
 }
 var staticRenderFns = [
@@ -19418,12 +19464,36 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "control" }, [
-      _c(
-        "button",
-        { staticClass: "button is-primary", attrs: { type: "submit" } },
-        [_vm._v("Add Package")]
-      )
+    return _c("div", { staticClass: "field-label is-normal" }, [
+      _c("label", { staticClass: "label" }, [_vm._v("Package")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "field-label is-normal" }, [
+      _c("label", { staticClass: "label" }, [_vm._v("Release")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "field is-horizontal" }, [
+      _c("div", { staticClass: "field-label" }, [
+        _vm._v("\n             \n        ")
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "field-body" }, [
+        _c("div", { staticClass: "control" }, [
+          _c(
+            "button",
+            { staticClass: "button is-primary", attrs: { type: "submit" } },
+            [_vm._v("Bundle")]
+          )
+        ])
+      ])
     ])
   }
 ]

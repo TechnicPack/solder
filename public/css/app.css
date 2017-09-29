@@ -775,30 +775,39 @@ a.has-text-info:focus {
   color: #205bbc !important;
 }
 
-.has-text-success {
+.has-text-success,
+.has-text-public {
   color: #23d160 !important;
 }
 
 a.has-text-success:hover,
-a.has-text-success:focus {
+a.has-text-public:hover,
+a.has-text-success:focus,
+a.has-text-public:focus {
   color: #1ca64c !important;
 }
 
-.has-text-warning {
+.has-text-warning,
+.has-text-private {
   color: #ffdd57 !important;
 }
 
 a.has-text-warning:hover,
-a.has-text-warning:focus {
+a.has-text-private:hover,
+a.has-text-warning:focus,
+a.has-text-private:focus {
   color: #ffd324 !important;
 }
 
-.has-text-danger {
+.has-text-danger,
+.has-text-draft {
   color: #ff3860 !important;
 }
 
 a.has-text-danger:hover,
-a.has-text-danger:focus {
+a.has-text-draft:hover,
+a.has-text-danger:focus,
+a.has-text-draft:focus {
   color: #ff0537 !important;
 }
 
@@ -1267,8 +1276,7 @@ a.has-text-danger:focus {
   user-select: none;
 }
 
-.box,
-.list-group {
+.box {
   background-color: white;
   border-radius: 5px;
   -webkit-box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
@@ -1278,21 +1286,17 @@ a.has-text-danger:focus {
   padding: 1.25rem;
 }
 
-.box:not(:last-child),
-.list-group:not(:last-child) {
+.box:not(:last-child) {
   margin-bottom: 1.5rem;
 }
 
 a.box:hover,
-a.list-group:hover,
-a.box:focus,
-a.list-group:focus {
+a.box:focus {
   -webkit-box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px #347AB7;
           box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px #347AB7;
 }
 
-a.box:active,
-a.list-group:active {
+a.box:active {
   -webkit-box-shadow: inset 0 1px 2px rgba(10, 10, 10, 0.2), 0 0 0 1px #347AB7;
           box-shadow: inset 0 1px 2px rgba(10, 10, 10, 0.2), 0 0 0 1px #347AB7;
 }
@@ -4450,6 +4454,9 @@ a.list-group:active {
 
 .notification .title,
 .notification .subtitle,
+.notification .box h1,
+.box
+.notification h1,
 .notification .content {
   color: currentColor;
 }
@@ -4935,24 +4942,29 @@ a.tag:hover {
 }
 
 .title,
-.subtitle {
+.subtitle,
+.box h1 {
   word-break: break-word;
 }
 
 .title:not(:last-child),
-.subtitle:not(:last-child) {
+.subtitle:not(:last-child),
+.box h1:not(:last-child) {
   margin-bottom: 1.5rem;
 }
 
 .title em,
 .title span,
 .subtitle em,
-.subtitle span {
+.box h1 em,
+.subtitle span,
+.box h1 span {
   font-weight: inherit;
 }
 
 .title .tag,
-.subtitle .tag {
+.subtitle .tag,
+.box h1 .tag {
   vertical-align: middle;
 }
 
@@ -4972,7 +4984,8 @@ a.tag:hover {
   margin-top: -0.75rem;
 }
 
-.title:not(.is-spaced) + .subtitle {
+.title:not(.is-spaced) + .subtitle,
+.box .title:not(.is-spaced) + h1 {
   margin-top: -1.5rem;
 }
 
@@ -5004,47 +5017,57 @@ a.tag:hover {
   font-size: 0.75rem;
 }
 
-.subtitle {
+.subtitle,
+.box h1 {
   color: #4a4a4a;
   font-size: 1.25rem;
   font-weight: 400;
   line-height: 1.25;
 }
 
-.subtitle strong {
+.subtitle strong,
+.box h1 strong {
   color: #363636;
   font-weight: 600;
 }
 
-.subtitle:not(.is-spaced) + .title {
+.subtitle:not(.is-spaced) + .title,
+.box h1:not(.is-spaced) + .title {
   margin-top: -1.5rem;
 }
 
-.subtitle.is-1 {
+.subtitle.is-1,
+.box h1.is-1 {
   font-size: 3rem;
 }
 
-.subtitle.is-2 {
+.subtitle.is-2,
+.box h1.is-2 {
   font-size: 2.5rem;
 }
 
-.subtitle.is-3 {
+.subtitle.is-3,
+.box h1.is-3 {
   font-size: 2rem;
 }
 
-.subtitle.is-4 {
+.subtitle.is-4,
+.box h1.is-4 {
   font-size: 1.5rem;
 }
 
-.subtitle.is-5 {
+.subtitle.is-5,
+.box h1.is-5 {
   font-size: 1.25rem;
 }
 
-.subtitle.is-6 {
+.subtitle.is-6,
+.box h1.is-6 {
   font-size: 1rem;
 }
 
-.subtitle.is-7 {
+.subtitle.is-7,
+.box h1.is-7 {
   font-size: 0.75rem;
 }
 
@@ -5587,7 +5610,10 @@ a.dropdown-item.is-active {
 }
 
 .level-item .title,
-.level-item .subtitle {
+.level-item .subtitle,
+.level-item .box h1,
+.box
+.level-item h1 {
   margin-bottom: 0;
 }
 
@@ -5760,18 +5786,18 @@ a.dropdown-item.is-active {
 
 .menu-list a {
   border-radius: 2px;
-  color: rgba(255, 255, 255, 0.5);
+  color: #4a4a4a;
   display: block;
   padding: 0.5em 0.75em;
 }
 
 .menu-list a:hover {
-  background-color: #2A6292;
-  color: whitesmoke;
+  background-color: whitesmoke;
+  color: #363636;
 }
 
 .menu-list a.is-active {
-  background-color: #2A6292;
+  background-color: #347AB7;
   color: #fff;
 }
 
@@ -5782,7 +5808,7 @@ a.dropdown-item.is-active {
 }
 
 .menu-label {
-  color: rgba(255, 255, 255, 0.4);
+  color: #7a7a7a;
   font-size: 0.75em;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -9784,12 +9810,19 @@ label.panel-block:hover {
   color: #0a0a0a;
 }
 
-.hero.is-white .subtitle {
+.hero.is-white .subtitle,
+.hero.is-white .box h1,
+.box .hero.is-white h1 {
   color: rgba(10, 10, 10, 0.9);
 }
 
 .hero.is-white .subtitle a:not(.button),
-.hero.is-white .subtitle strong {
+.hero.is-white .box h1 a:not(.button),
+.box .hero.is-white h1 a:not(.button),
+.hero.is-white .subtitle strong,
+.hero.is-white .box h1 strong,
+.box
+.hero.is-white h1 strong {
   color: #0a0a0a;
 }
 
@@ -9890,12 +9923,19 @@ label.panel-block:hover {
   color: white;
 }
 
-.hero.is-black .subtitle {
+.hero.is-black .subtitle,
+.hero.is-black .box h1,
+.box .hero.is-black h1 {
   color: rgba(255, 255, 255, 0.9);
 }
 
 .hero.is-black .subtitle a:not(.button),
-.hero.is-black .subtitle strong {
+.hero.is-black .box h1 a:not(.button),
+.box .hero.is-black h1 a:not(.button),
+.hero.is-black .subtitle strong,
+.hero.is-black .box h1 strong,
+.box
+.hero.is-black h1 strong {
   color: white;
 }
 
@@ -9996,12 +10036,19 @@ label.panel-block:hover {
   color: #2A6292;
 }
 
-.hero.is-light .subtitle {
+.hero.is-light .subtitle,
+.hero.is-light .box h1,
+.box .hero.is-light h1 {
   color: rgba(42, 98, 146, 0.9);
 }
 
 .hero.is-light .subtitle a:not(.button),
-.hero.is-light .subtitle strong {
+.hero.is-light .box h1 a:not(.button),
+.box .hero.is-light h1 a:not(.button),
+.hero.is-light .subtitle strong,
+.hero.is-light .box h1 strong,
+.box
+.hero.is-light h1 strong {
   color: #2A6292;
 }
 
@@ -10102,12 +10149,19 @@ label.panel-block:hover {
   color: whitesmoke;
 }
 
-.hero.is-dark .subtitle {
+.hero.is-dark .subtitle,
+.hero.is-dark .box h1,
+.box .hero.is-dark h1 {
   color: rgba(245, 245, 245, 0.9);
 }
 
 .hero.is-dark .subtitle a:not(.button),
-.hero.is-dark .subtitle strong {
+.hero.is-dark .box h1 a:not(.button),
+.box .hero.is-dark h1 a:not(.button),
+.hero.is-dark .subtitle strong,
+.hero.is-dark .box h1 strong,
+.box
+.hero.is-dark h1 strong {
   color: whitesmoke;
 }
 
@@ -10208,12 +10262,19 @@ label.panel-block:hover {
   color: #fff;
 }
 
-.hero.is-primary .subtitle {
+.hero.is-primary .subtitle,
+.hero.is-primary .box h1,
+.box .hero.is-primary h1 {
   color: rgba(255, 255, 255, 0.9);
 }
 
 .hero.is-primary .subtitle a:not(.button),
-.hero.is-primary .subtitle strong {
+.hero.is-primary .box h1 a:not(.button),
+.box .hero.is-primary h1 a:not(.button),
+.hero.is-primary .subtitle strong,
+.hero.is-primary .box h1 strong,
+.box
+.hero.is-primary h1 strong {
   color: #fff;
 }
 
@@ -10314,12 +10375,19 @@ label.panel-block:hover {
   color: #fff;
 }
 
-.hero.is-info .subtitle {
+.hero.is-info .subtitle,
+.hero.is-info .box h1,
+.box .hero.is-info h1 {
   color: rgba(255, 255, 255, 0.9);
 }
 
 .hero.is-info .subtitle a:not(.button),
-.hero.is-info .subtitle strong {
+.hero.is-info .box h1 a:not(.button),
+.box .hero.is-info h1 a:not(.button),
+.hero.is-info .subtitle strong,
+.hero.is-info .box h1 strong,
+.box
+.hero.is-info h1 strong {
   color: #fff;
 }
 
@@ -10420,12 +10488,19 @@ label.panel-block:hover {
   color: #fff;
 }
 
-.hero.is-success .subtitle {
+.hero.is-success .subtitle,
+.hero.is-success .box h1,
+.box .hero.is-success h1 {
   color: rgba(255, 255, 255, 0.9);
 }
 
 .hero.is-success .subtitle a:not(.button),
-.hero.is-success .subtitle strong {
+.hero.is-success .box h1 a:not(.button),
+.box .hero.is-success h1 a:not(.button),
+.hero.is-success .subtitle strong,
+.hero.is-success .box h1 strong,
+.box
+.hero.is-success h1 strong {
   color: #fff;
 }
 
@@ -10526,12 +10601,19 @@ label.panel-block:hover {
   color: rgba(0, 0, 0, 0.7);
 }
 
-.hero.is-warning .subtitle {
+.hero.is-warning .subtitle,
+.hero.is-warning .box h1,
+.box .hero.is-warning h1 {
   color: rgba(0, 0, 0, 0.9);
 }
 
 .hero.is-warning .subtitle a:not(.button),
-.hero.is-warning .subtitle strong {
+.hero.is-warning .box h1 a:not(.button),
+.box .hero.is-warning h1 a:not(.button),
+.hero.is-warning .subtitle strong,
+.hero.is-warning .box h1 strong,
+.box
+.hero.is-warning h1 strong {
   color: rgba(0, 0, 0, 0.7);
 }
 
@@ -10632,12 +10714,19 @@ label.panel-block:hover {
   color: #fff;
 }
 
-.hero.is-danger .subtitle {
+.hero.is-danger .subtitle,
+.hero.is-danger .box h1,
+.box .hero.is-danger h1 {
   color: rgba(255, 255, 255, 0.9);
 }
 
 .hero.is-danger .subtitle a:not(.button),
-.hero.is-danger .subtitle strong {
+.hero.is-danger .box h1 a:not(.button),
+.box .hero.is-danger h1 a:not(.button),
+.hero.is-danger .subtitle strong,
+.hero.is-danger .box h1 strong,
+.box
+.hero.is-danger h1 strong {
   color: #fff;
 }
 
@@ -10919,6 +11008,14 @@ label.panel-block:hover {
   min-height: 100vh;
 }
 
+.has-text-capitalized {
+  text-transform: uppercase;
+}
+
+.has-padding-right-3 {
+  padding-right: 2rem;
+}
+
 .section.is-small {
   padding: 0.75rem;
 }
@@ -11106,5 +11203,44 @@ label.panel-block:hover {
 .list-group .list-group-item:not(:last-child) {
   border-bottom: 1px solid #b5b5b5;
   padding-bottom: 1.5rem;
+}
+
+.menu.is-dark .menu-list a {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.menu.is-dark .menu-list a:hover {
+  background: #2A6292;
+  color: whitesmoke;
+}
+
+.menu.is-dark .menu-list a.is-active {
+  background: #2A6292;
+  color: whitesmoke;
+}
+
+.menu.is-dark .menu-label {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.box {
+  padding: 1.25rem 1px;
+}
+
+.box h1 {
+  border-bottom: 1px #dbdbdb solid;
+  margin-bottom: 1.25rem;
+  padding-bottom: 1.25rem;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+}
+
+.box .box-body {
+  padding: 0 1.25rem;
+}
+
+.panel-block,
+.panel-tabs {
+  background-color: #fff;
 }
 

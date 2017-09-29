@@ -51,23 +51,4 @@ class AddModpackTest extends TestCase
 
         $response->assertRedirect('/login');
     }
-
-    /** @test */
-    public function a_user_can_view_the_add_modpack_form()
-    {
-        $user = factory(User::class)->create();
-
-        $response = $this->actingAs($user)->get('/modpacks/new');
-
-        $response->assertStatus(200);
-        $response->assertViewIs('modpacks.create');
-    }
-
-    /** @test */
-    public function a_guest_cannot_view_the_add_modpack_form()
-    {
-        $response = $this->get('/modpacks/new');
-
-        $response->assertRedirect('/login');
-    }
 }

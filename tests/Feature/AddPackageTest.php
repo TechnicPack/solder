@@ -21,34 +21,6 @@ class AddPackageTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function a_user_can_view_the_add_package_form()
-    {
-        $this->withoutExceptionHandling();
-        $user = factory(User::class)->create();
-        $packageC = factory(Package::class)->create(['name' => 'Package C']);
-        $packageA = factory(Package::class)->create(['name' => 'Package A']);
-        $packageB = factory(Package::class)->create(['name' => 'Package B']);
-
-        $response = $this->actingAs($user)->get('/library/new');
-
-        $response->assertStatus(200);
-        $response->assertViewIs('packages.create');
-        $response->data('packages')->assertEquals([
-            $packageA,
-            $packageB,
-            $packageC,
-        ]);
-    }
-
-    /** @test */
-    public function a_guest_cannot_view_the_add_package_form()
-    {
-        $response = $this->get('/library/new');
-
-        $response->assertRedirect('/login');
-    }
-
-    /** @test */
     public function a_user_can_create_a_package()
     {
         $this->withoutExceptionHandling();

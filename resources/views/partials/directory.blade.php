@@ -22,9 +22,5 @@
             <abbr title="{{ $modpack->name }}">{{ $modpack->monogram }}</abbr>
         </a>
         @endforeach
-
-        <a class="directory-item has-text-primary" href="/modpacks/new">
-            <i class="fa fa-plus"></i>
-        </a>
     </div>
 </aside>

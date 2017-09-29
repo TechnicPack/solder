@@ -6,12 +6,86 @@
 
 @section('content')
     <section class="section">
-        <nav class="level">
-            <div class="level-item has-text-centered">
-                <div>
-                    <p class="heading">Select a Build</p>
+
+        <div class="level has-text-capitalized is-size-6">
+            <div class="level-left"></div>
+            <div class="level-right">
+                <div class="level-item has-padding-right-3">
+                    <small>{{ $modpack->slug }}</small>
                 </div>
+                <div class="level-item">
+                    <small>{{ $modpack->status }}</small>&nbsp;
+                    <span class="icon has-text-{{ $modpack->status }}">
+                      <i class="fa fa-circle"></i>
+                    </span>
+                </div>
+
             </div>
-        </nav>
+        </div>
+
+        <div class="box">
+            <h1>Add Build</h1>
+            <div class="box-body">
+                <form method="post" action="/modpacks/{{ $modpack->slug }}/builds">
+                    {{ csrf_field() }}
+
+                    <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label">Version</label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <div class="control">
+                                    <input class="input" name="version" type="text" placeholder="1.0.0">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label">Minecraft</label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <div class="control">
+                                    <input class="input" name="minecraft" type="text" placeholder="1.7.10">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label">Status</label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <div class="control">
+                                    <div class="select is-fullwidth">
+                                        <select name="status">
+                                            <option value="public" selected>Public</option>
+                                            <option value="private">Private</option>
+                                            <option value="draft">Draft</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="field is-horizontal">
+                        <div class="field-label">
+                            &nbsp;
+                        </div>
+                        <div class="field-body">
+                            <div class="control">
+                                <button class="button is-primary" type="submit">Add Build</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
     </section>
 @endsection

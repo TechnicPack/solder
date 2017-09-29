@@ -22,32 +22,6 @@ class AddBuildTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function a_user_can_view_the_add_build_form()
-    {
-        $this->withoutExceptionHandling();
-        $user = factory(User::class)->create();
-        $modpack = factory(Modpack::class)->create(['slug' => 'brothers-klaus']);
-
-        $response = $this->actingAs($user)->get('/modpacks/brothers-klaus/builds/new');
-
-        $response->assertStatus(200);
-        $response->assertViewIs('builds.create');
-        $response->assertViewHas('modpack', function ($viewModpack) use ($modpack) {
-            return $viewModpack->id == $modpack->id;
-        });
-    }
-
-    /** @test */
-    public function a_guest_cannot_view_the_add_build_form()
-    {
-        factory(Modpack::class)->create(['slug' => 'brothers-klaus']);
-
-        $response = $this->get('/modpacks/brothers-klaus/builds/new');
-
-        $response->assertRedirect('/login');
-    }
-
-    /** @test */
     public function a_user_can_create_a_build()
     {
         $this->withoutExceptionHandling();
