@@ -14,8 +14,8 @@ namespace App\Providers;
 use App\Modpack;
 use App\Md5HashGenerator;
 use App\FileHashGenerator;
-use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 
