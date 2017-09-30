@@ -52,12 +52,12 @@ class ModpacksController extends Controller
      */
     public function store()
     {
-        $modpack = Modpack::create([
-            'name' => request()->name,
-            'slug' => request()->slug,
-            'status' => request()->status,
-        ]);
+        Modpack::create(request()->validate([
+            'name' => ['required'],
+            'slug' => ['required', 'unique:modpacks', 'alpha_dash'],
+            'status' => ['required', 'in:public,private,draft'],
+        ]));
 
-        return redirect('/modpacks/'.$modpack->slug);
+        return redirect('/modpacks/'.request('slug'));
     }
 }

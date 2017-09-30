@@ -1855,83 +1855,24 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+    props: ['errors', 'name', 'slug'],
     data: function data() {
         return {
-            name: '',
-            slug: '',
+            workingName: '',
+            workingSlug: '',
             csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
         };
     },
+    mounted: function mounted() {
+        this.workingName = this.name;
+        this.workingSlug = this.slug;
+    },
 
     watch: {
-        name: function name(_name) {
-            this.slug = this.slugify(_name);
+        workingName: function workingName(name) {
+            this.workingSlug = this.slugify(name);
         }
     },
     methods: {
@@ -20400,161 +20341,9 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "box" }, [
-    _c("h1", [_vm._v("Create Modpack")]),
-    _vm._v(" "),
-    _c("div", { staticClass: "box-body" }, [
-      _c("form", { attrs: { action: "/modpacks", method: "post" } }, [
-        _c("input", {
-          attrs: { type: "hidden", name: "_token" },
-          domProps: { value: _vm.csrf }
-        }),
-        _vm._v(" "),
-        _c("div", { staticClass: "field is-horizontal" }, [
-          _vm._m(0),
-          _vm._v(" "),
-          _c("div", { staticClass: "field-body" }, [
-            _c("div", { staticClass: "field" }, [
-              _c("div", { staticClass: "control" }, [
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.name,
-                      expression: "name"
-                    }
-                  ],
-                  staticClass: "input",
-                  attrs: { name: "name", placeholder: "Attack of the B-Team" },
-                  domProps: { value: _vm.name },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.name = $event.target.value
-                    }
-                  }
-                })
-              ])
-            ])
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "field is-horizontal" }, [
-          _vm._m(1),
-          _vm._v(" "),
-          _c("div", { staticClass: "field-body" }, [
-            _c("div", { staticClass: "field" }, [
-              _c("div", { staticClass: "control" }, [
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.slug,
-                      expression: "slug"
-                    }
-                  ],
-                  staticClass: "input",
-                  attrs: { name: "slug", placeholder: "attack-of-the-bteam" },
-                  domProps: { value: _vm.slug },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.slug = $event.target.value
-                    }
-                  }
-                }),
-                _vm._v(" "),
-                _c("p", { staticClass: "help" }, [
-                  _vm._v(
-                    "The slug will become your modpacks key, it needs to be URL safe (no spaces or special characters)."
-                  )
-                ])
-              ])
-            ])
-          ])
-        ]),
-        _vm._v(" "),
-        _vm._m(2),
-        _vm._v(" "),
-        _vm._m(3)
-      ])
-    ])
-  ])
+  return _c("div")
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "field-label is-normal" }, [
-      _c("label", { staticClass: "label" }, [_vm._v("Name")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "field-label is-normal" }, [
-      _c("label", { staticClass: "label" }, [_vm._v("Slug")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "field is-horizontal" }, [
-      _c("div", { staticClass: "field-label is-normal" }, [
-        _c("label", { staticClass: "label" }, [_vm._v("Status")])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "field-body" }, [
-        _c("div", { staticClass: "field" }, [
-          _c("div", { staticClass: "control" }, [
-            _c("div", { staticClass: "select is-fullwidth" }, [
-              _c("select", { attrs: { name: "status" } }, [
-                _c("option", { attrs: { value: "public", selected: "" } }, [
-                  _vm._v("Public")
-                ]),
-                _vm._v(" "),
-                _c("option", { attrs: { value: "private" } }, [
-                  _vm._v("Private")
-                ]),
-                _vm._v(" "),
-                _c("option", { attrs: { value: "draft" } }, [_vm._v("Draft")])
-              ])
-            ])
-          ])
-        ])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "field is-horizontal" }, [
-      _c("div", { staticClass: "field-label" }, [
-        _vm._v("\n                     \n                ")
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "field-body" }, [
-        _c("div", { staticClass: "control" }, [
-          _c(
-            "button",
-            { staticClass: "button is-primary", attrs: { type: "submit" } },
-            [_vm._v("Add Modpack")]
-          )
-        ])
-      ])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {

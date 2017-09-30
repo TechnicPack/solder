@@ -1,13 +1,12 @@
 @extends('layouts.app')
 
 @section('content')
-
     <section class="section">
         <div class="columns">
             <div class="column is-9 is-offset-2 is-6-fullhd is-offset-3-fullhd">
 
                 @assistant
-                <div class="notification is-primary">
+                <div class="notification is-info">
                     <figure class="image is-64x64 is-pulled-left" style="margin-right: 1rem;">
                         <img src="/img/steve.png" />
                     </figure>
@@ -16,7 +15,76 @@
                 </div>
                 @endassistant
 
-                <create-modpack-form></create-modpack-form>
+                <div class="box">
+                    <h1>Create Modpack</h1>
+                    <div class="box-body">
+                        <form action="/modpacks" method="post" id="create-modpack">
+                            {{ csrf_field() }}
+
+                            <div class="field is-horizontal">
+                                <div class="field-label is-normal">
+                                    <label class="label">Name</label>
+                                </div>
+                                <div class="field-body">
+                                    <div class="field">
+                                        <div class="control">
+                                            <input class="input {{ $errors->has('name') ? 'is-danger' : '' }}" onKeyUp="nameUpdated()" id="modpack-name" name="name" placeholder="Attack of the B-Team" value="{{ old('name') }}" />
+                                            @if($errors->has('name'))
+                                                <p class="help is-danger">{{ $errors->first('name') }}</p>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="field is-horizontal">
+                                <div class="field-label is-normal">
+                                    <label class="label">Slug</label>
+                                </div>
+                                <div class="field-body">
+                                    <div class="field">
+                                        <div class="control">
+                                            <input class="input {{ $errors->has('slug') ? 'is-danger' : '' }}" onKeyUp="slugUpdated()" id="modpack-slug" name="slug" placeholder="attack-of-the-bteam" value="{{ old('slug') }}" />
+                                            @if($errors->has('slug'))
+                                                <p class="help is-danger">{{ $errors->first('slug') }}</p>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="field is-horizontal">
+                                <div class="field-label is-normal">
+                                    <label class="label">Status</label>
+                                </div>
+                                <div class="field-body">
+                                    <div class="field">
+                                        <div class="control">
+                                            <div class="select is-fullwidth">
+                                                <select name="status">
+                                                    <option value="public" selected>Public</option>
+                                                    <option value="private">Private</option>
+                                                    <option value="draft">Draft</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="field is-horizontal">
+                                <div class="field-label">
+                                    &nbsp;
+                                </div>
+                                <div class="field-body">
+                                    <div class="control">
+                                        <button class="button is-primary" type="submit">Add Modpack</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
 
                 @if(count($builds))
                 <div class="box">
@@ -44,7 +112,7 @@
                                     </a>
                                 </td>
                                 <td>{{ $build->minecraft }}</td>
-                                <td>{{ $build->created }}</td>
+                                <td class="is-narrow">{{ $build->created }}</td>
                             </tr>
                         @endforeach
                         </tbody>
@@ -72,7 +140,7 @@
                                         <strong>{{ $release->package->name }}</strong>
                                     </a>
                                 </td>
-                                <td>{{ $release->created }}</td>
+                                <td class="is-narrow">{{ $release->created }}</td>
                             </tr>
                         @endforeach
                         </tbody>
@@ -86,3 +154,30 @@
     </section>
 
 @endsection
+
+@push('afterScripts')
+    <script>
+        var calculatedSlug = true;
+
+        function nameUpdated() {
+            if(calculatedSlug) {
+                document.getElementById("modpack-slug").value = slugify(document.getElementById("modpack-name").value);
+            }
+        }
+
+        function slugUpdated() {
+            calculatedSlug = false;
+        }
+
+        function slugify(text) {
+            // https://gist.github.com/mathewbyrne/1280286
+            return text.toString().toLowerCase()
+                .replace(/\s+/g, '-')           // Replace spaces with -
+                .replace(/[^\w\-]+/g, '')       // Remove all non-word chars
+                .replace(/\-\-+/g, '-')         // Replace multiple - with single -
+                .replace(/^-+/, '')             // Trim - from start of text
+                .replace(/-+$/, '')             // Trim - from end of text
+                .replace(/[\s_-]+/g, '-');
+        }
+    </script>
+@endpush

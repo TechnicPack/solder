@@ -45,4 +45,17 @@ abstract class TestCase extends BaseTestCase
             });
         });
     }
+
+    /**
+     * Test helper to set the previous url in session.
+     *
+     * @param $url
+     * @return $this
+     */
+    protected function from($url)
+    {
+        session()->setPreviousUrl(url($url));
+
+        return $this;
+    }
 }
