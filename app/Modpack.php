@@ -13,6 +13,7 @@ namespace App;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Builder;
 
 class Modpack extends Model
@@ -103,5 +104,15 @@ class Modpack extends Model
     public function getMonogramAttribute()
     {
         return substr($this->name, 0, 2);
+    }
+
+    /**
+     * Get the modpack icon url.
+     *
+     * @return string
+     */
+    public function getIconUrlAttribute()
+    {
+        return Storage::url($this->icon_path);
     }
 }

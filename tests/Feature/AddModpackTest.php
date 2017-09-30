@@ -14,6 +14,8 @@ namespace Tests\Feature;
 use App\User;
 use App\Modpack;
 use Tests\TestCase;
+use Illuminate\Http\Testing\File;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class AddModpackTest extends TestCase
@@ -145,5 +147,91 @@ class AddModpackTest extends TestCase
         $response->assertRedirect('/dashboard');
         $response->assertSessionHasErrors('status');
         $this->assertEquals(0, Modpack::count());
+    }
+
+    /** @test */
+    public function modpack_icon_is_uploaded_if_included()
+    {
+        Storage::fake();
+        $user = factory(User::class)->create();
+        $file = File::image('modpack-icon.png', 50, 50);
+
+        $response = $this->actingAs($user)->post('/modpacks', $this->validParams([
+            'modpack_icon' => $file,
+        ]));
+
+        tap(Modpack::first(), function ($modpack) use ($file) {
+            $this->assertNotNull($modpack->icon_path);
+            Storage::assertExists($modpack->icon_path);
+            $this->assertFileEquals(
+                $file->getPathname(),
+                Storage::path($modpack->icon_path)
+            );
+        });
+    }
+
+    /** @test */
+    public function modpack_icon_must_be_an_image()
+    {
+        Storage::fake('s3');
+        $user = factory(User::class)->create();
+        $file = File::create('not-an-icon.pdf');
+
+        $response = $this->actingAs($user)->from('/dashboard')->post('/modpacks', $this->validParams([
+            'modpack_icon' => $file,
+        ]));
+
+        $response->assertRedirect('/dashboard');
+        $response->assertSessionHasErrors('modpack_icon');
+        $this->assertEquals(0, Modpack::count());
+    }
+
+    /** @test */
+    public function modpack_icon_must_be_at_least_50px_wide()
+    {
+        Storage::fake('s3');
+        $user = factory(User::class)->create();
+        $file = File::image('modpack_icon.png', 49, 49);
+
+        $response = $this->actingAs($user)->from('/dashboard')->post('/modpacks', $this->validParams([
+            'modpack_icon' => $file,
+        ]));
+
+        $response->assertRedirect('/dashboard');
+        $response->assertSessionHasErrors('modpack_icon');
+        $this->assertEquals(0, Modpack::count());
+    }
+
+    /** @test */
+    public function modpack_icon_must_have_square_aspect_ratio()
+    {
+        Storage::fake('s3');
+        $user = factory(User::class)->create();
+        $file = File::image('poster.png', 100, 101);
+
+        $response = $this->actingAs($user)->from('/dashboard')->post('/modpacks', $this->validParams([
+            'modpack_icon' => $file,
+        ]));
+
+        $response->assertRedirect('/dashboard');
+        $response->assertSessionHasErrors('modpack_icon');
+        $this->assertEquals(0, Modpack::count());
+    }
+
+    /** @test */
+    public function modpack_icon_is_optional()
+    {
+        $this->withoutExceptionHandling();
+        $user = factory(User::class)->create();
+
+        $response = $this->actingAs($user)->post('/modpacks', $this->validParams([
+            'modpack_icon' => null,
+        ]));
+
+        tap(Modpack::first(), function ($modpack) use ($response) {
+            $response->assertRedirect('/modpacks/iron-tanks');
+
+            $this->assertNull($modpack->icon_path);
+        });
     }
 }

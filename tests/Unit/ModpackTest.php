@@ -14,6 +14,7 @@ namespace Tests\Unit;
 use App\Modpack;
 use Tests\TestCase;
 use Illuminate\Support\Optional;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ModpackTest extends TestCase
@@ -46,5 +47,14 @@ class ModpackTest extends TestCase
         $modpack = factory(Modpack::class)->create(['name' => 'Example Modpack']);
 
         $this->assertEquals('Ex', $modpack->monogram);
+    }
+
+    /** @test */
+    public function can_get_icon_url_attribute()
+    {
+        Storage::shouldReceive('url')->with('/modpack_icons/iconfile.png')->once()->andReturn('http://example.com/modpack_icons/iconfile.png');
+        $modpack = factory(Modpack::class)->create(['icon_path' => '/modpack_icons/iconfile.png']);
+
+        $this->assertEquals('http://example.com/modpack_icons/iconfile.png', $modpack->icon_url);
     }
 }

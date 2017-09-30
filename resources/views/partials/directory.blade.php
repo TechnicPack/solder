@@ -19,7 +19,13 @@
     <div class="directory-menu">
         @foreach($directory as $modpack)
         <a class="directory-item" href="/modpacks/{{ $modpack->slug }}">
-            <abbr title="{{ $modpack->name }}">{{ $modpack->monogram }}</abbr>
+            @if($modpack->icon_path)
+            <figure class="image is-64x64">
+                <img src="{{ $modpack->icon_url }}" />
+            </figure>
+            @else
+                <abbr title="{{ $modpack->name }}">{{ $modpack->monogram }}</abbr>
+            @endif
         </a>
         @endforeach
     </div>

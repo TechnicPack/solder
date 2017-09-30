@@ -29,6 +29,7 @@ class CreateModpacksTable extends Migration
             $table->string('name');
             $table->string('slug');
             $table->string('status');
+            $table->string('icon_path')->nullable();
             $table->timestamps();
         });
     }
