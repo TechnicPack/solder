@@ -6,6 +6,17 @@
 
 @section('content')
     <section class="section">
+        @assistant
+        <div class="notification is-primary">
+            <figure class="image is-64x64 is-pulled-left" style="margin-right: 1rem;">
+                <img src="/img/steve.png" />
+            </figure>
+            <p class="is-size-4">Bundles</p>
+            <p>The last step in building your modpack in Solder is to bundle together your favorite mods and resource packs from your Solder library. Simply select a package and version and click Bundle.</p>
+            <p>If you don't see any packages listed, you probably need to go to your <a href="/library">Library <i class="fa fa-fw fa-external-link"></i></a> and create some.</p>
+        </div>
+        @endassistant
+
         <div class="level has-text-capitalized is-size-6">
             <div class="level-left"></div>
             <div class="level-right">

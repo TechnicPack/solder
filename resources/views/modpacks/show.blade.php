@@ -7,6 +7,17 @@
 @section('content')
     <section class="section">
 
+        @assistant
+        <div class="notification is-primary">
+            <figure class="image is-64x64 is-pulled-left" style="margin-right: 1rem;">
+                <img src="/img/steve.png" />
+            </figure>
+            <p class="is-size-4">Modpack Build Management</p>
+            <p>Modpacks are made up of multiple versions, called 'builds'. Builds help you organize changes and upgrades to your modpack without breaking players worlds.</p>
+            <p>A build is what the launcher will download and run, so it needs to have a unique version number and the version of Minecraft you want launched.</p>
+        </div>
+        @endassistant
+
         <div class="level has-text-capitalized is-size-6">
             <div class="level-left"></div>
             <div class="level-right">

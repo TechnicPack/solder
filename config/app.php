@@ -52,6 +52,20 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Application Assistance Mode
+    |--------------------------------------------------------------------------
+    |
+    | Enable Steve to provide assistance to new users of the application.
+    | This is provided in the form of helpful, but succinct notifications
+    | sprinkled throughout the application. Eventually, users don't need
+    | this assistance anymore, this is the place where it can be disabled.
+    |
+    */
+
+    'assistant' => env('APP_ASSISTANT', true),
+
+    /*
+    |--------------------------------------------------------------------------
     | Application URL
     |--------------------------------------------------------------------------
     |

@@ -4,37 +4,8 @@
 
 @import "~bulma";
 
+@import "tweaks";
 @import "directory";
 @import "utilities";
 @import "list-group";
 @import "menu";
-
-p.code {
-  @extend code;
-
-  &.is-wrapped {
-    word-break: break-all;
-  }
-}
-
-.box {
-  padding: $size-5 1px;
-
-  h1 {
-    @extend .subtitle;
-    border-bottom: 1px $grey-lighter solid;
-    margin-bottom: $size-5;
-    padding-bottom: $size-5;
-    padding-left: $size-5;
-    padding-right: $size-5;
-  }
-
-  .box-body {
-    padding: 0 $size-5;
-  }
-}
-
-.panel-block,
-.panel-tabs {
-  background-color: #fff;
-}

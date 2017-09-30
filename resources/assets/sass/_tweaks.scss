@@ -1,0 +1,38 @@
+// Wrappable code tag for api keys which are crazy long
+p.code {
+  @extend code;
+
+  &.is-wrapped {
+    word-break: break-all;
+  }
+}
+
+// Make the Bulma box element act more like a Bootstrap panel (I know, blasphemous)
+.box {
+  padding: $size-5 1px;
+
+  h1 {
+    @extend .subtitle;
+    border-bottom: 1px $grey-lighter solid;
+    margin-bottom: $size-5;
+    padding-bottom: $size-5;
+    padding-left: $size-5;
+    padding-right: $size-5;
+  }
+
+  .box-body {
+    padding: 0 $size-5;
+  }
+}
+
+// Tone down the placeholder, and make it disappear when the input is focused
+.input {
+  &::placeholder {
+    color: $grey-light;
+  }
+  &:focus {
+    &::placeholder {
+      color: transparent;
+    }
+  }
+}

@@ -14,6 +14,7 @@ namespace App\Providers;
 use App\Modpack;
 use App\Md5HashGenerator;
 use App\FileHashGenerator;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
@@ -33,6 +34,10 @@ class AppServiceProvider extends ServiceProvider
         // Load modpacks for the directory partial view.
         View::composer('partials.directory', function ($view) {
             $view->with('directory', Modpack::orderBy('name')->get());
+        });
+
+        Blade::if('assistant', function () {
+            return config('app.assistant');
         });
     }
 

@@ -10964,6 +10964,50 @@ label.panel-block:hover {
   padding: 3rem 1.5rem 6rem;
 }
 
+p.code.is-wrapped {
+  word-break: break-all;
+}
+
+.box {
+  padding: 1.25rem 1px;
+}
+
+.box h1 {
+  border-bottom: 1px #dbdbdb solid;
+  margin-bottom: 1.25rem;
+  padding-bottom: 1.25rem;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+}
+
+.box .box-body {
+  padding: 0 1.25rem;
+}
+
+.input::-webkit-input-placeholder {
+  color: #b5b5b5;
+}
+
+.input:-ms-input-placeholder {
+  color: #b5b5b5;
+}
+
+.input::placeholder {
+  color: #b5b5b5;
+}
+
+.input:focus::-webkit-input-placeholder {
+  color: transparent;
+}
+
+.input:focus:-ms-input-placeholder {
+  color: transparent;
+}
+
+.input:focus::placeholder {
+  color: transparent;
+}
+
 .directory .directory-item {
   margin: 0.75rem;
   border-radius: 5px;
@@ -11232,28 +11276,14 @@ label.panel-block:hover {
   color: rgba(255, 255, 255, 0.4);
 }
 
-p.code.is-wrapped {
-  word-break: break-all;
+.fade-enter-active,
+.fade-leave-active {
+  -webkit-transition: opacity .5s;
+  transition: opacity .5s;
 }
 
-.box {
-  padding: 1.25rem 1px;
-}
-
-.box h1 {
-  border-bottom: 1px #dbdbdb solid;
-  margin-bottom: 1.25rem;
-  padding-bottom: 1.25rem;
-  padding-left: 1.25rem;
-  padding-right: 1.25rem;
-}
-
-.box .box-body {
-  padding: 0 1.25rem;
-}
-
-.panel-block,
-.panel-tabs {
-  background-color: #fff;
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
 }
 

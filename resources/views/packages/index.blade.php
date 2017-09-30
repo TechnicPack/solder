@@ -44,57 +44,22 @@
 @section('content')
     <section class="section">
 
-                <div class="level">
-                    <div class="level-left"></div>
-                    <div class="level-right"></div>
-                </div>
+        @assistant
+            <div class="notification is-primary">
+                <figure class="image is-64x64 is-pulled-left" style="margin-right: 1rem;">
+                    <img src="/img/steve.png" />
+                </figure>
+                <p class="is-size-4">This is your Library</p>
+                <p>Here is where you store all the mods, resource packs, configs or whatever else you might want to bundle into a modpack. You'll need to create a package to keep multiple versions
+                    of the same mod or resource pack together before you can start uploading files.</p>
+            </div>
+        @endassistant
 
-                <div class="box">
-                    <h1>Add Package</h1>
-                    <div class="box-body">
-                        <form action="/library/" method="post">
-                            {{ csrf_field() }}
+        <div class="level">
+            <div class="level-left"></div>
+            <div class="level-right"></div>
+        </div>
 
-                            <div class="field is-horizontal">
-                                <div class="field-label is-normal">
-                                    <label class="label">Name</label>
-                                </div>
-                                <div class="field-body">
-                                    <div class="field">
-                                        <div class="control is-expanded">
-                                            <input class="input" type="text" name="name" />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-
-                            <div class="field is-horizontal">
-                                <div class="field-label is-normal">
-                                    <label class="label">Slug</label>
-                                </div>
-                                <div class="field-body">
-                                    <div class="field">
-                                        <div class="control is-expanded">
-                                            <input class="input" type="text" name="slug" />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="field is-horizontal">
-                                <div class="field-label">
-                                    &nbsp;
-                                </div>
-                                <div class="field-body">
-                                    <div class="control">
-                                        <button class="button is-primary" type="submit">Add Package</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-
+        <create-package-form></create-package-form>
     </section>
 @endsection
