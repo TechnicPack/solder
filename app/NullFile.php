@@ -15,6 +15,5 @@ class NullFile
 {
     public function store()
     {
-        return;
     }
 }
