@@ -5,7 +5,7 @@
     <section class="section">
         <div class="columns">
             <div class="column is-one-quarter">
-                <h1 class="title is-4">Settings</h1>
+                <h1 class="title is-4">Your Profile</h1>
                 <aside class="menu">
                     <ul class="menu-list">
                         <li>
