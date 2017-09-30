@@ -58,6 +58,6 @@ class ModpacksController extends Controller
             'status' => request()->status,
         ]);
 
-        return redirect('/modpacks/'.$modpack->slug.'/builds/new');
+        return redirect('/modpacks/'.$modpack->slug);
     }
 }
