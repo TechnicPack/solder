@@ -11010,9 +11010,14 @@ p.code.is-wrapped {
 
 .directory .directory-item {
   margin: 0.75rem;
-  border-radius: 5px;
+  border-radius: 50%;
   font-size: 2.5rem;
   color: whitesmoke;
+  background-color: rgba(52, 122, 183, 0.5);
+  -webkit-transition: border-radius;
+  -webkit-transition-duration: .05s;
+  -webkit-transition-delay: 0s;
+  -webkit-transition-timing-function: linear;
 }
 
 .directory .directory-item abbr {
@@ -11021,10 +11026,12 @@ p.code.is-wrapped {
 
 .directory .directory-item:hover {
   background-color: #347AB7;
+  border-radius: 5px;
 }
 
 .directory .directory-item.is-active {
   background-color: #347AB7;
+  border-radius: 5px;
 }
 
 .directory .directory-item.is-active:before {
@@ -11042,6 +11049,10 @@ p.code.is-wrapped {
   margin-bottom: 1rem;
   -webkit-box-shadow: 0px 23px 0px -20px #347AB7;
           box-shadow: 0px 23px 0px -20px #347AB7;
+}
+
+.directory .directory-brand .directory-item {
+  background: none;
 }
 
 .directory .directory-brand .directory-item:hover {

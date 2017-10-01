@@ -17,14 +17,14 @@
         <p class="is-size-7">v0.8.0</p>
     </div>
     <div class="directory-menu">
-        @foreach($directory as $modpack)
-        <a class="directory-item" href="/modpacks/{{ $modpack->slug }}">
-            @if($modpack->icon_path)
+        @foreach($directory as $modpackItem)
+        <a class="directory-item {{ isset($modpack) && $modpack->id == $modpackItem->id ? 'is-active' : '' }}" href="/modpacks/{{ $modpackItem->slug }}">
+            @if($modpackItem->icon_path)
             <figure class="image is-64x64">
-                <img src="{{ $modpack->icon_url }}" />
+                <img src="{{ $modpackItem->icon_url }}" />
             </figure>
             @else
-                <abbr title="{{ $modpack->name }}">{{ $modpack->monogram }}</abbr>
+                <abbr title="{{ $modpackItem->name }}">{{ $modpackItem->monogram }}</abbr>
             @endif
         </a>
         @endforeach
