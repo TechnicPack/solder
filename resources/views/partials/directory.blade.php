@@ -14,7 +14,7 @@
                 </svg>
             </a>
         </figure>
-        <p class="is-size-7">v0.8.0</p>
+        <p class="is-size-7">{{ $solder['version'] }}</p>
     </div>
     <div class="directory-menu">
         @foreach($directory as $modpackItem)
