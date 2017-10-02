@@ -14,6 +14,7 @@ namespace App\Http\Controllers;
 use App\Build;
 use App\Modpack;
 use App\Package;
+use Illuminate\Validation\Rule;
 
 class ModpackBuildsController extends Controller
 {
@@ -70,11 +71,11 @@ class ModpackBuildsController extends Controller
     {
         $modpack = Modpack::where('slug', $modpackSlug)->first();
 
-        $build = $modpack->builds()->create([
-            'version' => request()->version,
-            'minecraft' => request()->minecraft,
-            'status' => request()->status,
-        ]);
+        $build = $modpack->builds()->create(request()->validate([
+            'version' => ['required', 'regex:/^[a-zA-Z0-9_-][.a-zA-Z0-9_-]*$/', Rule::unique('builds')->where('modpack_id', $modpack->id)],
+            'minecraft' => ['required'],
+            'status' => ['required', 'in:public,private,draft'],
+        ]));
 
         return redirect("/modpacks/$modpackSlug/{$build->version}");
     }

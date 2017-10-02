@@ -8,7 +8,7 @@
     <section class="section">
 
         @assistant
-        <div class="notification is-primary">
+        <div class="notification is-info">
             <figure class="image is-64x64 is-pulled-left" style="margin-right: 1rem;">
                 <img src="/img/steve.png" />
             </figure>
@@ -47,7 +47,10 @@
                         <div class="field-body">
                             <div class="field">
                                 <div class="control">
-                                    <input class="input" name="version" type="text" placeholder="1.0.0">
+                                    <input class="input {{ $errors->has('version') ? 'is-danger' : '' }}" name="version" type="text" placeholder="1.0.0">
+                                    @if($errors->has('version'))
+                                        <p class="help is-danger">{{ $errors->first('version') }}</p>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -60,7 +63,10 @@
                         <div class="field-body">
                             <div class="field">
                                 <div class="control">
-                                    <input class="input" name="minecraft" type="text" placeholder="1.7.10">
+                                    <input class="input {{ $errors->has('minecraft') ? 'is-danger' : '' }}" name="minecraft" type="text" placeholder="1.7.10">
+                                    @if($errors->has('minecraft'))
+                                        <p class="help is-danger">{{ $errors->first('minecraft') }}</p>
+                                    @endif
                                 </div>
                             </div>
                         </div>
