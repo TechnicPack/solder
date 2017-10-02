@@ -11,6 +11,11 @@ p.code {
 .box {
   padding: $size-5 1px;
 
+  &.is-danger {
+    -webkit-box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px $danger;
+    box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px $danger;
+  }
+
   h1 {
     @extend .subtitle;
     border-bottom: 1px $grey-lighter solid;

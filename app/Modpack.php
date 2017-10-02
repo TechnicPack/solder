@@ -21,6 +21,19 @@ class Modpack extends Model
     protected $guarded = [];
 
     /**
+     * The "booting" method of the model.
+     */
+    public static function boot()
+    {
+        parent::boot();
+
+        self::deleting(function ($modpack) {
+            Storage::delete($modpack->icon_path);
+            $modpack->builds->each->delete();
+        });
+    }
+
+    /**
      * A Modpack has many builds.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany

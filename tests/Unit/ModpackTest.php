@@ -11,6 +11,7 @@
 
 namespace Tests\Unit;
 
+use App\Build;
 use App\Modpack;
 use Tests\TestCase;
 use Illuminate\Support\Optional;
@@ -56,5 +57,33 @@ class ModpackTest extends TestCase
         $modpack = factory(Modpack::class)->create(['icon_path' => '/modpack_icons/iconfile.png']);
 
         $this->assertEquals('http://example.com/modpack_icons/iconfile.png', $modpack->icon_url);
+    }
+
+    /** @test */
+    public function deleting_a_modpack_removes_modpack_icon_file()
+    {
+        $modpack = factory(Modpack::class)->create(['icon_path' => 'modpack_icons/iconfile.png']);
+        Storage::shouldReceive('delete')->with('modpack_icons/iconfile.png')->once()->andReturn(true);
+        $this->assertCount(1, Modpack::all());
+
+        $modpack->delete();
+
+        $this->assertCount(0, Modpack::all());
+    }
+
+    /** @test */
+    public function deleting_a_modpack_removes_related_builds()
+    {
+        $modpack = factory(Modpack::class)->create();
+        $relatedBuildA = factory(Build::class)->create(['modpack_id' => $modpack->id]);
+        $relatedBuildB = factory(Build::class)->create(['modpack_id' => $modpack->id]);
+        $unrelatedBuild = factory(Build::class)->create(['modpack_id' => '99']);
+        $this->assertCount(1, Modpack::all());
+
+        $modpack->delete();
+
+        $this->assertDatabaseMissing('builds', ['id' => $relatedBuildA->id]);
+        $this->assertDatabaseMissing('builds', ['id' => $relatedBuildB->id]);
+        $this->assertDatabaseHas('builds', ['id' => $unrelatedBuild->id]);
     }
 }

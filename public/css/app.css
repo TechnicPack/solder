@@ -10972,6 +10972,11 @@ p.code.is-wrapped {
   padding: 1.25rem 1px;
 }
 
+.box.is-danger {
+  -webkit-box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px #d9534f;
+  box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px #d9534f;
+}
+
 .box h1 {
   border-bottom: 1px #dbdbdb solid;
   margin-bottom: 1.25rem;

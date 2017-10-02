@@ -70,4 +70,48 @@ class ModpacksController extends Controller
 
         return redirect('/modpacks/'.request('slug'));
     }
+
+    /**
+     * Update a modpack with the request data.
+     *
+     * @param $slug
+     *
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function update($slug)
+    {
+        $modpack = Modpack::where('slug', $slug)->first();
+
+        $validatedData = request()->validate([
+            'name' => ['sometimes', 'required'],
+            'slug' => ['sometimes', 'required', 'alpha_dash', Rule::unique('modpacks')->ignore($modpack->id)],
+            'status' => ['sometimes', 'required', 'in:public,private,draft'],
+        ]);
+
+        if (request()->has('modpack_icon') && request('modpack_icon') != null) {
+            request()->validate([
+                'modpack_icon' => ['image', Rule::dimensions()->minWidth(50)->ratio(1)],
+            ]);
+
+            $validatedData['icon_path'] = request('modpack_icon')->store('modpack_icons');
+        }
+
+        $modpack->update($validatedData);
+
+        return redirect('/modpacks/'.$modpack->slug);
+    }
+
+    /**
+     * Delete a modpack from the database.
+     *
+     * @param $slug
+     *
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function destroy($slug)
+    {
+        Modpack::where('slug', $slug)->firstOrFail()->delete();
+
+        return redirect('/');
+    }
 }
