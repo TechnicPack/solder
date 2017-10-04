@@ -1,4 +1,9 @@
+sudo: required
+dist: trusty
 language: php
+
+addons:
+   chrome: stable
 
 env:
   global:
@@ -27,6 +32,10 @@ install:
 
 before_script:
    - php artisan passport:keys
+   - touch database/database.sqlite
+   - google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222 http://localhost &
+   - php artisan serve &
 
 script:
    - vendor/bin/phpunit
+   - php artisan dusk
