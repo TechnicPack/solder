@@ -72,6 +72,18 @@ class ModpackTest extends TestCase
     }
 
     /** @test */
+    public function dont_attempt_to_delete_icon_if_path_is_null()
+    {
+        $modpack = factory(Modpack::class)->create(['icon_path' => null]);
+        Storage::shouldReceive('delete')->never();
+        $this->assertCount(1, Modpack::all());
+
+        $modpack->delete();
+
+        $this->assertCount(0, Modpack::all());
+    }
+
+    /** @test */
     public function deleting_a_modpack_removes_related_builds()
     {
         $modpack = factory(Modpack::class)->create();

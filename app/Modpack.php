@@ -28,7 +28,10 @@ class Modpack extends Model
         parent::boot();
 
         self::deleting(function ($modpack) {
-            Storage::delete($modpack->icon_path);
+            if ($modpack->icon_path != null) {
+                Storage::delete($modpack->icon_path);
+            }
+
             $modpack->builds->each->delete();
         });
     }
