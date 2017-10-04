@@ -10,6 +10,7 @@
         "laravel/framework": "5.5.*",
         "laravel/passport": "^4.0",
         "laravel/tinker": "~1.0",
+        "league/flysystem": "1.0.8",
         "spatie/laravel-fractal": "^5.2",
         "tremby/laravel-git-version": "^1.1"
     },
