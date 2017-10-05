@@ -42,6 +42,13 @@
 @endsection
 
 @section('content')
+    @component('components.assistant')
+        Here is where you store all the mods, resource packs, configs or whatever
+        else you might want to bundle into a modpack. You'll need to create a
+        package to keep multiple versions of the same mod or resource pack
+        together before you can start uploading files.
+    @endcomponent
+
     <section class="section">
 
         @assistant
@@ -50,8 +57,7 @@
                     <img src="/img/steve.png" />
                 </figure>
                 <p class="is-size-4">This is your Library</p>
-                <p>Here is where you store all the mods, resource packs, configs or whatever else you might want to bundle into a modpack. You'll need to create a package to keep multiple versions
-                    of the same mod or resource pack together before you can start uploading files.</p>
+                <p></p>
             </div>
         @endassistant
 

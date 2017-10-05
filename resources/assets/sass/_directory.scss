@@ -10,18 +10,42 @@
     color: $light;
     background-color: rgba($primary, 0.5);
 
-    -webkit-transition: border-radius;
-    -webkit-transition-duration: .05s;
-    -webkit-transition-delay: 0s;
-    -webkit-transition-timing-function: linear;
-
     abbr {
       text-decoration: none;
+    }
+
+    .popover {
+      display: none;
+      position: absolute;
+      top: 0;
+      left: 70px;
+      z-index: 99;
+
+      width: fit-content;
+      max-height: 64px;
+      height: 64px;
+      padding: 16px;
+
+      background: #2A6292;
+      border-top-right-radius: 10px;
+      border-bottom-right-radius: 10px;
+
+      line-height: 32px;
+      font-size: 16px;
+      text-align: left;
+      word-wrap: normal;
+      white-space:nowrap;
     }
 
     &:hover {
       background-color: $primary;
       border-radius: $radius-large;
+      transform: scale(1.1);
+
+      .popover {
+        display: block;
+        z-index: 99;
+      }
     }
 
     &.is-active {

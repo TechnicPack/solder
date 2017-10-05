@@ -26,6 +26,12 @@
             @else
                 <abbr title="{{ $modpackItem->name }}">{{ $modpackItem->monogram }}</abbr>
             @endif
+            <div class="popover">
+                {{ $modpackItem->name }}
+                <span class="icon has-text-{{ $modpackItem->status }}">
+              <i class="fa fa-circle"></i>
+            </span>
+            </div>
         </a>
         @endforeach
     </div>

@@ -6,6 +6,13 @@ $dark: #2A6292;
 $success: #5cb85c;
 $warning: #f0ad4e;
 $danger: #d9534f;
+$light: #f1f3f5;
 
 // Fonts
-$family-sans-serif: 'Open Sans', BlinkMacSystemFont, -apple-system, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif
+$family-sans-serif: 'Open Sans', BlinkMacSystemFont, -apple-system, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+
+// Menu Overrides
+$menu-item-hover-color: $primary;
+$menu-item-hover-background-color: $light;
+$menu-item-active-color: $primary;
+$menu-item-active-background-color: $light;

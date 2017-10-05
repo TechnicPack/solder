@@ -21,3 +21,25 @@
   }
 
 }
+
+
+
+.menu {
+  .menu-label {
+    font-weight: bold;
+  }
+
+  .menu-list a {
+    .icon {
+      color: $grey-light
+    }
+
+    &.is-active .icon {
+      color: $menu-item-active-color;
+    }
+
+    &:hover .icon {
+      color: $menu-item-hover-color;
+    }
+  }
+}

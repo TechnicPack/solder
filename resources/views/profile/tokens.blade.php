@@ -4,8 +4,10 @@
     <section class="section">
         <div class="columns">
             <div class="column is-one-quarter">
-                <h1 class="title is-4">Your Profile</h1>
                 <aside class="menu">
+                    <p class="menu-label">
+                        Profile
+                    </p>
                     <ul class="menu-list">
                         <li>
                             <a href="/profile/tokens" class="is-active">
@@ -29,11 +31,6 @@
             </div>
 
             <div class="column">
-
-                <div class="level">
-                    &nbsp;
-                </div>
-
                 <passport-personal-access-tokens></passport-personal-access-tokens>
             </div>
         </div>

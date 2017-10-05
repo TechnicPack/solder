@@ -15,6 +15,7 @@ use App\Build;
 use App\Modpack;
 use App\Package;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\DB;
 
 class ModpackBuildsController extends Controller
 {
@@ -67,6 +68,13 @@ class ModpackBuildsController extends Controller
         ]);
     }
 
+    /**
+     * Store the passed data as a build.
+     *
+     * @param $modpackSlug
+     *
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
     public function store($modpackSlug)
     {
         $modpack = Modpack::where('slug', $modpackSlug)->first();
@@ -77,6 +85,52 @@ class ModpackBuildsController extends Controller
             'status' => ['required', 'in:public,private,draft'],
         ]));
 
+        return redirect("/modpacks/$modpackSlug");
+    }
+
+    /**
+     * Update a build.
+     *
+     * @param $modpackSlug
+     * @param $buildVersion
+     *
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function update($modpackSlug, $buildVersion)
+    {
+        $modpack = Modpack::where('slug', $modpackSlug)->firstOrFail();
+        $build = $modpack->builds()->where('version', $buildVersion)->firstOrFail();
+
+        $updates = request()->validate([
+            'version' => ['sometimes', 'required', Rule::unique('builds')->ignore($build->id)->where('modpack_id', $modpack->id)],
+            'status' => ['sometimes', 'required', 'in:public,private'],
+        ]);
+
+        $build->update($updates);
+
         return redirect("/modpacks/$modpackSlug/{$build->version}");
+    }
+
+    /**
+     * Remove build from application.
+     *
+     * @param $modpackSlug
+     * @param $buildVersion
+     *
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function destroy($modpackSlug, $buildVersion)
+    {
+        Build::where('version', $buildVersion)
+            ->whereExists(function ($query) use ($modpackSlug) {
+                $query->select(DB::raw(1))
+                    ->from('modpacks')
+                    ->where('slug', $modpackSlug)
+                    ->whereRaw('builds.modpack_id = modpacks.id');
+            })
+            ->firstOrFail()
+            ->delete();
+
+        return redirect("/modpacks/$modpackSlug");
     }
 }

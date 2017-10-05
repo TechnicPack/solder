@@ -44,17 +44,15 @@
 
 @section('content')
 
+    @component('components.assistant')
+        This is the place for uploading new releases of a package, and managing
+        the files for your library. The file structure is very important so before
+        you upload anything take a minute to read about the
+        <a href="http://docs.solder.io/docs/zip-file-structure">zip file structure</a>
+        in the docs.
+    @endcomponent
+
     <section class="section">
-        @assistant
-        <div class="notification is-primary">
-            <figure class="image is-64x64 is-pulled-left" style="margin-right: 1rem;">
-                <img src="/img/steve.png" />
-            </figure>
-            <p class="is-size-4">Package release management</p>
-            <p>This is the place for uploading new releases of a package, and managing the files for your library. The file structure is very important so before you upload anything take a
-            minute to read about the <a href="http://docs.solder.io/docs/zip-file-structure">zip file structure</a> in the docs.</p>
-        </div>
-        @endassistant
 
         <div class="level">
             <div class="level-left"></div>

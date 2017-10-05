@@ -18,7 +18,7 @@ class DashboardController extends Controller
 {
     public function __invoke()
     {
-        return view('dashboard', [
+        return view('dashboard.show', [
             'builds' => Build::recent(5),
             'releases' => Release::recent(5),
         ]);

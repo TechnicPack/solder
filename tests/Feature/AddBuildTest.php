@@ -49,7 +49,7 @@ class AddBuildTest extends TestCase
             $this->assertEquals('public', $build->status);
             $this->assertEquals($modpack->id, $build->modpack_id);
 
-            $response->assertRedirect('/modpacks/brothers-klaus/1.3.4_beta-2');
+            $response->assertRedirect('/modpacks/brothers-klaus');
         });
     }
 

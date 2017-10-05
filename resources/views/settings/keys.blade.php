@@ -5,8 +5,10 @@
     <section class="section">
         <div class="columns">
             <div class="column is-one-quarter">
-                <h1 class="title is-4">Settings</h1>
                 <aside class="menu">
+                    <p class="menu-label">
+                        Settings
+                    </p>
                     <ul class="menu-list">
                         <li>
                             <a href="/settings/keys" class="is-active">
@@ -21,11 +23,6 @@
             </div>
 
             <div class="column">
-
-                <div class="level">
-                    &nbsp;
-                </div>
-
                 <div class="box">
                     <h1>Add Key</h1>
                     <div class="box-body">
