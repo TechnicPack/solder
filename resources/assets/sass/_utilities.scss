@@ -10,11 +10,13 @@
   padding-right: $size-3;
 }
 
-.has-text-public {
+.has-text-public,
+.has-text-published {
   @extend .has-text-success;
 }
 
-.has-text-private {
+.has-text-private,
+.has-text-unpublished {
   @extend .has-text-warning;
 }
 

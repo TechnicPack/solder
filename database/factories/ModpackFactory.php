@@ -15,24 +15,18 @@ $factory->define(App\Modpack::class, function (Faker $faker) {
     return [
         'name' => 'Test Modpack',
         'slug' => 'test-modpack',
-        'status' => 'public',
+        'is_published' => false,
     ];
 });
 
-$factory->state(App\Modpack::class, 'public', function (Faker $faker) {
+$factory->state(App\Modpack::class, 'published', function (Faker $faker) {
     return [
-        'status' => 'public',
+        'is_published' => true,
     ];
 });
 
-$factory->state(App\Modpack::class, 'draft', function (Faker $faker) {
+$factory->state(App\Modpack::class, 'unpublished', function (Faker $faker) {
     return [
-        'status' => 'draft',
-    ];
-});
-
-$factory->state(App\Modpack::class, 'private', function (Faker $faker) {
-    return [
-        'status' => 'private',
+        'is_published' => false,
     ];
 });

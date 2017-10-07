@@ -78,18 +78,18 @@
             <!-- Status -->
             <div class="field is-horizontal">
                 <div class="field-label is-normal">
-                    <label class="label">Status</label>
+                    <label class="label">&nbsp;</label>
                 </div>
                 <div class="field-body">
                     <div class="field">
                         <div class="control">
-                            <div class="select is-fullwidth">
-                                <select name="status">
-                                    <option value="public" selected>Public</option>
-                                    <option value="private">Private</option>
-                                    <option value="draft">Draft</option>
-                                </select>
-                            </div>
+                            <label class="checkbox">
+                                <input type="checkbox" name="is_published" value="1" {{ old('is_published') == true ? 'checked' : '' }}>
+                                Immediately publish the modpack.
+                            </label>
+                            @if($errors->has('is_published'))
+                                <p class="is-size-7 has-text-danger">{{ $errors->first('is_published') }}</p>
+                            @endif
                         </div>
                     </div>
                 </div>

@@ -27,7 +27,7 @@ class UpdateModpackTest extends TestCase
         return array_merge([
             'name' => 'Iron Tanks',
             'slug' => 'iron-tanks',
-            'status' => 'public',
+            'is_published' => true,
         ], $overrides);
     }
 
@@ -36,7 +36,7 @@ class UpdateModpackTest extends TestCase
         return array_merge([
             'name' => 'Brothers Klaus',
             'slug' => 'brothers-klaus',
-            'status' => 'private',
+            'is_published' => true,
             'icon_path' => null,
         ], $overrides);
     }
@@ -51,14 +51,14 @@ class UpdateModpackTest extends TestCase
         $modpack = factory(Modpack::class)->create([
             'name' => 'Brothers Klaus',
             'slug' => 'brothers-klaus',
-            'status' => 'private',
+            'is_published' => true,
             'icon_path' => null,
         ]);
 
         $response = $this->actingAs($user)->patch('/modpacks/brothers-klaus', [
             'name' => 'Iron Tanks',
             'slug' => 'iron-tanks',
-            'status' => 'public',
+            'is_published' => false,
             'modpack_icon' => $file,
         ]);
 
@@ -67,7 +67,7 @@ class UpdateModpackTest extends TestCase
 
             $this->assertEquals('Iron Tanks', $modpack->name);
             $this->assertEquals('iron-tanks', $modpack->slug);
-            $this->assertEquals('public', $modpack->status);
+            $this->assertFalse($modpack->is_published);
             $this->assertNotNull($modpack->icon_path);
 
             Storage::assertExists($modpack->icon_path);
@@ -206,7 +206,7 @@ class UpdateModpackTest extends TestCase
     }
 
     /** @test */
-    public function status_cannot_be_blank()
+    public function is_published_cannot_be_blank()
     {
         $user = factory(User::class)->create();
         $modpack = factory(Modpack::class)->create($this->oldAttributes([
@@ -214,18 +214,18 @@ class UpdateModpackTest extends TestCase
         ]));
 
         $response = $this->actingAs($user)->from('/modpacks/brothers-klaus')->patch('/modpacks/brothers-klaus', [
-            'status' => '',
+            'is_published' => '',
         ]);
 
         $response->assertRedirect('/modpacks/brothers-klaus');
-        $response->assertSessionHasErrors('status');
+        $response->assertSessionHasErrors('is_published');
         $this->assertArraySubset($this->oldAttributes($this->oldAttributes([
             'slug' => 'brothers-klaus',
         ])), $modpack->fresh()->getAttributes());
     }
 
     /** @test */
-    public function status_is_valid()
+    public function is_published_is_boolean()
     {
         $user = factory(User::class)->create();
         $modpack = factory(Modpack::class)->create($this->oldAttributes([
@@ -233,11 +233,11 @@ class UpdateModpackTest extends TestCase
         ]));
 
         $response = $this->actingAs($user)->from('/modpacks/brothers-klaus')->patch('/modpacks/brothers-klaus', [
-            'status' => 'invalid',
+            'is_published' => 'invalid',
         ]);
 
         $response->assertRedirect('/modpacks/brothers-klaus');
-        $response->assertSessionHasErrors('status');
+        $response->assertSessionHasErrors('is_published');
         $this->assertArraySubset($this->oldAttributes($this->oldAttributes([
             'slug' => 'brothers-klaus',
         ])), $modpack->fresh()->getAttributes());

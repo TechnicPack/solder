@@ -54,12 +54,11 @@ class LegacyEndpointsTest extends TestCase
     }
 
     /** @test */
-    public function guests_can_list_public_modpacks()
+    public function guests_can_list_only_published_modpacks()
     {
-        factory(Modpack::class)->states('public')->create(['name' => 'Attack of the B-Team', 'slug' => 'b-team']);
-        factory(Modpack::class)->states('public')->create(['name' => 'Tekkit', 'slug' => 'tekkit']);
-        factory(Modpack::class)->states('private')->create(['name' => 'Big Dig', 'slug' => 'big-dig']);
-        factory(Modpack::class)->states('draft')->create(['name' => 'Hexxit', 'slug' => 'hexxit']);
+        factory(Modpack::class)->states('published')->create(['name' => 'Attack of the B-Team', 'slug' => 'b-team']);
+        factory(Modpack::class)->states('published')->create(['name' => 'Tekkit', 'slug' => 'tekkit']);
+        factory(Modpack::class)->states('unpublished')->create(['name' => 'Big Dig', 'slug' => 'big-dig']);
         config(['services.technic.repo' => 'http://technicpack.net/repo/']);
 
         $response = $this->get('api/modpack');
@@ -75,13 +74,12 @@ class LegacyEndpointsTest extends TestCase
     }
 
     /** @test */
-    public function valid_api_keys_can_list_public_and_private_modpacks()
+    public function valid_api_keys_can_list_all_modpacks()
     {
         factory(Key::class)->create(['token' => 'APIKEY1234']);
-        factory(Modpack::class)->states('public')->create(['name' => 'Attack of the B-Team', 'slug' => 'b-team']);
-        factory(Modpack::class)->states('public')->create(['name' => 'Tekkit', 'slug' => 'tekkit']);
-        factory(Modpack::class)->states('private')->create(['name' => 'Big Dig', 'slug' => 'big-dig']);
-        factory(Modpack::class)->states('draft')->create(['name' => 'Hexxit', 'slug' => 'hexxit']);
+        factory(Modpack::class)->states('published')->create(['name' => 'Attack of the B-Team', 'slug' => 'b-team']);
+        factory(Modpack::class)->states('published')->create(['name' => 'Tekkit', 'slug' => 'tekkit']);
+        factory(Modpack::class)->states('unpublished')->create(['name' => 'Big Dig', 'slug' => 'big-dig']);
         config(['services.technic.repo' => 'http://technicpack.net/repo/']);
 
         $response = $this->get('api/modpack?k=APIKEY1234');
@@ -98,15 +96,12 @@ class LegacyEndpointsTest extends TestCase
     }
 
     /** @test */
-    public function authorized_clients_can_list_public_and_authorized_private_modpacks()
+    public function authorized_clients_can_list_published_and_authorized_unpublished_modpacks()
     {
-        $this->withoutExceptionHandling();
-
-        factory(Modpack::class)->states('public')->create(['name' => 'Attack of the B-Team', 'slug' => 'b-team']);
-        factory(Modpack::class)->states('private')->create(['name' => 'Tekkit', 'slug' => 'tekkit'])
+        factory(Modpack::class)->states('published')->create(['name' => 'Attack of the B-Team', 'slug' => 'b-team']);
+        factory(Modpack::class)->states('unpublished')->create(['name' => 'Tekkit', 'slug' => 'tekkit'])
             ->clients()->attach(factory(Client::class)->create(['token' => 'CLIENTKEY1234']));
-        factory(Modpack::class)->states('private')->create(['name' => 'Big Dig', 'slug' => 'big-dig']);
-        factory(Modpack::class)->states('draft')->create(['name' => 'Hexxit', 'slug' => 'hexxit']);
+        factory(Modpack::class)->states('unpublished')->create(['name' => 'Big Dig', 'slug' => 'big-dig']);
         config(['services.technic.repo' => 'http://technicpack.net/repo/']);
 
         $response = $this->get('api/modpack?cid=CLIENTKEY1234');
@@ -122,20 +117,19 @@ class LegacyEndpointsTest extends TestCase
     }
 
     /** @test */
-    public function guests_can_list_public_modpacks_and_builds_with_full_parameters()
+    public function guests_can_list_published_modpacks_and_builds_with_full_parameters()
     {
-        tap(factory(Modpack::class)->states('public')->create(['name' => 'Attack of the B-Team', 'slug' => 'b-team']), function ($modpack) {
+        tap(factory(Modpack::class)->states('published')->create(['name' => 'Attack of the B-Team', 'slug' => 'b-team']), function ($modpack) {
             $v100 = factory(Build::class)->states('public')->create(['version' => '1.0.0', 'modpack_id' => $modpack->id]);
             $v200 = factory(Build::class)->states('draft')->create(['version' => '2.0.0', 'modpack_id' => $modpack->id]);
             factory(Build::class)->states('private')->create(['version' => '1.5.0', 'modpack_id' => $modpack->id]);
             $modpack->update(['promoted_build_id' => $v100->id, 'latest_build_id' => $v200->id]);
         });
-        tap(factory(Modpack::class)->states('public')->create(['name' => 'Tekkit', 'slug' => 'tekkit']), function ($modpack) {
+        tap(factory(Modpack::class)->states('published')->create(['name' => 'Tekkit', 'slug' => 'tekkit']), function ($modpack) {
             $build = factory(Build::class)->states('private')->create(['version' => '1.5.0', 'modpack_id' => $modpack->id]);
             $modpack->update(['promoted_build_id' => $build->id, 'latest_build_id' => $build->id]);
         });
-        factory(Modpack::class)->states('private')->create(['name' => 'Big Dig', 'slug' => 'big-dig']);
-        factory(Modpack::class)->states('draft')->create(['name' => 'Hexxit', 'slug' => 'hexxit']);
+        factory(Modpack::class)->states('unpublished')->create(['name' => 'Big Dig', 'slug' => 'big-dig']);
         config(['services.technic.repo' => 'http://technicpack.net/repo/']);
 
         $response = $this->get('api/modpack?include=full');
@@ -166,21 +160,20 @@ class LegacyEndpointsTest extends TestCase
     }
 
     /** @test */
-    public function authorized_clients_can_list_authorized_private_modpacks_and_builds_with_full_parameters()
+    public function authorized_clients_can_list_authorized_unpublished_modpacks_and_builds_with_full_parameters()
     {
-        tap(factory(Modpack::class)->states('private')->create(['name' => 'Attack of the B-Team', 'slug' => 'b-team']), function ($modpack) {
+        tap(factory(Modpack::class)->states('unpublished')->create(['name' => 'Attack of the B-Team', 'slug' => 'b-team']), function ($modpack) {
             $v100 = factory(Build::class)->states('public')->create(['version' => '1.0.0', 'modpack_id' => $modpack->id]);
             $v200 = factory(Build::class)->states('draft')->create(['version' => '2.0.0', 'modpack_id' => $modpack->id]);
             factory(Build::class)->states('private')->create(['version' => '1.5.0', 'modpack_id' => $modpack->id]);
             $modpack->update(['promoted_build_id' => $v100->id, 'latest_build_id' => $v200->id]);
             $modpack->clients()->attach(factory(Client::class)->create(['token' => 'CLIENTKEY1234']));
         });
-        tap(factory(Modpack::class)->states('public')->create(['name' => 'Tekkit', 'slug' => 'tekkit']), function ($modpack) {
+        tap(factory(Modpack::class)->states('published')->create(['name' => 'Tekkit', 'slug' => 'tekkit']), function ($modpack) {
             $build = factory(Build::class)->states('private')->create(['version' => '1.5.0', 'modpack_id' => $modpack->id]);
             $modpack->update(['promoted_build_id' => $build->id, 'latest_build_id' => $build->id]);
         });
-        factory(Modpack::class)->states('private')->create(['name' => 'Big Dig', 'slug' => 'big-dig']);
-        factory(Modpack::class)->states('draft')->create(['name' => 'Hexxit', 'slug' => 'hexxit']);
+        factory(Modpack::class)->states('unpublished')->create(['name' => 'Big Dig', 'slug' => 'big-dig']);
         config(['services.technic.repo' => 'http://technicpack.net/repo/']);
 
         $response = $this->get('api/modpack?include=full&cid=CLIENTKEY1234');
@@ -212,21 +205,20 @@ class LegacyEndpointsTest extends TestCase
     }
 
     /** @test */
-    public function valid_api_keys_can_list_public_and_private_modpacks_and_builds_with_full_parameters()
+    public function valid_api_keys_can_list_all_modpacks_and_builds_with_full_parameters()
     {
         factory(Key::class)->create(['token' => 'APIKEY1234']);
-        tap(factory(Modpack::class)->states('public')->create(['name' => 'Attack of the B-Team', 'slug' => 'b-team']), function ($modpack) {
+        tap(factory(Modpack::class)->states('published')->create(['name' => 'Attack of the B-Team', 'slug' => 'b-team']), function ($modpack) {
             $v100 = factory(Build::class)->states('public')->create(['version' => '1.0.0', 'modpack_id' => $modpack->id]);
             $v200 = factory(Build::class)->states('draft')->create(['version' => '2.0.0', 'modpack_id' => $modpack->id]);
             factory(Build::class)->states('private')->create(['version' => '1.5.0', 'modpack_id' => $modpack->id]);
             $modpack->update(['promoted_build_id' => $v100->id, 'latest_build_id' => $v200->id]);
         });
-        tap(factory(Modpack::class)->states('public')->create(['name' => 'Tekkit', 'slug' => 'tekkit']), function ($modpack) {
+        tap(factory(Modpack::class)->states('published')->create(['name' => 'Tekkit', 'slug' => 'tekkit']), function ($modpack) {
             $build = factory(Build::class)->states('private')->create(['version' => '1.5.0', 'modpack_id' => $modpack->id]);
             $modpack->update(['promoted_build_id' => $build->id, 'latest_build_id' => $build->id]);
         });
-        factory(Modpack::class)->states('private')->create(['name' => 'Big Dig', 'slug' => 'big-dig']);
-        factory(Modpack::class)->states('draft')->create(['name' => 'Hexxit', 'slug' => 'hexxit']);
+        factory(Modpack::class)->states('unpublished')->create(['name' => 'Big Dig', 'slug' => 'big-dig']);
         config(['services.technic.repo' => 'http://technicpack.net/repo/']);
 
         $response = $this->get('api/modpack?include=full&k=APIKEY1234');
@@ -269,7 +261,7 @@ class LegacyEndpointsTest extends TestCase
     /** @test */
     public function guests_can_show_published_modpack_with_valid_slug()
     {
-        tap(factory(Modpack::class)->states('public')->create(['name' => 'Attack of the B-Team', 'slug' => 'b-team']), function ($modpack) {
+        tap(factory(Modpack::class)->states('published')->create(['name' => 'Attack of the B-Team', 'slug' => 'b-team']), function ($modpack) {
             $v100 = factory(Build::class)->states('public')->create(['version' => '1.0.0', 'modpack_id' => $modpack->id]);
             $v200 = factory(Build::class)->states('draft')->create(['version' => '2.0.0', 'modpack_id' => $modpack->id]);
             factory(Build::class)->states('private')->create(['version' => '1.5.0', 'modpack_id' => $modpack->id]);
@@ -291,9 +283,9 @@ class LegacyEndpointsTest extends TestCase
     }
 
     /** @test */
-    public function authorized_users_can_show_authorized_private_modpack_with_valid_slug()
+    public function authorized_users_can_show_authorized_unpublished_modpack_with_valid_slug()
     {
-        tap(factory(Modpack::class)->states('private')->create(['name' => 'Attack of the B-Team', 'slug' => 'b-team']), function ($modpack) {
+        tap(factory(Modpack::class)->states('unpublished')->create(['name' => 'Attack of the B-Team', 'slug' => 'b-team']), function ($modpack) {
             $v100 = factory(Build::class)->states('public')->create(['version' => '1.0.0', 'modpack_id' => $modpack->id]);
             $v200 = factory(Build::class)->states('draft')->create(['version' => '2.0.0', 'modpack_id' => $modpack->id]);
             factory(Build::class)->states('private')->create(['version' => '1.5.0', 'modpack_id' => $modpack->id]);
@@ -317,10 +309,10 @@ class LegacyEndpointsTest extends TestCase
     }
 
     /** @test */
-    public function valid_api_keys_can_show_private_modpack_and_builds_with_valid_slug()
+    public function valid_api_keys_can_show_all_modpack_and_builds_with_valid_slug()
     {
         factory(Key::class)->create(['token' => 'APIKEY1234']);
-        tap(factory(Modpack::class)->states('private')->create(['name' => 'Attack of the B-Team', 'slug' => 'b-team']), function ($modpack) {
+        tap(factory(Modpack::class)->states('unpublished')->create(['name' => 'Attack of the B-Team', 'slug' => 'b-team']), function ($modpack) {
             $v100 = factory(Build::class)->states('public')->create(['version' => '1.0.0', 'modpack_id' => $modpack->id]);
             $v200 = factory(Build::class)->states('draft')->create(['version' => '2.0.0', 'modpack_id' => $modpack->id]);
             factory(Build::class)->states('private')->create(['version' => '1.5.0', 'modpack_id' => $modpack->id]);
@@ -343,10 +335,9 @@ class LegacyEndpointsTest extends TestCase
     }
 
     /** @test */
-    public function returns_a_404_to_guests_for_private_and_draft_modpacks()
+    public function returns_a_404_to_guests_for_unpublished_modpacks()
     {
-        factory(Modpack::class)->states('private')->create(['name' => 'Big Dig', 'slug' => 'big-dig']);
-        factory(Modpack::class)->states('draft')->create(['name' => 'Hexxit', 'slug' => 'hexxit']);
+        factory(Modpack::class)->states('unpublished')->create(['name' => 'Big Dig', 'slug' => 'big-dig']);
 
         $response = $this->get('api/modpack/big-dig');
 
@@ -399,7 +390,7 @@ class LegacyEndpointsTest extends TestCase
     public function guest_can_show_public_build()
     {
         Storage::shouldReceive('url')->andReturn('http://technicpack.net/mod-a/file-a.zip', 'http://technicpack.net/mod-b/file-b.zip');
-        tap(factory(Modpack::class)->states('public')->create(['name' => 'Attack of the B-Team', 'slug' => 'b-team']), function ($modpack) {
+        tap(factory(Modpack::class)->states('published')->create(['name' => 'Attack of the B-Team', 'slug' => 'b-team']), function ($modpack) {
             $packageA = factory(Package::class)->create(['name' => 'Example Mod A', 'slug' => 'mod-a']);
             $releaseA = factory(Release::class)->create(['package_id' => $packageA->id, 'version' => '1.2.3', 'md5' => 'MD5HASHA']);
             $packageB = factory(Package::class)->create(['name' => 'Example Mod B', 'slug' => 'mod-b']);
@@ -432,11 +423,11 @@ class LegacyEndpointsTest extends TestCase
     }
 
     /** @test */
-    public function authorized_clients_can_show_private_modpack_and_build()
+    public function authorized_clients_can_show_unpublished_modpack_and_build()
     {
         Storage::shouldReceive('url')->andReturn('http://technicpack.net/mod-a/file-a.zip', 'http://technicpack.net/mod-b/file-b.zip');
 
-        tap(factory(Modpack::class)->states('private')->create(['name' => 'Attack of the B-Team', 'slug' => 'b-team']), function ($modpack) {
+        tap(factory(Modpack::class)->states('unpublished')->create(['name' => 'Attack of the B-Team', 'slug' => 'b-team']), function ($modpack) {
             $packageA = factory(Package::class)->create(['name' => 'Example Mod A', 'slug' => 'mod-a']);
             $releaseA = factory(Release::class)->create(['package_id' => $packageA->id, 'version' => '1.2.3', 'md5' => 'MD5HASHA']);
             $packageB = factory(Package::class)->create(['name' => 'Example Mod B', 'slug' => 'mod-b']);
@@ -470,12 +461,12 @@ class LegacyEndpointsTest extends TestCase
     }
 
     /** @test */
-    public function valid_api_key_can_show_private_modpack_and_build()
+    public function valid_api_key_can_show_all_modpacks_and_builds()
     {
         Storage::shouldReceive('url')->andReturn('http://technicpack.net/mod-a/file-a.zip', 'http://technicpack.net/mod-b/file-b.zip');
 
         factory(Key::class)->create(['token' => 'APIKEY1234']);
-        tap(factory(Modpack::class)->states('private')->create(['name' => 'Attack of the B-Team', 'slug' => 'b-team']), function ($modpack) {
+        tap(factory(Modpack::class)->states('unpublished')->create(['name' => 'Attack of the B-Team', 'slug' => 'b-team']), function ($modpack) {
             $packageA = factory(Package::class)->create(['name' => 'Example Mod A', 'slug' => 'mod-a']);
             $releaseA = factory(Release::class)->create(['package_id' => $packageA->id, 'version' => '1.2.3', 'md5' => 'MD5HASHA']);
             $packageB = factory(Package::class)->create(['name' => 'Example Mod B', 'slug' => 'mod-b']);
@@ -510,7 +501,7 @@ class LegacyEndpointsTest extends TestCase
     /** @test */
     public function returns_a_404_to_guests_for_non_public_build()
     {
-        tap(factory(Modpack::class)->states('public')->create(['name' => 'Attack of the B-Team', 'slug' => 'b-team']), function ($modpack) {
+        tap(factory(Modpack::class)->states('published')->create(['name' => 'Attack of the B-Team', 'slug' => 'b-team']), function ($modpack) {
             factory(Build::class)->states('public')->create(['version' => '1.0.0', 'modpack_id' => $modpack->id]);
             factory(Build::class)->states('draft')->create(['version' => '2.0.0', 'modpack_id' => $modpack->id]);
             factory(Build::class)->states('private')->create(['version' => '1.5.0', 'modpack_id' => $modpack->id]);
@@ -534,7 +525,7 @@ class LegacyEndpointsTest extends TestCase
     /** @test */
     public function returns_a_404_for_invalid_build()
     {
-        factory(Modpack::class)->states('public')->create(['slug' => 'b-team']);
+        factory(Modpack::class)->states('published')->create(['slug' => 'b-team']);
 
         $response = $this->get('api/modpack/b-team/invalid-version');
 

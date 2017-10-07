@@ -27,7 +27,7 @@ class AddModpackTest extends TestCase
         return array_merge([
             'name' => 'Iron Tanks',
             'slug' => 'iron-tanks',
-            'status' => 'public',
+            'is_published' => true,
         ], $overrides);
     }
 
@@ -39,7 +39,7 @@ class AddModpackTest extends TestCase
         $response = $this->actingAs($user)->post('/modpacks', [
             'name' => 'Iron Tanks',
             'slug' => 'iron-tanks',
-            'status' => 'public',
+            'is_published' => true,
         ]);
 
         tap(Modpack::first(), function ($modpack) use ($response) {
@@ -47,18 +47,14 @@ class AddModpackTest extends TestCase
 
             $this->assertEquals('Iron Tanks', $modpack->name);
             $this->assertEquals('iron-tanks', $modpack->slug);
-            $this->assertEquals('public', $modpack->status);
+            $this->assertTrue($modpack->is_published);
         });
     }
 
     /** @test */
     public function a_guest_cannot_create_a_modpack()
     {
-        $response = $this->post('/modpacks', [
-            'name' => 'Iron Tanks',
-            'slug' => 'iron-tanks',
-            'status' => 'public',
-        ]);
+        $response = $this->post('/modpacks', $this->validParams());
 
         $response->assertRedirect('/login');
         $this->assertEquals(0, Modpack::count());
@@ -122,30 +118,33 @@ class AddModpackTest extends TestCase
     }
 
     /** @test */
-    public function status_is_required()
+    public function if_published_is_omitted_its_assumed_false()
     {
+        $this->withoutExceptionHandling();
         $user = factory(User::class)->create();
 
-        $response = $this->actingAs($user)->from('/dashboard')->post('/modpacks', $this->validParams([
-            'status' => '',
+        $response = $this->actingAs($user)->from('/')->post('/modpacks', $this->validParams([
+            'is_published' => '',
         ]));
 
-        $response->assertRedirect('/dashboard');
-        $response->assertSessionHasErrors('status');
-        $this->assertEquals(0, Modpack::count());
+        tap(Modpack::first(), function ($modpack) use ($response) {
+            $response->assertRedirect('/modpacks/iron-tanks');
+
+            $this->assertFalse($modpack->is_published);
+        });
     }
 
     /** @test */
-    public function status_is_valid()
+    public function is_published_is_boolean()
     {
         $user = factory(User::class)->create();
 
-        $response = $this->actingAs($user)->from('/dashboard')->post('/modpacks', $this->validParams([
-            'status' => 'invalid',
+        $response = $this->actingAs($user)->from('/')->post('/modpacks', $this->validParams([
+            'is_published' => 'invalid',
         ]));
 
-        $response->assertRedirect('/dashboard');
-        $response->assertSessionHasErrors('status');
+        $response->assertRedirect('/');
+        $response->assertSessionHasErrors('is_published');
         $this->assertEquals(0, Modpack::count());
     }
 

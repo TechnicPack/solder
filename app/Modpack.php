@@ -20,6 +20,10 @@ class Modpack extends Model
 {
     protected $guarded = [];
 
+    protected $casts = [
+        'is_published' => 'boolean',
+    ];
+
     /**
      * The "booting" method of the model.
      */
@@ -71,9 +75,9 @@ class Modpack extends Model
     {
         return $query->where(function ($query) use ($apiToken, $clientToken) {
             /* @var Builder $query */
-            $query->where('status', 'public')
+            $query->where('is_published', true)
                 ->orWhere(function ($query) use ($apiToken, $clientToken) {
-                    $query->where('status', 'private')
+                    $query->where('is_published', false)
                         ->whereIn('id', function ($query) use ($clientToken) {
                             return $query->select('modpack_id')
                                 ->from('client_modpack')
@@ -82,7 +86,7 @@ class Modpack extends Model
                         });
                 })
                 ->orWhere(function ($query) use ($apiToken) {
-                    $query->where('status', 'private')
+                    $query->where('is_published', false)
                         ->whereExists(function ($query) use ($apiToken) {
                             $query->select(DB::raw(1))
                                 ->from('keys')

@@ -28,7 +28,7 @@
             @endif
             <div class="popover">
                 {{ $modpackItem->name }}
-                <span class="icon has-text-{{ $modpackItem->status }}">
+                <span class="icon {{ $modpackItem->is_published ? 'has-text-success' : 'has-text-warning' }}">
               <i class="fa fa-circle"></i>
             </span>
             </div>

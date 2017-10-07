@@ -2,12 +2,12 @@
     <h1>Danger Zone</h1>
     <div class="box-body">
         <ul class="list-group">
-            @if($modpack->status == 'private')
+            @if(! $modpack->is_published)
                 <li class="level list-group-item">
                     <div class="level-left">
                         <div class="level-item">
                             <div class="content">
-                                <strong>Make this modpack public</strong><br />
+                                <strong>Publish this modpack</strong><br />
                                 Make this modpack visible to anyone.
                             </div>
                         </div>
@@ -18,19 +18,19 @@
                                 {{ csrf_field() }}
                                 {{ method_field('patch') }}
 
-                                <input type="hidden" name="status" value="public" />
+                                <input type="hidden" name="is_published" value="1" />
                                 <button class="button is-danger is-outlined" type="submit">Make public</button>
                             </form>
                         </div>
                     </div>
                 </li>
             @endif
-            @if($modpack->status == 'public')
+            @if($modpack->is_published)
                 <li class="level list-group-item">
                     <div class="level-left">
                         <div class="level-item">
                             <div class="content">
-                                <strong>Make this modpack private</strong><br />
+                                <strong>Un-publish this modpack</strong><br />
                                 Hide this modpack from the public.
                             </div>
                         </div>
@@ -41,7 +41,7 @@
                                 {{ csrf_field() }}
                                 {{ method_field('patch') }}
 
-                                <input type="hidden" name="status" value="private" />
+                                <input type="hidden" name="is_published" value="0" />
                                 <button class="button is-danger is-outlined" type="submit">Make private</button>
                             </form>
                         </div>

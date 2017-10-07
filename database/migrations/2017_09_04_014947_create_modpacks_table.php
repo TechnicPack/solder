@@ -28,7 +28,7 @@ class CreateModpacksTable extends Migration
             $table->unsignedInteger('latest_build_id')->nullable();
             $table->string('name');
             $table->string('slug');
-            $table->string('status');
+            $table->boolean('is_published');
             $table->string('icon_path')->nullable();
             $table->timestamps();
         });

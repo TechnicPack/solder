@@ -17,10 +17,18 @@
                     <p class="menu-label">{{ $modpack->slug }}</p>
                 </div>
                 <div class="level-item">
-                    <p class="menu-label">{{ $modpack->status }}
-                    <span class="icon has-text-{{ $modpack->status }}">
-                      <i class="fa fa-circle"></i>
-                    </span>
+                    <p class="menu-label">
+                        @if($modpack->is_published)
+                            Published
+                            <span class="icon has-text-success">
+                              <i class="fa fa-circle"></i>
+                            </span>
+                        @else
+                            Unublished
+                            <span class="icon has-text-warning">
+                              <i class="fa fa-circle"></i>
+                            </span>
+                        @endif
                     </p>
                 </div>
             </div>

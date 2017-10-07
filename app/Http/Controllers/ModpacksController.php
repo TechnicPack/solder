@@ -57,14 +57,14 @@ class ModpacksController extends Controller
         request()->validate([
             'name' => ['required'],
             'slug' => ['required', 'unique:modpacks', 'alpha_dash'],
-            'status' => ['required', 'in:public,private,draft'],
+            'is_published' => ['nullable', 'boolean'],
             'modpack_icon' => ['nullable', 'image', Rule::dimensions()->minWidth(50)->ratio(1)],
         ]);
 
         Modpack::create([
             'name' => request('name'),
             'slug' => request('slug'),
-            'status' => request('status'),
+            'is_published' => request('is_published', false),
             'icon_path' => request('modpack_icon', new NullFile)->store('modpack_icons'),
         ]);
 
@@ -85,7 +85,7 @@ class ModpacksController extends Controller
         $validatedData = request()->validate([
             'name' => ['sometimes', 'required'],
             'slug' => ['sometimes', 'required', 'alpha_dash', Rule::unique('modpacks')->ignore($modpack->id)],
-            'status' => ['sometimes', 'required', 'in:public,private,draft'],
+            'is_published' => ['sometimes', 'required', 'boolean'],
         ]);
 
         if (request()->has('modpack_icon') && request('modpack_icon') != null) {
