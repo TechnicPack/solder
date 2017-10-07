@@ -16,6 +16,13 @@ use Illuminate\Database\Eloquent\Model;
 class Client extends Model
 {
     /**
+     * The attributes that aren't mass assignable.
+     *
+     * @var array
+     */
+    protected $guarded = [];
+
+    /**
      * A Client belongs to many Modpacks.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
@@ -23,5 +30,15 @@ class Client extends Model
     public function modpacks()
     {
         return $this->belongsToMany(Modpack::class);
+    }
+
+    /**
+     * A Client belongs to a user.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

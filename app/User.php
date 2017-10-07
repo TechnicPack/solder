@@ -36,4 +36,14 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    /**
+     * A user has many Launcher Ids.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function launchers()
+    {
+        return $this->hasMany(Client::class);
+    }
 }

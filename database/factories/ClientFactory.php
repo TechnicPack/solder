@@ -13,6 +13,10 @@ use Faker\Generator as Faker;
 
 $factory->define(App\Client::class, function (Faker $faker) {
     return [
+        'title' => 'Test Client',
         'token' => 'TESTTOKEN',
+        'user_id' => function () {
+            return factory(\App\User::class)->create()->id;
+        },
     ];
 });

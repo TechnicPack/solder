@@ -15,7 +15,10 @@ Route::post('/logout', 'Auth\LoginController@logout')->name('auth.logout');
 
 Route::group(['middleware' => 'auth'], function () {
     Route::view('/profile/tokens', 'profile.tokens');
-    Route::view('/profile/clients', 'profile.clients');
+    Route::view('/profile/oauth', 'profile.oauth');
+    Route::get('/profile/clients', 'ClientsController@index');
+    Route::post('/profile/clients', 'ClientsController@store');
+    Route::delete('/profile/clients/{client}', 'ClientsController@destroy');
     Route::get('/', 'DashboardController');
     Route::get('/modpacks/new', 'ModpacksController@create');
     Route::get('/modpacks/{modpack}', 'ModpacksController@show');
