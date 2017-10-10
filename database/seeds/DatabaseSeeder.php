@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
     {
         // Create the default admin
         \App\User::create([
-            'name' => 'Admin',
+            'username' => 'Admin',
             'email' => 'admin@example.com',
             'password' => bcrypt('secret'),
         ]);
