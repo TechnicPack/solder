@@ -110,8 +110,8 @@
                                             <div class="content">
                                                 <p>
                                                     <strong>{{ $client->title }}</strong><br>
-                                                    <strong>Client ID:</strong> {{ $client->token }}<br>
-                                                    Added on {{ $client->created_at }}
+                                                    <strong>Client ID:</strong> <code>{{ $client->token }}</code><br>
+                                                    <small>Added on {{ $client->created_at }}</small>
                                                 </p>
                                             </div>
                                         </div>
