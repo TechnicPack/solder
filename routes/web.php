@@ -42,11 +42,17 @@ Route::middleware('auth')->namespace('Admin')->prefix('settings')->group(functio
     Route::get('keys', 'KeysController@index');
     Route::post('keys', 'KeysController@store');
     Route::delete('keys/{key}', 'KeysController@destroy');
+
+    Route::get('users', 'UsersController@index');
+    Route::post('users', 'UsersController@store');
+    Route::post('users/{user}', 'UsersController@update');
+    Route::delete('users/{user}', 'UsersController@destroy');
 });
 
 Route::middleware('auth')->namespace('Profile')->prefix('profile')->group(function () {
     Route::view('tokens', 'profile.tokens');
     Route::view('oauth', 'profile.oauth');
+
     Route::get('clients', 'ClientsController@index');
     Route::post('clients', 'ClientsController@store');
     Route::delete('clients/{client}', 'ClientsController@destroy');

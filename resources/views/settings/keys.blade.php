@@ -18,6 +18,14 @@
                                 Keys
                             </a>
                         </li>
+                        <li>
+                            <a href="/settings/users">
+                                <span class="icon">
+                                    <i class="fa fa-user-circle"></i>
+                                </span>
+                                Users
+                            </a>
+                        </li>
                     </ul>
                 </aside>
             </div>
