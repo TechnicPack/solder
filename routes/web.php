@@ -13,12 +13,7 @@ Route::view('/login', 'auth.login')->name('auth.show-login');
 Route::post('/login', 'Auth\LoginController@login')->name('auth.login');
 Route::post('/logout', 'Auth\LoginController@logout')->name('auth.logout');
 
-Route::group(['middleware' => 'auth'], function () {
-    Route::view('/profile/tokens', 'profile.tokens');
-    Route::view('/profile/oauth', 'profile.oauth');
-    Route::get('/profile/clients', 'ClientsController@index');
-    Route::post('/profile/clients', 'ClientsController@store');
-    Route::delete('/profile/clients/{client}', 'ClientsController@destroy');
+Route::middleware('auth')->group(function () {
     Route::get('/', 'DashboardController');
     Route::get('/modpacks/new', 'ModpacksController@create');
     Route::get('/modpacks/{modpack}', 'ModpacksController@show');
@@ -38,7 +33,18 @@ Route::group(['middleware' => 'auth'], function () {
     Route::delete('/releases/{release}', 'ReleasesController@destroy');
     Route::delete('/bundles', 'BundlesController@destroy');
     Route::post('/bundles', 'BundlesController@store');
-    Route::get('/settings/keys', 'KeysController@index');
-    Route::post('/settings/keys', 'KeysController@store');
-    Route::delete('/settings/keys/{key}', 'KeysController@destroy');
+});
+
+Route::middleware('auth')->namespace('Admin')->prefix('settings')->group(function () {
+    Route::get('keys', 'KeysController@index');
+    Route::post('keys', 'KeysController@store');
+    Route::delete('keys/{key}', 'KeysController@destroy');
+});
+
+Route::middleware('auth')->namespace('Profile')->prefix('profile')->group(function () {
+    Route::view('tokens', 'profile.tokens');
+    Route::view('oauth', 'profile.oauth');
+    Route::get('clients', 'ClientsController@index');
+    Route::post('clients', 'ClientsController@store');
+    Route::delete('clients/{client}', 'ClientsController@destroy');
 });

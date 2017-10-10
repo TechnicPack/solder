@@ -16,7 +16,7 @@ use App\Release;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class ManageReleaseTest extends TestCase
+class DeleteReleaseTest extends TestCase
 {
     use RefreshDatabase;
 

@@ -20,7 +20,7 @@ use BuildFactory;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class ManageBuildTest extends TestCase
+class ShowBuildTest extends TestCase
 {
     use RefreshDatabase;
 

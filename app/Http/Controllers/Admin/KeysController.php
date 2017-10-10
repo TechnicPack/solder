@@ -9,9 +9,10 @@
  * file that was distributed with this source code.
  */
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use App\Key;
+use App\Http\Controllers\Controller;
 
 class KeysController extends Controller
 {

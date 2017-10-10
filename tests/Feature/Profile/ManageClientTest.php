@@ -16,7 +16,7 @@ use App\Client;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class DeleteClientTest extends TestCase
+class ManageClientTest extends TestCase
 {
     use RefreshDatabase;
 

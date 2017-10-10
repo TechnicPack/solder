@@ -9,7 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Profile;
+
+use App\Http\Controllers\Controller;
 
 class ClientsController extends Controller
 {
