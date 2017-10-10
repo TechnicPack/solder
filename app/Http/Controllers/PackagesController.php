@@ -49,18 +49,6 @@ class PackagesController extends Controller
     }
 
     /**
-     * Show the package creation form.
-     *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function create()
-    {
-        return view('packages.create', [
-            'packages' => Package::orderBy('name')->get(),
-        ]);
-    }
-
-    /**
      * Store the posted package.
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector

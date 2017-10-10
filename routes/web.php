@@ -15,22 +15,25 @@ Route::post('/logout', 'Auth\LoginController@logout')->name('auth.logout');
 
 Route::middleware('auth')->group(function () {
     Route::get('/', 'DashboardController');
-    Route::get('/modpacks/new', 'ModpacksController@create');
+
     Route::get('/modpacks/{modpack}', 'ModpacksController@show');
+    Route::post('/modpacks', 'ModpacksController@store');
     Route::patch('/modpacks/{modpack}', 'ModpacksController@update');
     Route::delete('/modpacks/{modpack}', 'ModpacksController@destroy');
-    Route::post('/modpacks/{modpack}/builds', 'ModpackBuildsController@store');
-    Route::get('/modpacks/{modpack}/builds/new', 'ModpackBuildsController@create');
+
     Route::get('/modpacks/{modpack}/{build}', 'ModpackBuildsController@show');
+    Route::post('/modpacks/{modpack}/builds', 'ModpackBuildsController@store');
     Route::patch('/modpacks/{modpack}/{build}', 'ModpackBuildsController@update');
     Route::delete('/modpacks/{modpack}/{build}', 'ModpackBuildsController@destroy');
-    Route::post('/modpacks', 'ModpacksController@store');
-    Route::get('/library/new', 'PackagesController@create');
-    Route::post('/library/{package}/releases', 'PackageReleasesController@store');
+
+    Route::get('/library', 'PackagesController@index');
     Route::get('/library/{package}', 'PackagesController@show');
     Route::post('/library', 'PackagesController@store');
-    Route::get('/library', 'PackagesController@index');
+
+    Route::post('/library/{package}/releases', 'PackageReleasesController@store');
+
     Route::delete('/releases/{release}', 'ReleasesController@destroy');
+
     Route::delete('/bundles', 'BundlesController@destroy');
     Route::post('/bundles', 'BundlesController@store');
 });

@@ -51,24 +51,6 @@ class ModpackBuildsController extends Controller
     }
 
     /**
-     * Show the build create form.
-     *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function create($modpackSlug)
-    {
-        $modpack = Modpack::where('slug', $modpackSlug)
-            ->with(['builds' => function ($query) {
-                $query->orderBy('version', 'desc');
-            }])
-            ->first();
-
-        return view('builds.create', [
-            'modpack' => $modpack,
-        ]);
-    }
-
-    /**
      * Store the passed data as a build.
      *
      * @param $modpackSlug

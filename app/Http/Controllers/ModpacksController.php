@@ -38,16 +38,6 @@ class ModpacksController extends Controller
     }
 
     /**
-     * Show the create modpack form.
-     *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function create()
-    {
-        return view('modpacks.create');
-    }
-
-    /**
      * Store a modpack in the database.
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
