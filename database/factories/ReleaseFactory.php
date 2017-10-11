@@ -19,5 +19,6 @@ $factory->define(App\Release::class, function (Faker $faker) {
         'version' => $faker->numerify('#.#.#'),
         'path' => 'package\package-version.zip',
         'md5' => 'example-md5-hash',
+        'filesize' => 1024000,
     ];
 });

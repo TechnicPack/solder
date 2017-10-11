@@ -4,6 +4,7 @@
         <tr>
             <th>Version</th>
             <th>MD5</th>
+            <th>Filesize</th>
             <th>Download</th>
             <th>&nbsp;</th>
         </tr>
@@ -16,7 +17,8 @@
         <tbody>
         <tr v-for="release in rows">
             <td>{{ release.version }}</td>
-            <td><small>{{ release.md5 }}</small></td>
+            <td><code>{{ release.md5 }}</code></td>
+            <td>{{ release.filesize | prettyBytes }}</td>
             <td>
                 <a :href="release.url">
                     {{ release.filename }}

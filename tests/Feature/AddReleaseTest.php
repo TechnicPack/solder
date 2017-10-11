@@ -37,7 +37,7 @@ class AddReleaseTest extends TestCase
 
         $response = $this->actingAs($user)->post('/library/iron-tanks/releases', [
             'version' => '1.2.3',
-            'archive' => UploadedFile::fake()->create('fake-file.zip'),
+            'archive' => UploadedFile::fake()->create('fake-file.zip', 2000),
         ]);
 
         tap(Release::first(), function ($release) use ($package, $response) {
@@ -47,6 +47,7 @@ class AddReleaseTest extends TestCase
             $this->assertEquals('1.2.3', $release->version);
             $this->assertEquals('generated-hash', $release->md5);
             $this->assertEquals('iron-tanks/iron-tanks-1.2.3.zip', $release->path);
+            $this->assertEquals(2048000, $release->filesize);
             Storage::assertExists('iron-tanks/iron-tanks-1.2.3.zip');
         });
     }

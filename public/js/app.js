@@ -1819,6 +1819,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['releases'],
@@ -20827,7 +20829,9 @@ var render = function() {
         return _c("tr", [
           _c("td", [_vm._v(_vm._s(release.version))]),
           _vm._v(" "),
-          _c("td", [_c("small", [_vm._v(_vm._s(release.md5))])]),
+          _c("td", [_c("code", [_vm._v(_vm._s(release.md5))])]),
+          _vm._v(" "),
+          _c("td", [_vm._v(_vm._s(_vm._f("prettyBytes")(release.filesize)))]),
           _vm._v(" "),
           _c("td", [
             _c("a", { attrs: { href: release.url } }, [
@@ -20868,6 +20872,8 @@ var staticRenderFns = [
         _c("th", [_vm._v("Version")]),
         _vm._v(" "),
         _c("th", [_vm._v("MD5")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Filesize")]),
         _vm._v(" "),
         _c("th", [_vm._v("Download")]),
         _vm._v(" "),
@@ -31643,8 +31649,34 @@ Vue.component('passport-authorized-clients', __webpack_require__("./resources/as
 
 Vue.component('create-package-form', __webpack_require__("./resources/assets/js/components/packages/CreatePackage.vue"));
 
+Vue.filter('prettyBytes', function (num) {
+    // jacked from: https://github.com/sindresorhus/pretty-bytes
+    if (typeof num !== 'number' || isNaN(num)) {
+        throw new TypeError('Expected a number');
+    }
+
+    var exponent;
+    var unit;
+    var neg = num < 0;
+    var units = ['B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+
+    if (neg) {
+        num = -num;
+    }
+
+    if (num < 1) {
+        return (neg ? '-' : '') + num + ' B';
+    }
+
+    exponent = Math.min(Math.floor(Math.log(num) / Math.log(1000)), units.length - 1);
+    num = (num / Math.pow(1000, exponent)).toFixed(2) * 1;
+    unit = units[exponent];
+
+    return (neg ? '-' : '') + num + ' ' + unit;
+});
+
 var app = new Vue({
-  el: '#app'
+    el: '#app'
 });
 
 /***/ }),

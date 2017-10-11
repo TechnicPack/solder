@@ -41,6 +41,7 @@ class PackageReleasesController extends Controller
             'version' => $request->version,
             'path' => $archive,
             'md5' => FileHash::hash(Storage::url($archive)),
+            'filesize' => request()->file('archive')->getSize(),
         ]);
 
         return redirect("/library/$packageSlug");
