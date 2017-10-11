@@ -58,6 +58,9 @@ class UpgradeToV08 extends Migration
             $table->renameColumn('modversion_id', 'release_id');
         });
 
+        Schema::table('keys', function (Blueprint $table) {
+            $table->renameColumn('api_key', 'token');
+        });
 
 
     }
