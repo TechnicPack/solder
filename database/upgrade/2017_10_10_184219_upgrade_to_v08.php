@@ -43,6 +43,20 @@ class UpgradeToV08 extends Migration
             $table->string('path');
         });
 
+        Schema::rename('mods', 'packages');
+
+        Schema::table('packages', function (Blueprint $table) {
+            $table->renameColumn('name', 'slug');
+            $table->renameColumn('pretty_name', 'name');
+        });
+
+        DB::update("update releases inner join packages on releases.package_id = packages.id set path = concat('mods/', packages.slug, '/', packages.slug, '-', releases.version, '.zip')");
+
+        Schema::rename('build_modversion', 'build_release');
+
+        Schema::table('build_release', function (Blueprint $table) {
+            $table->renameColumn('modversion_id', 'release_id');
+        });
 
 
 
