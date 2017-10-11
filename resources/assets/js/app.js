@@ -27,7 +27,7 @@ Vue.component('create-package-form', require('./components/packages/CreatePackag
 Vue.filter('prettyBytes', function (num) {
     // jacked from: https://github.com/sindresorhus/pretty-bytes
     if (typeof num !== 'number' || isNaN(num)) {
-        throw new TypeError('Expected a number');
+        return '';
     }
     
     var exponent;
