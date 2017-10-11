@@ -61,8 +61,6 @@ class UpgradeToV08 extends Migration
         Schema::table('keys', function (Blueprint $table) {
             $table->renameColumn('api_key', 'token');
         });
-
-
     }
 
     /**

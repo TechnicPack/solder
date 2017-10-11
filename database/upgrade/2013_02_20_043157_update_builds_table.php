@@ -34,7 +34,7 @@ class UpdateBuildsTable extends Migration
     public function down()
     {
         Schema::table('builds', function ($table) {
-            $table->dropColumn(['minecraft','forge']);
+            $table->dropColumn(['minecraft', 'forge']);
         });
     }
 }
