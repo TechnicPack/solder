@@ -23,7 +23,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/modpacks/{modpack}/{build}', 'ModpackBuildsController@show');
     Route::post('/modpacks/{modpack}/builds', 'ModpackBuildsController@store');
-    Route::patch('/modpacks/{modpack}/{build}', 'ModpackBuildsController@update');
+    Route::post('/modpacks/{modpack}/{build}', 'ModpackBuildsController@update');
     Route::delete('/modpacks/{modpack}/{build}', 'ModpackBuildsController@destroy');
 
     Route::get('/library', 'PackagesController@index');

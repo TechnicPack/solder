@@ -13,7 +13,7 @@ use Faker\Generator as Faker;
 
 $factory->define(App\Build::class, function (Faker $faker) {
     return [
-        'minecraft' => '1.7.10',
+        'minecraft_version' => '1.7.10',
         'version' => '1.0.0',
         'status' => 'public',
         'modpack_id' => function () {

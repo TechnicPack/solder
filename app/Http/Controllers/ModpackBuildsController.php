@@ -61,11 +61,21 @@ class ModpackBuildsController extends Controller
     {
         $modpack = Modpack::where('slug', $modpackSlug)->first();
 
-        $build = $modpack->builds()->create(request()->validate([
+        request()->validate([
             'version' => ['required', 'regex:/^[a-zA-Z0-9_-][.a-zA-Z0-9_-]*$/', Rule::unique('builds')->where('modpack_id', $modpack->id)],
-            'minecraft' => ['required'],
+            'minecraft_version' => ['required'],
             'status' => ['required', 'in:public,private,draft'],
-        ]));
+            'required_memory' => ['nullable', 'numeric'],
+        ]);
+
+        $build = $modpack->builds()->create([
+            'version' => request('version'),
+            'minecraft_version' => request('minecraft_version'),
+            'status' => request('status'),
+            'java_version' => request('java_version'),
+            'required_memory' => request('required_memory'),
+            'forge_version' => request('forge_version'),
+        ]);
 
         return redirect("/modpacks/$modpackSlug");
     }
@@ -83,12 +93,20 @@ class ModpackBuildsController extends Controller
         $modpack = Modpack::where('slug', $modpackSlug)->firstOrFail();
         $build = $modpack->builds()->where('version', $buildVersion)->firstOrFail();
 
-        $updates = request()->validate([
-            'version' => ['sometimes', 'required', Rule::unique('builds')->ignore($build->id)->where('modpack_id', $modpack->id)],
-            'status' => ['sometimes', 'required', 'in:public,private'],
+        request()->validate([
+            'version' => ['required', Rule::unique('builds')->ignore($build->id)->where('modpack_id', $modpack->id)],
+            'status' => ['required', 'in:public,private'],
+            'required_memory' => ['nullable', 'numeric'],
         ]);
 
-        $build->update($updates);
+        $build->update([
+            'version' => request('version'),
+            'status' => request('status'),
+            'minecraft_version' => request('minecraft_version'),
+            'java_version' => request('java_version'),
+            'required_memory' => request('required_memory'),
+            'forge_version' => request('forge_version'),
+        ]);
 
         return redirect("/modpacks/$modpackSlug/{$build->version}");
     }

@@ -26,8 +26,11 @@ class CreateBuildsTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('modpack_id');
             $table->string('version');
-            $table->string('minecraft');
+            $table->string('minecraft_version');
             $table->string('status');
+            $table->string('forge_version')->nullable();
+            $table->string('java_version')->nullable();
+            $table->unsignedInteger('required_memory')->nullable();
             $table->timestamps();
         });
     }

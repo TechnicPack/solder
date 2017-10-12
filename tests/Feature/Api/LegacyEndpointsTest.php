@@ -405,15 +405,24 @@ class LegacyEndpointsTest extends TestCase
             $packageB = factory(Package::class)->create(['name' => 'Example Mod B', 'slug' => 'mod-b']);
             $releaseB = factory(Release::class)->create(['package_id' => $packageB->id, 'version' => '4.5.6', 'md5' => 'MD5HASHB']);
             factory(Build::class)->states('public')
-                ->create(['version' => '1.0.0', 'modpack_id' => $modpack->id])
-                ->releases()->attach([$releaseA->id, $releaseB->id]);
+                ->create([
+                    'version' => '1.0.0',
+                    'modpack_id' => $modpack->id,
+                    'minecraft_version' => '1.11.2',
+                    'java_version' => '1.8',
+                    'forge_version' => '1.12.1234',
+                    'required_memory' => 2048,
+                ])->releases()->attach([$releaseA->id, $releaseB->id]);
         });
 
         $request = $this->get('/api/modpack/b-team/1.0.0');
 
         $request->assertStatus(200);
         $request->assertExactJson([
-            'minecraft' => '1.7.10',
+            'minecraft' => '1.11.2',
+            'java' => '1.8',
+            'memory' => '2048',
+            'forge' => '1.12.1234',
             'mods' => [
                 [
                     'name' => 'Example Mod A',
@@ -442,8 +451,13 @@ class LegacyEndpointsTest extends TestCase
             $packageB = factory(Package::class)->create(['name' => 'Example Mod B', 'slug' => 'mod-b']);
             $releaseB = factory(Release::class)->create(['package_id' => $packageB->id, 'version' => '4.5.6', 'md5' => 'MD5HASHB']);
             factory(Build::class)->states('private')
-                ->create(['version' => '1.0.0', 'modpack_id' => $modpack->id])
-                ->releases()->attach([$releaseA->id, $releaseB->id]);
+                ->create([
+                    'version' => '1.0.0',
+                    'modpack_id' => $modpack->id,
+                    'java_version' => '1.8',
+                    'forge_version' => '1.12.1234',
+                    'required_memory' => 2048,
+                ])->releases()->attach([$releaseA->id, $releaseB->id]);
             $modpack->clients()->attach(factory(Client::class)->create(['token' => 'CLIENTKEY1234']));
         });
 
@@ -452,6 +466,9 @@ class LegacyEndpointsTest extends TestCase
         $request->assertStatus(200);
         $request->assertExactJson([
             'minecraft' => '1.7.10',
+            'java' => '1.8',
+            'memory' => '2048',
+            'forge' => '1.12.1234',
             'mods' => [
                 [
                     'name' => 'Example Mod A',
@@ -481,8 +498,13 @@ class LegacyEndpointsTest extends TestCase
             $packageB = factory(Package::class)->create(['name' => 'Example Mod B', 'slug' => 'mod-b']);
             $releaseB = factory(Release::class)->create(['package_id' => $packageB->id, 'version' => '4.5.6', 'md5' => 'MD5HASHB']);
             factory(Build::class)->states('private')
-                ->create(['version' => '1.0.0', 'modpack_id' => $modpack->id])
-                ->releases()->attach([$releaseA->id, $releaseB->id]);
+                ->create([
+                    'version' => '1.0.0',
+                    'modpack_id' => $modpack->id,
+                    'java_version' => '1.8',
+                    'forge_version' => '1.12.1234',
+                    'required_memory' => 2048,
+                ])->releases()->attach([$releaseA->id, $releaseB->id]);
         });
 
         $request = $this->get('/api/modpack/b-team/1.0.0?k=APIKEY1234');
@@ -490,6 +512,9 @@ class LegacyEndpointsTest extends TestCase
         $request->assertStatus(200);
         $request->assertExactJson([
             'minecraft' => '1.7.10',
+            'java' => '1.8',
+            'memory' => '2048',
+            'forge' => '1.12.1234',
             'mods' => [
                 [
                     'name' => 'Example Mod A',

@@ -25,7 +25,7 @@ class AddBuildTest extends TestCase
     {
         return array_merge([
             'version' => '1.3.4_beta-2',
-            'minecraft' => '1.7.10',
+            'minecraft_version' => '1.7.10',
             'status' => 'public',
         ], $overrides);
     }
@@ -39,14 +39,20 @@ class AddBuildTest extends TestCase
 
         $response = $this->actingAs($user)->post('/modpacks/brothers-klaus/builds', [
             'version' => '1.3.4_beta-2',
-            'minecraft' => '1.7.10',
+            'minecraft_version' => '1.7.10',
             'status' => 'public',
+            'java_version' => '1.8.0',
+            'forge_version' => '1.23.4566',
+            'required_memory' => '2048',
         ]);
 
         tap(Build::first(), function ($build) use ($modpack, $response) {
             $this->assertEquals('1.3.4_beta-2', $build->version);
-            $this->assertEquals('1.7.10', $build->minecraft);
+            $this->assertEquals('1.7.10', $build->minecraft_version);
             $this->assertEquals('public', $build->status);
+            $this->assertEquals('1.8.0', $build->java_version);
+            $this->assertEquals('2048', $build->required_memory);
+            $this->assertEquals('1.23.4566', $build->forge_version);
             $this->assertEquals($modpack->id, $build->modpack_id);
 
             $response->assertRedirect('/modpacks/brothers-klaus');
@@ -75,7 +81,7 @@ class AddBuildTest extends TestCase
         $modpack = factory(Modpack::class)->create(['slug' => 'brothers-klaus']);
 
         $response = $this->actingAs($user)->from('/modpacks/brothers-klaus')->post('/modpacks/brothers-klaus/builds', $this->validParams([
-                'version' => '',
+            'version' => '',
         ]));
 
         $response->assertRedirect('/modpacks/brothers-klaus');
@@ -181,11 +187,74 @@ class AddBuildTest extends TestCase
         $modpack = factory(Modpack::class)->create(['slug' => 'brothers-klaus']);
 
         $response = $this->actingAs($user)->from('/modpacks/brothers-klaus')->post('/modpacks/brothers-klaus/builds', $this->validParams([
-            'minecraft' => '',
+            'minecraft_version' => '',
         ]));
 
         $response->assertRedirect('/modpacks/brothers-klaus');
-        $response->assertSessionHasErrors('minecraft');
+        $response->assertSessionHasErrors('minecraft_version');
         $this->assertEquals(0, Build::count());
+    }
+
+    /** @test */
+    public function required_memory_must_be_numeric()
+    {
+        $user = factory(User::class)->create();
+        $modpack = factory(Modpack::class)->create(['slug' => 'brothers-klaus']);
+
+        $response = $this->actingAs($user)->from('/modpacks/brothers-klaus')->post('/modpacks/brothers-klaus/builds', $this->validParams([
+            'required_memory' => 'lots',
+        ]));
+
+        $response->assertRedirect('/modpacks/brothers-klaus');
+        $response->assertSessionHasErrors('required_memory');
+        $this->assertEquals(0, Build::count());
+    }
+
+    /** @test */
+    public function required_memory_may_be_null()
+    {
+        $user = factory(User::class)->create();
+        $modpack = factory(Modpack::class)->create(['slug' => 'brothers-klaus']);
+        $this->assertEquals(0, Build::count());
+
+        $response = $this->actingAs($user)->from('/modpacks/brothers-klaus')->post('/modpacks/brothers-klaus/builds', $this->validParams([
+            'required_memory' => '',
+        ]));
+
+        $response->assertRedirect('/modpacks/brothers-klaus');
+        $response->assertSessionMissing('errors');
+        $this->assertEquals(1, Build::count());
+    }
+
+    /** @test */
+    public function java_version_may_be_null()
+    {
+        $user = factory(User::class)->create();
+        $modpack = factory(Modpack::class)->create(['slug' => 'brothers-klaus']);
+        $this->assertEquals(0, Build::count());
+
+        $response = $this->actingAs($user)->from('/modpacks/brothers-klaus')->post('/modpacks/brothers-klaus/builds', $this->validParams([
+            'java_version' => '',
+        ]));
+
+        $response->assertRedirect('/modpacks/brothers-klaus');
+        $response->assertSessionMissing('errors');
+        $this->assertEquals(1, Build::count());
+    }
+
+    /** @test */
+    public function forge_version_may_be_null()
+    {
+        $user = factory(User::class)->create();
+        $modpack = factory(Modpack::class)->create(['slug' => 'brothers-klaus']);
+        $this->assertEquals(0, Build::count());
+
+        $response = $this->actingAs($user)->from('/modpacks/brothers-klaus')->post('/modpacks/brothers-klaus/builds', $this->validParams([
+            'forge_version' => '',
+        ]));
+
+        $response->assertRedirect('/modpacks/brothers-klaus');
+        $response->assertSessionMissing('errors');
+        $this->assertEquals(1, Build::count());
     }
 }

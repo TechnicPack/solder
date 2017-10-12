@@ -53,7 +53,10 @@ class ModpackBuildController extends Controller
         }
 
         return response()->json([
-            'minecraft' => $build->minecraft,
+            'minecraft' => $build->minecraft_version,
+            'java' => $build->java_version,
+            'memory' => $build->required_memory,
+            'forge' => $build->forge_version,
             'mods' => $build->releases->transform(function ($release, $key) {
                 return [
                     'name' => $release->package->name,
