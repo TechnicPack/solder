@@ -105,6 +105,24 @@ class UpdateBuildTest extends TestCase
     }
 
     /** @test */
+    public function minecraft_version_is_required()
+    {
+        $user = factory(User::class)->create();
+        $modpack = factory(Modpack::class)->create(['slug' => 'brothers-klaus']);
+        $build = $modpack->builds()->save(factory(Build::class)->make($this->originalParams(['version' => '1.2.3'])));
+
+        $response = $this->actingAs($user)
+            ->from('/modpacks/brothers-klaus/1.2.3')
+            ->post('/modpacks/brothers-klaus/1.2.3', $this->validParams([
+                'minecraft_version' => '',
+            ]));
+
+        $response->assertRedirect('/modpacks/brothers-klaus/1.2.3');
+        $response->assertSessionHasErrors('minecraft_version');
+        $this->assertArraySubset($this->originalParams(), $build->fresh()->getAttributes());
+    }
+
+    /** @test */
     public function version_must_be_unique_per_modpack()
     {
         $user = factory(User::class)->create();

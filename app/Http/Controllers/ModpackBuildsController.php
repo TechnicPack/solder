@@ -95,7 +95,8 @@ class ModpackBuildsController extends Controller
 
         request()->validate([
             'version' => ['sometimes', 'required', Rule::unique('builds')->ignore($build->id)->where('modpack_id', $modpack->id)],
-            'status' => ['sometimes', 'required', 'in:public,private'],
+            'status' => ['sometimes', 'required', 'in:public,private,draft'],
+            'minecraft_version' => ['sometimes', 'required'],
             'required_memory' => ['nullable', 'numeric'],
         ]);
 
