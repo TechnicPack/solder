@@ -14,6 +14,7 @@ namespace Tests\Feature;
 use App\User;
 use App\Release;
 use Tests\TestCase;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class DeleteReleaseTest extends TestCase
@@ -23,6 +24,7 @@ class DeleteReleaseTest extends TestCase
     /** @test */
     public function a_user_can_delete_a_release()
     {
+        Storage::fake();
         $user = factory(User::class)->create();
         $release = factory(Release::class)->create();
         $this->assertCount(1, Release::all());
