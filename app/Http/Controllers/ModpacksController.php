@@ -72,21 +72,29 @@ class ModpacksController extends Controller
     {
         $modpack = Modpack::where('slug', $slug)->first();
 
-        $validatedData = request()->validate([
+        request()->validate([
             'name' => ['sometimes', 'required'],
             'slug' => ['sometimes', 'required', 'alpha_dash', Rule::unique('modpacks')->ignore($modpack->id)],
             'status' => ['sometimes', 'required', 'in:public,private,draft'],
+            'modpack_icon' => ['nullable', 'image', Rule::dimensions()->minWidth(50)->ratio(1)],
+            'latest_build_id' => ['sometimes', Rule::exists('builds', 'id')->where('modpack_id', $modpack->id)],
+            'recommended_build_id' => ['sometimes', Rule::exists('builds', 'id')->where('modpack_id', $modpack->id)],
         ]);
 
+        $modpack->update(request()->only([
+            'name',
+            'slug',
+            'status',
+            'recommended_build_id',
+            'latest_build_id',
+        ]));
+
+        // TODO: Dispatch this as a job to resize image then update
         if (request()->has('modpack_icon') && request('modpack_icon') != null) {
-            request()->validate([
-                'modpack_icon' => ['image', Rule::dimensions()->minWidth(50)->ratio(1)],
+            $modpack->update([
+                'icon_path' => request('modpack_icon')->store('modpack_icons'),
             ]);
-
-            $validatedData['icon_path'] = request('modpack_icon')->store('modpack_icons');
         }
-
-        $modpack->update($validatedData);
 
         return redirect('/modpacks/'.$modpack->slug);
     }

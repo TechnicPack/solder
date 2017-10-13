@@ -22,14 +22,14 @@
 
             <div class="field is-horizontal">
                 <div class="field-label is-normal">
-                    <label class="label">Minecraft</label>
+                    <label class="label">Minecraft Version</label>
                 </div>
                 <div class="field-body">
                     <div class="field">
                         <div class="control">
-                            <input class="input {{ $errors->has('minecraft') ? 'is-danger' : '' }}" name="minecraft" type="text" placeholder="1.7.10" value="{{ old('minecraft') }}">
-                            @if($errors->has('minecraft'))
-                                <p class="help is-danger">{{ $errors->first('minecraft') }}</p>
+                            <input class="input {{ $errors->has('minecraft_version') ? 'is-danger' : '' }}" name="minecraft_version" type="text" placeholder="1.7.10" value="{{ old('minecraft_version') }}">
+                            @if($errors->has('minecraft_version'))
+                                <p class="help is-danger">{{ $errors->first('minecraft_version') }}</p>
                             @endif
                         </div>
                     </div>

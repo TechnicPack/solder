@@ -24,7 +24,7 @@ class CreateModpacksTable extends Migration
     {
         Schema::create('modpacks', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('promoted_build_id')->nullable();
+            $table->unsignedInteger('recommended_build_id')->nullable();
             $table->unsignedInteger('latest_build_id')->nullable();
             $table->string('name');
             $table->string('slug');

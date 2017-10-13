@@ -5,9 +5,11 @@
         <tr>
             <th>Build</th>
             <th>Minecraft</th>
-            <th>Resources</th>
-            <th>Promoted</th>
-            <th>Latest</th>
+            <th>Forge</th>
+            <th>Java</th>
+            <th>Memory</th>
+            <th class="has-text-centered">Promoted</th>
+            <th class="has-text-centered">Latest</th>
             <th></th>
         </tr>
         </thead>
@@ -15,18 +17,55 @@
         @foreach($modpack->builds as $build)
             <tr>
                 <td>
-                    <a href="/modpacks/{{ $build->modpack->slug }}/{{ $build->version }}">
+                    <a href="/modpacks/{{ $modpack->slug }}/{{ $build->version }}">
                         <strong>{{ $build->version }}</strong>
                         @if($build->status == 'private')
                             <span class="tag">private</span>
                         @endif()
+                        @if($build->status == 'draft')
+                            <span class="tag">draft</span>
+                        @endif()
                     </a>
                 </td>
-                <td>{{ $build->minecraft }}</td>
-                <td>{{ count($build->releases) }}</td>
-                <td></td>
-                <td></td>
-                <td class="is-narrow">
+                <td>{{ $build->minecraft_version }}</td>
+                <td>{{ $build->forge_version }}</td>
+                <td>{{ $build->java_version }}</td>
+                <td>{{ $build->required_memory }}</td>
+                <td class="has-text-centered is-narrow">
+                    <form method="post" action="/modpacks/{{ $modpack->slug }}">
+                        {{ csrf_field() }}
+                        {{ method_field('patch') }}
+                        <input type="hidden" name="recommended_build_id" value="{{ $build->id }}" />
+
+                        @if($build->id == $modpack->recommended_build_id)
+                            <button class="button is-small is-success" type="submit">
+                                <i class="fa fa-fw fa-heart"></i>
+                            </button>
+                        @else
+                            <button class="button is-small" type="submit">
+                                <i class="fa fa-fw fa-heart-o"></i>
+                            </button>
+                        @endif
+                    </form>
+                </td>
+                <td class="has-text-centered is-narrow">
+                    <form method="post" action="/modpacks/{{ $modpack->slug }}">
+                        {{ csrf_field() }}
+                        {{ method_field('patch') }}
+                        <input type="hidden" name="latest_build_id" value="{{ $build->id }}" />
+
+                        @if($build->id == $modpack->latest_build_id)
+                            <button class="button is-small is-success" type="submit">
+                                <i class="fa fa-fw fa-star"></i>
+                            </button>
+                        @else
+                            <button class="button is-small" type="submit">
+                                <i class="fa fa-fw fa-star-o"></i>
+                            </button>
+                        @endif
+                    </form>
+                </td>
+                <td class="has-text-right">
                     <form method="post" action="/modpacks/{{ $modpack->slug }}/{{ $build->version }}">
                         {{ csrf_field() }}
                         {{ method_field('delete') }}

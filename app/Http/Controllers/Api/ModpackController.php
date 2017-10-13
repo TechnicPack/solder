@@ -99,7 +99,7 @@ class ModpackController extends Controller
         return [
             'name' => $modpack->slug,
             'display_name' => $modpack->name,
-            'recommended' => $modpack->promoted_build->version,
+            'recommended' => $modpack->recommended_build->version,
             'latest' => $modpack->latest_build->version,
             'builds' => $builds->pluck('version'),
         ];
