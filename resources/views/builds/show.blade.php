@@ -25,14 +25,23 @@
                     <p class="menu-label">v{{ $build->version }}</p>
                 </div>
                 <div class="level-item has-padding-right-3">
-                    <p class="menu-label">MC {{ $build->minecraft }}</p>
+                    <p class="menu-label">MC {{ $build->minecraft_version }}</p>
                 </div>
+                @if($build->forge_version != null)
                 <div class="level-item has-padding-right-3">
-                    <p class="menu-label">Java 1.8</p>
+                    <p class="menu-label">Forge {{ $build->forge_version }}</p>
                 </div>
+                @endif
+                @if($build->java_version != null)
+                    <div class="level-item has-padding-right-3">
+                    <p class="menu-label">Java {{ $build->java_version }}</p>
+                </div>
+                @endif
+                @if($build->required_memory > 0)
                 <div class="level-item has-padding-right-3">
-                    <p class="menu-label">Mem 2048MB</p>
+                    <p class="menu-label">Mem {{ $build->required_memory }}</p>
                 </div>
+                @endif
                 <div class="level-item">
                     <p class="menu-label">{{ $build->status }}
                     <span class="icon has-text-{{ $build->status }}">
@@ -57,10 +66,11 @@
         @if(count($build->releases))
         <div class="box">
             <h1>Bundled Releases</h1>
-            <build-table :releases='@json($build->releases)'></build-table>
+            <build-table :releases='{{ json_encode($build->releases) }}'></build-table>
         </div>
         @endif
         
+        @include('builds.partials.update-build')
         @include('builds.partials.danger-zone')
     </section>
 @endsection
