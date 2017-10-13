@@ -1644,9 +1644,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['releases'],
@@ -20569,8 +20566,6 @@ var render = function() {
   return _c("table", { staticClass: "table is-fullwidth" }, [
     _vm._m(0),
     _vm._v(" "),
-    _vm.rows.length == 0 ? _c("tfoot", [_vm._m(1)]) : _vm._e(),
-    _vm._v(" "),
     _c(
       "tbody",
       _vm._l(_vm.rows, function(row) {
@@ -20578,6 +20573,8 @@ var render = function() {
           _c("td", [_vm._v(_vm._s(row.package.name))]),
           _vm._v(" "),
           _c("td", [_vm._v(_vm._s(row.version))]),
+          _vm._v(" "),
+          _c("td", [_vm._v(_vm._s(_vm._f("prettyBytes")(row.filesize)))]),
           _vm._v(" "),
           _c("td", { staticClass: "has-text-right" }, [
             _c(
@@ -20609,17 +20606,9 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Version")]),
         _vm._v(" "),
+        _c("th", [_vm._v("Filesize")]),
+        _vm._v(" "),
         _c("th", [_vm._v(" ")])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("tr", [
-      _c("td", { staticClass: "has-text-centered", attrs: { colspan: "4" } }, [
-        _vm._v("There are no included packages, get started by bundling one.")
       ])
     ])
   }
