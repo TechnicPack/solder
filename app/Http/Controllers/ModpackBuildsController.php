@@ -94,19 +94,19 @@ class ModpackBuildsController extends Controller
         $build = $modpack->builds()->where('version', $buildVersion)->firstOrFail();
 
         request()->validate([
-            'version' => ['required', Rule::unique('builds')->ignore($build->id)->where('modpack_id', $modpack->id)],
-            'status' => ['required', 'in:public,private'],
+            'version' => ['sometimes', 'required', Rule::unique('builds')->ignore($build->id)->where('modpack_id', $modpack->id)],
+            'status' => ['sometimes', 'required', 'in:public,private'],
             'required_memory' => ['nullable', 'numeric'],
         ]);
 
-        $build->update([
-            'version' => request('version'),
-            'status' => request('status'),
-            'minecraft_version' => request('minecraft_version'),
-            'java_version' => request('java_version'),
-            'required_memory' => request('required_memory'),
-            'forge_version' => request('forge_version'),
-        ]);
+        $build->update(request()->only([
+            'version',
+            'status',
+            'minecraft_version',
+            'java_version',
+            'required_memory',
+            'forge_version',
+        ]));
 
         return redirect("/modpacks/$modpackSlug/{$build->version}");
     }

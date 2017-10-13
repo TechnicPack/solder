@@ -70,6 +70,23 @@ class UpdateBuildTest extends TestCase
     }
 
     /** @test */
+    public function all_attributes_are_optional()
+    {
+        $user = factory(User::class)->create();
+        $modpack = factory(Modpack::class)->create(['slug' => 'brothers-klaus']);
+        $build = $modpack->builds()->save(factory(Build::class)->make($this->originalParams(['version' => '1.2.3'])));
+
+        $response = $this->actingAs($user)
+            ->post('/modpacks/brothers-klaus/1.2.3', [
+                // empty set
+            ]);
+
+        $response->assertSessionMissing('errors');
+        $response->assertRedirect('/modpacks/brothers-klaus/1.2.3');
+        $this->assertArraySubset($this->originalParams(['version' => '1.2.3']), $build->fresh()->getAttributes());
+    }
+
+    /** @test */
     public function version_is_required()
     {
         $user = factory(User::class)->create();
