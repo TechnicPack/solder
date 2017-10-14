@@ -15,8 +15,8 @@ use App\Package;
 use App\Release;
 use App\Facades\FileHash;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Storage;
 
 class PackageReleasesController extends Controller
 {
