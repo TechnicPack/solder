@@ -11040,6 +11040,10 @@ p.code.is-wrapped {
   text-decoration: none;
 }
 
+.directory .directory-item img {
+  border-radius: 50%;
+}
+
 .directory .directory-item .popover {
   display: none;
   position: absolute;
@@ -11069,6 +11073,10 @@ p.code.is-wrapped {
           transform: scale(1.1);
 }
 
+.directory .directory-item:hover img {
+  border-radius: 5px;
+}
+
 .directory .directory-item:hover .popover {
   display: block;
   z-index: 99;
@@ -11076,6 +11084,10 @@ p.code.is-wrapped {
 
 .directory .directory-item.is-active {
   background-color: #347AB7;
+  border-radius: 5px;
+}
+
+.directory .directory-item.is-active img {
   border-radius: 5px;
 }
 

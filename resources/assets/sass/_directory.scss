@@ -14,6 +14,10 @@
       text-decoration: none;
     }
 
+    img {
+      border-radius: 50%;
+    }
+
     .popover {
       display: none;
       position: absolute;
@@ -42,6 +46,10 @@
       border-radius: $radius-large;
       transform: scale(1.1);
 
+      img {
+        border-radius: $radius-large;
+      }
+
       .popover {
         display: block;
         z-index: 99;
@@ -51,6 +59,10 @@
     &.is-active {
       background-color: $primary;
       border-radius: $radius-large;
+
+      img {
+        border-radius: $radius-large;
+      }
 
       &:before {
         content: "";
