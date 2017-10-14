@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateReleasesTable extends Migration
+class CreateRoleUserTable extends Migration
 {
     /**
      * Run the migrations.
@@ -22,13 +22,10 @@ class CreateReleasesTable extends Migration
      */
     public function up()
     {
-        Schema::create('releases', function (Blueprint $table) {
+        Schema::create('role_user', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('package_id');
-            $table->string('version');
-            $table->string('md5')->nullable();
-            $table->unsignedInteger('filesize')->nullable();
-            $table->string('path')->nullable();
+            $table->unsignedInteger('role_id');
+            $table->unsignedInteger('user_id');
             $table->timestamps();
         });
     }
@@ -40,6 +37,6 @@ class CreateReleasesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('releases');
+        Schema::dropIfExists('role_user');
     }
 }

@@ -44,6 +44,8 @@ class ModpacksController extends Controller
      */
     public function store()
     {
+        $this->authorize('create', Modpack::class);
+
         request()->validate([
             'name' => ['required'],
             'slug' => ['required', 'unique:modpacks', 'alpha_dash'],

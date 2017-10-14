@@ -26,10 +26,16 @@
             </div>
         </div>
 
-        @include('modpacks.partials.create-build')
+        @can('create', App\Build::class)
+            @include('modpacks.partials.create-build')
+        @endcan
+
         @includeWhen(count($modpack->builds), 'modpacks.partials.list-builds')
-        @include('modpacks.partials.update-modpack')
-        @include('modpacks.partials.danger-zone')
+
+        @can('update', $modpack)
+            @include('modpacks.partials.update-modpack')
+            @include('modpacks.partials.danger-zone')
+        @endcan
 
     </section>
 @endsection

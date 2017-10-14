@@ -16,6 +16,7 @@ use App\Release;
 use App\Facades\FileHash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 
 class PackageReleasesController extends Controller
 {
@@ -30,7 +31,14 @@ class PackageReleasesController extends Controller
      */
     public function store(Request $request, $packageSlug)
     {
+        $this->authorize('create', Release::class);
+
         $package = Package::where('slug', $packageSlug)->firstOrFail();
+
+        request()->validate([
+            'version' => ['required', 'regex:/^[a-zA-Z0-9_-][.a-zA-Z0-9_-]*$/', Rule::unique('releases')->where('package_id', $package->id)],
+            'archive' => ['mimes:zip'],
+        ]);
 
         $archive = request()
             ->file('archive')

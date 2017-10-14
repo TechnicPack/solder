@@ -46,4 +46,21 @@ class User extends Authenticatable
     {
         return $this->hasMany(Client::class);
     }
+
+    /**
+     * A user has many Roles.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function roles()
+    {
+        return $this
+            ->belongsToMany(Role::class)
+            ->withTimestamps();
+    }
+
+    public function grantRole($role)
+    {
+        $this->roles()->attach(Role::where('tag', $role)->first());
+    }
 }

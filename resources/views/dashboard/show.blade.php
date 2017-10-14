@@ -8,7 +8,10 @@
     @endcomponent
 
     <section class="section">
-        @include('dashboard.partials.create-modpack')
+        @can('create', App\Modpack::class)
+            @include('dashboard.partials.create-modpack')
+        @endcan
+
         @includeWhen(count($builds), 'dashboard.partials.recent-builds')
         @includeWhen(count($releases), 'dashboard.partials.recent-releases')
     </section>

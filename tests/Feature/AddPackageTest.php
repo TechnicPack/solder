@@ -21,9 +21,9 @@ class AddPackageTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function a_user_can_create_a_package()
+    public function an_admin_can_create_a_package()
     {
-        $user = factory(User::class)->create();
+        $user = factory(User::class)->states('admin')->create();
 
         $response = $this->actingAs($user)->post('library', [
             'name' => 'Buildcraft',
@@ -56,9 +56,34 @@ class AddPackageTest extends TestCase
     }
 
     /** @test */
-    public function name_is_required()
+    public function an_authorized_user_can_create_a_package()
     {
         $user = factory(User::class)->create();
+        $user->grantRole('create-package');
+
+        $response = $this->actingAs($user)
+            ->post('library', $this->validParams());
+
+        $response->assertRedirect();
+        $this->assertCount(1, Package::all());
+    }
+
+    /** @test */
+    public function an_unauthorized_user_cannot_create_a_package()
+    {
+        $user = factory(User::class)->create();
+
+        $response = $this->actingAs($user)
+            ->post('library', $this->validParams());
+
+        $response->assertStatus(403);
+        $this->assertCount(0, Package::all());
+    }
+
+    /** @test */
+    public function name_is_required()
+    {
+        $user = factory(User::class)->states('admin')->create();
 
         $response = $this->actingAs($user)
             ->from('library')
@@ -74,7 +99,7 @@ class AddPackageTest extends TestCase
     /** @test */
     public function slug_is_required()
     {
-        $user = factory(User::class)->create();
+        $user = factory(User::class)->states('admin')->create();
 
         $response = $this->actingAs($user)
             ->from('library')
@@ -90,7 +115,7 @@ class AddPackageTest extends TestCase
     /** @test */
     public function slug_is_unique()
     {
-        $user = factory(User::class)->create();
+        $user = factory(User::class)->states('admin')->create();
         factory(Package::class)->create(['slug' => 'buildcraft']);
 
         $response = $this->actingAs($user)
@@ -107,7 +132,7 @@ class AddPackageTest extends TestCase
     /** @test */
     public function author_is_optional()
     {
-        $user = factory(User::class)->create();
+        $user = factory(User::class)->states('admin')->create();
 
         $response = $this->actingAs($user)
             ->from('library')
@@ -123,7 +148,7 @@ class AddPackageTest extends TestCase
     /** @test */
     public function website_url_is_a_valid_url()
     {
-        $user = factory(User::class)->create();
+        $user = factory(User::class)->states('admin')->create();
 
         $response = $this->actingAs($user)
             ->from('library')
@@ -139,7 +164,7 @@ class AddPackageTest extends TestCase
     /** @test */
     public function donation_url_is_a_valid_url()
     {
-        $user = factory(User::class)->create();
+        $user = factory(User::class)->states('admin')->create();
 
         $response = $this->actingAs($user)
             ->from('library')
@@ -155,7 +180,7 @@ class AddPackageTest extends TestCase
     /** @test */
     public function website_url_is_optional()
     {
-        $user = factory(User::class)->create();
+        $user = factory(User::class)->states('admin')->create();
 
         $response = $this->actingAs($user)
             ->from('library')
@@ -171,7 +196,7 @@ class AddPackageTest extends TestCase
     /** @test */
     public function donation_url_is_optional()
     {
-        $user = factory(User::class)->create();
+        $user = factory(User::class)->states('admin')->create();
 
         $response = $this->actingAs($user)
             ->from('library')

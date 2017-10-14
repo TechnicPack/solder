@@ -59,6 +59,8 @@ class ModpackBuildsController extends Controller
      */
     public function store($modpackSlug)
     {
+        $this->authorize('create', Build::class);
+
         $modpack = Modpack::where('slug', $modpackSlug)->first();
 
         request()->validate([

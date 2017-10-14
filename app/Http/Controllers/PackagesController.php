@@ -56,6 +56,8 @@ class PackagesController extends Controller
      */
     public function store()
     {
+        $this->authorize('create', Package::class);
+
         request()->validate([
             'name' => ['required'],
             'slug' => ['required', Rule::unique('packages')],

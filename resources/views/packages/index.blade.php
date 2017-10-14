@@ -9,7 +9,12 @@
     @endcomponent
 
     <section class="section">
-        @include('packages.partials.create-package')
-        @include('packages.partials.list-packages')
+        @can('create', App\Package::class)
+            @include('packages.partials.create-package')
+        @endcan
+
+        @if(count($packages))
+            @include('packages.partials.list-packages')
+        @endif
     </section>
 @endsection
