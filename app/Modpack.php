@@ -97,9 +97,9 @@ class Modpack extends Model
      *
      * @return mixed
      */
-    public function getPromotedBuildAttribute()
+    public function getRecommendedBuildAttribute()
     {
-        return optional(Build::where('id', $this->promoted_build_id)->first());
+        return optional(Build::where('id', $this->recommended_build_id)->first());
     }
 
     /**

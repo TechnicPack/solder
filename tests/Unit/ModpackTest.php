@@ -23,13 +23,13 @@ class ModpackTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function promoted_build_attribute_is_optional()
+    public function recommended_build_attribute_is_optional()
     {
         $modpack = factory(Modpack::class)->make([
-            'promoted_build_id' => null,
+            'recommended_build_id' => null,
         ]);
 
-        $this->assertInstanceOf(Optional::class, $modpack->promoted_build);
+        $this->assertInstanceOf(Optional::class, $modpack->recommended_build);
     }
 
     /** @test */

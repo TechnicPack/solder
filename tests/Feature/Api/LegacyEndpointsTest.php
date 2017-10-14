@@ -128,11 +128,11 @@ class LegacyEndpointsTest extends TestCase
             $v100 = factory(Build::class)->states('public')->create(['version' => '1.0.0', 'modpack_id' => $modpack->id]);
             $v200 = factory(Build::class)->states('draft')->create(['version' => '2.0.0', 'modpack_id' => $modpack->id]);
             factory(Build::class)->states('private')->create(['version' => '1.5.0', 'modpack_id' => $modpack->id]);
-            $modpack->update(['promoted_build_id' => $v100->id, 'latest_build_id' => $v200->id]);
+            $modpack->update(['recommended_build_id' => $v100->id, 'latest_build_id' => $v200->id]);
         });
         tap(factory(Modpack::class)->states('public')->create(['name' => 'Tekkit', 'slug' => 'tekkit']), function ($modpack) {
             $build = factory(Build::class)->states('private')->create(['version' => '1.5.0', 'modpack_id' => $modpack->id]);
-            $modpack->update(['promoted_build_id' => $build->id, 'latest_build_id' => $build->id]);
+            $modpack->update(['recommended_build_id' => $build->id, 'latest_build_id' => $build->id]);
         });
         factory(Modpack::class)->states('private')->create(['name' => 'Big Dig', 'slug' => 'big-dig']);
         factory(Modpack::class)->states('draft')->create(['name' => 'Hexxit', 'slug' => 'hexxit']);
@@ -172,12 +172,12 @@ class LegacyEndpointsTest extends TestCase
             $v100 = factory(Build::class)->states('public')->create(['version' => '1.0.0', 'modpack_id' => $modpack->id]);
             $v200 = factory(Build::class)->states('draft')->create(['version' => '2.0.0', 'modpack_id' => $modpack->id]);
             factory(Build::class)->states('private')->create(['version' => '1.5.0', 'modpack_id' => $modpack->id]);
-            $modpack->update(['promoted_build_id' => $v100->id, 'latest_build_id' => $v200->id]);
+            $modpack->update(['recommended_build_id' => $v100->id, 'latest_build_id' => $v200->id]);
             $modpack->clients()->attach(factory(Client::class)->create(['token' => 'CLIENTKEY1234']));
         });
         tap(factory(Modpack::class)->states('public')->create(['name' => 'Tekkit', 'slug' => 'tekkit']), function ($modpack) {
             $build = factory(Build::class)->states('private')->create(['version' => '1.5.0', 'modpack_id' => $modpack->id]);
-            $modpack->update(['promoted_build_id' => $build->id, 'latest_build_id' => $build->id]);
+            $modpack->update(['recommended_build_id' => $build->id, 'latest_build_id' => $build->id]);
         });
         factory(Modpack::class)->states('private')->create(['name' => 'Big Dig', 'slug' => 'big-dig']);
         factory(Modpack::class)->states('draft')->create(['name' => 'Hexxit', 'slug' => 'hexxit']);
@@ -219,11 +219,11 @@ class LegacyEndpointsTest extends TestCase
             $v100 = factory(Build::class)->states('public')->create(['version' => '1.0.0', 'modpack_id' => $modpack->id]);
             $v200 = factory(Build::class)->states('draft')->create(['version' => '2.0.0', 'modpack_id' => $modpack->id]);
             factory(Build::class)->states('private')->create(['version' => '1.5.0', 'modpack_id' => $modpack->id]);
-            $modpack->update(['promoted_build_id' => $v100->id, 'latest_build_id' => $v200->id]);
+            $modpack->update(['recommended_build_id' => $v100->id, 'latest_build_id' => $v200->id]);
         });
         tap(factory(Modpack::class)->states('public')->create(['name' => 'Tekkit', 'slug' => 'tekkit']), function ($modpack) {
             $build = factory(Build::class)->states('private')->create(['version' => '1.5.0', 'modpack_id' => $modpack->id]);
-            $modpack->update(['promoted_build_id' => $build->id, 'latest_build_id' => $build->id]);
+            $modpack->update(['recommended_build_id' => $build->id, 'latest_build_id' => $build->id]);
         });
         factory(Modpack::class)->states('private')->create(['name' => 'Big Dig', 'slug' => 'big-dig']);
         factory(Modpack::class)->states('draft')->create(['name' => 'Hexxit', 'slug' => 'hexxit']);
@@ -273,7 +273,7 @@ class LegacyEndpointsTest extends TestCase
             $v100 = factory(Build::class)->states('public')->create(['version' => '1.0.0', 'modpack_id' => $modpack->id]);
             $v200 = factory(Build::class)->states('draft')->create(['version' => '2.0.0', 'modpack_id' => $modpack->id]);
             factory(Build::class)->states('private')->create(['version' => '1.5.0', 'modpack_id' => $modpack->id]);
-            $modpack->update(['promoted_build_id' => $v100->id, 'latest_build_id' => $v200->id]);
+            $modpack->update(['recommended_build_id' => $v100->id, 'latest_build_id' => $v200->id]);
         });
 
         $response = $this->get('api/modpack/b-team');
@@ -297,7 +297,7 @@ class LegacyEndpointsTest extends TestCase
             $v100 = factory(Build::class)->states('public')->create(['version' => '1.0.0', 'modpack_id' => $modpack->id]);
             $v200 = factory(Build::class)->states('draft')->create(['version' => '2.0.0', 'modpack_id' => $modpack->id]);
             factory(Build::class)->states('private')->create(['version' => '1.5.0', 'modpack_id' => $modpack->id]);
-            $modpack->update(['promoted_build_id' => $v100->id, 'latest_build_id' => $v200->id]);
+            $modpack->update(['recommended_build_id' => $v100->id, 'latest_build_id' => $v200->id]);
             $modpack->clients()->attach(factory(Client::class)->create(['token' => 'CLIENTKEY1234']));
         });
 
@@ -324,7 +324,7 @@ class LegacyEndpointsTest extends TestCase
             $v100 = factory(Build::class)->states('public')->create(['version' => '1.0.0', 'modpack_id' => $modpack->id]);
             $v200 = factory(Build::class)->states('draft')->create(['version' => '2.0.0', 'modpack_id' => $modpack->id]);
             factory(Build::class)->states('private')->create(['version' => '1.5.0', 'modpack_id' => $modpack->id]);
-            $modpack->update(['promoted_build_id' => $v100->id, 'latest_build_id' => $v200->id]);
+            $modpack->update(['recommended_build_id' => $v100->id, 'latest_build_id' => $v200->id]);
         });
 
         $response = $this->get('api/modpack/b-team?k=APIKEY1234');
