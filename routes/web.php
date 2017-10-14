@@ -29,6 +29,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/library', 'PackagesController@index');
     Route::get('/library/{package}', 'PackagesController@show');
     Route::post('/library', 'PackagesController@store');
+    Route::patch('/library/{package}', 'PackagesController@update');
+    Route::delete('/library/{package}', 'PackagesController@destroy');
 
     Route::post('/library/{package}/releases', 'PackageReleasesController@store');
 

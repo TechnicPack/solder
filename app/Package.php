@@ -23,6 +23,18 @@ class Package extends Model
     protected $guarded = [];
 
     /**
+     * The "booting" method of the model.
+     */
+    public static function boot()
+    {
+        parent::boot();
+
+        self::deleting(function ($package) {
+            $package->releases->each->delete();
+        });
+    }
+
+    /**
      * A Package has many Releases.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany

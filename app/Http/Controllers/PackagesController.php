@@ -12,6 +12,7 @@
 namespace App\Http\Controllers;
 
 use App\Package;
+use Illuminate\Validation\Rule;
 
 class PackagesController extends Controller
 {
@@ -55,11 +56,52 @@ class PackagesController extends Controller
      */
     public function store()
     {
-        $package = Package::create([
-            'name' => request()->name,
-            'slug' => request()->slug,
+        request()->validate([
+            'name' => ['required'],
+            'slug' => ['required', Rule::unique('packages')],
+            'website_url' => ['nullable', 'url'],
+            'donation_url' => ['nullable', 'url'],
         ]);
 
-        return redirect('/library/'.$package->slug);
+        $package = Package::create(request()->only([
+            'name',
+            'slug',
+            'author',
+            'website_url',
+            'donation_url',
+            'description',
+        ]));
+
+        return redirect('library/'.$package->slug);
+    }
+
+    public function update($packageSlug)
+    {
+        $package = Package::where('slug', $packageSlug)->firstOrFail();
+
+        request()->validate([
+           'name' => ['sometimes', 'required'],
+           'slug' => ['sometimes', 'required', 'alpha_dash', Rule::unique('packages')->ignore($package->id)],
+        ]);
+
+        $package->update(request()->only([
+            'name',
+            'slug',
+            'author',
+            'website_url',
+            'donation_url',
+            'description',
+        ]));
+
+        return redirect('library/'.$package->slug);
+    }
+
+    public function destroy($packageSlug)
+    {
+        $package = Package::where('slug', $packageSlug)->firstOrFail();
+
+        $package->delete();
+
+        return redirect('library');
     }
 }

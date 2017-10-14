@@ -1,36 +1,40 @@
 <template>
-    <table class="table is-fullwidth">
-        <thead>
-        <tr>
-            <th>Version</th>
-            <th>MD5</th>
-            <th>Filesize</th>
-            <th>Download</th>
-            <th>&nbsp;</th>
-        </tr>
-        </thead>
-        <tfoot v-if="rows.length == 0">
-        <tr>
-            <td colspan="4" class="has-text-centered">There are no releases, get started by uploading one.</td>
-        </tr>
-        </tfoot>
-        <tbody>
-        <tr v-for="release in rows">
-            <td>{{ release.version }}</td>
-            <td><code>{{ release.md5 }}</code></td>
-            <td>{{ release.filesize | prettyBytes }}</td>
-            <td>
-                <a :href="release.url">
-                    {{ release.filename }}
-                </a>
-            </td>
-            <td class="has-text-right">
-                <a @click="destroy(release)" class="button is-small is-outlined is-danger">Remove</a>
-            </td>
-        </tr>
-        </tbody>
+    <div class="box">
+        <h1>Releases</h1>
+        <table class="table is-fullwidth">
+            <thead>
+            <tr>
+                <th>Version</th>
+                <th>MD5</th>
+                <th>Filesize</th>
+                <th>Download</th>
+                <th>&nbsp;</th>
+            </tr>
+            </thead>
+            <tfoot v-if="rows.length == 0">
+            <tr>
+                <td colspan="4" class="has-text-centered">There are no releases, get started by uploading one.</td>
+            </tr>
+            </tfoot>
+            <tbody>
+            <tr v-for="release in rows">
+                <td>{{ release.version }}</td>
+                <td><code>{{ release.md5 }}</code>
+                </td>
+                <td>{{ release.filesize | prettyBytes }}</td>
+                <td>
+                    <a :href="release.url">
+                        {{ release.filename }}
+                    </a>
+                </td>
+                <td class="has-text-right">
+                    <a @click="destroy(release)" class="button is-small is-outlined is-danger">Remove</a>
+                </td>
+            </tr>
+            </tbody>
 
-    </table>
+        </table>
+    </div>
 </template>
 
 <script>

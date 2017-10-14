@@ -1818,6 +1818,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['releases'],
@@ -1839,88 +1843,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }).catch(function (error) {
                 console.log(error);
             });
-        }
-    }
-});
-
-/***/ }),
-
-/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/packages/CreatePackage.vue":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-    data: function data() {
-        return {
-            name: '',
-            slug: '',
-            csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-        };
-    },
-
-    watch: {
-        name: function name(_name) {
-            this.slug = this.slugify(_name);
-        }
-    },
-    methods: {
-        slugify: function slugify(text) {
-            return text.toString().toLowerCase().replace(/\s+/g, '-') // Replace spaces with -
-            .replace(/[^\w\-]+/g, '') // Remove all non-word chars
-            .replace(/\-\-+/g, '-') // Replace multiple - with single -
-            .replace(/^-+/, '') // Trim - from start of text
-            .replace(/-+$/, ''); // Trim - from end of text
         }
     }
 });
@@ -20148,149 +20070,6 @@ if (false) {
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-2ff1bbdd\",\"hasScoped\":false}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/packages/CreatePackage.vue":
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "box" }, [
-    _c("h1", [_vm._v("Add Package")]),
-    _vm._v(" "),
-    _c("div", { staticClass: "box-body" }, [
-      _c("form", { attrs: { action: "/library/", method: "post" } }, [
-        _c("input", {
-          attrs: { type: "hidden", name: "_token" },
-          domProps: { value: _vm.csrf }
-        }),
-        _vm._v(" "),
-        _c("div", { staticClass: "field is-horizontal" }, [
-          _vm._m(0),
-          _vm._v(" "),
-          _c("div", { staticClass: "field-body" }, [
-            _c("div", { staticClass: "field" }, [
-              _c("div", { staticClass: "control is-expanded" }, [
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.name,
-                      expression: "name"
-                    }
-                  ],
-                  staticClass: "input",
-                  attrs: {
-                    type: "text",
-                    name: "name",
-                    placeholder: "Iron Tanks"
-                  },
-                  domProps: { value: _vm.name },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.name = $event.target.value
-                    }
-                  }
-                })
-              ])
-            ])
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "field is-horizontal" }, [
-          _vm._m(1),
-          _vm._v(" "),
-          _c("div", { staticClass: "field-body" }, [
-            _c("div", { staticClass: "field" }, [
-              _c("div", { staticClass: "control is-expanded" }, [
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.slug,
-                      expression: "slug"
-                    }
-                  ],
-                  staticClass: "input",
-                  attrs: {
-                    type: "text",
-                    name: "slug",
-                    placeholder: "iron-tanks"
-                  },
-                  domProps: { value: _vm.slug },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.slug = $event.target.value
-                    }
-                  }
-                })
-              ])
-            ])
-          ])
-        ]),
-        _vm._v(" "),
-        _vm._m(2)
-      ])
-    ])
-  ])
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "field-label is-normal" }, [
-      _c("label", { staticClass: "label" }, [_vm._v("Name")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "field-label is-normal" }, [
-      _c("label", { staticClass: "label" }, [_vm._v("Slug")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "field is-horizontal" }, [
-      _c("div", { staticClass: "field-label" }, [
-        _vm._v("\n                     \n                ")
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "field-body" }, [
-        _c("div", { staticClass: "control" }, [
-          _c(
-            "button",
-            { staticClass: "button is-primary", attrs: { type: "submit" } },
-            [_vm._v("Add Package")]
-          )
-        ])
-      ])
-    ])
-  }
-]
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-2ff1bbdd", module.exports)
-  }
-}
-
-/***/ }),
-
 /***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-56dc6b96\",\"hasScoped\":false}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/passport/PersonalAccessTokens.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -20807,48 +20586,52 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("table", { staticClass: "table is-fullwidth" }, [
-    _vm._m(0),
+  return _c("div", { staticClass: "box" }, [
+    _c("h1", [_vm._v("Releases")]),
     _vm._v(" "),
-    _vm.rows.length == 0 ? _c("tfoot", [_vm._m(1)]) : _vm._e(),
-    _vm._v(" "),
-    _c(
-      "tbody",
-      _vm._l(_vm.rows, function(release) {
-        return _c("tr", [
-          _c("td", [_vm._v(_vm._s(release.version))]),
-          _vm._v(" "),
-          _c("td", [_c("code", [_vm._v(_vm._s(release.md5))])]),
-          _vm._v(" "),
-          _c("td", [_vm._v(_vm._s(_vm._f("prettyBytes")(release.filesize)))]),
-          _vm._v(" "),
-          _c("td", [
-            _c("a", { attrs: { href: release.url } }, [
-              _vm._v(
-                "\n                " +
-                  _vm._s(release.filename) +
-                  "\n            "
+    _c("table", { staticClass: "table is-fullwidth" }, [
+      _vm._m(0),
+      _vm._v(" "),
+      _vm.rows.length == 0 ? _c("tfoot", [_vm._m(1)]) : _vm._e(),
+      _vm._v(" "),
+      _c(
+        "tbody",
+        _vm._l(_vm.rows, function(release) {
+          return _c("tr", [
+            _c("td", [_vm._v(_vm._s(release.version))]),
+            _vm._v(" "),
+            _c("td", [_c("code", [_vm._v(_vm._s(release.md5))])]),
+            _vm._v(" "),
+            _c("td", [_vm._v(_vm._s(_vm._f("prettyBytes")(release.filesize)))]),
+            _vm._v(" "),
+            _c("td", [
+              _c("a", { attrs: { href: release.url } }, [
+                _vm._v(
+                  "\n                    " +
+                    _vm._s(release.filename) +
+                    "\n                "
+                )
+              ])
+            ]),
+            _vm._v(" "),
+            _c("td", { staticClass: "has-text-right" }, [
+              _c(
+                "a",
+                {
+                  staticClass: "button is-small is-outlined is-danger",
+                  on: {
+                    click: function($event) {
+                      _vm.destroy(release)
+                    }
+                  }
+                },
+                [_vm._v("Remove")]
               )
             ])
-          ]),
-          _vm._v(" "),
-          _c("td", { staticClass: "has-text-right" }, [
-            _c(
-              "a",
-              {
-                staticClass: "button is-small is-outlined is-danger",
-                on: {
-                  click: function($event) {
-                    _vm.destroy(release)
-                  }
-                }
-              },
-              [_vm._v("Remove")]
-            )
           ])
-        ])
-      })
-    )
+        })
+      )
+    ])
   ])
 }
 var staticRenderFns = [
@@ -31636,8 +31419,6 @@ Vue.component('passport-personal-access-tokens', __webpack_require__("./resource
 Vue.component('passport-clients', __webpack_require__("./resources/assets/js/components/passport/Clients.vue"));
 Vue.component('passport-authorized-clients', __webpack_require__("./resources/assets/js/components/passport/AuthorizedClients.vue"));
 
-Vue.component('create-package-form', __webpack_require__("./resources/assets/js/components/packages/CreatePackage.vue"));
-
 Vue.filter('prettyBytes', function (num) {
     // jacked from: https://github.com/sindresorhus/pretty-bytes
     if (typeof num !== 'number' || isNaN(num)) {
@@ -31847,53 +31628,6 @@ if (false) {(function () {
     hotAPI.createRecord("data-v-6e426a48", Component.options)
   } else {
     hotAPI.reload("data-v-6e426a48", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-
-/***/ "./resources/assets/js/components/packages/CreatePackage.vue":
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
-/* script */
-var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/packages/CreatePackage.vue")
-/* template */
-var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-2ff1bbdd\",\"hasScoped\":false}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/packages/CreatePackage.vue")
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources/assets/js/components/packages/CreatePackage.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] CreatePackage.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-2ff1bbdd", Component.options)
-  } else {
-    hotAPI.reload("data-v-2ff1bbdd", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true

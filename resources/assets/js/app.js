@@ -22,8 +22,6 @@ Vue.component('passport-personal-access-tokens', require('./components/passport/
 Vue.component('passport-clients', require('./components/passport/Clients.vue'));
 Vue.component('passport-authorized-clients', require('./components/passport/AuthorizedClients.vue'));
 
-Vue.component('create-package-form', require('./components/packages/CreatePackage.vue'));
-
 Vue.filter('prettyBytes', function (num) {
     // jacked from: https://github.com/sindresorhus/pretty-bytes
     if (typeof num !== 'number' || isNaN(num)) {
