@@ -34,10 +34,9 @@ class UpdateModpackTest extends TestCase
     }
 
     /** @test */
-    public function a_user_can_update_a_modpack()
+    public function an_admin_can_update_a_modpack()
     {
-        $this->withoutExceptionHandling();
-        $user = factory(User::class)->create();
+        $user = factory(User::class)->states('admin')->create();
         $modpack = factory(Modpack::class)->create([
             'name' => 'Brothers Klaus',
             'slug' => 'brothers-klaus',
@@ -74,6 +73,33 @@ class UpdateModpackTest extends TestCase
     }
 
     /** @test */
+    public function an_authorized_user_can_update_a_modpack()
+    {
+        $user = factory(User::class)->create();
+        $user->grantRole('update-modpack');
+        $modpack = factory(Modpack::class)->create($this->originalParams());
+
+        $response = $this->actingAs($user)
+            ->patch("/modpacks/{$modpack->slug}", $this->validParams());
+
+        $response->assertRedirect("/modpacks/{$modpack->fresh()->slug}");
+        $this->assertArraySubset($this->validParams(), $modpack->fresh()->getAttributes());
+    }
+
+    /** @test */
+    public function an_unauthorized_user_cannot_update_a_modpack()
+    {
+        $user = factory(User::class)->create();
+        $modpack = factory(Modpack::class)->create($this->originalParams());
+
+        $response = $this->actingAs($user)
+            ->patch("/modpacks/{$modpack->slug}", $this->validParams());
+
+        $response->assertStatus(403);
+        $this->assertArraySubset($this->originalParams(), $modpack->fresh()->getAttributes());
+    }
+
+    /** @test */
     public function a_guest_cannot_update_a_modpack()
     {
         $modpack = factory(Modpack::class)->create($this->originalParams());
@@ -87,7 +113,7 @@ class UpdateModpackTest extends TestCase
     /** @test */
     public function name_cannot_be_blank()
     {
-        $user = factory(User::class)->create();
+        $user = factory(User::class)->states('admin')->create();
         $modpack = factory(Modpack::class)->create($this->originalParams([
             'name' => 'Original Name',
         ]));
@@ -108,7 +134,7 @@ class UpdateModpackTest extends TestCase
     /** @test */
     public function slug_cannot_be_blank()
     {
-        $user = factory(User::class)->create();
+        $user = factory(User::class)->states('admin')->create();
         $modpack = factory(Modpack::class)->create($this->originalParams([
             'slug' => 'original-slug',
         ]));
@@ -129,7 +155,7 @@ class UpdateModpackTest extends TestCase
     /** @test */
     public function slug_must_be_unique()
     {
-        $user = factory(User::class)->create();
+        $user = factory(User::class)->states('admin')->create();
         $otherModpack = factory(Modpack::class)->create(['slug' => 'other-modpack']);
         $modpack = factory(Modpack::class)->create($this->originalParams([
             'slug' => 'original-slug',
@@ -151,7 +177,7 @@ class UpdateModpackTest extends TestCase
     /** @test */
     public function slug_must_be_alpha_dash()
     {
-        $user = factory(User::class)->create();
+        $user = factory(User::class)->states('admin')->create();
         $modpack = factory(Modpack::class)->create($this->originalParams([
             'slug' => 'original-slug',
         ]));
@@ -172,7 +198,7 @@ class UpdateModpackTest extends TestCase
     /** @test */
     public function all_attributes_are_optional()
     {
-        $user = factory(User::class)->create();
+        $user = factory(User::class)->states('admin')->create();
         $modpack = factory(Modpack::class)->create($this->originalParams(['slug' => 'brothers-klaus']));
 
         $response = $this->actingAs($user)
@@ -188,7 +214,7 @@ class UpdateModpackTest extends TestCase
     /** @test */
     public function original_slug_can_be_resubmitted()
     {
-        $user = factory(User::class)->create();
+        $user = factory(User::class)->states('admin')->create();
         $modpack = factory(Modpack::class)->create($this->originalParams([
             'slug' => 'original-slug',
         ]));
@@ -209,7 +235,7 @@ class UpdateModpackTest extends TestCase
     /** @test */
     public function status_cannot_be_blank()
     {
-        $user = factory(User::class)->create();
+        $user = factory(User::class)->states('admin')->create();
         $modpack = factory(Modpack::class)->create($this->originalParams([
             'status' => 'public',
         ]));
@@ -230,7 +256,7 @@ class UpdateModpackTest extends TestCase
     /** @test */
     public function status_is_valid()
     {
-        $user = factory(User::class)->create();
+        $user = factory(User::class)->states('admin')->create();
         $modpack = factory(Modpack::class)->create($this->originalParams([
             'slug' => 'brothers-klaus',
         ]));
@@ -249,7 +275,7 @@ class UpdateModpackTest extends TestCase
     /** @test */
     public function modpack_icon_must_be_an_image()
     {
-        $user = factory(User::class)->create();
+        $user = factory(User::class)->states('admin')->create();
         $modpack = factory(Modpack::class)->create($this->originalParams([
             'slug' => 'brothers-klaus',
         ]));
@@ -268,7 +294,7 @@ class UpdateModpackTest extends TestCase
     /** @test */
     public function modpack_icon_must_50px_wide()
     {
-        $user = factory(User::class)->create();
+        $user = factory(User::class)->states('admin')->create();
         $modpack = factory(Modpack::class)->create($this->originalParams([
             'slug' => 'brothers-klaus',
         ]));
@@ -287,7 +313,7 @@ class UpdateModpackTest extends TestCase
     /** @test */
     public function modpack_icon_must_have_square_aspect_ratio()
     {
-        $user = factory(User::class)->create();
+        $user = factory(User::class)->states('admin')->create();
         $modpack = factory(Modpack::class)->create($this->originalParams([
             'slug' => 'brothers-klaus',
         ]));
@@ -306,7 +332,7 @@ class UpdateModpackTest extends TestCase
     /** @test */
     public function modpack_icon_is_optional()
     {
-        $user = factory(User::class)->create();
+        $user = factory(User::class)->states('admin')->create();
         $modpack = factory(Modpack::class)->create($this->originalParams([
             'slug' => 'brothers-klaus',
             'icon_path' => '/icons/old_icon.png',
@@ -327,7 +353,7 @@ class UpdateModpackTest extends TestCase
     /** @test */
     public function latest_build_id_must_be_a_related_build()
     {
-        $user = factory(User::class)->create();
+        $user = factory(User::class)->states('admin')->create();
         $modpack = factory(Modpack::class)->create($this->originalParams(['slug' => 'brothers-klaus']));
 
         $response = $this->actingAs($user)
@@ -344,7 +370,7 @@ class UpdateModpackTest extends TestCase
     /** @test */
     public function recommended_build_id_must_be_a_related_build()
     {
-        $user = factory(User::class)->create();
+        $user = factory(User::class)->states('admin')->create();
         $modpack = factory(Modpack::class)->create($this->originalParams(['slug' => 'brothers-klaus']));
 
         $response = $this->actingAs($user)

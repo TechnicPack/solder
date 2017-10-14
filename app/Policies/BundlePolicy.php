@@ -12,10 +12,10 @@
 namespace App\Policies;
 
 use App\User;
-use App\Build;
+use App\Bundle;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class BuildPolicy
+class BundlePolicy
 {
     use HandlesAuthorization;
 
@@ -35,19 +35,19 @@ class BuildPolicy
     }
 
     /**
-     * Determine whether the user can view the build.
+     * Determine whether the user can view the bundle.
      *
      * @param  \App\User  $user
-     * @param  \App\Build  $build
+     * @param  \App\Bundle  $bundle
      * @return mixed
      */
-    public function view(User $user, Build $build)
+    public function view(User $user, Bundle $bundle)
     {
         //
     }
 
     /**
-     * Determine whether the user can create builds.
+     * Determine whether the user can create bundles.
      *
      * @param  \App\User  $user
      * @return mixed
@@ -58,25 +58,25 @@ class BuildPolicy
     }
 
     /**
-     * Determine whether the user can update the build.
+     * Determine whether the user can update the bundle.
      *
      * @param  \App\User  $user
-     * @param  \App\Build  $build
+     * @param  \App\Bundle  $bundle
      * @return mixed
      */
-    public function update(User $user, Build $build)
+    public function update(User $user, Bundle $bundle)
     {
-        return $user->roles()->where('tag', 'update-modpack')->exists();
+        //
     }
 
     /**
-     * Determine whether the user can delete the build.
+     * Determine whether the user can delete the bundle.
      *
      * @param  \App\User  $user
-     * @param  \App\Build  $build
+     * @param  \App\Bundle  $bundle
      * @return mixed
      */
-    public function delete(User $user, Build $build)
+    public function delete(User $user, Bundle $bundle)
     {
         return $user->roles()->where('tag', 'update-modpack')->exists();
     }

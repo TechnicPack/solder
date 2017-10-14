@@ -21,9 +21,9 @@ class UpdatePackageTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function a_user_can_update_a_package()
+    public function an_admin_can_update_a_package()
     {
-        $user = factory(User::class)->create();
+        $user = factory(User::class)->states('admin')->create();
         $package = factory(Package::class)->create([
             'name' => 'Original Name',
             'slug' => 'original-slug',
@@ -56,6 +56,33 @@ class UpdatePackageTest extends TestCase
     }
 
     /** @test */
+    public function an_authorized_user_can_update_a_modpack()
+    {
+        $user = factory(User::class)->create();
+        $user->grantRole('update-package');
+        $package = factory(Package::class)->create($this->originalParams());
+
+        $response = $this->actingAs($user)
+            ->patch("library/{$package->slug}", $this->validParams());
+
+        $response->assertRedirect("library/{$package->fresh()->slug}");
+        $this->assertArraySubset($this->validParams(), $package->fresh()->getAttributes());
+    }
+
+    /** @test */
+    public function an_unauthorized_user_cannot_update_a_modpack()
+    {
+        $user = factory(User::class)->create();
+        $package = factory(Package::class)->create($this->originalParams());
+
+        $response = $this->actingAs($user)
+            ->patch("library/{$package->slug}", $this->validParams());
+
+        $response->assertStatus(403);
+        $this->assertArraySubset($this->originalParams(), $package->fresh()->getAttributes());
+    }
+
+    /** @test */
     public function a_guest_is_asked_to_login_before_updating_package()
     {
         $user = factory(User::class)->create();
@@ -70,7 +97,7 @@ class UpdatePackageTest extends TestCase
     /** @test */
     public function attempting_to_update_a_package_with_invalid_slug_returns_404()
     {
-        $user = factory(User::class)->create();
+        $user = factory(User::class)->states('admin')->create();
         $package = factory(Package::class)->create($this->originalParams());
 
         $response = $this->actingAs($user)->patch('/library/invalid-slug', $this->validParams());
@@ -82,7 +109,7 @@ class UpdatePackageTest extends TestCase
     /** @test */
     public function name_is_required()
     {
-        $user = factory(User::class)->create();
+        $user = factory(User::class)->states('admin')->create();
         $package = factory(Package::class)->create($this->originalParams());
 
         $response = $this->actingAs($user)
@@ -99,7 +126,7 @@ class UpdatePackageTest extends TestCase
     /** @test */
     public function slug_is_required()
     {
-        $user = factory(User::class)->create();
+        $user = factory(User::class)->states('admin')->create();
         $package = factory(Package::class)->create($this->originalParams());
 
         $response = $this->actingAs($user)
@@ -116,7 +143,7 @@ class UpdatePackageTest extends TestCase
     /** @test */
     public function slug_is_unique()
     {
-        $user = factory(User::class)->create();
+        $user = factory(User::class)->states('admin')->create();
         factory(Package::class)->create(['slug' => 'existing-slug']);
         $package = factory(Package::class)->create($this->originalParams());
 
@@ -134,7 +161,7 @@ class UpdatePackageTest extends TestCase
     /** @test */
     public function slug_is_alpha_dash()
     {
-        $user = factory(User::class)->create();
+        $user = factory(User::class)->states('admin')->create();
         $package = factory(Package::class)->create($this->originalParams());
 
         $response = $this->actingAs($user)
@@ -151,7 +178,7 @@ class UpdatePackageTest extends TestCase
     /** @test */
     public function original_slug_can_be_resubmitted()
     {
-        $user = factory(User::class)->create();
+        $user = factory(User::class)->states('admin')->create();
         $package = factory(Package::class)->create($this->originalParams([
             'slug' => 'original-slug',
         ]));
@@ -172,7 +199,7 @@ class UpdatePackageTest extends TestCase
     /** @test */
     public function all_parameters_are_optional()
     {
-        $user = factory(User::class)->create();
+        $user = factory(User::class)->states('admin')->create();
         $package = factory(Package::class)->create($this->originalParams());
 
         $response = $this->actingAs($user)

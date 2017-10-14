@@ -20,6 +20,8 @@ class BundlesController extends Controller
      */
     public function store()
     {
+        $this->authorize('create', Bundle::class);
+
         $bundle = Bundle::create([
             'build_id' => request()->build_id,
             'release_id' => request()->release_id,
@@ -35,9 +37,13 @@ class BundlesController extends Controller
      */
     public function destroy()
     {
-        Bundle::where('build_id', request()->build_id)
+        $bundle = Bundle::where('build_id', request()->build_id)
             ->where('release_id', request()->release_id)
-            ->firstOrFail()->delete();
+            ->firstOrFail();
+
+        $this->authorize('delete', $bundle);
+
+        $bundle->delete();
 
         return response(null, 204);
     }

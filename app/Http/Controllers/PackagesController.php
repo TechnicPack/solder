@@ -81,6 +81,8 @@ class PackagesController extends Controller
     {
         $package = Package::where('slug', $packageSlug)->firstOrFail();
 
+        $this->authorize('update', $package);
+
         request()->validate([
            'name' => ['sometimes', 'required'],
            'slug' => ['sometimes', 'required', 'alpha_dash', Rule::unique('packages')->ignore($package->id)],

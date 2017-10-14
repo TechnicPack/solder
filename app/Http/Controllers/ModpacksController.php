@@ -74,6 +74,8 @@ class ModpacksController extends Controller
     {
         $modpack = Modpack::where('slug', $slug)->first();
 
+        $this->authorize('update', $modpack);
+
         request()->validate([
             'name' => ['sometimes', 'required'],
             'slug' => ['sometimes', 'required', 'alpha_dash', Rule::unique('modpacks')->ignore($modpack->id)],

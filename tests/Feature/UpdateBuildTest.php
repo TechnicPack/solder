@@ -22,9 +22,9 @@ class UpdateBuildTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function a_user_can_update_a_build()
+    public function an_admin_can_update_a_build()
     {
-        $user = factory(User::class)->create();
+        $user = factory(User::class)->states('admin')->create();
         $modpack = factory(Modpack::class)->create(['slug' => 'brothers-klaus']);
         $build = $modpack->builds()->save(factory(Build::class)->make([
             'version' => '1.2.3',
@@ -58,6 +58,35 @@ class UpdateBuildTest extends TestCase
     }
 
     /** @test */
+    public function an_authorized_user_can_update_a_build()
+    {
+        $user = factory(User::class)->create();
+        $user->grantRole('update-modpack');
+        $modpack = factory(Modpack::class)->create();
+        $build = $modpack->builds()->create($this->originalParams());
+
+        $response = $this->actingAs($user)
+            ->post("modpacks/{$modpack->slug}/{$build->version}", $this->validParams());
+
+        $response->assertRedirect();
+        $this->assertArraySubset($this->validParams(), $build->fresh()->getAttributes());
+    }
+
+    /** @test */
+    public function an_unauthorized_user_cannot_update_a_build()
+    {
+        $user = factory(User::class)->create();
+        $modpack = factory(Modpack::class)->create();
+        $build = $modpack->builds()->create($this->originalParams());
+
+        $response = $this->actingAs($user)
+            ->post("modpacks/{$modpack->slug}/{$build->version}", $this->validParams());
+
+        $response->assertStatus(403);
+        $this->assertArraySubset($this->originalParams(), $build->fresh()->getAttributes());
+    }
+
+    /** @test */
     public function a_guest_cannot_update_a_build()
     {
         $modpack = factory(Modpack::class)->create(['slug' => 'brothers-klaus']);
@@ -72,7 +101,7 @@ class UpdateBuildTest extends TestCase
     /** @test */
     public function all_attributes_are_optional()
     {
-        $user = factory(User::class)->create();
+        $user = factory(User::class)->states('admin')->create();
         $modpack = factory(Modpack::class)->create(['slug' => 'brothers-klaus']);
         $build = $modpack->builds()->save(factory(Build::class)->make($this->originalParams(['version' => '1.2.3'])));
 
@@ -89,7 +118,7 @@ class UpdateBuildTest extends TestCase
     /** @test */
     public function version_is_required()
     {
-        $user = factory(User::class)->create();
+        $user = factory(User::class)->states('admin')->create();
         $modpack = factory(Modpack::class)->create(['slug' => 'brothers-klaus']);
         $build = $modpack->builds()->save(factory(Build::class)->make($this->originalParams(['version' => '1.2.3'])));
 
@@ -107,7 +136,7 @@ class UpdateBuildTest extends TestCase
     /** @test */
     public function minecraft_version_is_required()
     {
-        $user = factory(User::class)->create();
+        $user = factory(User::class)->states('admin')->create();
         $modpack = factory(Modpack::class)->create(['slug' => 'brothers-klaus']);
         $build = $modpack->builds()->save(factory(Build::class)->make($this->originalParams(['version' => '1.2.3'])));
 
@@ -125,7 +154,7 @@ class UpdateBuildTest extends TestCase
     /** @test */
     public function version_must_be_unique_per_modpack()
     {
-        $user = factory(User::class)->create();
+        $user = factory(User::class)->states('admin')->create();
         $modpack = factory(Modpack::class)->create(['slug' => 'brothers-klaus']);
         $buildA = $modpack->builds()->save(factory(Build::class)->make($this->originalParams(['version' => '1.2.3'])));
         $buildB = $modpack->builds()->save(factory(Build::class)->make($this->originalParams(['version' => '4.5.6'])));
@@ -144,7 +173,7 @@ class UpdateBuildTest extends TestCase
     /** @test */
     public function version_can_be_re_submitted()
     {
-        $user = factory(User::class)->create();
+        $user = factory(User::class)->states('admin')->create();
         $modpack = factory(Modpack::class)->create(['slug' => 'brothers-klaus']);
         $build = $modpack->builds()->save(factory(Build::class)->make($this->originalParams(['version' => '1.2.3'])));
 
@@ -161,7 +190,7 @@ class UpdateBuildTest extends TestCase
     /** @test */
     public function version_only_needs_to_be_unique_per_modpack()
     {
-        $user = factory(User::class)->create();
+        $user = factory(User::class)->states('admin')->create();
         $modpackA = factory(Modpack::class)->create(['slug' => 'brothers-klaus']);
         $buildA = $modpackA->builds()->save(factory(Build::class)->make($this->originalParams(['version' => '1.2.3'])));
         $modpackB = factory(Modpack::class)->create();
@@ -181,7 +210,7 @@ class UpdateBuildTest extends TestCase
     /** @test */
     public function status_is_required()
     {
-        $user = factory(User::class)->create();
+        $user = factory(User::class)->states('admin')->create();
         $modpack = factory(Modpack::class)->create(['slug' => 'brothers-klaus']);
         $build = $modpack->builds()->save(factory(Build::class)->make($this->originalParams(['version' => '1.2.3'])));
 
@@ -199,7 +228,7 @@ class UpdateBuildTest extends TestCase
     /** @test */
     public function status_is_valid()
     {
-        $user = factory(User::class)->create();
+        $user = factory(User::class)->states('admin')->create();
         $modpack = factory(Modpack::class)->create(['slug' => 'brothers-klaus']);
         $build = $modpack->builds()->save(factory(Build::class)->make($this->originalParams(['version' => '1.2.3'])));
 
@@ -217,7 +246,7 @@ class UpdateBuildTest extends TestCase
     /** @test */
     public function required_memory_may_be_null()
     {
-        $user = factory(User::class)->create();
+        $user = factory(User::class)->states('admin')->create();
         $modpack = factory(Modpack::class)->create(['slug' => 'brothers-klaus']);
         $build = $modpack->builds()->save(factory(Build::class)->make($this->originalParams(['version' => '1.2.3'])));
 
@@ -234,7 +263,7 @@ class UpdateBuildTest extends TestCase
     /** @test */
     public function required_memory_must_be_numeric()
     {
-        $user = factory(User::class)->create();
+        $user = factory(User::class)->states('admin')->create();
         $modpack = factory(Modpack::class)->create(['slug' => 'brothers-klaus']);
         $build = $modpack->builds()->save(factory(Build::class)->make($this->originalParams(['version' => '1.2.3', 'required_memory' => 1024])));
 
@@ -252,7 +281,7 @@ class UpdateBuildTest extends TestCase
     /** @test */
     public function java_version_may_be_null()
     {
-        $user = factory(User::class)->create();
+        $user = factory(User::class)->states('admin')->create();
         $modpack = factory(Modpack::class)->create(['slug' => 'brothers-klaus']);
         $build = $modpack->builds()->save(factory(Build::class)->make($this->originalParams(['version' => '1.2.3'])));
 
@@ -269,7 +298,7 @@ class UpdateBuildTest extends TestCase
     /** @test */
     public function forge_version_may_be_null()
     {
-        $user = factory(User::class)->create();
+        $user = factory(User::class)->states('admin')->create();
         $modpack = factory(Modpack::class)->create(['slug' => 'brothers-klaus']);
         $build = $modpack->builds()->save(factory(Build::class)->make($this->originalParams(['version' => '1.2.3'])));
 
@@ -286,7 +315,7 @@ class UpdateBuildTest extends TestCase
     /** @test */
     public function attempting_to_update_an_invalid_build_returns_404()
     {
-        $user = factory(User::class)->create();
+        $user = factory(User::class)->states('admin')->create();
         $modpack = factory(Modpack::class)->create(['slug' => 'brothers-klaus']);
         $build = factory(Build::class)->create([
             'version' => '1.2.3',
@@ -302,7 +331,7 @@ class UpdateBuildTest extends TestCase
     /** @test */
     public function attempting_to_update_a_build_with_invalid_modpack_returns_404()
     {
-        $user = factory(User::class)->create();
+        $user = factory(User::class)->states('admin')->create();
         $modpack = factory(Modpack::class)->create(['slug' => 'brothers-klaus']);
         $build = factory(Build::class)->create([
             'version' => '1.2.3',
@@ -318,7 +347,7 @@ class UpdateBuildTest extends TestCase
     /** @test */
     public function attempting_to_access_a_mismatched_modpack_and_build_returns_404()
     {
-        $user = factory(User::class)->create();
+        $user = factory(User::class)->states('admin')->create();
         factory(Modpack::class)->create(['slug' => 'brothers-klaus']);
         factory(Build::class)->create([
             'version' => '1.2.3',

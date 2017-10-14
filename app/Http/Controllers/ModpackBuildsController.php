@@ -95,6 +95,8 @@ class ModpackBuildsController extends Controller
         $modpack = Modpack::where('slug', $modpackSlug)->firstOrFail();
         $build = $modpack->builds()->where('version', $buildVersion)->firstOrFail();
 
+        $this->authorize('update', $build);
+
         request()->validate([
             'version' => ['sometimes', 'required', Rule::unique('builds')->ignore($build->id)->where('modpack_id', $modpack->id)],
             'status' => ['sometimes', 'required', 'in:public,private,draft'],
