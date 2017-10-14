@@ -78,6 +78,6 @@ class BuildPolicy
      */
     public function delete(User $user, Build $build)
     {
-        //
+        return $user->roles()->where('tag', 'update-modpack')->exists();
     }
 }

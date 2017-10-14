@@ -78,6 +78,6 @@ class ModpackPolicy
      */
     public function delete(User $user, Modpack $modpack)
     {
-        //
+        return $user->roles()->where('tag', 'delete-modpack')->exists();
     }
 }

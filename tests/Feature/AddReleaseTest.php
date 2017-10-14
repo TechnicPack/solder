@@ -70,7 +70,6 @@ class AddReleaseTest extends TestCase
         $this->assertCount(0, Release::all());
     }
 
-
     /** @test */
     public function an_authorized_user_can_create_a_release()
     {

@@ -21,16 +21,43 @@ class DeleteModpackTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function a_user_can_delete_a_modpack()
+    public function an_admin_can_delete_a_modpack()
     {
-        $user = factory(User::class)->create();
-        $modpack = factory(Modpack::class)->create(['slug' => 'brothers-klaus']);
+        $user = factory(User::class)->states('admin')->create();
+        $modpack = factory(Modpack::class)->create();
         $this->assertEquals(1, Modpack::count());
 
-        $response = $this->actingAs($user)->delete('/modpacks/brothers-klaus');
+        $response = $this->actingAs($user)->delete("modpacks/{$modpack->slug}");
 
         $response->assertRedirect('/');
         $this->assertEquals(0, Modpack::count());
+    }
+
+    /** @test */
+    public function an_authorized_user_can_delete_a_modpack()
+    {
+        $user = factory(User::class)->create();
+        $user->grantRole('delete-modpack');
+        $modpack = factory(Modpack::class)->create();
+        $this->assertEquals(1, Modpack::count());
+
+        $response = $this->actingAs($user)->delete("modpacks/{$modpack->slug}");
+
+        $response->assertRedirect('/');
+        $this->assertEquals(0, Modpack::count());
+    }
+
+    /** @test */
+    public function an_unauthorized_user_cannot_delete_a_modpack()
+    {
+        $user = factory(User::class)->create();
+        $modpack = factory(Modpack::class)->create();
+        $this->assertEquals(1, Modpack::count());
+
+        $response = $this->actingAs($user)->delete("modpacks/{$modpack->slug}");
+
+        $response->assertStatus(403);
+        $this->assertEquals(1, Modpack::count());
     }
 
     /** @test */

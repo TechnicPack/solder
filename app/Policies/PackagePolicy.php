@@ -78,6 +78,6 @@ class PackagePolicy
      */
     public function delete(User $user, Package $package)
     {
-        //
+        return $user->roles()->where('tag', 'delete-package')->exists();
     }
 }

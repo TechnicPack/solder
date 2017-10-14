@@ -110,7 +110,11 @@ class ModpacksController extends Controller
      */
     public function destroy($slug)
     {
-        Modpack::where('slug', $slug)->firstOrFail()->delete();
+        $modpack = Modpack::where('slug', $slug)->firstOrFail();
+
+        $this->authorize('delete', $modpack);
+
+        $modpack->delete();
 
         return redirect('/');
     }

@@ -22,12 +22,11 @@ class DeleteBuildTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function a_user_can_delete_a_build()
+    public function an_admin_can_delete_a_build()
     {
-        $this->withoutExceptionHandling();
-        $user = factory(User::class)->create();
+        $user = factory(User::class)->states('admin')->create();
         $modpack = factory(Modpack::class)->create(['slug' => 'brothers-klaus']);
-        $build = factory(Build::class)->create(['modpack_id' => $modpack->id, 'version' => '1.0.0']);
+        $modpack->builds()->save(factory(Build::class)->make(['version' => '1.0.0']));
         $this->assertEquals(1, Build::count());
 
         $response = $this->actingAs($user)->delete('/modpacks/brothers-klaus/1.0.0');
@@ -37,10 +36,39 @@ class DeleteBuildTest extends TestCase
     }
 
     /** @test */
+    public function an_authorized_user_can_delete_a_build()
+    {
+        $user = factory(User::class)->create();
+        $user->grantRole('update-modpack');
+        $modpack = factory(Modpack::class)->create(['slug' => 'brothers-klaus']);
+        $modpack->builds()->save(factory(Build::class)->make(['version' => '1.0.0']));
+        $this->assertEquals(1, Build::count());
+
+        $response = $this->actingAs($user)->delete('/modpacks/brothers-klaus/1.0.0');
+
+        $response->assertRedirect('/modpacks/brothers-klaus');
+        $this->assertEquals(0, Build::count());
+    }
+
+    /** @test */
+    public function an_unauthorized_user_cannot_delete_a_build()
+    {
+        $user = factory(User::class)->create();
+        $modpack = factory(Modpack::class)->create(['slug' => 'brothers-klaus']);
+        $modpack->builds()->save(factory(Build::class)->make(['version' => '1.0.0']));
+        $this->assertEquals(1, Build::count());
+
+        $response = $this->actingAs($user)->delete('/modpacks/brothers-klaus/1.0.0');
+
+        $response->assertStatus(403);
+        $this->assertEquals(1, Build::count());
+    }
+
+    /** @test */
     public function a_guest_cannot_delete_a_build()
     {
         $modpack = factory(Modpack::class)->create(['slug' => 'brothers-klaus']);
-        $build = factory(Build::class)->create(['modpack_id' => $modpack->id, 'version' => '1.0.0']);
+        $modpack->builds()->save(factory(Build::class)->make(['version' => '1.0.0']));
         $this->assertEquals(1, Build::count());
 
         $response = $this->delete('/modpacks/brothers-klaus/1.0.0');
@@ -52,7 +80,7 @@ class DeleteBuildTest extends TestCase
     /** @test */
     public function cannot_delete_build_of_a_different_modpack()
     {
-        $user = factory(User::class)->create();
+        $user = factory(User::class)->states('admin')->create();
         $otherModpack = factory(Modpack::class)->create(['slug' => 'other-modpack']);
         $otherBuild = factory(Build::class)->create(['modpack_id' => $otherModpack->id, 'version' => '1.0.0']);
         $modpack = factory(Modpack::class)->create(['slug' => 'brothers-klaus']);
@@ -68,7 +96,7 @@ class DeleteBuildTest extends TestCase
     /** @test */
     public function attempting_to_delete_an_invalid_build_returns_404()
     {
-        $user = factory(User::class)->create();
+        $user = factory(User::class)->states('admin')->create();
         $modpack = factory(Modpack::class)->create(['slug' => 'brothers-klaus']);
 
         $response = $this->actingAs($user)->delete('/modpacks/brothers-klaus/invalid-build');
@@ -79,7 +107,7 @@ class DeleteBuildTest extends TestCase
     /** @test */
     public function attempting_to_delete_a_build_with_invalid_modpack_returns_404()
     {
-        $user = factory(User::class)->create();
+        $user = factory(User::class)->states('admin')->create();
         $modpack = factory(Modpack::class)->create(['slug' => 'brothers-klaus']);
         $build = factory(Build::class)->create(['modpack_id' => $modpack->id, 'version' => '1.0.0']);
 

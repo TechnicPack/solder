@@ -21,16 +21,43 @@ class DeletePackageTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function a_user_can_delete_a_package()
+    public function an_admin_can_delete_a_package()
     {
-        $user = factory(User::class)->create();
+        $user = factory(User::class)->states('admin')->create();
         $package = factory(Package::class)->create();
         $this->assertCount(1, Package::all());
 
         $response = $this->actingAs($user)->delete("library/{$package->slug}");
 
-        $response->assertRedirect('/library');
+        $response->assertRedirect('library');
         $this->assertCount(0, Package::all());
+    }
+
+    /** @test */
+    public function an_authorized_user_can_delete_a_package()
+    {
+        $user = factory(User::class)->create();
+        $user->grantRole('delete-package');
+        $package = factory(Package::class)->create();
+        $this->assertEquals(1, Package::count());
+
+        $response = $this->actingAs($user)->delete("library/{$package->slug}");
+
+        $response->assertRedirect('library');
+        $this->assertEquals(0, Package::count());
+    }
+
+    /** @test */
+    public function an_unauthorized_user_cannot_delete_a_package()
+    {
+        $user = factory(User::class)->create();
+        $package = factory(Package::class)->create();
+        $this->assertEquals(1, Package::count());
+
+        $response = $this->actingAs($user)->delete("library/{$package->slug}");
+
+        $response->assertStatus(403);
+        $this->assertEquals(1, Package::count());
     }
 
     /** @test */
@@ -41,14 +68,14 @@ class DeletePackageTest extends TestCase
 
         $response = $this->delete("library/{$package->slug}");
 
-        $response->assertRedirect('/login');
+        $response->assertRedirect('login');
         $this->assertCount(1, Package::all());
     }
 
     /** @test */
-    public function attempting_to_update_a_package_with_invalid_slug_returns_404()
+    public function attempting_to_delete_a_package_with_invalid_slug_returns_404()
     {
-        $user = factory(User::class)->create();
+        $user = factory(User::class)->states('admin')->create();
         $package = factory(Package::class)->create();
         $this->assertCount(1, Package::all());
 

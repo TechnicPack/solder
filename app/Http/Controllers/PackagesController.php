@@ -102,6 +102,8 @@ class PackagesController extends Controller
     {
         $package = Package::where('slug', $packageSlug)->firstOrFail();
 
+        $this->authorize('delete', $package);
+
         $package->delete();
 
         return redirect('library');

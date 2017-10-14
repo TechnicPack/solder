@@ -124,15 +124,18 @@ class ModpackBuildsController extends Controller
      */
     public function destroy($modpackSlug, $buildVersion)
     {
-        Build::where('version', $buildVersion)
+        $build = Build::where('version', $buildVersion)
             ->whereExists(function ($query) use ($modpackSlug) {
                 $query->select(DB::raw(1))
                     ->from('modpacks')
                     ->where('slug', $modpackSlug)
                     ->whereRaw('builds.modpack_id = modpacks.id');
             })
-            ->firstOrFail()
-            ->delete();
+            ->firstOrFail();
+
+        $this->authorize('delete', $build);
+
+        $build->delete();
 
         return redirect("/modpacks/$modpackSlug");
     }

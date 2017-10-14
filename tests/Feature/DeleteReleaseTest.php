@@ -21,18 +21,50 @@ class DeleteReleaseTest extends TestCase
 {
     use RefreshDatabase;
 
-    /** @test */
-    public function a_user_can_delete_a_release()
+    protected function setUp()
     {
+        parent::setUp();
         Storage::fake();
+    }
+
+    /** @test */
+    public function an_admin_can_delete_a_release()
+    {
+        $user = factory(User::class)->states('admin')->create();
+        $release = factory(Release::class)->create();
+        $this->assertCount(1, Release::all());
+
+        $response = $this->actingAs($user)->delete('releases/'.$release->id);
+
+        $response->assertStatus(204);
+        $this->assertCount(0, Release::all());
+    }
+
+    /** @test */
+    public function an_authorized_user_can_delete_a_release()
+    {
+        $user = factory(User::class)->create();
+        $user->grantRole('update-package');
+        $release = factory(Release::class)->create();
+        $this->assertCount(1, Release::all());
+
+        $response = $this->actingAs($user)->delete('releases/'.$release->id);
+
+        $response->assertStatus(204);
+        $this->assertEquals(0, Release::count());
+    }
+
+    /** @test */
+    public function an_unauthorized_user_cannot_delete_a_release()
+    {
         $user = factory(User::class)->create();
         $release = factory(Release::class)->create();
         $this->assertCount(1, Release::all());
 
-        $response = $this->actingAs($user)->delete('/releases/'.$release->id);
+        $response = $this->actingAs($user)->delete('releases/'.$release->id);
 
-        $response->assertStatus(204);
-        $this->assertCount(0, Release::all());
+        $response->assertStatus(403);
+        $this->assertEquals(1, Release::count());
     }
 
     /** @test */

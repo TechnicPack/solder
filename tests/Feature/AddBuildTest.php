@@ -11,7 +11,6 @@
 
 namespace Tests\Feature;
 
-use App\Role;
 use App\User;
 use App\Build;
 use App\Modpack;
@@ -25,7 +24,6 @@ class AddBuildTest extends TestCase
     /** @test */
     public function an_admin_can_create_a_build()
     {
-        $this->withoutExceptionHandling();
         $user = factory(User::class)->states('admin')->create();
         $modpack = factory(Modpack::class)->create(['slug' => 'brothers-klaus']);
 

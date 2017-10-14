@@ -78,6 +78,6 @@ class ReleasePolicy
      */
     public function delete(User $user, Release $release)
     {
-        //
+        return $user->roles()->where('tag', 'update-package')->exists();
     }
 }

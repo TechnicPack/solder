@@ -24,7 +24,11 @@ class ReleasesController extends Controller
      */
     public function destroy($releaseId)
     {
-        Release::findOrFail($releaseId)->delete();
+        $release = Release::findOrFail($releaseId);
+
+        $this->authorize('delete', $release);
+
+        $release->delete();
 
         return response(null, 204);
     }
