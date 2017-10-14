@@ -14,6 +14,7 @@ namespace Tests\Feature;
 use App\User;
 use App\Modpack;
 use BuildFactory;
+use Carbon\Carbon;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -61,7 +62,7 @@ class ShowModpackTest extends TestCase
     }
 
     /** @test */
-    public function modpack_includes_builds_in_reverse_order()
+    public function modpack_includes_builds_in_reverse_chronological_order()
     {
         $this->withoutExceptionHandling();
 
@@ -69,9 +70,9 @@ class ShowModpackTest extends TestCase
         $modpack = factory(Modpack::class)->create([
             'slug' => 'example-modpack',
         ]);
-        $buildA = BuildFactory::createForModpack($modpack, ['version' => '1.0.0a']);
-        $buildB = BuildFactory::createForModpack($modpack, ['version' => '1.0.0b']);
-        $buildC = BuildFactory::createForModpack($modpack, ['version' => '10.5']);
+        $buildA = BuildFactory::createForModpack($modpack, ['created_at' => Carbon::parse('3 days ago')]);
+        $buildB = BuildFactory::createForModpack($modpack, ['created_at' => Carbon::parse('2 days ago')]);
+        $buildC = BuildFactory::createForModpack($modpack, ['created_at' => Carbon::parse('1 days ago')]);
 
         $response = $this->actingAs($user)->get('/modpacks/example-modpack');
 

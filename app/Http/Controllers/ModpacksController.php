@@ -28,7 +28,7 @@ class ModpacksController extends Controller
     {
         $modpack = Modpack::where('slug', $slug)
             ->with(['builds' => function ($query) {
-                $query->orderBy('version', 'desc');
+                $query->orderBy('created_at', 'desc');
             }])
             ->firstOrFail();
 
