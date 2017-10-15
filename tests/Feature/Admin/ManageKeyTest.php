@@ -21,10 +21,9 @@ class ManageKeyTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function a_user_can_view_the_key_management_page()
+    public function an_admin_can_view_the_key_management_page()
     {
-        $this->withoutExceptionHandling();
-        $user = factory(User::class)->create();
+        $user = factory(User::class)->states('admin')->create();
         $keyB = factory(Key::class)->create(['name' => 'Test Key B']);
         $keyA = factory(Key::class)->create(['name' => 'Test Key A']);
         $keyC = factory(Key::class)->create(['name' => 'Test Key C']);
@@ -38,6 +37,28 @@ class ManageKeyTest extends TestCase
             $keyB,
             $keyC,
         ]);
+    }
+
+    /** @test */
+    public function an_authorized_user_can_view_key_management()
+    {
+        $user = factory(User::class)->states('admin')->create();
+        $user->grantRole('manage-keys');
+
+        $response = $this->actingAs($user)->get('/settings/keys');
+
+        $response->assertStatus(200);
+        $response->assertViewIs('settings.keys');
+    }
+
+    /** @test */
+    public function an_unauthorized_user_cannot_view_key_management()
+    {
+        $user = factory(User::class)->create();
+
+        $response = $this->actingAs($user)->get('/settings/keys');
+
+        $response->assertStatus(403);
     }
 
     /** @test */

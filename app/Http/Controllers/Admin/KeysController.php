@@ -23,6 +23,8 @@ class KeysController extends Controller
      */
     public function index()
     {
+        $this->authorize('index', Key::class);
+
         return view('settings.keys', [
             'keys' => Key::orderBy('name')->get(),
         ]);
@@ -35,6 +37,8 @@ class KeysController extends Controller
      */
     public function store()
     {
+        $this->authorize('create', Key::class);
+
         Key::create([
             'token' => request()->token,
             'name' => request()->name,

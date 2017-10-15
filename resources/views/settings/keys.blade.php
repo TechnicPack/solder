@@ -11,17 +11,27 @@
                     </p>
                     <ul class="menu-list">
                         <li>
+                            <a href="/settings/about">
+                                <span class="icon">
+                                    <i class="fa fa-fw fa-tachometer"></i>
+                                </span>
+                                About
+                            </a>
+                        </li>
+                        @can('index', App\Key::class)
+                        <li>
                             <a href="/settings/keys" class="is-active">
                                 <span class="icon">
-                                    <i class="fa fa-key"></i>
+                                    <i class="fa fa-fw fa-key"></i>
                                 </span>
                                 Keys
                             </a>
                         </li>
+                        @endcan
                         <li>
                             <a href="/settings/users">
                                 <span class="icon">
-                                    <i class="fa fa-user-circle"></i>
+                                    <i class="fa fa-fw fa-user-circle"></i>
                                 </span>
                                 Users
                             </a>

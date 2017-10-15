@@ -21,10 +21,9 @@ class AddKeyTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function a_user_can_create_a_key()
+    public function an_admin_can_create_a_key()
     {
-        $this->withoutExceptionHandling();
-        $user = factory(User::class)->create();
+        $user = factory(User::class)->states('admin')->create();
 
         $response = $this->actingAs($user)->post('/settings/keys', [
             'token' => 'my-technic-key',
@@ -37,6 +36,39 @@ class AddKeyTest extends TestCase
 
             $response->assertRedirect('/settings/keys');
         });
+    }
+
+    /** @test */
+    public function an_authorized_user_can_create_a_key()
+    {
+        $user = factory(User::class)->create();
+        $user->grantRole('manage-keys');
+
+        $response = $this->actingAs($user)->post('/settings/keys', [
+            'token' => 'my-technic-key',
+            'name' => 'Technicpack Website',
+        ]);
+
+        tap(Key::first(), function ($key) use ($response) {
+            $this->assertEquals('my-technic-key', $key->token);
+            $this->assertEquals('Technicpack Website', $key->name);
+
+            $response->assertRedirect('/settings/keys');
+        });
+    }
+
+    /** @test */
+    public function an_unauthorized_user_cannot_create_a_key()
+    {
+        $user = factory(User::class)->create();
+
+        $response = $this->actingAs($user)->post('/settings/keys', [
+            'token' => 'my-technic-key',
+            'name' => 'Technicpack Website',
+        ]);
+
+        $response->assertStatus(403);
+        $this->assertCount(0, Key::all());
     }
 
     /** @test */
