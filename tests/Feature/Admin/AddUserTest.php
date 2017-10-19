@@ -27,6 +27,7 @@ class AddUserTest extends TestCase
             'username' => 'John',
             'email' => 'john@example.com',
             'password' => 'super-secret-password',
+            'is_admin' => 'on',
         ], $overrides);
     }
 
@@ -36,15 +37,17 @@ class AddUserTest extends TestCase
         $user = factory(User::class)->create(['created_at' => Carbon::parse('-1 day')]);
 
         $response = $this->actingAs($user)->post('/settings/users', [
-           'username' => 'John',
-           'email' => 'john@example.com',
-           'password' => 'super-secret-password',
+            'username' => 'John',
+            'email' => 'john@example.com',
+            'password' => 'super-secret-password',
+            'is_admin' => 'on',
         ]);
 
         tap(User::orderBy('created_at', 'desc')->first(), function ($user) use ($response) {
             $response->assertRedirect('/settings/users');
             $this->assertEquals('John', $user->username);
             $this->assertEquals('john@example.com', $user->email);
+            $this->assertTrue($user->is_admin);
             $this->assertTrue(Hash::check('super-secret-password', $user->password));
         });
     }
@@ -52,11 +55,7 @@ class AddUserTest extends TestCase
     /** @test */
     public function a_guest_cannot_add_a_user()
     {
-        $response = $this->post('/settings/users', [
-            'username' => 'John Doe',
-            'email' => 'john@example.com',
-            'password' => 'super-secret-password',
-        ]);
+        $response = $this->post('/settings/users', $this->validParams());
 
         $response->assertRedirect('/login');
         $this->assertCount(0, User::all());
@@ -155,5 +154,25 @@ class AddUserTest extends TestCase
 
         $response->assertRedirect('/settings/users');
         $response->assertSessionHasErrors('password');
+    }
+
+    /** @test */
+    public function if_is_admin_is_missing_its_unchecked()
+    {
+        $user = factory(User::class)->create(['created_at' => Carbon::parse('-1 day')]);
+
+        $response = $this->actingAs($user)->post('/settings/users', [
+            'username' => 'John',
+            'email' => 'john@example.com',
+            'password' => 'super-secret-password',
+        ]);
+
+        tap(User::orderBy('created_at', 'desc')->first(), function ($user) use ($response) {
+            $response->assertRedirect('/settings/users');
+            $this->assertEquals('John', $user->username);
+            $this->assertEquals('john@example.com', $user->email);
+            $this->assertFalse($user->is_admin);
+            $this->assertTrue(Hash::check('super-secret-password', $user->password));
+        });
     }
 }

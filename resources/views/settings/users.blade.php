@@ -44,6 +44,14 @@
                                 Users
                             </a>
                         </li>
+                        <li>
+                            <a href="/settings/permissions">
+                            <span class="icon">
+                                <i class="fa fa-fw fa-universal-access"></i>
+                            </span>
+                                Permissions
+                            </a>
+                        </li>
                     </ul>
                 </aside>
             </div>
@@ -104,6 +112,22 @@
                             </div>
 
                             <div class="field is-horizontal">
+                                <div class="field-label is-normal">
+                                    &nbsp;
+                                </div>
+                                <div class="field-body">
+                                    <div class="field">
+                                        <div class="control">
+                                            <label class="checkbox">
+                                                <input name="is_admin" type="checkbox" />
+                                                User is a site administrator
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="field is-horizontal">
                                 <div class="field-label">
                                     &nbsp;
                                 </div>
@@ -132,7 +156,11 @@
                                         <div class="level-item">
                                             <div class="content">
                                                 <p>
-                                                    <strong>{{ $user->username }}</strong><br>
+                                                    <strong>{{ $user->username }}</strong>
+                                                    @if( $user->is_admin )
+                                                        <span class="tag is-light">site admin</span>
+                                                    @endif
+                                                    <br>
                                                     <strong>Email:</strong> {{ $user->email }}<br>
                                                     <small>Added on {{ $user->created_at }}</small>
                                                 </p>
@@ -208,6 +236,22 @@
                                         <div class="control">
                                             <input class="input" name="password" type="password">
                                                 <p class="help">Leave blank to keep current password.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="field is-horizontal">
+                                <div class="field-label is-normal">
+                                    &nbsp;
+                                </div>
+                                <div class="field-body">
+                                    <div class="field">
+                                        <div class="control">
+                                            <label class="checkbox">
+                                                <input name="is_admin" type="checkbox" {{ $user->is_admin ? 'checked' : '' }}/>
+                                                User is a site administrator
+                                            </label>
                                         </div>
                                     </div>
                                 </div>

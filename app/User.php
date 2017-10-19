@@ -25,7 +25,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'username', 'email', 'password',
+        'username', 'email', 'password', 'is_admin',
     ];
 
     /**
@@ -38,6 +38,15 @@ class User extends Authenticatable
     ];
 
     /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'is_admin' => 'boolean',
+    ];
+
+    /**
      * A user has many Roles.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
@@ -45,7 +54,7 @@ class User extends Authenticatable
     public function roles()
     {
         return $this
-            ->belongsToMany(Role::class)
+            ->belongsToMany(Role::class, 'permissions')
             ->withTimestamps();
     }
 

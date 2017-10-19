@@ -29,6 +29,7 @@ class AuthServiceProvider extends ServiceProvider
         'App\Bundle' => 'App\Policies\BundlePolicy',
         'App\Key' => 'App\Policies\KeyPolicy',
         'App\Client' => 'App\Policies\ClientPolicy',
+        'App\User' => 'App\Policies\UserPolicy',
     ];
 
     /**

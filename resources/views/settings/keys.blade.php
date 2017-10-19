@@ -44,6 +44,14 @@
                                 Users
                             </a>
                         </li>
+                        <li>
+                            <a href="/settings/permissions">
+                            <span class="icon">
+                                <i class="fa fa-fw fa-universal-access"></i>
+                            </span>
+                                Permissions
+                            </a>
+                        </li>
                     </ul>
                 </aside>
             </div>

@@ -47,6 +47,7 @@ class UsersController extends Controller
             'username' => request('username'),
             'email' => request('email'),
             'password' => bcrypt(request('password')),
+            'is_admin' => request('is_admin') == 'on',
         ]);
 
         return redirect('/settings/users');
@@ -73,6 +74,8 @@ class UsersController extends Controller
 
             $user['password'] = bcrypt(request('password'));
         }
+
+        $user['is_admin'] = request('is_admin') == 'on';
 
         User::find($userId)->update($user);
 

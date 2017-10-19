@@ -27,6 +27,7 @@ class UpdateUserTest extends TestCase
             'username' => 'John',
             'email' => 'john@example.com',
             'password' => bcrypt('super-secret-password'),
+            'is_admin' => true,
         ]);
 
         $response = $this->actingAs($user)->from('/settings/users')->post('/settings/users/'.$user->id, [
@@ -42,6 +43,7 @@ class UpdateUserTest extends TestCase
             $this->assertEquals('Jane', $user->username);
             $this->assertEquals('jane@example.com', $user->email);
             $this->assertTrue(Hash::check('updated-password', $user->password));
+            $this->assertFalse($user->is_admin);
         });
     }
 
@@ -52,6 +54,7 @@ class UpdateUserTest extends TestCase
             'username' => 'John',
             'email' => 'john@example.com',
             'password' => bcrypt('super-secret-password'),
+            'is_admin' => false,
         ]);
 
         $response = $this->post('/settings/users/'.$user->id, $this->validParams());
@@ -192,6 +195,24 @@ class UpdateUserTest extends TestCase
         $response->assertSessionHasErrors('password');
     }
 
+    /** @test */
+    public function if_is_admin_is_missing_its_unchecked()
+    {
+        $user = factory(User::class)->create($this->originalParams([
+            'is_admin' => true,
+        ]));
+
+        $response = $this->actingAs($user)->from('/settings/users')->post('/settings/users/'.$user->id, [
+            'username' => 'Jane',
+            'email' => 'jane@example.com',
+            'password' => 'updated-password',
+        ]);
+
+        $response->assertRedirect('settings/users');
+        $response->assertSessionMissing('errors');
+        $this->assertFalse($user->fresh()->is_admin);
+    }
+
     /**
      * @param array $overrides
      *
@@ -203,6 +224,7 @@ class UpdateUserTest extends TestCase
             'username' => 'John',
             'email' => 'john@example.com',
             'password' => bcrypt('super-secret-password'),
+            'is_admin' => true,
         ], $overrides);
     }
 

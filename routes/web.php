@@ -43,6 +43,9 @@ Route::middleware('auth')->group(function () {
 Route::middleware('auth')->namespace('Admin')->prefix('settings')->group(function () {
     Route::view('about', 'settings.about');
 
+    Route::get('permissions', 'PermissionsController@index');
+    Route::post('permissions', 'PermissionsController@update');
+
     Route::get('keys', 'KeysController@index');
     Route::post('keys', 'KeysController@store');
     Route::delete('keys/{key}', 'KeysController@destroy');
