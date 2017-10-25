@@ -9,3 +9,9 @@
 @import "utilities";
 @import "list-group";
 @import "menu";
+
+footer div.container {
+    position: absolute;
+    bottom: 32px;
+    right: 0;
+}

@@ -33,6 +33,27 @@
             @include('partials.navigation')
 
             @yield('content')
+
+            <footer>
+                <div class="container is-fluid">
+                    <div class="content has-text-right">
+                        <p class="has-text-grey">
+                            Made with
+                            <a href="http://patreon.com/indemnity83">
+                                <i title="love" class="fa fa-heart" aria-hidden="true"></i>
+                                <span class="sr-only">love</span>
+                            </a>
+                            &amp;
+                            <a href="http://ko-fi.com/solder">
+                                <i title="coffee" class="fa fa-coffee" aria-hidden="true"></i>
+                                <span class="sr-only">coffee</span>
+                            </a>
+                            in
+                            <a class="has-text-grey" href="https://www.google.com/maps/place/Yuba%20City,CA">Yuba City CA.</a>
+                        </p>
+                    </div>
+                </div>
+            </footer>
         </div>
     </div>
 
