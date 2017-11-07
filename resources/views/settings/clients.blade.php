@@ -11,27 +11,37 @@
                     </p>
                     <ul class="menu-list">
                         <li>
-                            <a href="/profile/tokens">
+                            <a href="/settings/about">
                                 <span class="icon">
-                                    <i class="fa fa-fw fa-user-circle-o"></i>
+                                    <i class="fa fa-fw fa-tachometer"></i>
                                 </span>
-                                Personal Access Tokens
+                                About
                             </a>
                         </li>
+                        @can('index', App\Key::class)
+                            <li>
+                                <a href="/settings/keys">
+                                    <span class="icon">
+                                        <i class="fa fa-fw fa-key"></i>
+                                    </span>
+                                    Keys
+                                </a>
+                            </li>
+                        @endcan
                         <li>
-                            <a href="/profile/oauth">
-                                <span class="icon">
-                                    <i class="fa fa-fw fa-exchange"></i>
-                                </span>
-                                OAuth Clients
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/profile/clients" class="is-active">
+                            <a href="/settings/clients" class="is-active">
                                 <span class="icon">
                                     <i class="fa fa-fw fa-window-maximize"></i>
                                 </span>
-                                Launcher Clients
+                                Clients
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/settings/users">
+                                <span class="icon">
+                                    <i class="fa fa-fw fa-user-circle"></i>
+                                </span>
+                                Users
                             </a>
                         </li>
                     </ul>
@@ -42,7 +52,7 @@
                 <div class="box">
                     <h1>Add Launcher Client</h1>
                     <div class="box-body">
-                        <form action="/profile/clients" method="post">
+                        <form action="/settings/clients" method="post">
                             {{ csrf_field() }}
 
                             <div class="field is-horizontal">
@@ -119,7 +129,7 @@
 
                                     <div class="level-right">
                                         <div class="level-item">
-                                            <form method="post" action="/profile/clients/{{ $client->id }}">
+                                            <form method="post" action="/settings/clients/{{ $client->id }}">
                                                 {{ csrf_field() }}
                                                 {{ method_field('delete') }}
                                                 <button class="button is-danger is-outlined">Delete</button>

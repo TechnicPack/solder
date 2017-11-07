@@ -26,14 +26,6 @@
                                 OAuth Clients
                             </a>
                         </li>
-                        <li>
-                            <a href="/profile/clients">
-                                <span class="icon">
-                                    <i class="fa fa-fw fa-window-maximize"></i>
-                                </span>
-                                Launcher Clients
-                            </a>
-                        </li>
                     </ul>
                 </aside>
             </div>

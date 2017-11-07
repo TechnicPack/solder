@@ -11,9 +11,9 @@
                 <ul class="menu-list">
                     <li>
                         <a href="/settings/about" class="is-active">
-                                <span class="icon">
-                                    <i class="fa fa-fw fa-tachometer"></i>
-                                </span>
+                            <span class="icon">
+                                <i class="fa fa-fw fa-tachometer"></i>
+                            </span>
                             About
                         </a>
                     </li>
@@ -28,10 +28,18 @@
                         </li>
                     @endcan
                     <li>
+                        <a href="/settings/clients">
+                            <span class="icon">
+                                <i class="fa fa-fw fa-window-maximize"></i>
+                            </span>
+                            Clients
+                        </a>
+                    </li>
+                    <li>
                         <a href="/settings/users">
-                                <span class="icon">
-                                    <i class="fa fa-fw fa-user-circle"></i>
-                                </span>
+                            <span class="icon">
+                                <i class="fa fa-fw fa-user-circle"></i>
+                            </span>
                             Users
                         </a>
                     </li>

@@ -29,6 +29,14 @@
                         </li>
                         @endcan
                         <li>
+                            <a href="/settings/clients">
+                                <span class="icon">
+                                    <i class="fa fa-fw fa-window-maximize"></i>
+                                </span>
+                                Clients
+                            </a>
+                        </li>
+                        <li>
                             <a href="/settings/users">
                                 <span class="icon">
                                     <i class="fa fa-fw fa-user-circle"></i>

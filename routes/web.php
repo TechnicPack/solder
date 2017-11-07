@@ -47,6 +47,10 @@ Route::middleware('auth')->namespace('Admin')->prefix('settings')->group(functio
     Route::post('keys', 'KeysController@store');
     Route::delete('keys/{key}', 'KeysController@destroy');
 
+    Route::get('clients', 'ClientsController@index');
+    Route::post('clients', 'ClientsController@store');
+    Route::delete('clients/{client}', 'ClientsController@destroy');
+
     Route::get('users', 'UsersController@index');
     Route::post('users', 'UsersController@store');
     Route::post('users/{user}', 'UsersController@update');
@@ -56,8 +60,4 @@ Route::middleware('auth')->namespace('Admin')->prefix('settings')->group(functio
 Route::middleware('auth')->namespace('Profile')->prefix('profile')->group(function () {
     Route::view('tokens', 'profile.tokens');
     Route::view('oauth', 'profile.oauth');
-
-    Route::get('clients', 'ClientsController@index');
-    Route::post('clients', 'ClientsController@store');
-    Route::delete('clients/{client}', 'ClientsController@destroy');
 });

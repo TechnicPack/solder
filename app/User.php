@@ -38,16 +38,6 @@ class User extends Authenticatable
     ];
 
     /**
-     * A user has many Launcher Ids.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function launchers()
-    {
-        return $this->hasMany(Client::class);
-    }
-
-    /**
      * A user has many Roles.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany

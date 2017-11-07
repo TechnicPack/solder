@@ -9,26 +9,27 @@
  * file that was distributed with this source code.
  */
 
-namespace App\Http\Controllers\Profile;
+namespace App\Http\Controllers\Admin;
 
+use App\Client;
 use App\Http\Controllers\Controller;
 
 class ClientsController extends Controller
 {
     /**
-     * List all the clients associated with the authenticated user.
+     * List all the clients.
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index()
     {
-        return view('profile.clients', [
-            'clients' => request()->user()->launchers()->orderBy('title')->get(),
+        return view('settings.clients', [
+            'clients' => Client::orderBy('title')->get(),
         ]);
     }
 
     /**
-     * Create a new Launcher Client tied to the authenticated user.
+     * Create a new Launcher Client.
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
@@ -39,9 +40,9 @@ class ClientsController extends Controller
             'token' => ['required', 'unique:clients'],
         ]);
 
-        request()->user()->launchers()->create($client);
+        Client::create($client);
 
-        return redirect('/profile/clients');
+        return redirect('/settings/clients');
     }
 
     /**
@@ -53,12 +54,8 @@ class ClientsController extends Controller
      */
     public function destroy($clientId)
     {
-        request()->user()
-            ->launchers()
-            ->where('id', $clientId)
-            ->firstOrFail()
-            ->delete();
+        Client::find($clientId)->delete();
 
-        return redirect('/profile/clients');
+        return redirect('/settings/clients');
     }
 }

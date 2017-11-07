@@ -29,12 +29,11 @@ class AddClientTest extends TestCase
     }
 
     /** @test */
-    public function a_user_can_create_a_client_token()
+    public function an_user_can_create_a_client_token()
     {
-        $this->withoutExceptionHandling();
         $user = factory(User::class)->create();
 
-        $response = $this->actingAs($user)->post('/profile/clients', [
+        $response = $this->actingAs($user)->post('/settings/clients', [
             'title' => 'Macbook',
             'token' => 'my-launcher-client-id',
         ]);
@@ -42,16 +41,15 @@ class AddClientTest extends TestCase
         tap(Client::first(), function ($client) use ($response, $user) {
             $this->assertEquals('Macbook', $client->title);
             $this->assertEquals('my-launcher-client-id', $client->token);
-            $this->assertEquals($user->id, $client->user->id);
 
-            $response->assertRedirect('/profile/clients');
+            $response->assertRedirect('/settings/clients');
         });
     }
 
     /** @test */
     public function a_guest_cannot_create_a_client_token()
     {
-        $response = $this->post('/profile/clients', [
+        $response = $this->post('/settings/clients', [
             'title' => 'Macbook',
             'token' => 'my-launcher-client-id',
         ]);
@@ -65,11 +63,11 @@ class AddClientTest extends TestCase
     {
         $user = factory(User::class)->create();
 
-        $response = $this->actingAs($user)->from('/profile/clients')->post('/profile/clients', $this->validParams([
+        $response = $this->actingAs($user)->from('/settings/clients')->post('/settings/clients', $this->validParams([
             'title' => '',
         ]));
 
-        $response->assertRedirect('/profile/clients');
+        $response->assertRedirect('/settings/clients');
         $response->assertSessionHasErrors('title');
         $this->assertEquals(0, Client::count());
     }
@@ -79,11 +77,11 @@ class AddClientTest extends TestCase
     {
         $user = factory(User::class)->create();
 
-        $response = $this->actingAs($user)->from('/profile/clients')->post('/profile/clients', $this->validParams([
+        $response = $this->actingAs($user)->from('/settings/clients')->post('/settings/clients', $this->validParams([
             'token' => '',
         ]));
 
-        $response->assertRedirect('/profile/clients');
+        $response->assertRedirect('/settings/clients');
         $response->assertSessionHasErrors('token');
         $this->assertEquals(0, Client::count());
     }
@@ -94,11 +92,11 @@ class AddClientTest extends TestCase
         $user = factory(User::class)->create();
         $client = factory(Client::class)->create(['token' => 'some-existing-token']);
 
-        $response = $this->actingAs($user)->from('/profile/clients')->post('/profile/clients', $this->validParams([
+        $response = $this->actingAs($user)->from('/settings/clients')->post('/settings/clients', $this->validParams([
             'token' => 'some-existing-token',
         ]));
 
-        $response->assertRedirect('/profile/clients');
+        $response->assertRedirect('/settings/clients');
         $response->assertSessionHasErrors('token');
         $this->assertEquals(1, Client::count());
     }
