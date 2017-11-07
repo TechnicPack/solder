@@ -29,9 +29,9 @@ class AddClientTest extends TestCase
     }
 
     /** @test */
-    public function an_user_can_create_a_client_token()
+    public function an_admin_can_create_a_client_token()
     {
-        $user = factory(User::class)->create();
+        $user = factory(User::class)->states('admin')->create();
 
         $response = $this->actingAs($user)->post('/settings/clients', [
             'title' => 'Macbook',
@@ -44,6 +44,39 @@ class AddClientTest extends TestCase
 
             $response->assertRedirect('/settings/clients');
         });
+    }
+
+    /** @test */
+    public function an_authorized_user_can_create_a_client_token()
+    {
+        $user = factory(User::class)->create();
+        $user->grantRole('manage-clients');
+
+        $response = $this->actingAs($user)->post('/settings/clients', [
+            'title' => 'Macbook',
+            'token' => 'my-launcher-client-id',
+        ]);
+
+        tap(Client::first(), function ($client) use ($response, $user) {
+            $this->assertEquals('Macbook', $client->title);
+            $this->assertEquals('my-launcher-client-id', $client->token);
+
+            $response->assertRedirect('/settings/clients');
+        });
+    }
+
+    /** @test */
+    public function an_unauthorized_user_cannot_create_a_client_token()
+    {
+        $user = factory(User::class)->create();
+
+        $response = $this->actingAs($user)->post('/settings/clients', [
+            'title' => 'Macbook',
+            'token' => 'my-launcher-client-id',
+        ]);
+
+        $response->assertStatus(403);
+        $this->assertCount(0, Client::all());
     }
 
     /** @test */
@@ -61,7 +94,7 @@ class AddClientTest extends TestCase
     /** @test */
     public function title_is_required()
     {
-        $user = factory(User::class)->create();
+        $user = factory(User::class)->states('admin')->create();
 
         $response = $this->actingAs($user)->from('/settings/clients')->post('/settings/clients', $this->validParams([
             'title' => '',
@@ -75,7 +108,7 @@ class AddClientTest extends TestCase
     /** @test */
     public function token_is_required()
     {
-        $user = factory(User::class)->create();
+        $user = factory(User::class)->states('admin')->create();
 
         $response = $this->actingAs($user)->from('/settings/clients')->post('/settings/clients', $this->validParams([
             'token' => '',
@@ -89,7 +122,7 @@ class AddClientTest extends TestCase
     /** @test */
     public function token_is_unique()
     {
-        $user = factory(User::class)->create();
+        $user = factory(User::class)->states('admin')->create();
         $client = factory(Client::class)->create(['token' => 'some-existing-token']);
 
         $response = $this->actingAs($user)->from('/settings/clients')->post('/settings/clients', $this->validParams([

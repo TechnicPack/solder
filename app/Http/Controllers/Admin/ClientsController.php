@@ -23,6 +23,8 @@ class ClientsController extends Controller
      */
     public function index()
     {
+        $this->authorize('index', Client::class);
+
         return view('settings.clients', [
             'clients' => Client::orderBy('title')->get(),
         ]);
@@ -35,6 +37,8 @@ class ClientsController extends Controller
      */
     public function store()
     {
+        $this->authorize('create', Client::class);
+
         $client = request()->validate([
             'title' => ['required'],
             'token' => ['required', 'unique:clients'],
@@ -54,7 +58,11 @@ class ClientsController extends Controller
      */
     public function destroy($clientId)
     {
-        Client::find($clientId)->delete();
+        $client = Client::find($clientId);
+
+        $this->authorize('delete', $client);
+
+        $client->delete();
 
         return redirect('/settings/clients');
     }
