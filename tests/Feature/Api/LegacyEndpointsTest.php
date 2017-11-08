@@ -421,7 +421,7 @@ class LegacyEndpointsTest extends TestCase
         $request->assertExactJson([
             'minecraft' => '1.11.2',
             'java' => '1.8',
-            'memory' => '2048',
+            'memory' => 2048,
             'forge' => '1.12.1234',
             'mods' => [
                 [
@@ -467,7 +467,7 @@ class LegacyEndpointsTest extends TestCase
         $request->assertExactJson([
             'minecraft' => '1.7.10',
             'java' => '1.8',
-            'memory' => '2048',
+            'memory' => 2048,
             'forge' => '1.12.1234',
             'mods' => [
                 [
@@ -513,7 +513,7 @@ class LegacyEndpointsTest extends TestCase
         $request->assertExactJson([
             'minecraft' => '1.7.10',
             'java' => '1.8',
-            'memory' => '2048',
+            'memory' => 2048,
             'forge' => '1.12.1234',
             'mods' => [
                 [
