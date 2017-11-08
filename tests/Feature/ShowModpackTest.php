@@ -82,4 +82,23 @@ class ShowModpackTest extends TestCase
             $buildA,
         ]);
     }
+
+    /** @test */
+    public function modpack_includes_list_of_users()
+    {
+        $userA = factory(User::class)->create();
+        $userB = factory(User::class)->create();
+        $userC = factory(User::class)->create();
+        $modpack = factory(Modpack::class)->create([
+            'slug' => 'example-modpack',
+        ]);
+
+        $response = $this->actingAs($userA)->get('/modpacks/example-modpack');
+
+        $response->data('users')->assertEquals([
+            $userA,
+            $userB,
+            $userC,
+        ]);
+    }
 }

@@ -66,7 +66,8 @@ class ModpackPolicy
      */
     public function update(User $user, Modpack $modpack)
     {
-        return $user->roles()->where('tag', 'update-modpack')->exists();
+        return $user->roles()->where('tag', 'update-modpack')->exists() &&
+            $modpack->userIsCollaborator($user);
     }
 
     /**
@@ -78,6 +79,7 @@ class ModpackPolicy
      */
     public function delete(User $user, Modpack $modpack)
     {
-        return $user->roles()->where('tag', 'delete-modpack')->exists();
+        return $user->roles()->where('tag', 'delete-modpack')->exists() &&
+            $modpack->userIsCollaborator($user);
     }
 }

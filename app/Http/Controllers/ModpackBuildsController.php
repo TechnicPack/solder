@@ -15,7 +15,6 @@ use App\Build;
 use App\Modpack;
 use App\Package;
 use Illuminate\Validation\Rule;
-use Illuminate\Support\Facades\DB;
 
 class ModpackBuildsController extends Controller
 {
@@ -59,9 +58,9 @@ class ModpackBuildsController extends Controller
      */
     public function store($modpackSlug)
     {
-        $this->authorize('create', Build::class);
-
         $modpack = Modpack::where('slug', $modpackSlug)->first();
+
+        $this->authorize('update', $modpack);
 
         request()->validate([
             'version' => ['required', 'regex:/^[a-zA-Z0-9_-][.a-zA-Z0-9_-]*$/', Rule::unique('builds')->where('modpack_id', $modpack->id)],
@@ -95,7 +94,7 @@ class ModpackBuildsController extends Controller
         $modpack = Modpack::where('slug', $modpackSlug)->firstOrFail();
         $build = $modpack->builds()->where('version', $buildVersion)->firstOrFail();
 
-        $this->authorize('update', $build);
+        $this->authorize('update', $modpack);
 
         request()->validate([
             'version' => ['sometimes', 'required', Rule::unique('builds')->ignore($build->id)->where('modpack_id', $modpack->id)],
@@ -126,16 +125,12 @@ class ModpackBuildsController extends Controller
      */
     public function destroy($modpackSlug, $buildVersion)
     {
-        $build = Build::where('version', $buildVersion)
-            ->whereExists(function ($query) use ($modpackSlug) {
-                $query->select(DB::raw(1))
-                    ->from('modpacks')
-                    ->where('slug', $modpackSlug)
-                    ->whereRaw('builds.modpack_id = modpacks.id');
-            })
-            ->firstOrFail();
+        $modpack = Modpack::where('slug', $modpackSlug)->firstOrFail();
+        $this->authorize('update', $modpack);
 
-        $this->authorize('delete', $build);
+        $build = Build::where('version', $buildVersion)
+            ->where('modpack_id', $modpack->id)
+            ->firstOrFail();
 
         $build->delete();
 

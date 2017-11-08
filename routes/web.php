@@ -21,6 +21,10 @@ Route::middleware('auth')->group(function () {
     Route::patch('/modpacks/{modpack}', 'ModpacksController@update');
     Route::delete('/modpacks/{modpack}', 'ModpacksController@destroy');
 
+    Route::post('/modpacks/{modpack}/collaborators', 'ModpackCollaboratorsController@store');
+
+    Route::delete('/collaborators/{collaborator}', 'CollaboratorsController@destroy');
+
     Route::get('/modpacks/{modpack}/{build}', 'ModpackBuildsController@show');
     Route::post('/modpacks/{modpack}/builds', 'ModpackBuildsController@store');
     Route::post('/modpacks/{modpack}/{build}', 'ModpackBuildsController@update');

@@ -57,6 +57,16 @@ class Modpack extends Model
     }
 
     /**
+     * A Modpack has many collaborators.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function collaborators()
+    {
+        return $this->hasMany(Collaborator::class);
+    }
+
+    /**
      * Filter query results to public modpack, private modpacks
      * that have been authorized with the provided client token
      * and all private modpacks with a valid provided api key.
@@ -130,5 +140,20 @@ class Modpack extends Model
     public function getIconUrlAttribute()
     {
         return Storage::url($this->icon_path);
+    }
+
+    public function addCollaborator($userId)
+    {
+        return Collaborator::create([
+            'user_id' => $userId,
+            'modpack_id' => $this->id,
+        ]);
+    }
+
+    public function userIsCollaborator($user)
+    {
+        return Collaborator::where('modpack_id', $this->id)
+            ->where('user_id', $user->id)
+            ->exists();
     }
 }

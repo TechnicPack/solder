@@ -58,7 +58,23 @@ class UpdateBuildTest extends TestCase
     }
 
     /** @test */
-    public function an_authorized_user_can_update_a_build()
+    public function an_authorized_user_who_is_a_collaborator_can_update_a_build()
+    {
+        $user = factory(User::class)->create();
+        $user->grantRole('update-modpack');
+        $modpack = factory(Modpack::class)->create();
+        $modpack->addCollaborator($user->id);
+        $build = $modpack->builds()->create($this->originalParams());
+
+        $response = $this->actingAs($user)
+            ->post("modpacks/{$modpack->slug}/{$build->version}", $this->validParams());
+
+        $response->assertRedirect();
+        $this->assertArraySubset($this->validParams(), $build->fresh()->getAttributes());
+    }
+
+    /** @test */
+    public function an_authorized_user_who_is_not_a_collaborator_cannot_update_a_build()
     {
         $user = factory(User::class)->create();
         $user->grantRole('update-modpack');
@@ -68,8 +84,8 @@ class UpdateBuildTest extends TestCase
         $response = $this->actingAs($user)
             ->post("modpacks/{$modpack->slug}/{$build->version}", $this->validParams());
 
-        $response->assertRedirect();
-        $this->assertArraySubset($this->validParams(), $build->fresh()->getAttributes());
+        $response->assertStatus(403);
+        $this->assertArraySubset($this->originalParams(), $build->fresh()->getAttributes());
     }
 
     /** @test */

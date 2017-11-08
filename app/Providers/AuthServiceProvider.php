@@ -23,7 +23,6 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         'App\Modpack' => 'App\Policies\ModpackPolicy',
-        'App\Build' => 'App\Policies\BuildPolicy',
         'App\Package' => 'App\Policies\PackagePolicy',
         'App\Release' => 'App\Policies\ReleasePolicy',
         'App\Bundle' => 'App\Policies\BundlePolicy',

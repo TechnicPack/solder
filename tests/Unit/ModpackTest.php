@@ -11,6 +11,7 @@
 
 namespace Tests\Unit;
 
+use App\User;
 use App\Build;
 use App\Modpack;
 use Tests\TestCase;
@@ -97,5 +98,27 @@ class ModpackTest extends TestCase
         $this->assertDatabaseMissing('builds', ['id' => $relatedBuildA->id]);
         $this->assertDatabaseMissing('builds', ['id' => $relatedBuildB->id]);
         $this->assertDatabaseHas('builds', ['id' => $unrelatedBuild->id]);
+    }
+
+    /** @test **/
+    public function collaborators_can_be_added_to_a_modpack()
+    {
+        $modpack = factory(Modpack::class)->create();
+        $user = factory(User::class)->create();
+
+        $collaborator = $modpack->addCollaborator($user->id);
+
+        $this->assertEquals($modpack->id, $collaborator->modpack_id);
+        $this->assertEquals($user->id, $collaborator->user_id);
+    }
+
+    /** @test **/
+    public function a_user_can_be_validated_as_a_collaborator()
+    {
+        $modpack = factory(Modpack::class)->create();
+        $user = factory(User::class)->create();
+        $modpack->addCollaborator($user->id);
+
+        $this->assertTrue($modpack->userIsCollaborator($user));
     }
 }

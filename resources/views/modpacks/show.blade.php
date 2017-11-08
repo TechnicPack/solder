@@ -26,11 +26,13 @@
             </div>
         </div>
 
-        @can('create', App\Build::class)
+        @can('update', $modpack)
             @include('modpacks.partials.create-build')
         @endcan
 
         @includeWhen(count($modpack->builds), 'modpacks.partials.list-builds')
+        @include('modpacks.partials.add-collaborators')
+        @includeWhen(count($modpack->collaborators), 'modpacks.partials.list-collaborators')
 
         @can('update', $modpack)
             @include('modpacks.partials.update-modpack')

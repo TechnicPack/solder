@@ -73,17 +73,33 @@ class UpdateModpackTest extends TestCase
     }
 
     /** @test */
-    public function an_authorized_user_can_update_a_modpack()
+    public function an_authorized_user_who_is_a_collaborator_can_update_a_modpack()
     {
         $user = factory(User::class)->create();
         $user->grantRole('update-modpack');
         $modpack = factory(Modpack::class)->create($this->originalParams());
+        $modpack->addCollaborator($user->id);
 
         $response = $this->actingAs($user)
             ->patch("/modpacks/{$modpack->slug}", $this->validParams());
 
         $response->assertRedirect("/modpacks/{$modpack->fresh()->slug}");
         $this->assertArraySubset($this->validParams(), $modpack->fresh()->getAttributes());
+    }
+
+    /** @test */
+    public function an_authorized_user_who_is_not_a_collaborator_cannot_update_a_modpack()
+    {
+        $user = factory(User::class)->create();
+        $user->grantRole('update-modpack');
+
+        $modpack = factory(Modpack::class)->create($this->originalParams());
+
+        $response = $this->actingAs($user)
+            ->patch("/modpacks/{$modpack->slug}", $this->validParams());
+
+        $response->assertStatus(403);
+        $this->assertArraySubset($this->originalParams(), $modpack->fresh()->getAttributes());
     }
 
     /** @test */

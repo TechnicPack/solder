@@ -258,4 +258,20 @@ class AddModpackTest extends TestCase
             'status' => 'public',
         ], $overrides);
     }
+
+    /** @test */
+    public function the_user_who_creates_a_modpack_is_also_a_contributor()
+    {
+        $user = factory(User::class)->states('admin')->create();
+
+        $response = $this->actingAs($user)->post('/modpacks', [
+            'name' => 'Iron Tanks',
+            'slug' => 'iron-tanks',
+            'status' => 'public',
+        ]);
+
+        tap(Modpack::first(), function ($modpack) use ($user) {
+            $this->assertTrue($modpack->userIsCollaborator($user));
+        });
+    }
 }

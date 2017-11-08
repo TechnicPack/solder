@@ -34,7 +34,22 @@ class DeleteModpackTest extends TestCase
     }
 
     /** @test */
-    public function an_authorized_user_can_delete_a_modpack()
+    public function an_authorized_user_who_is_a_collaborator_can_delete_a_modpack()
+    {
+        $user = factory(User::class)->create();
+        $user->grantRole('delete-modpack');
+        $modpack = factory(Modpack::class)->create();
+        $modpack->addCollaborator($user->id);
+        $this->assertEquals(1, Modpack::count());
+
+        $response = $this->actingAs($user)->delete("modpacks/{$modpack->slug}");
+
+        $response->assertRedirect('/');
+        $this->assertEquals(0, Modpack::count());
+    }
+
+    /** @test */
+    public function an_authorized_user_who_is_not_a_collaborator_cannot_delete_a_modpack()
     {
         $user = factory(User::class)->create();
         $user->grantRole('delete-modpack');
@@ -43,8 +58,8 @@ class DeleteModpackTest extends TestCase
 
         $response = $this->actingAs($user)->delete("modpacks/{$modpack->slug}");
 
-        $response->assertRedirect('/');
-        $this->assertEquals(0, Modpack::count());
+        $response->assertStatus(403);
+        $this->assertEquals(1, Modpack::count());
     }
 
     /** @test */

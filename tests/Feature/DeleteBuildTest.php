@@ -36,7 +36,23 @@ class DeleteBuildTest extends TestCase
     }
 
     /** @test */
-    public function an_authorized_user_can_delete_a_build()
+    public function an_authorized_user_who_is_a_collaborator_can_delete_a_build()
+    {
+        $user = factory(User::class)->create();
+        $user->grantRole('update-modpack');
+        $modpack = factory(Modpack::class)->create(['slug' => 'brothers-klaus']);
+        $modpack->addCollaborator($user->id);
+        $modpack->builds()->save(factory(Build::class)->make(['version' => '1.0.0']));
+        $this->assertEquals(1, Build::count());
+
+        $response = $this->actingAs($user)->delete('/modpacks/brothers-klaus/1.0.0');
+
+        $response->assertRedirect('/modpacks/brothers-klaus');
+        $this->assertEquals(0, Build::count());
+    }
+
+    /** @test */
+    public function an_authorized_user_who_is_not_a_collaborator_cannot_delete_a_build()
     {
         $user = factory(User::class)->create();
         $user->grantRole('update-modpack');
@@ -46,8 +62,8 @@ class DeleteBuildTest extends TestCase
 
         $response = $this->actingAs($user)->delete('/modpacks/brothers-klaus/1.0.0');
 
-        $response->assertRedirect('/modpacks/brothers-klaus');
-        $this->assertEquals(0, Build::count());
+        $response->assertStatus(403);
+        $this->assertEquals(1, Build::count());
     }
 
     /** @test */

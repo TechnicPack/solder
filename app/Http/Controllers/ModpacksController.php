@@ -11,6 +11,7 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use App\Modpack;
 use App\NullFile;
 use Illuminate\Validation\Rule;
@@ -34,6 +35,7 @@ class ModpacksController extends Controller
 
         return view('modpacks.show', [
             'modpack' => $modpack,
+            'users' => User::all(),
         ]);
     }
 
@@ -53,12 +55,14 @@ class ModpacksController extends Controller
             'modpack_icon' => ['nullable', 'image', Rule::dimensions()->minWidth(50)->ratio(1)],
         ]);
 
-        Modpack::create([
+        $modpack = Modpack::create([
             'name' => request('name'),
             'slug' => request('slug'),
             'status' => request('status'),
             'icon_path' => request('modpack_icon', new NullFile)->store('modpack_icons'),
         ]);
+
+        $modpack->addCollaborator(auth()->user()->id);
 
         return redirect('/modpacks/'.request('slug'));
     }

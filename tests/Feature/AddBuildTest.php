@@ -50,17 +50,32 @@ class AddBuildTest extends TestCase
     }
 
     /** @test */
-    public function an_authorized_user_can_create_a_build()
+    public function an_authorized_user_who_is_a_collaborator_can_create_a_build()
     {
         $user = factory(User::class)->create();
         $user->grantRole('update-modpack');
-        factory(Modpack::class)->create(['slug' => 'brothers-klaus']);
+        $modpack = factory(Modpack::class)->create(['slug' => 'brothers-klaus']);
+        $modpack->addCollaborator($user->id);
 
         $response = $this->actingAs($user)
             ->post('/modpacks/brothers-klaus/builds', $this->validParams());
 
         $response->assertRedirect('modpacks/brothers-klaus');
         $this->assertCount(1, Build::all());
+    }
+
+    /** @test */
+    public function an_authorized_user_who_is_not_a_collaborator_cannot_create_a_build()
+    {
+        $user = factory(User::class)->create();
+        $user->grantRole('update-modpack');
+        $modpack = factory(Modpack::class)->create(['slug' => 'brothers-klaus']);
+
+        $response = $this->actingAs($user)
+            ->post('/modpacks/brothers-klaus/builds', $this->validParams());
+
+        $response->assertStatus(403);
+        $this->assertCount(0, Build::all());
     }
 
     /** @test */
