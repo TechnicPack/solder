@@ -120,7 +120,10 @@ class AddReleaseTest extends TestCase
     {
         $user = factory(User::class)->states('admin')->create();
         $package = factory(Package::class)->create();
-        $package->releases()->create(['version' => '1.2.3']);
+        $existingRelease = factory(Release::class)->create([
+           'package_id' => $package->id,
+            'version' => '1.2.3',
+        ]);
 
         $response = $this->actingAs($user)
             ->from("library/{$package->slug}")
