@@ -14,6 +14,6 @@ use Faker\Generator as Faker;
 $factory->define(App\Package::class, function (Faker $faker) {
     return [
         'name' => 'Example Package',
-        'slug' => 'example-package',
+        'slug' => $faker->slug(3, true),
     ];
 });

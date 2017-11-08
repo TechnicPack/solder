@@ -13,8 +13,8 @@ use Faker\Generator as Faker;
 
 $factory->define(App\Modpack::class, function (Faker $faker) {
     return [
-        'name' => 'Test Modpack',
-        'slug' => 'test-modpack',
+        'name' => $faker->sentence(3, true),
+        'slug' => $faker->slug(3, true),
         'status' => 'public',
     ];
 });
