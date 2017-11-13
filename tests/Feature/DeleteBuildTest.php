@@ -29,7 +29,7 @@ class DeleteBuildTest extends TestCase
         $modpack->builds()->save(factory(Build::class)->make(['version' => '1.0.0']));
         $this->assertEquals(1, Build::count());
 
-        $response = $this->actingAs($user)->delete('/modpacks/brothers-klaus/1.0.0');
+        $response = $this->actingAs($user)->delete('/modpacks/brothers-klaus/builds/1.0.0');
 
         $response->assertRedirect('/modpacks/brothers-klaus');
         $this->assertEquals(0, Build::count());
@@ -45,7 +45,7 @@ class DeleteBuildTest extends TestCase
         $modpack->builds()->save(factory(Build::class)->make(['version' => '1.0.0']));
         $this->assertEquals(1, Build::count());
 
-        $response = $this->actingAs($user)->delete('/modpacks/brothers-klaus/1.0.0');
+        $response = $this->actingAs($user)->delete('/modpacks/brothers-klaus/builds/1.0.0');
 
         $response->assertRedirect('/modpacks/brothers-klaus');
         $this->assertEquals(0, Build::count());
@@ -60,7 +60,7 @@ class DeleteBuildTest extends TestCase
         $modpack->builds()->save(factory(Build::class)->make(['version' => '1.0.0']));
         $this->assertEquals(1, Build::count());
 
-        $response = $this->actingAs($user)->delete('/modpacks/brothers-klaus/1.0.0');
+        $response = $this->actingAs($user)->delete('/modpacks/brothers-klaus/builds/1.0.0');
 
         $response->assertStatus(403);
         $this->assertEquals(1, Build::count());
@@ -74,7 +74,7 @@ class DeleteBuildTest extends TestCase
         $modpack->builds()->save(factory(Build::class)->make(['version' => '1.0.0']));
         $this->assertEquals(1, Build::count());
 
-        $response = $this->actingAs($user)->delete('/modpacks/brothers-klaus/1.0.0');
+        $response = $this->actingAs($user)->delete('/modpacks/brothers-klaus/builds/1.0.0');
 
         $response->assertStatus(403);
         $this->assertEquals(1, Build::count());
@@ -87,7 +87,7 @@ class DeleteBuildTest extends TestCase
         $modpack->builds()->save(factory(Build::class)->make(['version' => '1.0.0']));
         $this->assertEquals(1, Build::count());
 
-        $response = $this->delete('/modpacks/brothers-klaus/1.0.0');
+        $response = $this->delete('/modpacks/brothers-klaus/builds/1.0.0');
 
         $response->assertRedirect('/login');
         $this->assertEquals(1, Build::count());
@@ -102,7 +102,7 @@ class DeleteBuildTest extends TestCase
         $modpack = factory(Modpack::class)->create(['slug' => 'brothers-klaus']);
         $build = factory(Build::class)->create(['modpack_id' => $modpack->id, 'version' => '1.0.0']);
 
-        $response = $this->actingAs($user)->delete('/modpacks/brothers-klaus/1.0.0');
+        $response = $this->actingAs($user)->delete('/modpacks/brothers-klaus/builds/1.0.0');
 
         $response->assertRedirect('/modpacks/brothers-klaus');
         $this->assertDatabaseHas('builds', ['id' => $otherBuild->id]);
@@ -115,7 +115,7 @@ class DeleteBuildTest extends TestCase
         $user = factory(User::class)->states('admin')->create();
         $modpack = factory(Modpack::class)->create(['slug' => 'brothers-klaus']);
 
-        $response = $this->actingAs($user)->delete('/modpacks/brothers-klaus/invalid-build');
+        $response = $this->actingAs($user)->delete('/modpacks/brothers-klaus/builds/invalid-build');
 
         $response->assertStatus(404);
     }
@@ -127,7 +127,7 @@ class DeleteBuildTest extends TestCase
         $modpack = factory(Modpack::class)->create(['slug' => 'brothers-klaus']);
         $build = factory(Build::class)->create(['modpack_id' => $modpack->id, 'version' => '1.0.0']);
 
-        $response = $this->actingAs($user)->delete('/modpacks/invalid-modpack/1.0.0');
+        $response = $this->actingAs($user)->delete('/modpacks/invalid-modpack/builds/1.0.0');
 
         $response->assertStatus(404);
     }

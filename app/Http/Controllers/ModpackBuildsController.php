@@ -112,7 +112,7 @@ class ModpackBuildsController extends Controller
             'forge_version',
         ]));
 
-        return redirect("/modpacks/$modpackSlug/{$build->version}");
+        return redirect()->route('builds.show', [$modpack, $build]);
     }
 
     /**

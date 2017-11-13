@@ -13,7 +13,7 @@
         @foreach($builds as $build)
             <tr>
                 <td>
-                    <a href="/modpacks/{{ $build->modpack->slug }}/{{ $build->version }}">
+                    <a href="{{ route('builds.show', [$build->modpack, $build]) }}">
                         <strong>{{ $build->version }}</strong>
                     </a>
                 </td>

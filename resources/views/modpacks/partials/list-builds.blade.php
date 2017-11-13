@@ -17,7 +17,7 @@
         @foreach($modpack->builds as $build)
             <tr>
                 <td>
-                    <a href="/modpacks/{{ $modpack->slug }}/{{ $build->version }}">
+                    <a href="{{ route('builds.show', [$modpack, $build]) }}">
                         <strong>{{ $build->version }}</strong>
                         @if($build->status == 'private')
                             <span class="tag">private</span>
@@ -66,7 +66,7 @@
                     </form>
                 </td>
                 <td class="has-text-right">
-                    <form method="post" action="/modpacks/{{ $modpack->slug }}/{{ $build->version }}">
+                    <form method="post" action="{{ route('builds.destroy', [$modpack, $build]) }}">
                         {{ csrf_field() }}
                         {{ method_field('delete') }}
                         <button class="button is-danger is-small is-outlined">Delete</button>

@@ -1,7 +1,7 @@
 <div class="box">
     <h1>Add Build</h1>
     <div class="box-body">
-        <form method="post" action="/modpacks/{{ $modpack->slug }}/builds">
+        <form method="post" action="{{ route('builds.store', $modpack) }}">
             {{ csrf_field() }}
 
             <div class="field is-horizontal">

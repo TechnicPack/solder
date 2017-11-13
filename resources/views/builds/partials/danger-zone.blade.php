@@ -13,24 +13,27 @@
                 </div>
                 <div class="level-right">
                     <div class="level-item">
-                        <form method="post" action="/modpacks/{{ $build->modpack->slug }}/{{ $build->version }}">
+                        <form method="post" action="{{ route('builds.update', [$build->modpack, $build]) }}">
                             {{ csrf_field() }}
+                            {{ method_field('patch') }}
 
                             <input type="hidden" name="status" value="draft" />
                             <button class="button {{ $build->status == 'draft' ? 'is-static' : 'is-danger' }} is-outlined" type="submit">Draft</button>
                         </form>
                     </div>
                     <div class="level-item">
-                        <form method="post" action="/modpacks/{{ $build->modpack->slug }}/{{ $build->version }}">
+                        <form method="post" action="{{ route('builds.update', [$build->modpack, $build]) }}">
                             {{ csrf_field() }}
+                            {{ method_field('patch') }}
 
                             <input type="hidden" name="status" value="private" />
                             <button class="button {{ $build->status == 'private' ? 'is-static' : 'is-danger' }} is-outlined" type="submit">Private</button>
                         </form>
                     </div>
                     <div class="level-item">
-                        <form method="post" action="/modpacks/{{ $build->modpack->slug }}/{{ $build->version }}">
+                        <form method="post" action="{{ route('builds.update', [$build->modpack, $build]) }}">
                             {{ csrf_field() }}
+                            {{ method_field('patch') }}
 
                             <button class="button {{ $build->status == 'public' ? 'is-static' : 'is-danger' }} is-outlined" type="submit">Public</button>
                             <input type="hidden" name="status" value="public" />
@@ -49,8 +52,9 @@
                 </div>
                 <div class="level-right">
                     <div class="level-item">
-                        <form method="post" action="/modpacks/{{ $build->modpack->slug }}/{{ $build->version }}">
+                        <form method="post" action="{{ route('builds.update', [$build->modpack, $build]) }}">
                             {{ csrf_field() }}
+                            {{ method_field('patch') }}
 
                             <div class="field has-addons">
                                 <div class="control">
@@ -80,7 +84,7 @@
                 </div>
                 <div class="level-right">
                     <div class="level-item">
-                        <form method="post" action="/modpacks/{{ $build->modpack->slug }}/{{ $build->version }}">
+                        <form method="post" action="{{ route('builds.destroy', [$build->modpack, $build]) }}">
                             {{ csrf_field() }}
                             {{ method_field('delete') }}
                             <button class="button is-danger is-outlined" type="submit">Delete this build</button>

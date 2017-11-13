@@ -27,10 +27,12 @@ Route::middleware('auth')->group(function () {
 
     Route::delete('/collaborators/{collaborator}', 'CollaboratorsController@destroy');
 
-    Route::get('/modpacks/{modpack}/{build}', 'ModpackBuildsController@show');
-    Route::post('/modpacks/{modpack}/builds', 'ModpackBuildsController@store');
-    Route::post('/modpacks/{modpack}/{build}', 'ModpackBuildsController@update');
-    Route::delete('/modpacks/{modpack}/{build}', 'ModpackBuildsController@destroy');
+    Route::resource('modpacks/{modpack}/builds', 'ModpackBuildsController')->only([
+        'show',
+        'store',
+        'update',
+        'destroy',
+    ]);
 
     Route::get('/library', 'PackagesController@index');
     Route::get('/library/{package}', 'PackagesController@show');

@@ -35,7 +35,7 @@ class ShowBuildTest extends TestCase
         $buildB = BuildFactory::createForModpack($modpackB, ['version' => '1.0.0']);
         $buildC = BuildFactory::createForModpack($modpackB, ['version' => '1.2.3']);
 
-        $response = $this->actingAs($user)->get('/modpacks/modpack-b/1.2.3');
+        $response = $this->actingAs($user)->get('/modpacks/modpack-b/builds/1.2.3');
 
         $response->assertStatus(200);
         $response->assertViewIs('builds.show');
@@ -48,7 +48,7 @@ class ShowBuildTest extends TestCase
         $modpack = factory(Modpack::class)->create(['slug' => 'example-modpack']);
         BuildFactory::createForModpack($modpack, ['version' => '1.2.3']);
 
-        $response = $this->get('/modpacks/example-modpack/1.2.3');
+        $response = $this->get('/modpacks/example-modpack/builds/1.2.3');
 
         $response->assertRedirect('/login');
     }
@@ -71,7 +71,7 @@ class ShowBuildTest extends TestCase
         $releaseA = factory(Release::class)->create(['package_id' => $packageA->id]);
         $build->releases()->attach($releaseA);
 
-        $response = $this->actingAs($user)->get('/modpacks/example-modpack/1.2.3');
+        $response = $this->actingAs($user)->get('/modpacks/example-modpack/builds/1.2.3');
 
         $response->data('build')->releases->assertEquals([
             $releaseA,
@@ -96,7 +96,7 @@ class ShowBuildTest extends TestCase
         $releaseB = factory(Release::class)->create(['package_id' => $packageB->id]);
         $buildB->releases()->attach($releaseB);
 
-        $response = $this->actingAs($user)->get('/modpacks/example-modpack/1.2.3');
+        $response = $this->actingAs($user)->get('/modpacks/example-modpack/builds/1.2.3');
 
         $response->data('build')->releases->assertContains($releaseA);
         $response->data('build')->releases->assertNotContains($releaseB);
@@ -108,7 +108,7 @@ class ShowBuildTest extends TestCase
         $user = factory(User::class)->create();
         factory(Build::class)->create(['version' => '1.2.3']);
 
-        $response = $this->actingAs($user)->get('/modpacks/fake-modpack/1.2.3');
+        $response = $this->actingAs($user)->get('/modpacks/fake-modpack/builds/1.2.3');
 
         $response->assertStatus(404);
     }
@@ -119,7 +119,7 @@ class ShowBuildTest extends TestCase
         $user = factory(User::class)->create();
         factory(Modpack::class)->create(['slug' => 'example-modpack']);
 
-        $response = $this->actingAs($user)->get('/modpacks/example-modpack/fake-version');
+        $response = $this->actingAs($user)->get('/modpacks/example-modpack/builds/fake-version');
 
         $response->assertStatus(404);
     }
@@ -135,7 +135,7 @@ class ShowBuildTest extends TestCase
         $packageB = factory(Package::class)->create(['name' => 'Package B']);
         $packageA = factory(Package::class)->create(['name' => 'Package A']);
 
-        $response = $this->actingAs($user)->get('/modpacks/example-modpack/1.2.3');
+        $response = $this->actingAs($user)->get('/modpacks/example-modpack/builds/1.2.3');
 
         $response->data('packages')->assertEquals([
             $packageA,
@@ -157,7 +157,7 @@ class ShowBuildTest extends TestCase
         $buildB = BuildFactory::createForModpack($modpack, ['version' => '1.0.0b']);
         $buildC = BuildFactory::createForModpack($modpack, ['version' => '10.5']);
 
-        $response = $this->actingAs($user)->get('/modpacks/example-modpack/1.0.0a');
+        $response = $this->actingAs($user)->get('/modpacks/example-modpack/builds/1.0.0a');
 
         $response->data('modpack')->builds->assertEquals([
             $buildC,

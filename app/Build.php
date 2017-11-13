@@ -45,6 +45,16 @@ class Build extends Model
     }
 
     /**
+     * Get the route key for the model.
+     *
+     * @return string
+     */
+    public function getRouteKeyName()
+    {
+        return 'version';
+    }
+
+    /**
      * Filter query results to public builds, private builds
      * that have been authorized with the provided client token
      * and all private builds with a valid provided api key.
