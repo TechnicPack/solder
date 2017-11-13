@@ -143,26 +143,4 @@ class ShowBuildTest extends TestCase
             $packageC,
         ]);
     }
-
-    /** @test */
-    public function modpack_includes_builds_in_reverse_order()
-    {
-        $this->withoutExceptionHandling();
-
-        $user = factory(User::class)->create();
-        $modpack = factory(Modpack::class)->create([
-            'slug' => 'example-modpack',
-        ]);
-        $buildA = BuildFactory::createForModpack($modpack, ['version' => '1.0.0a']);
-        $buildB = BuildFactory::createForModpack($modpack, ['version' => '1.0.0b']);
-        $buildC = BuildFactory::createForModpack($modpack, ['version' => '10.5']);
-
-        $response = $this->actingAs($user)->get('/modpacks/example-modpack/builds/1.0.0a');
-
-        $response->data('modpack')->builds->assertEquals([
-            $buildC,
-            $buildB,
-            $buildA,
-        ]);
-    }
 }

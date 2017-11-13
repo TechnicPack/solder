@@ -21,19 +21,12 @@ class ModpackBuildsController extends Controller
     /**
      * Show the modpack build.
      *
-     * @param $modpackSlug
+     * @param Modpack $modpack
      * @param $buildVersion
-     *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function show($modpackSlug, $buildVersion)
+    public function show(Modpack $modpack, $buildVersion)
     {
-        $modpack = Modpack::where('slug', $modpackSlug)
-            ->with(['builds' => function ($query) {
-                $query->orderBy('version', 'desc');
-            }])
-            ->firstOrFail();
-
         $build = Build::with(['releases.package', 'releases' => function ($query) {
             $query->join('packages', 'releases.package_id', '=', 'packages.id')
                 ->orderBy('packages.name');
@@ -52,14 +45,11 @@ class ModpackBuildsController extends Controller
     /**
      * Store the passed data as a build.
      *
-     * @param $modpackSlug
-     *
+     * @param Modpack $modpack
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function store($modpackSlug)
+    public function store(Modpack $modpack)
     {
-        $modpack = Modpack::where('slug', $modpackSlug)->first();
-
         $this->authorize('update', $modpack);
 
         request()->validate([
@@ -69,7 +59,7 @@ class ModpackBuildsController extends Controller
             'required_memory' => ['nullable', 'numeric'],
         ]);
 
-        $build = $modpack->builds()->create([
+        $modpack->builds()->create([
             'version' => request('version'),
             'minecraft_version' => request('minecraft_version'),
             'status' => request('status'),
@@ -84,14 +74,13 @@ class ModpackBuildsController extends Controller
     /**
      * Update a build.
      *
-     * @param $modpackSlug
+     * @param Modpack $modpack
      * @param $buildVersion
-     *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @internal param $modpackSlug
      */
-    public function update($modpackSlug, $buildVersion)
+    public function update(Modpack $modpack, $buildVersion)
     {
-        $modpack = Modpack::where('slug', $modpackSlug)->firstOrFail();
         $build = $modpack->builds()->where('version', $buildVersion)->firstOrFail();
 
         $this->authorize('update', $modpack);
