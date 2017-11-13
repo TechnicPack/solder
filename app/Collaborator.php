@@ -21,4 +21,9 @@ class Collaborator extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function modpack()
+    {
+        return $this->belongsTo(Modpack::class);
+    }
 }

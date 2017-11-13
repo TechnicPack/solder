@@ -50,13 +50,12 @@ class KeysController extends Controller
     /**
      * Delete a key.
      *
-     * @param $keyId
-     *
+     * @param Key $key
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
      */
-    public function destroy($keyId)
+    public function destroy(Key $key)
     {
-        Key::findOrFail($keyId)->delete();
+        $key->delete();
 
         return redirect('/settings/keys');
     }

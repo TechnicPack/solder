@@ -56,15 +56,14 @@ class UsersController extends Controller
     /**
      * Update a users details.
      *
-     * @param $userId
-     *
+     * @param User $user
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function update($userId)
+    public function update(User $user)
     {
-        $user = request()->validate([
-            'username' => ['required', Rule::unique('users')->ignore($userId)],
-            'email' => ['required', 'email', Rule::unique('users')->ignore($userId)],
+        $data = request()->validate([
+            'username' => ['required', Rule::unique('users')->ignore($user->id)],
+            'email' => ['required', 'email', Rule::unique('users')->ignore($user->id)],
         ]);
 
         if (request('password') != '') {
@@ -72,12 +71,12 @@ class UsersController extends Controller
                 'password' => ['min:6'],
             ]);
 
-            $user['password'] = bcrypt(request('password'));
+            $data['password'] = bcrypt(request('password'));
         }
 
-        $user['is_admin'] = request('is_admin') == 'on';
+        $data['is_admin'] = request('is_admin') == 'on';
 
-        User::find($userId)->update($user);
+        $user->update($data);
 
         return redirect('/settings/users/');
     }
@@ -85,14 +84,11 @@ class UsersController extends Controller
     /**
      * Delete a user.
      *
-     * @param $userId
-     *
+     * @param User $user
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|\Symfony\Component\HttpFoundation\Response
      */
-    public function destroy($userId)
+    public function destroy(User $user)
     {
-        $user = User::findOrFail($userId);
-
         if (Auth::user()->is($user)) {
             return response('You may not remove your own user.', 403);
         }

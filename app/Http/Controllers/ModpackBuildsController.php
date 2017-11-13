@@ -118,14 +118,12 @@ class ModpackBuildsController extends Controller
     /**
      * Remove build from application.
      *
-     * @param $modpackSlug
+     * @param Modpack $modpack
      * @param $buildVersion
-     *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function destroy($modpackSlug, $buildVersion)
+    public function destroy(Modpack $modpack, $buildVersion)
     {
-        $modpack = Modpack::where('slug', $modpackSlug)->firstOrFail();
         $this->authorize('update', $modpack);
 
         $build = Build::where('version', $buildVersion)

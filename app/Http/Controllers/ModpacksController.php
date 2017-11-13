@@ -21,17 +21,14 @@ class ModpacksController extends Controller
     /**
      * Show a modpack.
      *
-     * @param $slug
-     *
+     * @param Modpack $modpack
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function show($slug)
+    public function show(Modpack $modpack)
     {
-        $modpack = Modpack::where('slug', $slug)
-            ->with(['builds' => function ($query) {
-                $query->orderBy('created_at', 'desc');
-            }])
-            ->firstOrFail();
+        $modpack->load(['builds' => function ($query) {
+            $query->orderBy('created_at', 'desc');
+        }]);
 
         return view('modpacks.show', [
             'modpack' => $modpack,
@@ -70,14 +67,11 @@ class ModpacksController extends Controller
     /**
      * Update a modpack with the request data.
      *
-     * @param $slug
-     *
+     * @param Modpack $modpack
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function update($slug)
+    public function update(Modpack $modpack)
     {
-        $modpack = Modpack::where('slug', $slug)->first();
-
         $this->authorize('update', $modpack);
 
         request()->validate([
@@ -110,14 +104,11 @@ class ModpacksController extends Controller
     /**
      * Delete a modpack from the database.
      *
-     * @param $slug
-     *
+     * @param Modpack $modpack
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function destroy($slug)
+    public function destroy(Modpack $modpack)
     {
-        $modpack = Modpack::where('slug', $slug)->firstOrFail();
-
         $this->authorize('delete', $modpack);
 
         $modpack->delete();
