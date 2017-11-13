@@ -14,7 +14,7 @@
             <div class="level-left"></div>
             <div class="level-right">
                 <div class="level-item has-padding-right-3">
-                    <a href="/modpacks/{{ $build->modpack->slug }}" class="menu-label">
+                    <a href="{{ route('modpacks.show', $build->modpack) }}" class="menu-label">
                         <figure class="icon">
                             <i class="fa fa-fw fa-arrow-left"></i>
                         </figure>

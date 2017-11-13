@@ -32,7 +32,7 @@
                 <td>{{ $build->java_version }}</td>
                 <td>{{ $build->required_memory }}</td>
                 <td class="has-text-centered is-narrow">
-                    <form method="post" action="/modpacks/{{ $modpack->slug }}">
+                    <form method="post" action="{{ route('modpacks.update', $build->modpack) }}">
                         {{ csrf_field() }}
                         {{ method_field('patch') }}
                         <input type="hidden" name="recommended_build_id" value="{{ $build->id }}" />
@@ -49,7 +49,7 @@
                     </form>
                 </td>
                 <td class="has-text-centered is-narrow">
-                    <form method="post" action="/modpacks/{{ $modpack->slug }}">
+                    <form method="post" action="{{ route('modpacks.update', $build->modpack) }}">
                         {{ csrf_field() }}
                         {{ method_field('patch') }}
                         <input type="hidden" name="latest_build_id" value="{{ $build->id }}" />

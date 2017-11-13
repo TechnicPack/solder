@@ -14,7 +14,7 @@
                     </div>
                     <div class="level-right">
                         <div class="level-item">
-                            <form method="post" action="/modpacks/{{ $modpack->slug }}">
+                            <form method="post" action="{{ route('modpacks.update', $modpack) }}">
                                 {{ csrf_field() }}
                                 {{ method_field('patch') }}
 
@@ -37,7 +37,7 @@
                     </div>
                     <div class="level-right">
                         <div class="level-item">
-                            <form method="post" action="/modpacks/{{ $modpack->slug }}">
+                            <form method="post" action="{{ route('modpacks.update', $modpack) }}">
                                 {{ csrf_field() }}
                                 {{ method_field('patch') }}
 
@@ -59,7 +59,7 @@
                 </div>
                 <div class="level-right">
                     <div class="level-item">
-                        <form method="post" action="/modpacks/{{ $modpack->slug }}">
+                        <form method="post" action="{{ route('modpacks.update', $modpack) }}">
                             {{ csrf_field() }}
                             {{ method_field('patch') }}
 
@@ -91,7 +91,7 @@
                 </div>
                 <div class="level-right">
                     <div class="level-item">
-                        <form method="post" action="/modpacks/{{ $modpack->slug }}">
+                        <form method="post" action="{{ route('modpacks.destroy', $modpack) }}">
                             {{ csrf_field() }}
                             {{ method_field('delete') }}
                             <button class="button is-danger is-outlined" type="submit">Delete this modpack</button>

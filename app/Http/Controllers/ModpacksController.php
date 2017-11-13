@@ -61,7 +61,7 @@ class ModpacksController extends Controller
 
         $modpack->addCollaborator(auth()->user()->id);
 
-        return redirect('/modpacks/'.request('slug'));
+        return redirect()->route('modpacks.show', $modpack);
     }
 
     /**
@@ -98,7 +98,7 @@ class ModpacksController extends Controller
             ]);
         }
 
-        return redirect('/modpacks/'.$modpack->slug);
+        return redirect()->route('modpacks.show', $modpack);
     }
 
     /**

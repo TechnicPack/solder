@@ -25,6 +25,6 @@ class ModpackCollaboratorsController extends Controller
 
         $modpack->addCollaborator(request('user_id'));
 
-        return redirect('modpacks/'.$modpackSlug);
+        return redirect()->route('modpacks.show', $modpack);
     }
 }

@@ -78,7 +78,7 @@ class ModpackBuildsController extends Controller
             'forge_version' => request('forge_version'),
         ]);
 
-        return redirect("/modpacks/$modpackSlug");
+        return redirect()->route('modpacks.show', $modpack);
     }
 
     /**
@@ -132,6 +132,6 @@ class ModpackBuildsController extends Controller
 
         $build->delete();
 
-        return redirect("/modpacks/$modpackSlug");
+        return redirect()->route('modpacks.show', $modpack);
     }
 }

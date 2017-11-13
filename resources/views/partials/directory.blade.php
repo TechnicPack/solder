@@ -18,7 +18,7 @@
     </div>
     <div class="directory-menu">
         @foreach($directory as $modpackItem)
-        <a class="directory-item {{ isset($modpack) && $modpack->id == $modpackItem->id ? 'is-active' : '' }}" href="/modpacks/{{ $modpackItem->slug }}">
+        <a class="directory-item {{ isset($modpack) && $modpack->id == $modpackItem->id ? 'is-active' : '' }}" href="{{ route('modpacks.show', $modpackItem) }}">
             @if($modpackItem->icon_path)
             <figure class="image is-64x64">
                 <img src="{{ $modpackItem->icon_url }}" />

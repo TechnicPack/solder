@@ -18,7 +18,7 @@
                     </a>
                 </td>
                 <td>
-                    <a href="/modpacks/{{ $build->modpack->slug }}">
+                    <a href="{{ route('modpacks.show', $build->modpack) }}">
                         <strong>{{ $build->modpack->name }}</strong>
                     </a>
                 </td>

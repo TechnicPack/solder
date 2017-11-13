@@ -21,6 +21,6 @@ class CollaboratorsController extends Controller
 
         $collaborator->delete();
 
-        return redirect('modpacks/'.$collaborator->modpack->slug);
+        return redirect()->route('modpacks.show', $collaborator->modpack);
     }
 }

@@ -16,10 +16,12 @@ Route::post('/logout', 'Auth\LoginController@logout')->name('auth.logout');
 Route::middleware('auth')->group(function () {
     Route::get('/', 'DashboardController');
 
-    Route::get('/modpacks/{modpack}', 'ModpacksController@show');
-    Route::post('/modpacks', 'ModpacksController@store');
-    Route::patch('/modpacks/{modpack}', 'ModpacksController@update');
-    Route::delete('/modpacks/{modpack}', 'ModpacksController@destroy');
+    Route::resource('modpacks', 'ModpacksController')->only([
+        'show',
+        'store',
+        'update',
+        'destroy',
+    ]);
 
     Route::post('/modpacks/{modpack}/collaborators', 'ModpackCollaboratorsController@store');
 

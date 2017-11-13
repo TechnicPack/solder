@@ -1,7 +1,7 @@
 <div class="box">
     <h1>Create Modpack</h1>
     <div class="box-body">
-        <form action="/modpacks" method="post" id="create-modpack" enctype="multipart/form-data">
+        <form action="{{ route('modpacks.store') }}" method="post" id="create-modpack" enctype="multipart/form-data">
         {{ csrf_field() }}
 
         <!-- Name -->
