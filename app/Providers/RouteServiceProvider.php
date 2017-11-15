@@ -32,9 +32,13 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
-
         parent::boot();
+
+        Route::bind('build', function ($version) {
+            $slug = request()->route('modpack');
+
+            return \App\Build::findByModpackSlugAndBuildVersion($slug, $version);
+        });
     }
 
     /**

@@ -22,18 +22,15 @@ class ModpackBuildsController extends Controller
      * Show the modpack build.
      *
      * @param Modpack $modpack
-     * @param $buildVersion
+     * @param Build $build
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function show(Modpack $modpack, $buildVersion)
+    public function show(Modpack $modpack, Build $build)
     {
-        $build = Build::with(['releases.package', 'releases' => function ($query) {
+        $build->load(['releases.package', 'releases' => function ($query) {
             $query->join('packages', 'releases.package_id', '=', 'packages.id')
                 ->orderBy('packages.name');
-        }])
-            ->where('modpack_id', $modpack->id)
-            ->where('version', $buildVersion)
-            ->firstOrFail();
+        }]);
 
         return view('builds.show', [
             'modpack' => $modpack,
@@ -75,14 +72,11 @@ class ModpackBuildsController extends Controller
      * Update a build.
      *
      * @param Modpack $modpack
-     * @param $buildVersion
+     * @param Build $build
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-     * @internal param $modpackSlug
      */
-    public function update(Modpack $modpack, $buildVersion)
+    public function update(Modpack $modpack, Build $build)
     {
-        $build = $modpack->builds()->where('version', $buildVersion)->firstOrFail();
-
         $this->authorize('update', $modpack);
 
         request()->validate([
@@ -108,16 +102,12 @@ class ModpackBuildsController extends Controller
      * Remove build from application.
      *
      * @param Modpack $modpack
-     * @param $buildVersion
+     * @param Build $build
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function destroy(Modpack $modpack, $buildVersion)
+    public function destroy(Modpack $modpack, Build $build)
     {
         $this->authorize('update', $modpack);
-
-        $build = Build::where('version', $buildVersion)
-            ->where('modpack_id', $modpack->id)
-            ->firstOrFail();
 
         $build->delete();
 

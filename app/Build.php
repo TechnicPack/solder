@@ -25,6 +25,25 @@ class Build extends Model
     protected $guarded = [];
 
     /**
+     * Retrieve the first build matching the given modpack slug and build version.
+     *
+     * @param $modpack
+     * @param $version
+     * @return self
+     */
+    public static function findByModpackSlugAndBuildVersion($modpack, $version)
+    {
+        return self::where('version', $version)
+            ->whereExists(function ($query) use ($modpack) {
+                $query->select(DB::raw(1))
+                    ->from('modpacks')
+                    ->where('slug', $modpack)
+                    ->whereRaw('builds.modpack_id = modpacks.id');
+            })
+            ->first();
+    }
+
+    /**
      * A Build contains many Releases of various Packages.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
