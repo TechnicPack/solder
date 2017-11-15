@@ -36,7 +36,7 @@ class UpdateBuildTest extends TestCase
         ]));
 
         $response = $this->actingAs($user)
-            ->post('/modpacks/brothers-klaus/1.2.3', [
+            ->patch('/modpacks/brothers-klaus/builds/1.2.3', [
                 'version' => '4.5.6',
                 'status' => 'public',
                 'minecraft_version' => '1.11.2',
@@ -46,7 +46,7 @@ class UpdateBuildTest extends TestCase
             ]);
 
         tap($build->fresh(), function ($build) use ($response) {
-            $response->assertRedirect('/modpacks/brothers-klaus/4.5.6');
+            $response->assertRedirect('/modpacks/brothers-klaus/builds/4.5.6');
 
             $this->assertEquals('4.5.6', $build->version);
             $this->assertEquals('public', $build->status);
@@ -67,7 +67,7 @@ class UpdateBuildTest extends TestCase
         $build = $modpack->builds()->create($this->originalParams());
 
         $response = $this->actingAs($user)
-            ->post("modpacks/{$modpack->slug}/{$build->version}", $this->validParams());
+            ->patch("modpacks/{$modpack->slug}/builds/{$build->version}", $this->validParams());
 
         $response->assertRedirect();
         $this->assertArraySubset($this->validParams(), $build->fresh()->getAttributes());
@@ -82,7 +82,7 @@ class UpdateBuildTest extends TestCase
         $build = $modpack->builds()->create($this->originalParams());
 
         $response = $this->actingAs($user)
-            ->post("modpacks/{$modpack->slug}/{$build->version}", $this->validParams());
+            ->patch("modpacks/{$modpack->slug}/builds/{$build->version}", $this->validParams());
 
         $response->assertStatus(403);
         $this->assertArraySubset($this->originalParams(), $build->fresh()->getAttributes());
@@ -96,7 +96,7 @@ class UpdateBuildTest extends TestCase
         $build = $modpack->builds()->create($this->originalParams());
 
         $response = $this->actingAs($user)
-            ->post("modpacks/{$modpack->slug}/{$build->version}", $this->validParams());
+            ->patch("modpacks/{$modpack->slug}/builds/{$build->version}", $this->validParams());
 
         $response->assertStatus(403);
         $this->assertArraySubset($this->originalParams(), $build->fresh()->getAttributes());
@@ -108,7 +108,7 @@ class UpdateBuildTest extends TestCase
         $modpack = factory(Modpack::class)->create(['slug' => 'brothers-klaus']);
         $build = $modpack->builds()->save(factory(Build::class)->make($this->originalParams()));
 
-        $response = $this->post('/modpacks/brothers-klaus/1.2.3', $this->validParams());
+        $response = $this->patch('/modpacks/brothers-klaus/builds/1.2.3', $this->validParams());
 
         $response->assertRedirect('/login');
         $this->assertArraySubset($this->originalParams(), $build->fresh()->getAttributes());
@@ -122,12 +122,12 @@ class UpdateBuildTest extends TestCase
         $build = $modpack->builds()->save(factory(Build::class)->make($this->originalParams(['version' => '1.2.3'])));
 
         $response = $this->actingAs($user)
-            ->post('/modpacks/brothers-klaus/1.2.3', [
+            ->patch('/modpacks/brothers-klaus/builds/1.2.3', [
                 // empty set
             ]);
 
         $response->assertSessionMissing('errors');
-        $response->assertRedirect('/modpacks/brothers-klaus/1.2.3');
+        $response->assertRedirect('/modpacks/brothers-klaus/builds/1.2.3');
         $this->assertArraySubset($this->originalParams(['version' => '1.2.3']), $build->fresh()->getAttributes());
     }
 
@@ -139,12 +139,12 @@ class UpdateBuildTest extends TestCase
         $build = $modpack->builds()->save(factory(Build::class)->make($this->originalParams(['version' => '1.2.3'])));
 
         $response = $this->actingAs($user)
-            ->from('/modpacks/brothers-klaus/1.2.3')
-            ->post('/modpacks/brothers-klaus/1.2.3', $this->validParams([
+            ->from('/modpacks/brothers-klaus/builds/1.2.3')
+            ->patch('/modpacks/brothers-klaus/builds/1.2.3', $this->validParams([
                 'version' => '',
             ]));
 
-        $response->assertRedirect('/modpacks/brothers-klaus/1.2.3');
+        $response->assertRedirect('/modpacks/brothers-klaus/builds/1.2.3');
         $response->assertSessionHasErrors('version');
         $this->assertArraySubset($this->originalParams(), $build->fresh()->getAttributes());
     }
@@ -157,12 +157,12 @@ class UpdateBuildTest extends TestCase
         $build = $modpack->builds()->save(factory(Build::class)->make($this->originalParams(['version' => '1.2.3'])));
 
         $response = $this->actingAs($user)
-            ->from('/modpacks/brothers-klaus/1.2.3')
-            ->post('/modpacks/brothers-klaus/1.2.3', $this->validParams([
+            ->from('/modpacks/brothers-klaus/builds/1.2.3')
+            ->patch('/modpacks/brothers-klaus/builds/1.2.3', $this->validParams([
                 'minecraft_version' => '',
             ]));
 
-        $response->assertRedirect('/modpacks/brothers-klaus/1.2.3');
+        $response->assertRedirect('/modpacks/brothers-klaus/builds/1.2.3');
         $response->assertSessionHasErrors('minecraft_version');
         $this->assertArraySubset($this->originalParams(), $build->fresh()->getAttributes());
     }
@@ -176,12 +176,12 @@ class UpdateBuildTest extends TestCase
         $buildB = $modpack->builds()->save(factory(Build::class)->make($this->originalParams(['version' => '4.5.6'])));
 
         $response = $this->actingAs($user)
-            ->from('/modpacks/brothers-klaus/1.2.3')
-            ->post('/modpacks/brothers-klaus/1.2.3', [
+            ->from('/modpacks/brothers-klaus/builds/1.2.3')
+            ->patch('/modpacks/brothers-klaus/builds/1.2.3', [
                 'version' => '4.5.6',
             ]);
 
-        $response->assertRedirect('/modpacks/brothers-klaus/1.2.3');
+        $response->assertRedirect('/modpacks/brothers-klaus/builds/1.2.3');
         $response->assertSessionHasErrors('version');
         $this->assertArraySubset($this->originalParams(), $buildA->fresh()->getAttributes());
     }
@@ -194,11 +194,11 @@ class UpdateBuildTest extends TestCase
         $build = $modpack->builds()->save(factory(Build::class)->make($this->originalParams(['version' => '1.2.3'])));
 
         $response = $this->actingAs($user)
-            ->post('/modpacks/brothers-klaus/1.2.3', $this->validParams([
+            ->patch('/modpacks/brothers-klaus/builds/1.2.3', $this->validParams([
                 'version' => '1.2.3',
             ]));
 
-        $response->assertRedirect('/modpacks/brothers-klaus/1.2.3');
+        $response->assertRedirect('/modpacks/brothers-klaus/builds/1.2.3');
         $response->assertSessionMissing('errors');
         $this->assertArraySubset($this->validParams(['version' => '1.2.3']), $build->fresh()->getAttributes());
     }
@@ -213,12 +213,12 @@ class UpdateBuildTest extends TestCase
         $buildB = $modpackB->builds()->save(factory(Build::class)->make($this->originalParams(['version' => '4.5.6'])));
 
         $response = $this->actingAs($user)
-            ->from('/modpacks/brothers-klaus/1.2.3')
-            ->post('/modpacks/brothers-klaus/1.2.3', $this->validParams([
+            ->from('/modpacks/brothers-klaus/builds/1.2.3')
+            ->patch('/modpacks/brothers-klaus/builds/1.2.3', $this->validParams([
                 'version' => '4.5.6',
             ]));
 
-        $response->assertRedirect('/modpacks/brothers-klaus/4.5.6');
+        $response->assertRedirect('/modpacks/brothers-klaus/builds/4.5.6');
         $response->assertSessionMissing('errors');
         $this->assertArraySubset($this->validParams(['version' => '4.5.6']), $buildA->fresh()->getAttributes());
     }
@@ -231,12 +231,12 @@ class UpdateBuildTest extends TestCase
         $build = $modpack->builds()->save(factory(Build::class)->make($this->originalParams(['version' => '1.2.3'])));
 
         $response = $this->actingAs($user)
-            ->from('/modpacks/brothers-klaus/1.2.3')
-            ->post('/modpacks/brothers-klaus/1.2.3', $this->validParams([
+            ->from('/modpacks/brothers-klaus/builds/1.2.3')
+            ->patch('/modpacks/brothers-klaus/builds/1.2.3', $this->validParams([
                 'status' => '',
             ]));
 
-        $response->assertRedirect('/modpacks/brothers-klaus/1.2.3');
+        $response->assertRedirect('/modpacks/brothers-klaus/builds/1.2.3');
         $response->assertSessionHasErrors('status');
         $this->assertArraySubset($this->originalParams(), $build->fresh()->getAttributes());
     }
@@ -249,12 +249,12 @@ class UpdateBuildTest extends TestCase
         $build = $modpack->builds()->save(factory(Build::class)->make($this->originalParams(['version' => '1.2.3'])));
 
         $response = $this->actingAs($user)
-            ->from('/modpacks/brothers-klaus/1.2.3')
-            ->post('/modpacks/brothers-klaus/1.2.3', $this->validParams([
+            ->from('/modpacks/brothers-klaus/builds/1.2.3')
+            ->patch('/modpacks/brothers-klaus/builds/1.2.3', $this->validParams([
                 'status' => 'invalid',
             ]));
 
-        $response->assertRedirect('/modpacks/brothers-klaus/1.2.3');
+        $response->assertRedirect('/modpacks/brothers-klaus/builds/1.2.3');
         $response->assertSessionHasErrors('status');
         $this->assertArraySubset($this->originalParams(), $build->fresh()->getAttributes());
     }
@@ -267,11 +267,11 @@ class UpdateBuildTest extends TestCase
         $build = $modpack->builds()->save(factory(Build::class)->make($this->originalParams(['version' => '1.2.3'])));
 
         $response = $this->actingAs($user)
-            ->post('/modpacks/brothers-klaus/1.2.3', $this->validParams([
+            ->patch('/modpacks/brothers-klaus/builds/1.2.3', $this->validParams([
                 'required_memory' => '',
             ]));
 
-        $response->assertRedirect('/modpacks/brothers-klaus/4.5.6');
+        $response->assertRedirect('/modpacks/brothers-klaus/builds/4.5.6');
         $response->assertSessionMissing('errors');
         $this->assertArraySubset($this->validParams(['required_memory' => '']), $build->fresh()->getAttributes());
     }
@@ -284,12 +284,12 @@ class UpdateBuildTest extends TestCase
         $build = $modpack->builds()->save(factory(Build::class)->make($this->originalParams(['version' => '1.2.3', 'required_memory' => 1024])));
 
         $response = $this->actingAs($user)
-            ->from('/modpacks/brothers-klaus/1.2.3')
-            ->post('/modpacks/brothers-klaus/1.2.3', $this->validParams([
+            ->from('/modpacks/brothers-klaus/builds/1.2.3')
+            ->patch('/modpacks/brothers-klaus/builds/1.2.3', $this->validParams([
                 'required_memory' => '2GB',
             ]));
 
-        $response->assertRedirect('/modpacks/brothers-klaus/1.2.3');
+        $response->assertRedirect('/modpacks/brothers-klaus/builds/1.2.3');
         $response->assertSessionHasErrors('required_memory');
         $this->assertArraySubset($this->originalParams(['required_memory' => 1024]), $build->fresh()->getAttributes());
     }
@@ -302,11 +302,11 @@ class UpdateBuildTest extends TestCase
         $build = $modpack->builds()->save(factory(Build::class)->make($this->originalParams(['version' => '1.2.3'])));
 
         $response = $this->actingAs($user)
-            ->post('/modpacks/brothers-klaus/1.2.3', $this->validParams([
+            ->patch('/modpacks/brothers-klaus/builds/1.2.3', $this->validParams([
                 'java_version' => '',
             ]));
 
-        $response->assertRedirect('/modpacks/brothers-klaus/4.5.6');
+        $response->assertRedirect('/modpacks/brothers-klaus/builds/4.5.6');
         $response->assertSessionMissing('errors');
         $this->assertArraySubset($this->validParams(['java_version' => '']), $build->fresh()->getAttributes());
     }
@@ -319,11 +319,11 @@ class UpdateBuildTest extends TestCase
         $build = $modpack->builds()->save(factory(Build::class)->make($this->originalParams(['version' => '1.2.3'])));
 
         $response = $this->actingAs($user)
-            ->post('/modpacks/brothers-klaus/1.2.3', $this->validParams([
+            ->patch('/modpacks/brothers-klaus/builds/1.2.3', $this->validParams([
                 'forge_version' => '',
             ]));
 
-        $response->assertRedirect('/modpacks/brothers-klaus/4.5.6');
+        $response->assertRedirect('/modpacks/brothers-klaus/builds/4.5.6');
         $response->assertSessionMissing('errors');
         $this->assertArraySubset($this->validParams(['forge_version' => '']), $build->fresh()->getAttributes());
     }
@@ -339,7 +339,7 @@ class UpdateBuildTest extends TestCase
             'modpack_id' => $modpack->id,
         ]);
 
-        $response = $this->actingAs($user)->post('/modpacks/brothers-klaus/invalid-build', $this->validParams());
+        $response = $this->actingAs($user)->patch('/modpacks/brothers-klaus/builds/invalid-build', $this->validParams());
 
         $response->assertStatus(404);
     }
@@ -355,7 +355,7 @@ class UpdateBuildTest extends TestCase
             'modpack_id' => $modpack->id,
         ]);
 
-        $response = $this->actingAs($user)->post('/modpacks/invalid-modpack/1.2.3', $this->validParams());
+        $response = $this->actingAs($user)->patch('/modpacks/invalid-modpack/builds/1.2.3', $this->validParams());
 
         $response->assertStatus(404);
     }
@@ -370,7 +370,7 @@ class UpdateBuildTest extends TestCase
             'modpack_id' => '99',
         ]);
 
-        $response = $this->actingAs($user)->post('/modpacks/brothers-klaus/1.2.3', $this->validParams());
+        $response = $this->actingAs($user)->patch('/modpacks/brothers-klaus/builds/1.2.3', $this->validParams());
 
         $response->assertStatus(404);
     }

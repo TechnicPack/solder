@@ -67,6 +67,16 @@ class Modpack extends Model
     }
 
     /**
+     * Get the route key for the model.
+     *
+     * @return string
+     */
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
+
+    /**
      * Filter query results to public modpack, private modpacks
      * that have been authorized with the provided client token
      * and all private modpacks with a valid provided api key.

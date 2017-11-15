@@ -11,20 +11,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Modpack;
 use App\Collaborator;
 
 class CollaboratorsController extends Controller
 {
-    public function destroy($collaboratorId)
+    public function destroy(Collaborator $collaborator)
     {
-        $collaborator = Collaborator::find($collaboratorId);
-        $modpack = Modpack::find($collaborator->modpack_id);
-
-        $this->authorize('update', $modpack);
+        $this->authorize('update', $collaborator->modpack);
 
         $collaborator->delete();
 
-        return redirect('modpacks/'.$modpack->slug);
+        return redirect()->route('modpacks.show', $collaborator->modpack);
     }
 }

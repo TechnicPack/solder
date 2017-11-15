@@ -1,8 +1,9 @@
 <div class="box">
     <h1>Build Settings</h1>
     <div class="box-body">
-        <form method="post" action="/modpacks/{{ $build->modpack->slug }}/{{ $build->version }}" enctype="multipart/form-data">
+        <form method="post" action="{{ route('builds.update', [$build->modpack, $build]) }}" enctype="multipart/form-data">
             {{ csrf_field() }}
+            {{ method_field('patch') }}
 
             <div class="field is-horizontal">
                 <div class="field-label is-normal">

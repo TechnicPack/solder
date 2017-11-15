@@ -14,7 +14,6 @@ namespace App\Http\Controllers;
 use App\Package;
 use App\Release;
 use App\Facades\FileHash;
-use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Storage;
 
@@ -23,17 +22,13 @@ class PackageReleasesController extends Controller
     /**
      * Store the posted Release.
      *
-     * @param Request $request
-     *
-     * @param $packageSlug
-     *
+     * @param Package $package
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @internal param $packageSlug
      */
-    public function store(Request $request, $packageSlug)
+    public function store(Package $package)
     {
         $this->authorize('create', Release::class);
-
-        $package = Package::where('slug', $packageSlug)->firstOrFail();
 
         request()->validate([
             'version' => ['required', 'regex:/^[a-zA-Z0-9_-][.a-zA-Z0-9_-]*$/', Rule::unique('releases')->where('package_id', $package->id)],
@@ -42,16 +37,16 @@ class PackageReleasesController extends Controller
 
         $archive = request()
             ->file('archive')
-            ->storeAs($package->slug, "{$package->slug}-{$request->version}.zip");
+            ->storeAs($package->slug, "{$package->slug}-".request('version').'.zip');
 
         Release::create([
             'package_id' => $package->id,
-            'version' => $request->version,
+            'version' => request('version'),
             'path' => $archive,
             'md5' => FileHash::hash(Storage::url($archive)),
             'filesize' => request()->file('archive')->getSize(),
         ]);
 
-        return redirect("/library/$packageSlug");
+        return redirect("/library/$package->slug");
     }
 }

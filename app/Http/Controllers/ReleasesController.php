@@ -18,14 +18,11 @@ class ReleasesController extends Controller
     /**
      * Delete a release.
      *
-     * @param $releaseId
-     *
+     * @param Release $release
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
      */
-    public function destroy($releaseId)
+    public function destroy(Release $release)
     {
-        $release = Release::findOrFail($releaseId);
-
         $this->authorize('delete', $release);
 
         $release->delete();

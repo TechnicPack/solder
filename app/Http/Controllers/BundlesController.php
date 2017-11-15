@@ -27,7 +27,7 @@ class BundlesController extends Controller
             'release_id' => request()->release_id,
         ]);
 
-        return redirect('/modpacks/'.$bundle->build->modpack->slug.'/'.$bundle->build->version);
+        return redirect()->route('builds.show', [$bundle->build->modpack, $bundle->build]);
     }
 
     /**

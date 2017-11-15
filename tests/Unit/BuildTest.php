@@ -41,4 +41,16 @@ class BuildTest extends TestCase
 
         $this->assertEquals('3 days ago', $build->created);
     }
+
+    /** @test **/
+    public function can_get_build_from_modpack_slug_and_build_version()
+    {
+        $otherBuild = factory(Build::class)->create(['version' => '1.2.3']);
+        $modpack = factory(Modpack::class)->create(['slug' => 'b-team']);
+        $build = factory(Build::class)->create(['modpack_id' => $modpack->id, 'version' => '1.2.3']);
+
+        $result = Build::findByModpackSlugAndBuildVersion('b-team', '1.2.3');
+
+        $this->assertTrue($result->is($build));
+    }
 }

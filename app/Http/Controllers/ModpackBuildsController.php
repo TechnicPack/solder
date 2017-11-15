@@ -21,26 +21,16 @@ class ModpackBuildsController extends Controller
     /**
      * Show the modpack build.
      *
-     * @param $modpackSlug
-     * @param $buildVersion
-     *
+     * @param Modpack $modpack
+     * @param Build $build
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function show($modpackSlug, $buildVersion)
+    public function show(Modpack $modpack, Build $build)
     {
-        $modpack = Modpack::where('slug', $modpackSlug)
-            ->with(['builds' => function ($query) {
-                $query->orderBy('version', 'desc');
-            }])
-            ->firstOrFail();
-
-        $build = Build::with(['releases.package', 'releases' => function ($query) {
+        $build->load(['releases.package', 'releases' => function ($query) {
             $query->join('packages', 'releases.package_id', '=', 'packages.id')
                 ->orderBy('packages.name');
-        }])
-            ->where('modpack_id', $modpack->id)
-            ->where('version', $buildVersion)
-            ->firstOrFail();
+        }]);
 
         return view('builds.show', [
             'modpack' => $modpack,
@@ -52,14 +42,11 @@ class ModpackBuildsController extends Controller
     /**
      * Store the passed data as a build.
      *
-     * @param $modpackSlug
-     *
+     * @param Modpack $modpack
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function store($modpackSlug)
+    public function store(Modpack $modpack)
     {
-        $modpack = Modpack::where('slug', $modpackSlug)->first();
-
         $this->authorize('update', $modpack);
 
         request()->validate([
@@ -69,7 +56,7 @@ class ModpackBuildsController extends Controller
             'required_memory' => ['nullable', 'numeric'],
         ]);
 
-        $build = $modpack->builds()->create([
+        $modpack->builds()->create([
             'version' => request('version'),
             'minecraft_version' => request('minecraft_version'),
             'status' => request('status'),
@@ -78,22 +65,18 @@ class ModpackBuildsController extends Controller
             'forge_version' => request('forge_version'),
         ]);
 
-        return redirect("/modpacks/$modpackSlug");
+        return redirect()->route('modpacks.show', $modpack);
     }
 
     /**
      * Update a build.
      *
-     * @param $modpackSlug
-     * @param $buildVersion
-     *
+     * @param Modpack $modpack
+     * @param Build $build
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function update($modpackSlug, $buildVersion)
+    public function update(Modpack $modpack, Build $build)
     {
-        $modpack = Modpack::where('slug', $modpackSlug)->firstOrFail();
-        $build = $modpack->builds()->where('version', $buildVersion)->firstOrFail();
-
         $this->authorize('update', $modpack);
 
         request()->validate([
@@ -112,28 +95,22 @@ class ModpackBuildsController extends Controller
             'forge_version',
         ]));
 
-        return redirect("/modpacks/$modpackSlug/{$build->version}");
+        return redirect()->route('builds.show', [$modpack, $build]);
     }
 
     /**
      * Remove build from application.
      *
-     * @param $modpackSlug
-     * @param $buildVersion
-     *
+     * @param Modpack $modpack
+     * @param Build $build
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function destroy($modpackSlug, $buildVersion)
+    public function destroy(Modpack $modpack, Build $build)
     {
-        $modpack = Modpack::where('slug', $modpackSlug)->firstOrFail();
         $this->authorize('update', $modpack);
-
-        $build = Build::where('version', $buildVersion)
-            ->where('modpack_id', $modpack->id)
-            ->firstOrFail();
 
         $build->delete();
 
-        return redirect("/modpacks/$modpackSlug");
+        return redirect()->route('modpacks.show', $modpack);
     }
 }

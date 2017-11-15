@@ -31,17 +31,14 @@ class PackagesController extends Controller
     /**
      * Show details of a specific package and its releases.
      *
-     * @param $packageSlug
-     *
+     * @param Package $package
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function show($packageSlug)
+    public function show(Package $package)
     {
-        $package = Package::where('slug', $packageSlug)
-            ->with(['releases' => function ($query) {
-                $query->orderBy('version', 'desc');
-            }])
-            ->first();
+        $package->load(['releases' => function ($query) {
+            $query->orderBy('version', 'desc');
+        }]);
 
         return view('packages.show', [
             'package' => $package,
@@ -77,10 +74,8 @@ class PackagesController extends Controller
         return redirect('library/'.$package->slug);
     }
 
-    public function update($packageSlug)
+    public function update(Package $package)
     {
-        $package = Package::where('slug', $packageSlug)->firstOrFail();
-
         $this->authorize('update', $package);
 
         request()->validate([
@@ -100,10 +95,8 @@ class PackagesController extends Controller
         return redirect('library/'.$package->slug);
     }
 
-    public function destroy($packageSlug)
+    public function destroy(Package $package)
     {
-        $package = Package::where('slug', $packageSlug)->firstOrFail();
-
         $this->authorize('delete', $package);
 
         $package->delete();

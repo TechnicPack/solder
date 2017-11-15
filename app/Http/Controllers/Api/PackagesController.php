@@ -30,12 +30,13 @@ class PackagesController extends Controller
     /**
      * Return details about a specific package.
      *
-     * @param Package $package
-     *
+     * @param $packageId
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show(Package $package)
+    public function show($packageId)
     {
+        $package = Package::findOrFail($packageId);
+
         return fractal($package, new PackageTransformer())->respond();
     }
 }

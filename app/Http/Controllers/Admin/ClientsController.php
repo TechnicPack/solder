@@ -52,14 +52,11 @@ class ClientsController extends Controller
     /**
      * Delete the client.
      *
-     * @param $clientId
-     *
+     * @param Client $client
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function destroy($clientId)
+    public function destroy(Client $client)
     {
-        $client = Client::find($clientId);
-
         $this->authorize('delete', $client);
 
         $client->delete();

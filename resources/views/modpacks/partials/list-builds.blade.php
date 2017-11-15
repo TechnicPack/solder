@@ -17,7 +17,7 @@
         @foreach($modpack->builds as $build)
             <tr>
                 <td>
-                    <a href="/modpacks/{{ $modpack->slug }}/{{ $build->version }}">
+                    <a href="{{ route('builds.show', [$modpack, $build]) }}">
                         <strong>{{ $build->version }}</strong>
                         @if($build->status == 'private')
                             <span class="tag">private</span>
@@ -32,7 +32,7 @@
                 <td>{{ $build->java_version }}</td>
                 <td>{{ $build->required_memory }}</td>
                 <td class="has-text-centered is-narrow">
-                    <form method="post" action="/modpacks/{{ $modpack->slug }}">
+                    <form method="post" action="{{ route('modpacks.update', $build->modpack) }}">
                         {{ csrf_field() }}
                         {{ method_field('patch') }}
                         <input type="hidden" name="recommended_build_id" value="{{ $build->id }}" />
@@ -49,7 +49,7 @@
                     </form>
                 </td>
                 <td class="has-text-centered is-narrow">
-                    <form method="post" action="/modpacks/{{ $modpack->slug }}">
+                    <form method="post" action="{{ route('modpacks.update', $build->modpack) }}">
                         {{ csrf_field() }}
                         {{ method_field('patch') }}
                         <input type="hidden" name="latest_build_id" value="{{ $build->id }}" />
@@ -66,7 +66,7 @@
                     </form>
                 </td>
                 <td class="has-text-right">
-                    <form method="post" action="/modpacks/{{ $modpack->slug }}/{{ $build->version }}">
+                    <form method="post" action="{{ route('builds.destroy', [$modpack, $build]) }}">
                         {{ csrf_field() }}
                         {{ method_field('delete') }}
                         <button class="button is-danger is-small is-outlined">Delete</button>

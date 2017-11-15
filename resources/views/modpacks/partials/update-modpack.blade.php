@@ -1,7 +1,7 @@
 <div class="box">
     <h1>Modpack Settings</h1>
     <div class="box-body">
-        <form method="post" action="/modpacks/{{ $modpack->slug }}" enctype="multipart/form-data">
+        <form method="post" action="{{ route('modpacks.update', $modpack) }}" enctype="multipart/form-data">
             {{ csrf_field() }}
             {{ method_field('patch') }}
 

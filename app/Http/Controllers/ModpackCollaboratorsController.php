@@ -15,10 +15,8 @@ use App\Modpack;
 
 class ModpackCollaboratorsController extends Controller
 {
-    public function store($modpackSlug)
+    public function store(Modpack $modpack)
     {
-        $modpack = Modpack::where('slug', $modpackSlug)->first();
-
         $this->authorize('update', $modpack);
 
         request()->validate([
@@ -27,6 +25,6 @@ class ModpackCollaboratorsController extends Controller
 
         $modpack->addCollaborator(request('user_id'));
 
-        return redirect('modpacks/'.$modpackSlug);
+        return redirect()->route('modpacks.show', $modpack);
     }
 }
