@@ -33,7 +33,8 @@ class LoginTest extends DuskTestCase
                 ->type('email', 'jane@example.com')
                 ->type('password', 'super-secret-password')
                 ->press('Log in')
-                ->assertPathIs('/');
+                ->assertPathIs('/')
+                ->clickLink(' Log Out ');
         });
     }
 
@@ -47,6 +48,7 @@ class LoginTest extends DuskTestCase
 
         $this->browse(function (Browser $browser) {
             $browser->visit('/library')
+                ->assertPathIs('/login')
                 ->type('email', 'jane@example.com')
                 ->type('password', 'super-secret-password')
                 ->press('Log in')
