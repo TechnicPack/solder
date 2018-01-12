@@ -14,6 +14,14 @@ Route::group(['middleware' => 'auth:api', 'namespace' => 'Api'], function () {
     Route::get('packages/{package}', 'PackagesController@show');
 });
 
+Route::get('/', function () {
+    return response()->json([
+       'api' => 'SolderIO',
+       'version' => config('app.version'),
+       'stream' => config('app.env'),
+   ]);
+});
+
 Route::get('verify/{token}', 'Api\VerifyToken');
 Route::get('modpack', 'Api\ModpackController@index');
 Route::get('modpack/{slug}', 'Api\ModpackController@show');

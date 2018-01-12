@@ -25,6 +25,22 @@ class LegacyEndpointsTest extends TestCase
 {
     use RefreshDatabase;
 
+    /** @test **/
+    public function can_get_api_details()
+    {
+        config(['app.version' => '1.2.3']);
+        config(['app.env' => 'production']);
+
+        $response = $this->get('/api');
+
+        $response->assertStatus(200);
+        $response->assertExactJson([
+            'api' => 'SolderIO',
+            'version' => '1.2.3',
+            'stream' => 'production',
+        ]);
+    }
+
     /** @test */
     public function verify_a_valid_api_key()
     {
