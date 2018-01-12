@@ -52,7 +52,7 @@ class ModpackController extends Controller
 
                 return $modpack->name;
             }),
-            'mirror_url' => config('services.technic.repo', request()->getHttpHost().'/repo/'),
+            'mirror_url' => config('app.repo'),
         ]);
     }
 
