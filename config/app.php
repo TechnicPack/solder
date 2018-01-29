@@ -36,7 +36,6 @@ return [
 
     'version' => '0.8.0-beta',
 
-
     /*
     |--------------------------------------------------------------------------
     | Application Repository
@@ -47,7 +46,7 @@ return [
     | under the control of solder then you can designate that url here.
     */
 
-    'repo' => env('APP_REPO', env('APP_URL', 'http://localhost') . '/repo'),
+    'repo' => env('APP_REPO', env('APP_URL', 'http://localhost').'/repo'),
 
     /*
     |--------------------------------------------------------------------------
