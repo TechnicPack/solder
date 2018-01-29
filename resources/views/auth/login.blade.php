@@ -55,6 +55,9 @@
 
                 <form method="post" action="/login">
                     {{ csrf_field() }}
+                    @if(session('next') !== null)
+                        <input type="hidden" name="next" value="{{ session('next') }}">
+                    @endif
 
                     <div class="field">
                         <label class="label sr-only">Email Address</label>

@@ -33,7 +33,26 @@ class LoginTest extends DuskTestCase
                 ->type('email', 'jane@example.com')
                 ->type('password', 'super-secret-password')
                 ->press('Log in')
-                ->assertPathIs('/');
+                ->assertPathIs('/')
+                ->clickLink(' Log Out ');
+        });
+    }
+
+    /** @test */
+    public function logging_in_successfully_from_previous_page()
+    {
+        factory(User::class)->create([
+            'email' => 'jane@example.com',
+            'password' => bcrypt('super-secret-password'),
+        ]);
+
+        $this->browse(function (Browser $browser) {
+            $browser->visit('/library')
+                ->assertPathIs('/login')
+                ->type('email', 'jane@example.com')
+                ->type('password', 'super-secret-password')
+                ->press('Log in')
+                ->assertPathIs('/library');
         });
     }
 
