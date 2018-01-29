@@ -21,7 +21,7 @@ cache:
     - $HOME/.composer/cache
 
 install:
-  - travis_retry composer update --prefer-dist --no-interaction --prefer-stable --no-suggest
+  - travis_retry composer install --prefer-dist --no-interaction --prefer-stable --no-suggest
 
 before_script:
    - php artisan passport:keys
