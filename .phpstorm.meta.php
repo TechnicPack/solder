@@ -3,7 +3,7 @@ namespace PHPSTORM_META {
 
    /**
     * PhpStorm Meta file, to provide autocomplete information for PhpStorm
-    * Generated on 2018-01-12.
+    * Generated on 2018-01-29.
     *
     * @author Barry vd. Heuvel <barryvdh@gmail.com>
     * @see https://github.com/barryvdh/laravel-ide-helper
@@ -42,11 +42,11 @@ namespace PHPSTORM_META {
         'view' => \Illuminate\View\Factory::class,
         'view.finder' => \Illuminate\View\FileViewFinder::class,
         'view.engine.resolver' => \Illuminate\View\Engines\EngineResolver::class,
-        'fractal' => \Spatie\Fractal\Fractal::class,
         'Barryvdh\Debugbar\LaravelDebugbar' => \Barryvdh\Debugbar\LaravelDebugbar::class,
         'command.debugbar.clear' => \Barryvdh\Debugbar\Console\ClearCommand::class,
         'League\OAuth2\Server\AuthorizationServer' => \League\OAuth2\Server\AuthorizationServer::class,
         'League\OAuth2\Server\ResourceServer' => \League\OAuth2\Server\ResourceServer::class,
+        'fractal' => \Spatie\Fractal\Fractal::class,
         'App\FileHashGenerator' => \App\Md5HashGenerator::class,
         'blade.compiler' => \Illuminate\View\Compilers\BladeCompiler::class,
         'Illuminate\Console\Scheduling\Schedule' => \Illuminate\Console\Scheduling\Schedule::class,
@@ -141,10 +141,10 @@ namespace PHPSTORM_META {
         'translation.loader' => \Illuminate\Translation\FileLoader::class,
         'translator' => \Illuminate\Translation\Translator::class,
         'validation.presence' => \Illuminate\Validation\DatabasePresenceVerifier::class,
-        'command.tinker' => \Laravel\Tinker\Console\TinkerCommand::class,
         'command.ide-helper.generate' => \Barryvdh\LaravelIdeHelper\Console\GeneratorCommand::class,
         'command.ide-helper.models' => \Barryvdh\LaravelIdeHelper\Console\ModelsCommand::class,
         'command.ide-helper.meta' => \Barryvdh\LaravelIdeHelper\Console\MetaCommand::class,
+        'command.tinker' => \Laravel\Tinker\Console\TinkerCommand::class,
     ]));
     override(\Illuminate\Contracts\Container\Container::make(0), map([
         '' => '@',
@@ -180,11 +180,11 @@ namespace PHPSTORM_META {
         'view' => \Illuminate\View\Factory::class,
         'view.finder' => \Illuminate\View\FileViewFinder::class,
         'view.engine.resolver' => \Illuminate\View\Engines\EngineResolver::class,
-        'fractal' => \Spatie\Fractal\Fractal::class,
         'Barryvdh\Debugbar\LaravelDebugbar' => \Barryvdh\Debugbar\LaravelDebugbar::class,
         'command.debugbar.clear' => \Barryvdh\Debugbar\Console\ClearCommand::class,
         'League\OAuth2\Server\AuthorizationServer' => \League\OAuth2\Server\AuthorizationServer::class,
         'League\OAuth2\Server\ResourceServer' => \League\OAuth2\Server\ResourceServer::class,
+        'fractal' => \Spatie\Fractal\Fractal::class,
         'App\FileHashGenerator' => \App\Md5HashGenerator::class,
         'blade.compiler' => \Illuminate\View\Compilers\BladeCompiler::class,
         'Illuminate\Console\Scheduling\Schedule' => \Illuminate\Console\Scheduling\Schedule::class,
@@ -279,10 +279,10 @@ namespace PHPSTORM_META {
         'translation.loader' => \Illuminate\Translation\FileLoader::class,
         'translator' => \Illuminate\Translation\Translator::class,
         'validation.presence' => \Illuminate\Validation\DatabasePresenceVerifier::class,
-        'command.tinker' => \Laravel\Tinker\Console\TinkerCommand::class,
         'command.ide-helper.generate' => \Barryvdh\LaravelIdeHelper\Console\GeneratorCommand::class,
         'command.ide-helper.models' => \Barryvdh\LaravelIdeHelper\Console\ModelsCommand::class,
         'command.ide-helper.meta' => \Barryvdh\LaravelIdeHelper\Console\MetaCommand::class,
+        'command.tinker' => \Laravel\Tinker\Console\TinkerCommand::class,
     ]));
     override(\Illuminate\Contracts\Container\Container::makeWith(0), map([
         '' => '@',
@@ -318,11 +318,11 @@ namespace PHPSTORM_META {
         'view' => \Illuminate\View\Factory::class,
         'view.finder' => \Illuminate\View\FileViewFinder::class,
         'view.engine.resolver' => \Illuminate\View\Engines\EngineResolver::class,
-        'fractal' => \Spatie\Fractal\Fractal::class,
         'Barryvdh\Debugbar\LaravelDebugbar' => \Barryvdh\Debugbar\LaravelDebugbar::class,
         'command.debugbar.clear' => \Barryvdh\Debugbar\Console\ClearCommand::class,
         'League\OAuth2\Server\AuthorizationServer' => \League\OAuth2\Server\AuthorizationServer::class,
         'League\OAuth2\Server\ResourceServer' => \League\OAuth2\Server\ResourceServer::class,
+        'fractal' => \Spatie\Fractal\Fractal::class,
         'App\FileHashGenerator' => \App\Md5HashGenerator::class,
         'blade.compiler' => \Illuminate\View\Compilers\BladeCompiler::class,
         'Illuminate\Console\Scheduling\Schedule' => \Illuminate\Console\Scheduling\Schedule::class,
@@ -417,10 +417,10 @@ namespace PHPSTORM_META {
         'translation.loader' => \Illuminate\Translation\FileLoader::class,
         'translator' => \Illuminate\Translation\Translator::class,
         'validation.presence' => \Illuminate\Validation\DatabasePresenceVerifier::class,
-        'command.tinker' => \Laravel\Tinker\Console\TinkerCommand::class,
         'command.ide-helper.generate' => \Barryvdh\LaravelIdeHelper\Console\GeneratorCommand::class,
         'command.ide-helper.models' => \Barryvdh\LaravelIdeHelper\Console\ModelsCommand::class,
         'command.ide-helper.meta' => \Barryvdh\LaravelIdeHelper\Console\MetaCommand::class,
+        'command.tinker' => \Laravel\Tinker\Console\TinkerCommand::class,
     ]));
     override(\App::make(0), map([
         '' => '@',
@@ -456,11 +456,11 @@ namespace PHPSTORM_META {
         'view' => \Illuminate\View\Factory::class,
         'view.finder' => \Illuminate\View\FileViewFinder::class,
         'view.engine.resolver' => \Illuminate\View\Engines\EngineResolver::class,
-        'fractal' => \Spatie\Fractal\Fractal::class,
         'Barryvdh\Debugbar\LaravelDebugbar' => \Barryvdh\Debugbar\LaravelDebugbar::class,
         'command.debugbar.clear' => \Barryvdh\Debugbar\Console\ClearCommand::class,
         'League\OAuth2\Server\AuthorizationServer' => \League\OAuth2\Server\AuthorizationServer::class,
         'League\OAuth2\Server\ResourceServer' => \League\OAuth2\Server\ResourceServer::class,
+        'fractal' => \Spatie\Fractal\Fractal::class,
         'App\FileHashGenerator' => \App\Md5HashGenerator::class,
         'blade.compiler' => \Illuminate\View\Compilers\BladeCompiler::class,
         'Illuminate\Console\Scheduling\Schedule' => \Illuminate\Console\Scheduling\Schedule::class,
@@ -555,10 +555,10 @@ namespace PHPSTORM_META {
         'translation.loader' => \Illuminate\Translation\FileLoader::class,
         'translator' => \Illuminate\Translation\Translator::class,
         'validation.presence' => \Illuminate\Validation\DatabasePresenceVerifier::class,
-        'command.tinker' => \Laravel\Tinker\Console\TinkerCommand::class,
         'command.ide-helper.generate' => \Barryvdh\LaravelIdeHelper\Console\GeneratorCommand::class,
         'command.ide-helper.models' => \Barryvdh\LaravelIdeHelper\Console\ModelsCommand::class,
         'command.ide-helper.meta' => \Barryvdh\LaravelIdeHelper\Console\MetaCommand::class,
+        'command.tinker' => \Laravel\Tinker\Console\TinkerCommand::class,
     ]));
     override(\App::makeWith(0), map([
         '' => '@',
@@ -594,11 +594,11 @@ namespace PHPSTORM_META {
         'view' => \Illuminate\View\Factory::class,
         'view.finder' => \Illuminate\View\FileViewFinder::class,
         'view.engine.resolver' => \Illuminate\View\Engines\EngineResolver::class,
-        'fractal' => \Spatie\Fractal\Fractal::class,
         'Barryvdh\Debugbar\LaravelDebugbar' => \Barryvdh\Debugbar\LaravelDebugbar::class,
         'command.debugbar.clear' => \Barryvdh\Debugbar\Console\ClearCommand::class,
         'League\OAuth2\Server\AuthorizationServer' => \League\OAuth2\Server\AuthorizationServer::class,
         'League\OAuth2\Server\ResourceServer' => \League\OAuth2\Server\ResourceServer::class,
+        'fractal' => \Spatie\Fractal\Fractal::class,
         'App\FileHashGenerator' => \App\Md5HashGenerator::class,
         'blade.compiler' => \Illuminate\View\Compilers\BladeCompiler::class,
         'Illuminate\Console\Scheduling\Schedule' => \Illuminate\Console\Scheduling\Schedule::class,
@@ -693,10 +693,10 @@ namespace PHPSTORM_META {
         'translation.loader' => \Illuminate\Translation\FileLoader::class,
         'translator' => \Illuminate\Translation\Translator::class,
         'validation.presence' => \Illuminate\Validation\DatabasePresenceVerifier::class,
-        'command.tinker' => \Laravel\Tinker\Console\TinkerCommand::class,
         'command.ide-helper.generate' => \Barryvdh\LaravelIdeHelper\Console\GeneratorCommand::class,
         'command.ide-helper.models' => \Barryvdh\LaravelIdeHelper\Console\ModelsCommand::class,
         'command.ide-helper.meta' => \Barryvdh\LaravelIdeHelper\Console\MetaCommand::class,
+        'command.tinker' => \Laravel\Tinker\Console\TinkerCommand::class,
     ]));
     override(\app(0), map([
         '' => '@',
@@ -732,11 +732,11 @@ namespace PHPSTORM_META {
         'view' => \Illuminate\View\Factory::class,
         'view.finder' => \Illuminate\View\FileViewFinder::class,
         'view.engine.resolver' => \Illuminate\View\Engines\EngineResolver::class,
-        'fractal' => \Spatie\Fractal\Fractal::class,
         'Barryvdh\Debugbar\LaravelDebugbar' => \Barryvdh\Debugbar\LaravelDebugbar::class,
         'command.debugbar.clear' => \Barryvdh\Debugbar\Console\ClearCommand::class,
         'League\OAuth2\Server\AuthorizationServer' => \League\OAuth2\Server\AuthorizationServer::class,
         'League\OAuth2\Server\ResourceServer' => \League\OAuth2\Server\ResourceServer::class,
+        'fractal' => \Spatie\Fractal\Fractal::class,
         'App\FileHashGenerator' => \App\Md5HashGenerator::class,
         'blade.compiler' => \Illuminate\View\Compilers\BladeCompiler::class,
         'Illuminate\Console\Scheduling\Schedule' => \Illuminate\Console\Scheduling\Schedule::class,
@@ -831,10 +831,10 @@ namespace PHPSTORM_META {
         'translation.loader' => \Illuminate\Translation\FileLoader::class,
         'translator' => \Illuminate\Translation\Translator::class,
         'validation.presence' => \Illuminate\Validation\DatabasePresenceVerifier::class,
-        'command.tinker' => \Laravel\Tinker\Console\TinkerCommand::class,
         'command.ide-helper.generate' => \Barryvdh\LaravelIdeHelper\Console\GeneratorCommand::class,
         'command.ide-helper.models' => \Barryvdh\LaravelIdeHelper\Console\ModelsCommand::class,
         'command.ide-helper.meta' => \Barryvdh\LaravelIdeHelper\Console\MetaCommand::class,
+        'command.tinker' => \Laravel\Tinker\Console\TinkerCommand::class,
     ]));
     override(\resolve(0), map([
         '' => '@',
@@ -870,11 +870,11 @@ namespace PHPSTORM_META {
         'view' => \Illuminate\View\Factory::class,
         'view.finder' => \Illuminate\View\FileViewFinder::class,
         'view.engine.resolver' => \Illuminate\View\Engines\EngineResolver::class,
-        'fractal' => \Spatie\Fractal\Fractal::class,
         'Barryvdh\Debugbar\LaravelDebugbar' => \Barryvdh\Debugbar\LaravelDebugbar::class,
         'command.debugbar.clear' => \Barryvdh\Debugbar\Console\ClearCommand::class,
         'League\OAuth2\Server\AuthorizationServer' => \League\OAuth2\Server\AuthorizationServer::class,
         'League\OAuth2\Server\ResourceServer' => \League\OAuth2\Server\ResourceServer::class,
+        'fractal' => \Spatie\Fractal\Fractal::class,
         'App\FileHashGenerator' => \App\Md5HashGenerator::class,
         'blade.compiler' => \Illuminate\View\Compilers\BladeCompiler::class,
         'Illuminate\Console\Scheduling\Schedule' => \Illuminate\Console\Scheduling\Schedule::class,
@@ -969,10 +969,10 @@ namespace PHPSTORM_META {
         'translation.loader' => \Illuminate\Translation\FileLoader::class,
         'translator' => \Illuminate\Translation\Translator::class,
         'validation.presence' => \Illuminate\Validation\DatabasePresenceVerifier::class,
-        'command.tinker' => \Laravel\Tinker\Console\TinkerCommand::class,
         'command.ide-helper.generate' => \Barryvdh\LaravelIdeHelper\Console\GeneratorCommand::class,
         'command.ide-helper.models' => \Barryvdh\LaravelIdeHelper\Console\ModelsCommand::class,
         'command.ide-helper.meta' => \Barryvdh\LaravelIdeHelper\Console\MetaCommand::class,
+        'command.tinker' => \Laravel\Tinker\Console\TinkerCommand::class,
     ]));
 
     override(\Illuminate\Support\Arr::add(0), type(0));
