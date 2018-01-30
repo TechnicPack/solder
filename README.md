@@ -1,4 +1,4 @@
-# Solder [![Build Status](https://travis-ci.org/JeffreyWay/council.svg?branch=master)](https://travis-ci.org/JeffreyWay/council)
+# Solder [![Build Status](https://travis-ci.org/solderio/solder.svg?branch=master)](https://travis-ci.org/solderio/solder) [![Style](https://styleci.io/repos/32042637/shield?style=flat&branch=master)](https://styleci.io/repos/32042637)
 
 Supercharge Your Modpack with Solder. Build, and maintain multiple versions of modpacks and manage all required downloads in one place. 
 
