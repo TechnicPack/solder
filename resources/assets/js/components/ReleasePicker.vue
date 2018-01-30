@@ -8,7 +8,7 @@
                 <div class="field">
                     <div class="control is-expanded">
                         <div class="select is-fullwidth" :class="{ 'is-loading': loadingPackage }">
-                            <select name="package_id" v-model="selectedPackage">
+                            <select id="package" name="package_id" v-model="selectedPackage">
                                 <option v-for="package in packages" :value="package.id">
                                     {{ package.name }}
                                 </option>
@@ -52,6 +52,7 @@
 </template>
 
 <script>
+    import axios from 'axios';
     export default {
         data() {
             return {
@@ -67,7 +68,9 @@
         mounted() {
             axios.get('/api/packages')
                 .then((response) => {
-                    this.packages = response.data.data;
+                    this.packages = response.data.data.sort(function compare(a, b) {
+                        return a.name.localeCompare(b.name);
+                    });
                     this.selectedPackage = this.packages[0].id;
                     this.loadingPackage = false;
                 })
