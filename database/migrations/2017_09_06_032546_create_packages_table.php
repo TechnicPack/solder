@@ -27,9 +27,9 @@ class CreatePackagesTable extends Migration
             $table->string('name');
             $table->string('slug')->unique();
             $table->string('author')->nullable();
-            $table->string('website_url')->nullable();
-            $table->string('donation_url')->nullable();
-            $table->string('description')->nullable();
+            $table->text('website_url')->nullable();
+            $table->text('donation_url')->nullable();
+            $table->text('description')->nullable();
             $table->timestamps();
         });
     }
