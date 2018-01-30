@@ -88,13 +88,14 @@ class InstallCommand extends Command
     {
         $this->updateEnvironmentFile([
             'DB_DATABASE' => $this->ask('Database name', 'solder'),
+            'DB_HOST' => $this->ask('Database host', 'localhost'),
             'DB_PORT' => $this->ask('Database port', 3306),
             'DB_USERNAME' => $this->ask('Database user'),
             'DB_PASSWORD' => $this->secret('Database password ("null" for no password)'),
         ]);
 
         if ($this->confirm('Do you want to migrate the database?', false)) {
-            if ($this->call('migrate', ['--seed'])) {
+            if ($this->call('migrate', ['--seed', '--force'])) {
                 $this->line('~ Database successfully migrated');
             }
         }
