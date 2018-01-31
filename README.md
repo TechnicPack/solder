@@ -11,7 +11,7 @@ Supercharge Your Modpack with Solder. Build, and maintain multiple versions of m
 Begin by cloning this repository to your machine, and installing all dependencies.
 
 ```bash
-git clone git@github.com:solderio/solder.git
+git clone https://github.com/solderio/solder.git
 cd solder && composer install --no-dev
 php artisan solder:install
 ```
