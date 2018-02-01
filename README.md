@@ -1,4 +1,4 @@
-# Solder [![Build Status](https://travis-ci.org/solderio/solder.svg?branch=master)](https://travis-ci.org/solderio/solder) [![Style](https://styleci.io/repos/32042637/shield?style=flat&branch=master)](https://styleci.io/repos/32042637) [![Maintainability](https://api.codeclimate.com/v1/badges/583fba700663d63e4b6c/maintainability)](https://codeclimate.com/github/solderio/solder/maintainability)
+# Solder [![Build Status](https://travis-ci.org/solderio/solder.svg?branch=master)](https://travis-ci.org/solderio/solder) [![Style](https://styleci.io/repos/32042637/shield?style=flat&branch=master)](https://styleci.io/repos/32042637) [![Maintainability](https://api.codeclimate.com/v1/badges/583fba700663d63e4b6c/maintainability)](https://codeclimate.com/github/solderio/solder/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/583fba700663d63e4b6c/test_coverage)](https://codeclimate.com/github/solderio/solder/test_coverage)
 
 Supercharge Your Modpack with Solder. Build, and maintain multiple versions of modpacks and manage all required downloads in one place. 
 
