@@ -106,7 +106,7 @@ class InstallCommand extends Command
      */
     private function generateApiKey()
     {
-        if ($this->call('passport:keys')) {
+        if ($this->call('passport:install')) {
             $this->line('~ Api keys properly generated');
         }
     }
