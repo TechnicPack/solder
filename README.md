@@ -12,7 +12,8 @@ Begin by cloning this repository to your machine, and installing all dependencie
 
 ```bash
 git clone https://github.com/solderio/solder.git
-cd solder && composer install --no-dev
+cd solder && composer install --no-dev && npm install --only=production
+npm run production
 php artisan solder:install
 ```
 

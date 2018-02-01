@@ -9,8 +9,8 @@
                     <div class="control is-expanded">
                         <div class="select is-fullwidth" :class="{ 'is-loading': loadingPackage }">
                             <select id="package" name="package_id" v-model="selectedPackage">
-                                <option v-for="package in packages" :value="package.id">
-                                    {{ package.name }}
+                                <option v-for="packageItem in packages" :value="packageItem.id">
+                                    {{ packageItem.name }}
                                 </option>
                             </select>
                         </div>
