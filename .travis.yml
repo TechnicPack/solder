@@ -19,11 +19,14 @@ matrix:
 cache:
   directories:
     - $HOME/.composer/cache
+    - $HOME/.npm
 
 install:
   - travis_retry composer install --prefer-dist --no-interaction --no-suggest
+  - travis_retry npm install
 
 before_script:
+   - npm run dev
    - php artisan passport:keys
    - touch database/database.sqlite
    - google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222 http://localhost &
