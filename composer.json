@@ -54,8 +54,8 @@
         ],
         "post-update-cmd": [
             "Illuminate\\Foundation\\ComposerScripts::postUpdate",
-            "php artisan ide-helper:generate",
-            "php artisan ide-helper:meta",
+            "if [ -d ./vendor/barryvdh/laravel-ide-helper ]; then php artisan ide-helper:generate; fi",
+            "if [ -d ./vendor/barryvdh/laravel-ide-helper ]; then php artisan ide-helper:meta; fi",
             "php artisan optimize"
         ]
     },
