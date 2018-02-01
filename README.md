@@ -6,7 +6,7 @@ Supercharge Your Modpack with Solder. Build, and maintain multiple versions of m
 
 ### Step 1
 
-> To run this project, you must have PHP 7 installed as a prerequisite.
+> To run this project, you must have PHP 7, composer and npm installed as a prerequisites.
 
 Begin by cloning this repository to your machine, and installing all dependencies.
 
