@@ -10,20 +10,22 @@
     "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
     "test": "cross-env NODE_ENV=test mocha-webpack --webpack-config=node_modules/laravel-mix/setup/webpack.config.js --require tests/Components/setup.js tests/Components/**/*.spec.js"
   },
-  "devDependencies": {
-    "@vue/test-utils": "^1.0.0-beta.11",
+  "dependencies": {
     "axios": "^0.16.2",
     "bulma": "^0.5.3",
     "cross-env": "^5.0.1",
+    "laravel-mix": "^2.0",
+    "lodash": "^4.17.4",
+    "vue": "^2.1.10"
+  },
+  "devDependencies": {
+    "@vue/test-utils": "^1.0.0-beta.11",
     "expect": "^22.1.0",
     "jsdom": "^11.6.1",
     "jsdom-global": "^3.0.2",
-    "laravel-mix": "^1.0",
-    "lodash": "^4.17.4",
     "mocha": "^5.0.0",
     "mocha-webpack": "^1.0.1",
-    "moxios": "^0.4.0",
-    "vue": "^2.1.10"
+    "moxios": "^0.4.0"
   },
   "version": "0.8.0-0"
 }
