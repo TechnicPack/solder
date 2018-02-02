@@ -95,7 +95,7 @@ class InstallCommand extends Command
         ]);
 
         if ($this->confirm('Do you want to migrate the database?', false)) {
-            if ($this->call('migrate', ['--seed', '--force'])) {
+            if ($this->call('migrate', ['--seed' => true, '--force' => true])) {
                 $this->line('~ Database successfully migrated');
             }
         }
