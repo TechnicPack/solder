@@ -22,3 +22,25 @@ php artisan solder:install
 Next, boot up a server and visit your application. If using a tool like Laravel Valet, of course the URL will default to `http://solder.test`. 
 
 1. Visit: `http://solder.test/login`. The default username is `admin@example.com` and the default password is `secret`
+
+## Upgrade
+
+### Step 1
+
+Begin by placing the application in maintenance mode, updating the repository and all dependencies. 
+
+```bash
+php artisan down
+get fetch && git pull
+composer install --no-dev && npm install --only=production
+```
+
+### Step 2
+
+Finally, rebuild any generated resources, migrate the database and put the application back online
+
+```bash
+npm run production
+php artisan migrate --force
+php artisan up
+```
