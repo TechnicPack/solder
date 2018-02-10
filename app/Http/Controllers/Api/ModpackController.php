@@ -53,7 +53,7 @@ class ModpackController extends Controller
 
                 return $modpack->name;
             }),
-            'mirror_url' => preg_replace('/(\/+)/', '/', Storage::url('/')),
+            'mirror_url' => preg_replace('/([^:])(\/{2,})/', '$1/', Storage::url('/')),
         ]);
     }
 
