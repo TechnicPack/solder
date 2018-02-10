@@ -39,6 +39,7 @@ class InstallCommand extends Command
         $this->welcome();
         $this->createEnvFile();
         $this->generateAppKey();
+        $this->setAppUrl();
         $this->migrateDatabase();
         $this->generateApiKey();
         $this->linkStorage();
@@ -145,5 +146,12 @@ class InstallCommand extends Command
                 file_get_contents($envFile)
             ));
         }
+    }
+
+    private function setAppUrl()
+    {
+        $this->updateEnvironmentFile([
+            'APP_URL' => $this->ask('App URL', 'http://localhost'),
+        ]);
     }
 }
