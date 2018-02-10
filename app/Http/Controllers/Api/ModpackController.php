@@ -14,6 +14,7 @@ namespace App\Http\Controllers\Api;
 use App\Build;
 use App\Modpack;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Collection;
 
 class ModpackController extends Controller
@@ -52,7 +53,7 @@ class ModpackController extends Controller
 
                 return $modpack->name;
             }),
-            'mirror_url' => config('app.repo'),
+            'mirror_url' => preg_replace('/(\/+)/', '/', Storage::url('/')),
         ]);
     }
 

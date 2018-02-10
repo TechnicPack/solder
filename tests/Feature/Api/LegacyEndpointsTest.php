@@ -76,17 +76,15 @@ class LegacyEndpointsTest extends TestCase
         factory(Modpack::class)->states('public')->create(['name' => 'Tekkit', 'slug' => 'tekkit']);
         factory(Modpack::class)->states('private')->create(['name' => 'Big Dig', 'slug' => 'big-dig']);
         factory(Modpack::class)->states('draft')->create(['name' => 'Hexxit', 'slug' => 'hexxit']);
-        config(['app.repo' => 'http://technicpack.net/repo/']);
 
         $response = $this->get('api/modpack');
 
         $response->assertStatus(200);
-        $response->assertExactJson([
+        $response->assertJsonFragment([
             'modpacks' => [
                 'b-team' => 'Attack of the B-Team',
                 'tekkit' => 'Tekkit',
             ],
-            'mirror_url' => 'http://technicpack.net/repo/',
         ]);
     }
 
@@ -98,18 +96,16 @@ class LegacyEndpointsTest extends TestCase
         factory(Modpack::class)->states('public')->create(['name' => 'Tekkit', 'slug' => 'tekkit']);
         factory(Modpack::class)->states('private')->create(['name' => 'Big Dig', 'slug' => 'big-dig']);
         factory(Modpack::class)->states('draft')->create(['name' => 'Hexxit', 'slug' => 'hexxit']);
-        config(['app.repo' => 'http://technicpack.net/repo/']);
 
         $response = $this->get('api/modpack?k=APIKEY1234');
 
         $response->assertStatus(200);
-        $response->assertExactJson([
+        $response->assertJsonFragment([
             'modpacks' => [
                 'b-team' => 'Attack of the B-Team',
                 'tekkit' => 'Tekkit',
                 'big-dig' => 'Big Dig',
             ],
-            'mirror_url' => 'http://technicpack.net/repo/',
         ]);
     }
 
@@ -123,17 +119,15 @@ class LegacyEndpointsTest extends TestCase
             ->clients()->attach(factory(Client::class)->create(['token' => 'CLIENTKEY1234']));
         factory(Modpack::class)->states('private')->create(['name' => 'Big Dig', 'slug' => 'big-dig']);
         factory(Modpack::class)->states('draft')->create(['name' => 'Hexxit', 'slug' => 'hexxit']);
-        config(['app.repo' => 'http://technicpack.net/repo/']);
 
         $response = $this->get('api/modpack?cid=CLIENTKEY1234');
 
         $response->assertStatus(200);
-        $response->assertExactJson([
+        $response->assertJsonFragment([
             'modpacks' => [
                 'b-team' => 'Attack of the B-Team',
                 'tekkit' => 'Tekkit',
             ],
-            'mirror_url' => 'http://technicpack.net/repo/',
         ]);
     }
 
@@ -152,12 +146,11 @@ class LegacyEndpointsTest extends TestCase
         });
         factory(Modpack::class)->states('private')->create(['name' => 'Big Dig', 'slug' => 'big-dig']);
         factory(Modpack::class)->states('draft')->create(['name' => 'Hexxit', 'slug' => 'hexxit']);
-        config(['app.repo' => 'http://technicpack.net/repo/']);
 
         $response = $this->get('api/modpack?include=full');
 
         $response->assertStatus(200);
-        $response->assertExactJson([
+        $response->assertJsonFragment([
             'modpacks' => [
                 'b-team' => [
                     'name' => 'b-team',
@@ -177,7 +170,6 @@ class LegacyEndpointsTest extends TestCase
                     ],
                 ],
             ],
-            'mirror_url' => 'http://technicpack.net/repo/',
         ]);
     }
 
@@ -197,12 +189,11 @@ class LegacyEndpointsTest extends TestCase
         });
         factory(Modpack::class)->states('private')->create(['name' => 'Big Dig', 'slug' => 'big-dig']);
         factory(Modpack::class)->states('draft')->create(['name' => 'Hexxit', 'slug' => 'hexxit']);
-        config(['app.repo' => 'http://technicpack.net/repo/']);
 
         $response = $this->get('api/modpack?include=full&cid=CLIENTKEY1234');
 
         $response->assertStatus(200);
-        $response->assertExactJson([
+        $response->assertJsonFragment([
             'modpacks' => [
                 'b-team' => [
                     'name' => 'b-team',
@@ -223,7 +214,6 @@ class LegacyEndpointsTest extends TestCase
                     ],
                 ],
             ],
-            'mirror_url' => 'http://technicpack.net/repo/',
         ]);
     }
 
@@ -243,12 +233,11 @@ class LegacyEndpointsTest extends TestCase
         });
         factory(Modpack::class)->states('private')->create(['name' => 'Big Dig', 'slug' => 'big-dig']);
         factory(Modpack::class)->states('draft')->create(['name' => 'Hexxit', 'slug' => 'hexxit']);
-        config(['app.repo' => 'http://technicpack.net/repo/']);
 
         $response = $this->get('api/modpack?include=full&k=APIKEY1234');
 
         $response->assertStatus(200);
-        $response->assertExactJson([
+        $response->assertJsonFragment([
             'modpacks' => [
                 'b-team' => [
                     'name' => 'b-team',
@@ -278,7 +267,6 @@ class LegacyEndpointsTest extends TestCase
                     ],
                 ],
             ],
-            'mirror_url' => 'http://technicpack.net/repo/',
         ]);
     }
 

@@ -38,18 +38,6 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Application Repository
-    |--------------------------------------------------------------------------
-    |
-    | This value is the location where all mod files are stored under.
-    | If you need/want to point the client launcher to a location not
-    | under the control of solder then you can designate that url here.
-    */
-
-    'repo' => env('APP_REPO', env('APP_URL', 'http://localhost').'/repo'),
-
-    /*
-    |--------------------------------------------------------------------------
     | Application Environment
     |--------------------------------------------------------------------------
     |
