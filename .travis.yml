@@ -2,9 +2,6 @@ sudo: required
 dist: trusty
 language: php
 
-addons:
-   chrome: stable
-
 env:
   global:
     - setup=stable
@@ -28,16 +25,12 @@ install:
 before_script:
    - npm run dev
    - php artisan passport:keys
-   - touch database/database.sqlite
-   - google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222 http://localhost &
-   - php artisan serve 2>/dev/null &
    - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
    - chmod +x ./cc-test-reporter
    - ./cc-test-reporter before-build
 
 script:
    - vendor/bin/phpunit --coverage-clover build/logs/clover.xml
-   - php artisan dusk
 
 after_script:
    - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
