@@ -1,7 +1,7 @@
 <div class="box">
     <h1>Add Package</h1>
     <div class="box-body">
-        <form action="/library/" method="post">
+        <form action="/library" method="post">
             {{ csrf_field() }}
 
             <!-- Name -->
