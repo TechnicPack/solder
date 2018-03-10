@@ -95,7 +95,7 @@ class InstallCommand extends Command
             'DB_PASSWORD' => $this->secret('Database password ("null" for no password)'),
         ]);
 
-        if ($this->confirm('Do you want to migrate the database?', false)) {
+        if ($this->confirm('Do you want to migrate the database?', true)) {
             if ($this->call('migrate', ['--seed' => true, '--force' => true])) {
                 $this->line('~ Database successfully migrated');
             }
