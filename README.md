@@ -17,6 +17,8 @@ npm run production
 php artisan solder:install
 ```
 
+If this is your first time using Solder (eg. a new installation), do make sure to run the migration when asked.
+
 ### Step 2
 
 Next, boot up a server and visit your application. If using a tool like Laravel Valet, of course the URL will default to `http://solder.test`. 
