@@ -19,7 +19,7 @@ php artisan solder:install
 
 ### Step 2
 
-Next, boot up a server and visit your application. If using a tool like Laravel Valet, of course the URL will default to `http://solder.test`. 
+Next, boot up a webserver (like Apache2 or NginX) and visit your application. If using a tool like Laravel Valet, of course the URL will default to `http://solder.test`. 
 
 1. Visit: `http://solder.test/login`. The default username is `admin@example.com` and the default password is `secret`
 
