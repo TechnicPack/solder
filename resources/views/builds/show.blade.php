@@ -55,11 +55,7 @@
         <div class="box">
             <h1>Bundle</h1>
             <div class="box-body">
-                <form method="post" action="/bundles">
-                    {{ csrf_field() }}
-                    <input type="hidden" name="build_id" value="{{ $build->id }}" />
-                    <release-picker />
-                </form>
+                <release-picker build_id="{{ $build->id }}" />
             </div>
         </div>
 
