@@ -26,10 +26,10 @@ class BundlesController extends Controller
                 ->where('release_id', request()->release_id)
                 ->first();
 
-        if (!(empty($bundle))) {
+        if (! (empty($bundle))) {
             return response()->json([
                         'status' => 'failed',
-                        'reason' => 'Duplicate Modversion found'
+                        'reason' => 'Duplicate Modversion found',
             ]);
         }
 
@@ -40,7 +40,7 @@ class BundlesController extends Controller
 
         return response()->json([
                     'status' => 'success',
-                    'redirect' => '/modpacks/' . $bundle->build->modpack->slug . '/' . $bundle->build->version
+                    'redirect' => '/modpacks/'.$bundle->build->modpack->slug.'/'.$bundle->build->version,
         ]);
     }
 

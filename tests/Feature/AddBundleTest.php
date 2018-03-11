@@ -36,7 +36,11 @@ class AddBundleTest extends TestCase
             'release_id' => $release->id,
         ]);
 
-        $response->assertRedirect('/modpacks/iron-tanks/1.0.0');
+	$response->assertStatus(200);
+        $response->assertJsonFragment([
+            'status' => 'success',
+            'redirect' => '/modpacks/iron-tanks/1.0.0',
+        ]);
         $this->assertCount(1, Bundle::all());
         $this->assertTrue($build->fresh()->releases->first()->is($release));
     }
@@ -55,7 +59,11 @@ class AddBundleTest extends TestCase
             'release_id' => $release->id,
         ]);
 
-        $response->assertRedirect('/modpacks/iron-tanks/1.0.0');
+	$response->assertStatus(200);
+        $response->assertJsonFragment([
+            'status' => 'success',
+            'redirect' => '/modpacks/iron-tanks/1.0.0',
+        ]);
         $this->assertCount(1, Bundle::all());
         $this->assertTrue($build->fresh()->releases->first()->is($release));
     }
