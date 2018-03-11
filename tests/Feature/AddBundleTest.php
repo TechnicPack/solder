@@ -36,7 +36,7 @@ class AddBundleTest extends TestCase
             'release_id' => $release->id,
         ]);
 
-	$response->assertStatus(200);
+        $response->assertStatus(200);
         $response->assertJsonFragment([
             'status' => 'success',
             'redirect' => '/modpacks/iron-tanks/1.0.0',
@@ -59,7 +59,7 @@ class AddBundleTest extends TestCase
             'release_id' => $release->id,
         ]);
 
-	$response->assertStatus(200);
+        $response->assertStatus(200);
         $response->assertJsonFragment([
             'status' => 'success',
             'redirect' => '/modpacks/iron-tanks/1.0.0',
