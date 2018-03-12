@@ -31,7 +31,7 @@ Begin by placing the application in maintenance mode, updating the repository an
 
 ```bash
 php artisan down
-get fetch && git pull
+git fetch && git pull
 composer install --no-dev && npm install --only=production
 ```
 
