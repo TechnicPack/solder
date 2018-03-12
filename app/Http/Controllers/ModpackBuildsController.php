@@ -67,6 +67,7 @@ class ModpackBuildsController extends Controller
             'minecraft_version' => ['required'],
             'status' => ['required', 'in:public,private,draft'],
             'required_memory' => ['nullable', 'numeric'],
+            'clone_build_id' => ['nullable', Rule::exists('builds', 'id')->where('modpack_id', $modpack->id)],
         ]);
 
         $build = $modpack->builds()->create([
@@ -77,6 +78,13 @@ class ModpackBuildsController extends Controller
             'required_memory' => request('required_memory'),
             'forge_version' => request('forge_version'),
         ]);
+
+        if (request('clone_build_id') !== null) {
+            $templateBuild = Build::find(request('clone_build_id'));
+            $templateBuild->releases->each(function ($release) use ($build) {
+                $build->releases()->attach($release);
+            });
+        }
 
         return redirect("/modpacks/$modpackSlug");
     }

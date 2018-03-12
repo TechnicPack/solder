@@ -20,6 +20,28 @@
                 </div>
             </div>
 
+            @if (count($modpack->builds) >= 1)
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Copy From</label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field">
+                            <div class="control">
+                                <div class="select is-fullwidth">
+                                    <select name="clone_build_id">
+                                        <option value="">none</option>
+                                        @foreach($modpack->builds as $build)
+                                            <option value="{{ $build->id }}">{{ $build->version }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endif
+
             <div class="field is-horizontal">
                 <div class="field-label is-normal">
                     <label class="label">Minecraft Version</label>

@@ -14,6 +14,7 @@ namespace Tests\Feature;
 use App\User;
 use App\Build;
 use App\Modpack;
+use App\Release;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -288,6 +289,44 @@ class AddBuildTest extends TestCase
         $response->assertRedirect('/modpacks/brothers-klaus');
         $response->assertSessionMissing('errors');
         $this->assertEquals(1, Build::count());
+    }
+
+    /** @test **/
+    public function a_new_build_can_clone_an_existing_build()
+    {
+        $user = factory(User::class)->states('admin')->create();
+        $modpack = factory(Modpack::class)->create(['slug' => 'brothers-klaus']);
+        $build = factory(Build::class)->create(['modpack_id' => $modpack->id, 'version' => '1.0.0']);
+        $release = factory(Release::class)->create();
+        $build->releases()->attach($release);
+
+        $response = $this->actingAs($user)->post('/modpacks/brothers-klaus/builds', $this->validParams([
+            'version' => '1.0.1',
+            'clone_build_id' => $build->id,
+        ]));
+
+        $response->assertRedirect('/modpacks/brothers-klaus');
+        $this->assertCount(2, $modpack->fresh()->builds);
+        tap($modpack->builds()->where('version', '1.0.1')->first(), function ($clonedBuild) {
+            $this->assertCount(1, $clonedBuild->releases);
+        });
+    }
+
+    /** @test **/
+    public function clone_build_id_must_be_valid_build_id_for_modpack()
+    {
+        $user = factory(User::class)->states('admin')->create();
+        $modpack = factory(Modpack::class)->create(['slug' => 'brothers-klaus']);
+
+        $response = $this->actingAs($user)->from('/modpacks/brothers-klaus')
+            ->post('/modpacks/brothers-klaus/builds', $this->validParams([
+                'version' => '1.0.1',
+                'clone_build_id' => 99,
+            ]));
+
+        $response->assertRedirect('/modpacks/brothers-klaus');
+        $response->assertSessionHasErrors('clone_build_id');
+        $this->assertEquals(0, Build::count());
     }
 
     private function validParams($overrides = [])
