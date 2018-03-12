@@ -30,13 +30,15 @@
         @endif
 
         <div class="column has-background-light">
-            @include('partials.navigation')
+            <div class="content">
+                @include('partials.navigation')
 
-            @yield('content')
+                @yield('content')
+            </div>
 
-            <footer>
-                <div class="container is-fluid">
-                    <div class="content has-text-right">
+            <footer class="footer">
+                <div class="container">
+                    <div class="content has-text-centered">
                         <p class="has-text-grey">
                             Made with
                             <a href="http://patreon.com/indemnity83">
