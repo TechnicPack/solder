@@ -14,10 +14,19 @@ namespace App\Http\Controllers\Api;
 use App\Build;
 use App\Modpack;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Storage;
+use Platform\Http\Resources\BuildResource;
+use Illuminate\Http\Resources\Json\Resource;
 
 class ModpackBuildController extends Controller
 {
+    /**
+     * ModpackBuildController constructor.
+     */
+    public function __construct()
+    {
+        Resource::withoutWrapping();
+    }
+
     /**
      * Return a JSON response containing the releases for a given
      * Modpack slug and Build version.
@@ -25,46 +34,21 @@ class ModpackBuildController extends Controller
      * @param string $slug
      * @param string $version
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return BuildResource
      */
     public function show($slug, $version)
     {
         $modpack = Modpack::with('builds')
             ->where('slug', $slug)
             ->whereToken(request()->get('k'), request()->get('cid'))
-            ->first();
-
-        if ($modpack === null) {
-            return response()->json([
-                'error' => 'Modpack does not exist',
-            ], 404);
-        }
+            ->firstOrFail();
 
         $build = Build::with('releases', 'releases.package')
             ->whereVersion($version)
             ->whereModpackId($modpack->id)
             ->whereToken(request()->get('k'), request()->get('cid'))
-            ->first();
+            ->firstOrFail();
 
-        if ($build === null) {
-            return response()->json([
-                'error' => 'Build does not exist',
-            ], 404);
-        }
-
-        return response()->json([
-            'minecraft' => $build->minecraft_version,
-            'java' => $build->java_version,
-            'memory' => (int) $build->required_memory,
-            'forge' => $build->forge_version,
-            'mods' => $build->releases->transform(function ($release) {
-                return [
-                    'name' => $release->package->name,
-                    'version' => $release->version,
-                    'md5' => $release->md5,
-                    'url' => Storage::url($release->path),
-                ];
-            }),
-        ]);
+        return new BuildResource($build);
     }
 }
