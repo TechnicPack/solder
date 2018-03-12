@@ -53,7 +53,8 @@ class UserPolicy
      */
     public function create(User $user)
     {
-        //
+        return $user->roles()->where('tag', 'manage-users')->exists()
+            && request('is_admin') != 'on';
     }
 
     /**
