@@ -89,6 +89,8 @@ class UserPolicy
      */
     public function delete(User $user, User $model)
     {
-        //
+        return $user->roles()->where('tag', 'manage-users')->exists()
+            && $user->isNot($model)
+            && ! $model->is_admin;
     }
 }
