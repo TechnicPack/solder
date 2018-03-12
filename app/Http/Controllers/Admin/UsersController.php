@@ -14,7 +14,6 @@ namespace App\Http\Controllers\Admin;
 use App\User;
 use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 
 class UsersController extends Controller
 {
@@ -91,14 +90,13 @@ class UsersController extends Controller
      * @param $userId
      *
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|\Symfony\Component\HttpFoundation\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function destroy($userId)
     {
         $user = User::findOrFail($userId);
 
-        if (Auth::user()->is($user)) {
-            return response('You may not remove your own user.', 403);
-        }
+        $this->authorize('delete', $user);
 
         $user->delete();
 
