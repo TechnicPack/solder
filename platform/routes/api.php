@@ -13,7 +13,7 @@ Route::group([
     'prefix' => 'api',
     'middleware' => 'api',
     'namespace' => 'Platform\Http\Controllers',
-], function() {
+], function () {
     Route::get('/', function () {
         return response()->json([
             'api' => 'SolderIO',
@@ -26,5 +26,4 @@ Route::group([
     Route::get('modpack', 'Api\ModpackController@index');
     Route::get('modpack/{slug}', 'Api\ModpackController@show');
     Route::get('modpack/{slug}/{build}', 'Api\ModpackBuildController@show');
-
 });
