@@ -34,18 +34,6 @@ class ReleasePolicy
     }
 
     /**
-     * Determine whether the user can view the release.
-     *
-     * @param  \App\User  $user
-     * @param  \App\Release  $release
-     * @return mixed
-     */
-    public function view(User $user, Release $release)
-    {
-        //
-    }
-
-    /**
      * Determine whether the user can create releases.
      *
      * @param  \App\User  $user
@@ -54,18 +42,6 @@ class ReleasePolicy
     public function create(User $user)
     {
         return $user->roles()->where('tag', 'update-package')->exists();
-    }
-
-    /**
-     * Determine whether the user can update the release.
-     *
-     * @param  \App\User  $user
-     * @param  \App\Release  $release
-     * @return mixed
-     */
-    public function update(User $user, Release $release)
-    {
-        //
     }
 
     /**

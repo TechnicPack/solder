@@ -34,18 +34,6 @@ class BundlePolicy
     }
 
     /**
-     * Determine whether the user can view the bundle.
-     *
-     * @param  \App\User  $user
-     * @param  \App\Bundle  $bundle
-     * @return mixed
-     */
-    public function view(User $user, Bundle $bundle)
-    {
-        //
-    }
-
-    /**
      * Determine whether the user can create bundles.
      *
      * @param  \App\User  $user
@@ -54,18 +42,6 @@ class BundlePolicy
     public function create(User $user)
     {
         return $user->roles()->where('tag', 'update-modpack')->exists();
-    }
-
-    /**
-     * Determine whether the user can update the bundle.
-     *
-     * @param  \App\User  $user
-     * @param  \App\Bundle  $bundle
-     * @return mixed
-     */
-    public function update(User $user, Bundle $bundle)
-    {
-        //
     }
 
     /**

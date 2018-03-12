@@ -34,18 +34,6 @@ class PackagePolicy
     }
 
     /**
-     * Determine whether the user can view the package.
-     *
-     * @param  \App\User  $user
-     * @param  \App\Package  $package
-     * @return mixed
-     */
-    public function view(User $user, Package $package)
-    {
-        //
-    }
-
-    /**
      * Determine whether the user can create packages.
      *
      * @param  \App\User  $user

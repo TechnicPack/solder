@@ -45,18 +45,6 @@ class KeyPolicy
     }
 
     /**
-     * Determine whether the user can view the key.
-     *
-     * @param  \App\User  $user
-     * @param  \App\Key  $key
-     * @return mixed
-     */
-    public function view(User $user, Key $key)
-    {
-        //
-    }
-
-    /**
      * Determine whether the user can create keys.
      *
      * @param  \App\User  $user
@@ -65,29 +53,5 @@ class KeyPolicy
     public function create(User $user)
     {
         return $user->roles()->where('tag', 'manage-keys')->exists();
-    }
-
-    /**
-     * Determine whether the user can update the key.
-     *
-     * @param  \App\User  $user
-     * @param  \App\Key  $key
-     * @return mixed
-     */
-    public function update(User $user, Key $key)
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can delete the key.
-     *
-     * @param  \App\User  $user
-     * @param  \App\Key  $key
-     * @return mixed
-     */
-    public function delete(User $user, Key $key)
-    {
-        //
     }
 }

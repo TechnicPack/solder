@@ -34,18 +34,6 @@ class ModpackPolicy
     }
 
     /**
-     * Determine whether the user can view the modpack.
-     *
-     * @param  \App\User  $user
-     * @param  \App\Modpack  $modpack
-     * @return mixed
-     */
-    public function view(User $user, Modpack $modpack)
-    {
-        //
-    }
-
-    /**
      * Determine whether the user can create modpacks.
      *
      * @param  \App\User  $user
