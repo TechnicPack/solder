@@ -11,12 +11,13 @@
 
 namespace App;
 
-use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Builder;
+use Platform\Traits\BuildPlatformSupport;
 
 class Build extends Model
 {
+    use BuildPlatformSupport;
+
     /**
      * The attributes that aren't mass assignable.
      *
@@ -42,41 +43,6 @@ class Build extends Model
     public function modpack()
     {
         return $this->belongsTo(Modpack::class);
-    }
-
-    /**
-     * Filter query results to public builds, private builds
-     * that have been authorized with the provided client token
-     * and all private builds with a valid provided api key.
-     *
-     * @param Builder $query
-     * @param string|null $apiToken
-     * @param string|null $clientToken
-     *
-     * @return Builder
-     */
-    public function scopeWhereToken($query, $apiToken, $clientToken)
-    {
-        return $query->where(function ($query) use ($apiToken, $clientToken) {
-            $query->where('status', 'public')
-                ->orWhere(function ($query) use ($apiToken, $clientToken) {
-                    $query->where('status', 'private')
-                        ->whereIn('modpack_id', function ($query) use ($clientToken) {
-                            return $query->select('modpack_id')
-                                ->from('client_modpack')
-                                ->join('clients', 'client_modpack.client_id', '=', 'clients.id')
-                                ->where('token', $clientToken);
-                        });
-                })
-                ->orWhere(function ($query) use ($apiToken) {
-                    $query->where('status', 'private')
-                        ->whereExists(function ($query) use ($apiToken) {
-                            $query->select(DB::raw(1))
-                                ->from('keys')
-                                ->where('token', $apiToken);
-                        });
-                });
-        });
     }
 
     /**

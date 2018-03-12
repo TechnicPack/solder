@@ -11,13 +11,13 @@
 
 namespace Tests\Feature\Api;
 
-use App\Key;
 use App\Build;
-use App\Client;
 use App\Modpack;
 use App\Package;
 use App\Release;
+use Platform\Key;
 use Tests\TestCase;
+use Platform\Client;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -72,6 +72,7 @@ class LegacyEndpointsTest extends TestCase
     /** @test */
     public function guests_can_list_public_modpacks()
     {
+        $this->withoutExceptionHandling();
         factory(Modpack::class)->states('public')->create(['name' => 'Attack of the B-Team', 'slug' => 'b-team']);
         factory(Modpack::class)->states('public')->create(['name' => 'Tekkit', 'slug' => 'tekkit']);
         factory(Modpack::class)->states('private')->create(['name' => 'Big Dig', 'slug' => 'big-dig']);
@@ -355,8 +356,8 @@ class LegacyEndpointsTest extends TestCase
         $response = $this->getJson('api/modpack/big-dig');
 
         $response->assertStatus(404);
-        $response->assertExactJson([
-            'error' => 'Modpack does not exist',
+        $response->assertJson([
+            'message' => 'No query results for model [App\\Modpack].',
         ]);
 
         $response = $this->getJson('api/modpack/big-dig/1.0.0');
@@ -369,8 +370,8 @@ class LegacyEndpointsTest extends TestCase
         $response = $this->getJson('api/modpack/hexxit');
 
         $response->assertStatus(404);
-        $response->assertExactJson([
-            'error' => 'Modpack does not exist',
+        $response->assertJson([
+            'message' => 'No query results for model [App\\Modpack].',
         ]);
 
         $response = $this->getJson('api/modpack/hexxit/1.0.0');
@@ -387,8 +388,8 @@ class LegacyEndpointsTest extends TestCase
         $response = $this->getJson('api/modpack/invalid-slug');
 
         $response->assertStatus(404);
-        $response->assertExactJson([
-            'error' => 'Modpack does not exist',
+        $response->assertJson([
+            'message' => 'No query results for model [App\\Modpack].',
         ]);
 
         $response = $this->getJson('api/modpack/invalid-slug/1.0.0');

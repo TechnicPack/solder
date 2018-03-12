@@ -11,7 +11,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Key;
+use Platform\Key;
 use App\Http\Controllers\Controller;
 
 class KeysController extends Controller

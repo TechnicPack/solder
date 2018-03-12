@@ -28,7 +28,7 @@
         ],
         "psr-4": {
             "App\\": "app/",
-            "Platform\\": "platform/"
+            "Platform\\": "platform/src/"
         }
     },
     "autoload-dev": {

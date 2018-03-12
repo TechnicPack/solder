@@ -11,8 +11,8 @@
 
 namespace Tests\Feature;
 
-use App\Key;
 use App\User;
+use Platform\Key;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
