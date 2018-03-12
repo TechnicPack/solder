@@ -22,11 +22,10 @@ class UserPolicy
      * Check for authorization before the intended policy method is actually called.
      *
      * @param \App\User  $user
-     * @param $ability
      *
      * @return bool
      */
-    public function before($user, $ability)
+    public function before($user)
     {
         if ($user->is_admin) {
             return true;
