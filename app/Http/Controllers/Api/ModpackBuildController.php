@@ -57,7 +57,7 @@ class ModpackBuildController extends Controller
             'java' => $build->java_version,
             'memory' => (int) $build->required_memory,
             'forge' => $build->forge_version,
-            'mods' => $build->releases->transform(function ($release, $key) {
+            'mods' => $build->releases->transform(function ($release) {
                 return [
                     'name' => $release->package->name,
                     'version' => $release->version,
