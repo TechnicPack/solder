@@ -37,8 +37,6 @@ class CreateCollaboratorsTable extends Migration
      */
     public function down()
     {
-        Schema::table('modpack_user', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('collaborators');
     }
 }
