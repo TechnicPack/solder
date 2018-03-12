@@ -27,14 +27,15 @@ class AddUserTest extends TestCase
             'username' => 'John',
             'email' => 'john@example.com',
             'password' => 'super-secret-password',
-            'is_admin' => 'on',
+            'is_admin' => 'off',
         ], $overrides);
     }
 
     /** @test */
-    public function a_user_can_add_another_user()
+    public function an_admin_can_add_another_admin()
     {
-        $user = factory(User::class)->create(['created_at' => Carbon::parse('-1 day')]);
+        $user = factory(User::class)->states('admin')->create(['created_at' => Carbon::parse('-1 day')]);
+        $this->assertTrue($user->is_admin);
 
         $response = $this->actingAs($user)->post('/settings/users', [
             'username' => 'John',
@@ -43,13 +44,58 @@ class AddUserTest extends TestCase
             'is_admin' => 'on',
         ]);
 
-        tap(User::orderBy('created_at', 'desc')->first(), function ($user) use ($response) {
+        $this->assertCount(2, User::all());
+        tap(User::latest()->first(), function ($user) use ($response) {
             $response->assertRedirect('/settings/users');
             $this->assertEquals('John', $user->username);
             $this->assertEquals('john@example.com', $user->email);
             $this->assertTrue($user->is_admin);
             $this->assertTrue(Hash::check('super-secret-password', $user->password));
         });
+    }
+
+    /** @test */
+    public function a_user_with_the_manage_users_permission_can_add_another_user()
+    {
+        $user = factory(User::class)->create(['created_at' => Carbon::parse('-1 day')]);
+        $user->grantRole('manage-users');
+
+        $response = $this->actingAs($user)->post('/settings/users', $this->validParams());
+
+        $this->assertCount(2, User::all());
+        tap(User::latest()->first(), function ($user) use ($response) {
+            $response->assertRedirect('/settings/users');
+            $this->assertEquals('John', $user->username);
+            $this->assertEquals('john@example.com', $user->email);
+            $this->assertFalse($user->is_admin);
+            $this->assertTrue(Hash::check('super-secret-password', $user->password));
+        });
+    }
+
+    /** @test */
+    public function a_user_with_the_manage_users_permission_can_not_create_an_admin()
+    {
+        $user = factory(User::class)->create();
+        $user->grantRole('manage-users');
+        $this->assertFalse($user->fresh()->is_admin);
+
+        $response = $this->actingAs($user)->post('/settings/users', $this->validParams([
+            'is_admin' => 'on',
+        ]));
+
+        $response->assertStatus(403);
+        $this->assertCount(1, User::all());
+    }
+
+    /** @test */
+    public function user_without_manage_users_permission_cannot_create_a_user()
+    {
+        $user = factory(User::class)->create();
+
+        $response = $this->actingAs($user)->post('/settings/users', $this->validParams());
+
+        $response->assertStatus(403);
+        $this->assertCount(1, User::all());
     }
 
     /** @test */
@@ -64,7 +110,7 @@ class AddUserTest extends TestCase
     /** @test */
     public function username_is_required()
     {
-        $user = factory(User::class)->create();
+        $user = factory(User::class)->states('admin')->create();
 
         $response = $this->actingAs($user)->from('/settings/users')->post('/settings/users', $this->validParams([
             'username' => '',
@@ -77,7 +123,7 @@ class AddUserTest extends TestCase
     /** @test */
     public function username_is_unique()
     {
-        $user = factory(User::class)->create([
+        $user = factory(User::class)->states('admin')->create([
             'username' => 'Jane',
         ]);
 
@@ -92,7 +138,7 @@ class AddUserTest extends TestCase
     /** @test */
     public function email_is_required()
     {
-        $user = factory(User::class)->create();
+        $user = factory(User::class)->states('admin')->create();
 
         $response = $this->actingAs($user)->from('/settings/users')->post('/settings/users', $this->validParams([
             'email' => '',
@@ -105,7 +151,7 @@ class AddUserTest extends TestCase
     /** @test */
     public function email_is_unique()
     {
-        $user = factory(User::class)->create([
+        $user = factory(User::class)->states('admin')->create([
             'email' => 'jane@example.com',
         ]);
 
@@ -120,7 +166,7 @@ class AddUserTest extends TestCase
     /** @test */
     public function email_is_valid_format()
     {
-        $user = factory(User::class)->create();
+        $user = factory(User::class)->states('admin')->create();
 
         $response = $this->actingAs($user)->from('/settings/users')->post('/settings/users', $this->validParams([
             'email' => 'not-an-email',
@@ -133,7 +179,7 @@ class AddUserTest extends TestCase
     /** @test */
     public function password_is_required()
     {
-        $user = factory(User::class)->create();
+        $user = factory(User::class)->states('admin')->create();
 
         $response = $this->actingAs($user)->from('/settings/users')->post('/settings/users', $this->validParams([
             'password' => '',
@@ -146,7 +192,7 @@ class AddUserTest extends TestCase
     /** @test */
     public function password_is_at_least_6_chars_long()
     {
-        $user = factory(User::class)->create();
+        $user = factory(User::class)->states('admin')->create();
 
         $response = $this->actingAs($user)->from('/settings/users')->post('/settings/users', $this->validParams([
             'password' => 'abcde',
@@ -159,7 +205,7 @@ class AddUserTest extends TestCase
     /** @test */
     public function if_is_admin_is_missing_its_unchecked()
     {
-        $user = factory(User::class)->create(['created_at' => Carbon::parse('-1 day')]);
+        $user = factory(User::class)->states('admin')->create(['created_at' => Carbon::parse('-1 day')]);
 
         $response = $this->actingAs($user)->post('/settings/users', [
             'username' => 'John',

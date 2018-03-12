@@ -34,9 +34,12 @@ class UsersController extends Controller
      * Store a new user in the system.
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function store()
     {
+        $this->authorize('create', User::class);
+
         request()->validate([
             'username' => ['required', 'unique:users'],
             'email' => ['required', 'email', 'unique:users'],

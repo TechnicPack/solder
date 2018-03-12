@@ -111,6 +111,7 @@
                                 </div>
                             </div>
 
+                            @if (Auth::user()->is_admin)
                             <div class="field is-horizontal">
                                 <div class="field-label is-normal">
                                     &nbsp;
@@ -126,6 +127,7 @@
                                     </div>
                                 </div>
                             </div>
+                            @endif
 
                             <div class="field is-horizontal">
                                 <div class="field-label">
