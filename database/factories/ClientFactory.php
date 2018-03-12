@@ -9,9 +9,7 @@
  * file that was distributed with this source code.
  */
 
-use Faker\Generator as Faker;
-
-$factory->define(App\Client::class, function (Faker $faker) {
+$factory->define(App\Client::class, function () {
     return [
         'title' => 'Test Client',
         'token' => 'TESTTOKEN',

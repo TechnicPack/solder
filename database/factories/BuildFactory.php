@@ -9,9 +9,7 @@
  * file that was distributed with this source code.
  */
 
-use Faker\Generator as Faker;
-
-$factory->define(App\Build::class, function (Faker $faker) {
+$factory->define(App\Build::class, function () {
     return [
         'minecraft_version' => '1.7.10',
         'version' => '1.0.0',
@@ -22,19 +20,19 @@ $factory->define(App\Build::class, function (Faker $faker) {
     ];
 });
 
-$factory->state(App\Build::class, 'public', function (Faker $faker) {
+$factory->state(App\Build::class, 'public', function () {
     return [
         'status' => 'public',
     ];
 });
 
-$factory->state(App\Build::class, 'private', function (Faker $faker) {
+$factory->state(App\Build::class, 'private', function () {
     return [
         'status' => 'private',
     ];
 });
 
-$factory->state(App\Build::class, 'draft', function (Faker $faker) {
+$factory->state(App\Build::class, 'draft', function () {
     return [
         'status' => 'draft',
     ];

@@ -9,9 +9,7 @@
  * file that was distributed with this source code.
  */
 
-use Faker\Generator as Faker;
-
-$factory->define(\App\Bundle::class, function (Faker $faker) {
+$factory->define(\App\Bundle::class, function () {
     return [
         'build_id' => function () {
             return factory(\App\Build::class)->create()->id;

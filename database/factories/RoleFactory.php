@@ -9,10 +9,7 @@
  * file that was distributed with this source code.
  */
 
-use App\Role;
-use Faker\Generator as Faker;
-
-$factory->define(Role::class, function (Faker $faker) {
+$factory->define(\App\Role::class, function () {
     return [
         'tag' => 'example-role',
     ];

@@ -19,19 +19,19 @@ $factory->define(App\Modpack::class, function (Faker $faker) {
     ];
 });
 
-$factory->state(App\Modpack::class, 'public', function (Faker $faker) {
+$factory->state(App\Modpack::class, 'public', function () {
     return [
         'status' => 'public',
     ];
 });
 
-$factory->state(App\Modpack::class, 'draft', function (Faker $faker) {
+$factory->state(App\Modpack::class, 'draft', function () {
     return [
         'status' => 'draft',
     ];
 });
 
-$factory->state(App\Modpack::class, 'private', function (Faker $faker) {
+$factory->state(App\Modpack::class, 'private', function () {
     return [
         'status' => 'private',
     ];
