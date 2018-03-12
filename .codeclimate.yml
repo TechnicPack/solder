@@ -1,0 +1,9 @@
+engines:
+  # ... CONFIG CONTENT ...
+  sonar-php:
+    enabled: true
+    # ... CONFIG CONTENT ...
+    checks:
+      php:S1192:
+        enabled: false
+# ... CONFIG CONTENT ...
