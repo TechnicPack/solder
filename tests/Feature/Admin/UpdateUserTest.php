@@ -21,9 +21,9 @@ class UpdateUserTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function a_user_can_update_a_user()
+    public function a_admin_can_update_a_user()
     {
-        $user = factory(User::class)->create([
+        $user = factory(User::class)->states('admin')->create([
             'username' => 'John',
             'email' => 'john@example.com',
             'password' => bcrypt('super-secret-password'),
@@ -48,7 +48,65 @@ class UpdateUserTest extends TestCase
     }
 
     /** @test */
-    public function a_guest_cannot_edit_a_user()
+    public function a_authorized_user_can_update_a_user()
+    {
+        $user = factory(User::class)->create($this->originalParams());
+        $user->grantRole('manage-users');
+
+        $response = $this->actingAs($user)->from('/settings/users')
+            ->post('/settings/users/'.$user->id, $this->validParams());
+
+        $response->assertRedirect('/settings/users');
+        $response->assertSessionMissing('errors');
+        $this->assertArraySubset($this->validParams(), $user->fresh()->getAttributes());
+    }
+
+    /** @test */
+    public function an_unauthorized_user_can_not_update_a_user()
+    {
+        $user = factory(User::class)->create([
+            'username' => 'John',
+            'email' => 'john@example.com',
+            'password' => bcrypt('super-secret-password'),
+            'is_admin' => false,
+        ]);
+
+        $response = $this->actingAs($user)->from('/settings/users')
+            ->post('/settings/users/'.$user->id, $this->validParams());
+
+        $response->assertStatus(403);
+        tap(User::first(), function ($user) use ($response) {
+            $this->assertEquals('John', $user->username);
+            $this->assertEquals('john@example.com', $user->email);
+            $this->assertTrue(Hash::check('super-secret-password', $user->password));
+            $this->assertFalse($user->is_admin);
+        });
+    }
+
+    /** @test */
+    public function an_authorized_user_can_not_make_a_user_admin()
+    {
+        $user = factory(User::class)->create($this->originalParams([
+            'is_admin' => false,
+        ]));
+        $user->grantRole('manage-users');
+
+        $response = $this->actingAs($user)->from('/settings/users')
+            ->post('/settings/users/'.$user->id, $this->validParams([
+                'is_admin' => true,
+            ]));
+
+        $response->assertStatus(403);
+        tap(User::first(), function ($user) use ($response) {
+            $this->assertEquals('John', $user->username);
+            $this->assertEquals('john@example.com', $user->email);
+            $this->assertTrue(Hash::check('super-secret-password', $user->password));
+            $this->assertFalse($user->is_admin);
+        });
+    }
+
+    /** @test */
+    public function a_guest_cannot_udpdate_a_user()
     {
         $user = factory(User::class)->create([
             'username' => 'John',
@@ -69,9 +127,19 @@ class UpdateUserTest extends TestCase
     }
 
     /** @test */
+    public function user_must_exists()
+    {
+        $user = factory(User::class)->states('admin')->create();
+
+        $response = $this->actingAs($user)->post('/settings/users/99', $this->validParams());
+
+        $response->assertStatus(404);
+    }
+
+    /** @test */
     public function username_is_required()
     {
-        $user = factory(User::class)->create($this->originalParams());
+        $user = factory(User::class)->states('admin')->create($this->originalParams());
 
         $response = $this->actingAs($user)->from('/settings/users')->post('/settings/users/'.$user->id, $this->validParams([
             'username' => '',
@@ -85,7 +153,7 @@ class UpdateUserTest extends TestCase
     public function username_is_unique()
     {
         $otherUser = factory(User::class)->create(['username' => 'Jane']);
-        $user = factory(User::class)->create($this->originalParams());
+        $user = factory(User::class)->states('admin')->create($this->originalParams());
 
         $response = $this->actingAs($user)->from('/settings/users')->post('/settings/users/'.$user->id, $this->validParams([
             'username' => 'Jane',
@@ -98,7 +166,7 @@ class UpdateUserTest extends TestCase
     /** @test */
     public function allow_resetting_same_username()
     {
-        $user = factory(User::class)->create($this->originalParams([
+        $user = factory(User::class)->states('admin')->create($this->originalParams([
             'username' => 'Jane',
         ]));
 
@@ -113,7 +181,7 @@ class UpdateUserTest extends TestCase
     /** @test */
     public function email_is_required()
     {
-        $user = factory(User::class)->create($this->originalParams());
+        $user = factory(User::class)->states('admin')->create($this->originalParams());
 
         $response = $this->actingAs($user)->from('/settings/users')->post('/settings/users/'.$user->id, $this->validParams([
             'email' => '',
@@ -127,7 +195,7 @@ class UpdateUserTest extends TestCase
     public function email_is_unique()
     {
         $otherUser = factory(User::class)->create(['email' => 'jane@example.com']);
-        $user = factory(User::class)->create($this->originalParams());
+        $user = factory(User::class)->states('admin')->create($this->originalParams());
 
         $response = $this->actingAs($user)->from('/settings/users')->post('/settings/users/'.$user->id, $this->validParams([
             'email' => 'jane@example.com',
@@ -140,7 +208,7 @@ class UpdateUserTest extends TestCase
     /** @test */
     public function allow_resetting_same_email()
     {
-        $user = factory(User::class)->create($this->originalParams([
+        $user = factory(User::class)->states('admin')->create($this->originalParams([
             'email' => 'jane@example.com',
         ]));
 
@@ -155,7 +223,7 @@ class UpdateUserTest extends TestCase
     /** @test */
     public function email_is_valid_format()
     {
-        $user = factory(User::class)->create($this->originalParams());
+        $user = factory(User::class)->states('admin')->create($this->originalParams());
 
         $response = $this->actingAs($user)->from('/settings/users')->post('/settings/users/'.$user->id, $this->validParams([
             'email' => 'not-an-email',
@@ -169,7 +237,7 @@ class UpdateUserTest extends TestCase
     public function password_is_optional()
     {
         $this->withoutExceptionHandling();
-        $user = factory(User::class)->create($this->originalParams([
+        $user = factory(User::class)->states('admin')->create($this->originalParams([
             'password' => bcrypt('original-password'),
         ]));
 
@@ -185,7 +253,7 @@ class UpdateUserTest extends TestCase
     /** @test */
     public function password_is_at_least_6_chars_long()
     {
-        $user = factory(User::class)->create($this->originalParams());
+        $user = factory(User::class)->states('admin')->create($this->originalParams());
 
         $response = $this->actingAs($user)->from('/settings/users')->post('/settings/users/'.$user->id, $this->validParams([
             'password' => 'abcde',
@@ -198,7 +266,7 @@ class UpdateUserTest extends TestCase
     /** @test */
     public function if_is_admin_is_missing_its_unchecked()
     {
-        $user = factory(User::class)->create($this->originalParams([
+        $user = factory(User::class)->states('admin')->create($this->originalParams([
             'is_admin' => true,
         ]));
 
@@ -224,7 +292,6 @@ class UpdateUserTest extends TestCase
             'username' => 'John',
             'email' => 'john@example.com',
             'password' => bcrypt('super-secret-password'),
-            'is_admin' => true,
         ], $overrides);
     }
 
@@ -238,7 +305,7 @@ class UpdateUserTest extends TestCase
         return array_merge([
             'username' => 'Jane',
             'email' => 'jane@example.com',
-            'password' => 'updated-password',
+            'is_admin' => false,
         ], $overrides);
     }
 }

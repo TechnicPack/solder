@@ -61,10 +61,15 @@ class UsersController extends Controller
      * @param $userId
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function update($userId)
     {
-        $user = request()->validate([
+        $user = User::findOrFail($userId);
+
+        $this->authorize('update', $user);
+
+        $attributes = request()->validate([
             'username' => ['required', Rule::unique('users')->ignore($userId)],
             'email' => ['required', 'email', Rule::unique('users')->ignore($userId)],
         ]);
@@ -74,12 +79,12 @@ class UsersController extends Controller
                 'password' => ['min:6'],
             ]);
 
-            $user['password'] = bcrypt(request('password'));
+            $attributes['password'] = bcrypt(request('password'));
         }
 
-        $user['is_admin'] = request('is_admin') == 'on';
+        $attributes['is_admin'] = request('is_admin') == 'on';
 
-        User::find($userId)->update($user);
+        $user->update($attributes);
 
         return redirect('/settings/users/');
     }
