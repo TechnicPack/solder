@@ -12,7 +12,6 @@
 namespace App\Policies;
 
 use App\User;
-use App\Bundle;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class BundlePolicy
@@ -48,10 +47,9 @@ class BundlePolicy
      * Determine whether the user can delete the bundle.
      *
      * @param  \App\User  $user
-     * @param  \App\Bundle  $bundle
      * @return mixed
      */
-    public function delete(User $user, Bundle $bundle)
+    public function delete(User $user)
     {
         return $user->roles()->where('tag', 'update-modpack')->exists();
     }

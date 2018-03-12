@@ -12,7 +12,6 @@
 namespace App\Policies;
 
 use App\User;
-use App\Client;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class ClientPolicy
@@ -59,10 +58,9 @@ class ClientPolicy
      * Determine whether the user can delete the client.
      *
      * @param  \App\User  $user
-     * @param  \App\Client  $client
      * @return mixed
      */
-    public function delete(User $user, Client $client)
+    public function delete(User $user)
     {
         return $user->roles()->where('tag', 'manage-clients')->exists();
     }

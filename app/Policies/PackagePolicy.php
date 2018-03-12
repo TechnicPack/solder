@@ -12,7 +12,6 @@
 namespace App\Policies;
 
 use App\User;
-use App\Package;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class PackagePolicy
@@ -48,10 +47,9 @@ class PackagePolicy
      * Determine whether the user can update the package.
      *
      * @param  \App\User  $user
-     * @param  \App\Package  $package
      * @return mixed
      */
-    public function update(User $user, Package $package)
+    public function update(User $user)
     {
         return $user->roles()->where('tag', 'update-package')->exists();
     }
@@ -60,10 +58,9 @@ class PackagePolicy
      * Determine whether the user can delete the package.
      *
      * @param  \App\User  $user
-     * @param  \App\Package  $package
      * @return mixed
      */
-    public function delete(User $user, Package $package)
+    public function delete(User $user)
     {
         return $user->roles()->where('tag', 'delete-package')->exists();
     }

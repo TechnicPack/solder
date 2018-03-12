@@ -12,7 +12,6 @@
 namespace App\Policies;
 
 use App\User;
-use App\Release;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class ReleasePolicy
@@ -48,10 +47,9 @@ class ReleasePolicy
      * Determine whether the user can delete the release.
      *
      * @param  \App\User  $user
-     * @param  \App\Release  $release
      * @return mixed
      */
-    public function delete(User $user, Release $release)
+    public function delete(User $user)
     {
         return $user->roles()->where('tag', 'update-package')->exists();
     }
