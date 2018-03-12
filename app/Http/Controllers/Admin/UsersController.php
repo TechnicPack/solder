@@ -69,22 +69,18 @@ class UsersController extends Controller
 
         $this->authorize('update', $user);
 
-        $attributes = request()->validate([
+        request()->validate([
             'username' => ['required', Rule::unique('users')->ignore($userId)],
             'email' => ['required', 'email', Rule::unique('users')->ignore($userId)],
+            'password' => ['nullable', 'min:6'],
         ]);
 
-        if (request('password') != '') {
-            request()->validate([
-                'password' => ['min:6'],
-            ]);
-
-            $attributes['password'] = bcrypt(request('password'));
-        }
-
-        $attributes['is_admin'] = request('is_admin') == 'on';
-
-        $user->update($attributes);
+        $user->fill([
+            'username' => request('username'),
+            'email' => request('email'),
+            'is_admin' => request('is_admin', false),
+            'password' => request('password') !== null ? bcrypt(request('password')) : $user->password,
+        ])->save();
 
         return redirect('/settings/users/');
     }
