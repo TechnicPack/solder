@@ -12,6 +12,7 @@
 namespace App\Http\Controllers;
 
 use App\Bundle;
+use Illuminate\Validation\Rule;
 
 class BundlesController extends Controller
 {
@@ -22,16 +23,9 @@ class BundlesController extends Controller
     {
         $this->authorize('create', Bundle::class);
 
-        $bundle = Bundle::where('build_id', request()->build_id)
-                ->where('release_id', request()->release_id)
-                ->first();
-
-        if (! (empty($bundle))) {
-            return response()->json([
-                        'status' => 'failed',
-                        'reason' => 'Duplicate Modversion found',
-            ]);
-        }
+        $this->validate(request(), [
+            'release_id' => Rule::unique('build_release', 'release_id')->where('build_id', request('build_id')),
+        ]);
 
         $bundle = Bundle::create([
             'build_id' => request()->build_id,
@@ -39,8 +33,8 @@ class BundlesController extends Controller
         ]);
 
         return response()->json([
-                    'status' => 'success',
-                    'redirect' => '/modpacks/'.$bundle->build->modpack->slug.'/'.$bundle->build->version,
+            'status' => 'success',
+            'redirect' => '/modpacks/'.$bundle->build->modpack->slug.'/'.$bundle->build->version,
         ]);
     }
 

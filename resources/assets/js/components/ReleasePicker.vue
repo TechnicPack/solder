@@ -109,14 +109,11 @@
                         config: { headers: {'Content-Type': 'multipart/form-data' }}
                 })
                         .then((response) => {
-                            if (response.data.status == "failed") {
-                                swal("Error", response.data.reason, "error");
-                            } else if (response.data.status == "success" && typeof response.data.redirect !== 'undefined') {
+                            if (response.data.status === "success" && typeof response.data.redirect !== 'undefined') {
                                 window.location.href = response.data.redirect;
                             }
                         })
                         .catch((error) => {
-                            console.log(error);
                             swal("Error", error.response.data.message, "error");
                         });
             }

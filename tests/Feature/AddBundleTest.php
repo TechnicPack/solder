@@ -100,4 +100,26 @@ class AddBundleTest extends TestCase
         $response->assertRedirect('/login');
         $this->assertCount(0, Bundle::all());
     }
+
+    /** @test **/
+    public function cannot_add_version_to_build()
+    {
+        $user = factory(User::class)->states('admin')->create();
+        $modpack = factory(Modpack::class)->create(['slug' => 'iron-tanks']);
+        $build = $modpack->builds()->save(factory(Build::class)->make(['version' => '1.0.0']));
+        $release = factory(Release::class)->create();
+        $build->releases()->attach($release);
+        $this->assertCount(1, Bundle::all());
+
+        $response = $this->actingAs($user)->postJson('bundles', [
+            'build_id' => $build->id,
+            'release_id' => $release->id,
+        ]);
+
+        $response->assertStatus(422);
+        $response->assertJsonFragment([
+            'message' => 'The given data was invalid.',
+        ]);
+        $this->assertCount(1, Bundle::all());
+    }
 }
