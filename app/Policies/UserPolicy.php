@@ -66,7 +66,8 @@ class UserPolicy
      */
     public function update(User $user, User $model)
     {
-        //
+        return $user->roles()->where('tag', 'manage-users')->exists()
+            && request('is_admin') === false;
     }
 
     /**
