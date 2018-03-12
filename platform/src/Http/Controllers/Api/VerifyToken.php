@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace App\Http\Controllers\Api;
+namespace Platform\Http\Controllers\Api;
 
-use App\Key;
+use Platform\Key;
 use App\Http\Controllers\Controller;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 

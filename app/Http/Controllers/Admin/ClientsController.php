@@ -11,7 +11,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Client;
+use Platform\Client;
 use App\Http\Controllers\Controller;
 
 class ClientsController extends Controller

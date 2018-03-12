@@ -11,8 +11,8 @@
 
 namespace Tests\Feature;
 
-use App\Key;
 use App\User;
+use Platform\Key;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -30,11 +30,11 @@ class AddKeyTest extends TestCase
             'name' => 'Technicpack Website',
         ]);
 
+        $response->assertRedirect('/settings/keys');
+        $this->assertCount(1, Key::all());
         tap(Key::first(), function ($key) use ($response) {
             $this->assertEquals('my-technic-key', $key->token);
             $this->assertEquals('Technicpack Website', $key->name);
-
-            $response->assertRedirect('/settings/keys');
         });
     }
 

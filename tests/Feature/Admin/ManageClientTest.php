@@ -12,8 +12,8 @@
 namespace Tests\Feature;
 
 use App\User;
-use App\Client;
 use Tests\TestCase;
+use Platform\Client;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ManageClientTest extends TestCase

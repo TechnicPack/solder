@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-$factory->define(App\Key::class, function () {
+$factory->define(Platform\Client::class, function () {
     return [
-        'name' => 'Test Key',
-        'token' => 'test-key-token',
+        'title' => 'Test Client',
+        'token' => 'TESTTOKEN',
     ];
 });

@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace App\Http\Controllers\Api;
+namespace Platform\Http\Controllers\Api;
 
 use App\Build;
 use App\Modpack;

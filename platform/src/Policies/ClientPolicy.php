@@ -9,12 +9,12 @@
  * file that was distributed with this source code.
  */
 
-namespace App\Policies;
+namespace Platform\Policies;
 
 use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class KeyPolicy
+class ClientPolicy
 {
     use HandlesAuthorization;
 
@@ -33,24 +33,35 @@ class KeyPolicy
     }
 
     /**
-     * Determine whether the user can view the key index.
+     * Determine whether the user can view the client index.
      *
      * @param  \App\User  $user
      * @return mixed
      */
     public function index(User $user)
     {
-        return $user->roles()->where('tag', 'manage-keys')->exists();
+        return $user->roles()->where('tag', 'manage-clients')->exists();
     }
 
     /**
-     * Determine whether the user can create keys.
+     * Determine whether the user can create clients.
      *
      * @param  \App\User  $user
      * @return mixed
      */
     public function create(User $user)
     {
-        return $user->roles()->where('tag', 'manage-keys')->exists();
+        return $user->roles()->where('tag', 'manage-clients')->exists();
+    }
+
+    /**
+     * Determine whether the user can delete the client.
+     *
+     * @param  \App\User  $user
+     * @return mixed
+     */
+    public function delete(User $user)
+    {
+        return $user->roles()->where('tag', 'manage-clients')->exists();
     }
 }
