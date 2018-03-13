@@ -53,4 +53,15 @@ class KeyPolicy
     {
         return $user->roles()->where('tag', 'manage-keys')->exists();
     }
+
+    /**
+     * Determine whether the user can delete the client.
+     *
+     * @param  \App\User  $user
+     * @return mixed
+     */
+    public function delete(User $user)
+    {
+        return $user->roles()->where('tag', 'manage-keys')->exists();
+    }
 }

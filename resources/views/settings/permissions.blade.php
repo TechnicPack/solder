@@ -18,16 +18,14 @@
                                 About
                             </a>
                         </li>
-                        @can('index', App\Key::class)
-                            <li>
-                                <a href="/settings/keys">
-                                <span class="icon">
-                                    <i class="fa fa-fw fa-key"></i>
-                                </span>
-                                    Keys
-                                </a>
-                            </li>
-                        @endcan
+                        <li>
+                            <a href="/settings/keys">
+                            <span class="icon">
+                                <i class="fa fa-fw fa-key"></i>
+                            </span>
+                                Keys
+                            </a>
+                        </li>
                         <li>
                             <a href="/settings/clients">
                                 <span class="icon">

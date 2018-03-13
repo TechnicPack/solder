@@ -18,7 +18,6 @@
                                 About
                             </a>
                         </li>
-                        @can('index', App\Key::class)
                         <li>
                             <a href="/settings/keys">
                                 <span class="icon">
@@ -27,7 +26,6 @@
                                 Keys
                             </a>
                         </li>
-                        @endcan
                         <li>
                             <a href="/settings/clients">
                                 <span class="icon">

@@ -9,11 +9,11 @@
  * file that was distributed with this source code.
  */
 
-namespace Platform\Http\Resources;
+namespace Platform\Http\Resources\Api;
 
 use Illuminate\Http\Resources\Json\Resource;
 
-class ModpackResource extends Resource
+class ModpackFullResource extends Resource
 {
     /**
      * Transform the resource into an array.
@@ -23,6 +23,12 @@ class ModpackResource extends Resource
      */
     public function toArray($request)
     {
-        return $this->name;
+        return [
+            'name' => $this->slug,
+            'display_name' => $this->name,
+            'recommended' => $this->recommended_build->version,
+            'latest' => $this->latest_build->version,
+            'builds' => $this->builds->pluck('version'),
+        ];
     }
 }
