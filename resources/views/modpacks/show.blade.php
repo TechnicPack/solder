@@ -2,6 +2,9 @@
 
 @section('content')
     @component('components.assistant')
+	@slot('pagekey')
+          modpacks
+        @endslot
         Modpacks are made up of multiple versions, called 'builds'. Builds
         help you organize changes and upgrades to your modpack without
         breaking players worlds. A build is what the launcher will download
