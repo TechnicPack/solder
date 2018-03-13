@@ -12,18 +12,18 @@
 Route::group([
     'prefix' => 'api',
     'middleware' => 'api',
-    'namespace' => 'Platform\Http\Controllers',
+    'namespace' => 'Platform\Http\Controllers\Api',
 ], function () {
-    Route::get('/', function () {
-        return response()->json([
-            'api' => 'SolderIO',
-            'version' => config('app.version'),
-            'stream' => config('app.env'),
-        ]);
-    });
 
-    Route::get('verify/{token}', 'Api\VerifyToken');
-    Route::get('modpack', 'Api\ModpackController@index');
-    Route::get('modpack/{slug}', 'Api\ModpackController@show');
-    Route::get('modpack/{slug}/{build}', 'Api\ModpackBuildController@show');
+    // API Root
+    Route::get('/', 'DescribeApi');
+
+    // Verify Token Routes ...
+    Route::get('verify/{token}', 'VerifyToken');
+
+    // Modpack Routes ...
+    Route::get('modpack', 'ModpackController@index');
+    Route::get('modpack/{slug}', 'ModpackController@show');
+    Route::get('modpack/{slug}/{build}', 'ModpackBuildController@show');
+
 });
