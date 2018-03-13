@@ -1,16 +1,13 @@
 @extends('layouts.app')
 
 @section('content')
-    @component('components.assistant')
-	@slot('pagekey')
-          modpacks
-        @endslot
+    <assistant id="modpacks" v-cloak>
         Modpacks are made up of multiple versions, called 'builds'. Builds
         help you organize changes and upgrades to your modpack without
         breaking players worlds. A build is what the launcher will download
         and run, so it needs to have a unique version number and the version
         of Minecraft you want launched.
-    @endcomponent
+    </assistant>
 
     <section class="section">
         <div class="level has-text-capitalized is-size-6">

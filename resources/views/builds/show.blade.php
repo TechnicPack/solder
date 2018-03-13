@@ -1,16 +1,13 @@
 @extends('layouts.app')
 
 @section('content')
-    @component('components.assistant')
-	@slot('pagekey')
-          builds
-        @endslot
+    <assistant id="builds" v-cloak>
         The last step in building your modpack in Solder is to bundle together
         your favorite mods and resource packs from your Solder library. Simply
         select a package and version and click Bundle. If you don't see any
         packages listed, you probably need to go to your
         <a href="/library">Library</a> and create some.
-    @endcomponent
+    </assistant>
 
     <section class="section">
         <div class="level has-text-capitalized is-size-6">

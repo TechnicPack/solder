@@ -1,14 +1,13 @@
 @extends('layouts.app')
 
 @section('content')
-
-    @component('components.assistant')
+    <assistant id="releases" v-cloak>
         This is the place for uploading new releases of a package, and managing
         the files for your library. The file structure is very important so before
         you upload anything take a minute to read about the
         <a href="http://docs.solder.io/docs/zip-file-structure">zip file structure</a>
         in the docs.
-    @endcomponent
+    </assistant>
 
     <section class="section">
 

@@ -1,0 +1,18 @@
+.recall {
+  @extend .delete;
+  float: right;
+  margin: 0.5em;
+  background-color: $info;
+}
+
+.recall::before, .recall::after {
+  transform: translateX(-50%) translateY(-50%) rotate(0);
+}
+
+.slide-fade-enter-active, .slide-fade-leave-active {
+  transition: all .3s ease;
+}
+.slide-fade-enter, .slide-fade-leave-to {
+  transform: translateX(10px);
+  opacity: 0;
+}

@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
-    @component('components.assistant')
+    <assistant id="dashboard" v-cloak>
         Welcome to your Solder your Dashboard. From here you can create modpacks
         and check on recent activity. If you're just getting started, use the
         form below to create your first modpack.
-    @endcomponent
+    </assistant>
 
     <section class="section">
         @can('create', App\Modpack::class)
