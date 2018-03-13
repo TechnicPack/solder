@@ -19,11 +19,24 @@ use Platform\Key;
 use Tests\TestCase;
 use Platform\Client;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\Resources\Json\Resource;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class LegacyEndpointsTest extends TestCase
 {
     use RefreshDatabase;
+
+    protected function tearDown()
+    {
+        // The wrap attribute is static on Resource. This isn't a
+        // problem in normal operation because we usually return a single
+        // resource then the application exits. But for our test suite it
+        // means we leak some state between requests unless we reset this
+        // back to the default 'data' at the end of each test.
+        Resource::wrap('data');
+
+        parent::tearDown();
+    }
 
     /** @test **/
     public function can_get_api_details()

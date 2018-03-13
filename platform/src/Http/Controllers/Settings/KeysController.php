@@ -15,7 +15,6 @@ use Exception;
 use Platform\Key;
 use App\Http\Controllers\Controller;
 use Platform\Http\Resources\KeyResource;
-use Platform\Http\Resources\ClientResource;
 
 class KeysController extends Controller
 {
@@ -27,7 +26,7 @@ class KeysController extends Controller
      */
     public function index()
     {
-        $this->authorize('index', Key::class);
+        $this->authorize('keys.list', Key::class);
 
         return KeyResource::collection(Key::all());
     }
@@ -35,12 +34,12 @@ class KeysController extends Controller
     /**
      * Store a posted key.
      *
-     * @return ClientResource
+     * @return KeyResource
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function store()
     {
-        $this->authorize('create', Key::class);
+        $this->authorize('keys.create', Key::class);
 
         $this->validate(request(), [
             'name' => ['required', 'unique:keys'],
@@ -52,7 +51,7 @@ class KeysController extends Controller
             'token' => request('token'),
         ]);
 
-        return new ClientResource($key);
+        return new KeyResource($key);
     }
 
     /**
@@ -64,7 +63,7 @@ class KeysController extends Controller
      */
     public function destroy(Key $key)
     {
-        $this->authorize('delete', $key);
+        $this->authorize('keys.delete', $key);
 
         try {
             $key->delete();

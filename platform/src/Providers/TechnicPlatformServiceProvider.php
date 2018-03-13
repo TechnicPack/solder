@@ -18,16 +18,6 @@ use Illuminate\Database\Eloquent\Factory;
 class PlatformServiceProvider extends ServiceProvider
 {
     /**
-     * The policy mappings.
-     *
-     * @var array
-     */
-    protected $policies = [
-        'Platform\Key' => 'Platform\Policies\KeyPolicy',
-        'Platform\Client' => 'Platform\Policies\ClientPolicy',
-    ];
-
-    /**
      * Bootstrap any platform services.
      *
      * @return void
@@ -38,6 +28,10 @@ class PlatformServiceProvider extends ServiceProvider
         $this->loadRoutesFrom(__DIR__.'/../../routes/web.php');
         $this->loadModelFactoriesFrom(__DIR__.'/../../database/factories');
         $this->loadMigrationsFrom(__DIR__.'/../../database/migrations');
+
+        $this->publishes([__DIR__.'/../../config/platform.php' => config_path('platform.php')]);
+
+        $this->mergeConfigFrom(__DIR__.'/../../config/platform.php', 'platform');
 
         $this->registerPolicies();
     }
@@ -70,8 +64,11 @@ class PlatformServiceProvider extends ServiceProvider
      */
     public function registerPolicies()
     {
-        foreach ($this->policies as $key => $value) {
-            Gate::policy($key, $value);
-        }
+        Gate::define('keys.list', config('platform.authorize.keys.list'));
+        Gate::define('keys.create', config('platform.authorize.keys.create'));
+        Gate::define('keys.delete', config('platform.authorize.keys.delete'));
+        Gate::define('clients.list', config('platform.authorize.clients.list'));
+        Gate::define('clients.create', config('platform.authorize.clients.create'));
+        Gate::define('clients.delete', config('platform.authorize.clients.delete'));
     }
 }

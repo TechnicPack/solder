@@ -26,7 +26,7 @@ class ClientsController extends Controller
      */
     public function index()
     {
-        $this->authorize('index', Client::class);
+        $this->authorize('clients.list', Client::class);
 
         return ClientResource::collection(Client::all());
     }
@@ -39,7 +39,7 @@ class ClientsController extends Controller
      */
     public function store()
     {
-        $this->authorize('create', Client::class);
+        $this->authorize('clients.create', Client::class);
 
         $this->validate(request(), [
             'title' => ['required', 'unique:clients'],
@@ -63,7 +63,7 @@ class ClientsController extends Controller
      */
     public function destroy(Client $client)
     {
-        $this->authorize('delete', $client);
+        $this->authorize('clients.delete', $client);
 
         try {
             $client->delete();

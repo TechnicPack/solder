@@ -11,7 +11,6 @@
 
 namespace Platform\Policies;
 
-use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class ClientPolicy
@@ -19,49 +18,32 @@ class ClientPolicy
     use HandlesAuthorization;
 
     /**
-     * Check for authorization before the intended policy method is actually called.
-     *
-     * @param \App\User  $user
-     *
-     * @return bool
-     */
-    public function before($user)
-    {
-        if ($user->is_admin) {
-            return true;
-        }
-    }
-
-    /**
      * Determine whether the user can view the client index.
      *
-     * @param  \App\User  $user
      * @return mixed
      */
-    public function index(User $user)
+    public function list()
     {
-        return $user->roles()->where('tag', 'manage-clients')->exists();
+        return true;
     }
 
     /**
      * Determine whether the user can create clients.
      *
-     * @param  \App\User  $user
      * @return mixed
      */
-    public function create(User $user)
+    public function create()
     {
-        return $user->roles()->where('tag', 'manage-clients')->exists();
+        return true;
     }
 
     /**
      * Determine whether the user can delete the client.
      *
-     * @param  \App\User  $user
      * @return mixed
      */
-    public function delete(User $user)
+    public function delete()
     {
-        return $user->roles()->where('tag', 'manage-clients')->exists();
+        return true;
     }
 }
