@@ -1,7 +1,6 @@
 <template>
-    <div :class="['notification', 'is-radiusless', 'animated', type ? `is-${type}` : '']" v-if="show">
+    <div :class="['notification', 'is-radiusless', 'animated', 'is-info']" v-if="show[pagekey]">
         <button class="delete touchable" @click="close()"></button>
-        <div class="title is-5" v-if="title">{{ title }}</div>
         <nav class="columns">
             <div class="column is-narrow">
                 <figure class="image is-64x64 is-pulled-left">
@@ -23,34 +22,38 @@
         data() {
             return {
                 html: [],
-                show: true
+                show: {}
             };
         },
         props: {
-            type: String,
-            title: String,
+            pagekey: String,
         },
 
         mounted() {
-            if (typeof (Storage) !== "undefined" && localStorage.getItem("assistantShow") !== null) {
-                if (localStorage.getItem("assistantShow") === "false") {
-                    this.show = false;
-                }
+            if (typeof (Storage) !== "undefined" && this.getObj("assistantShow") !== null) {
+		this.show = this.getObj("assistantShow");
             }
         },
 
         methods: {
+            setObj (key, obj) {
+              if (typeof (Storage) !== "undefined" /* function to detect if localstorage is supported*/) {
+                  return localStorage.setItem(key, JSON.stringify(obj));
+              }
+            },
+            getObj (key) {
+              if (typeof (Storage) !== "undefined" /* function to detect if localstorage is supported*/) {
+                  return JSON.parse(localStorage.getItem(key));
+              }
+            },
+
             close () {
-                this.show = false;
-                if (typeof (Storage) !== "undefined" /* function to detect if localstorage is supported*/) {
-                    localStorage.setItem('assistantShow', false)
-                }
+		this.show[this.pagekey] = false;
+                this.setObj('assistantShow', this.show)
             },
             open () {
-                this.show = true;
-                if (typeof (Storage) !== "undefined" /* function to detect if localstorage is supported*/) {
-                    localStorage.setItem('assistantShow', true)
-                }
+                this.show[this.pagekey] = true;
+                this.setObj('assistantShow', this.show)
             },
         }
     }

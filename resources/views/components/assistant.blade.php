@@ -1,6 +1,6 @@
 @assistant
 <section class="section is-paddingless">
-    <assistant type="info">
+    <assistant pagekey="{{ $pagekey }}">
         {{ $slot }}
     </assistant>
 </section>
