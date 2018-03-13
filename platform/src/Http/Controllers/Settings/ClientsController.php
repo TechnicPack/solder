@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace App\Http\Controllers\Admin;
+namespace Platform\Http\Controllers\Settings;
 
 use Platform\Client;
 use App\Http\Controllers\Controller;
@@ -20,6 +20,7 @@ class ClientsController extends Controller
      * List all the clients.
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function index()
     {
@@ -34,6 +35,7 @@ class ClientsController extends Controller
      * Create a new Launcher Client.
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function store()
     {
@@ -55,6 +57,7 @@ class ClientsController extends Controller
      * @param $clientId
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function destroy($clientId)
     {
