@@ -9,12 +9,11 @@
  * file that was distributed with this source code.
  */
 
-namespace Platform\Http\Resources;
+namespace Platform\Http\Resources\Api;
 
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Resources\Json\Resource;
 
-class ModResource extends Resource
+class BuildResource extends Resource
 {
     /**
      * Transform the resource into an array.
@@ -25,10 +24,11 @@ class ModResource extends Resource
     public function toArray($request)
     {
         return [
-            'name' => $this->package->name,
-            'version' => $this->version,
-            'md5' => $this->md5,
-            'url' => Storage::url($this->path),
+            'minecraft' => $this->minecraft_version,
+            'java' => $this->java_version,
+            'memory' => (int) $this->required_memory,
+            'forge' => $this->forge_version,
+            'mods' => ModResource::collection($this->releases),
         ];
     }
 }

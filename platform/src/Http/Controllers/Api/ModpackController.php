@@ -16,7 +16,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Resources\Json\Resource;
-use Platform\Http\Resources\ModpackFullResource;
+use Platform\Http\Resources\Api\ModpackFullResource;
 
 class ModpackController extends Controller
 {
@@ -89,6 +89,6 @@ class ModpackController extends Controller
     {
         $class = 'Modpack'.studly_case($request->get('include')).'Resource';
 
-        return 'Platform\\Http\\Resources\\'.$class;
+        return 'Platform\\Http\\Resources\\Api\\'.$class;
     }
 }

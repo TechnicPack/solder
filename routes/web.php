@@ -52,6 +52,9 @@ Route::middleware('auth')->namespace('Admin')->prefix('settings')->group(functio
     Route::get('permissions', 'PermissionsController@index');
     Route::post('permissions', 'PermissionsController@update');
 
+    Route::view('clients', 'settings.clients');
+    Route::view('keys', 'settings.keys');
+
     Route::get('users', 'UsersController@index');
     Route::post('users', 'UsersController@store');
     Route::post('users/{user}', 'UsersController@update');

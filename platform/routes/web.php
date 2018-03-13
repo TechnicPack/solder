@@ -16,13 +16,13 @@ Route::group([
 ], function () {
 
     // Key Routes ...
-    Route::get('keys', 'KeysController@index');
-    Route::post('keys', 'KeysController@store');
-    Route::delete('keys/{key}', 'KeysController@destroy');
+    Route::get('keys/tokens', 'KeysController@index');
+    Route::post('keys/tokens', 'KeysController@store');
+    Route::delete('keys/tokens/{key}', 'KeysController@destroy');
 
     // Client Routes ...
-    Route::get('clients', 'ClientsController@index');
-    Route::post('clients', 'ClientsController@store');
-    Route::delete('clients/{client}', 'ClientsController@destroy');
+    Route::get('clients/tokens', 'ClientsController@index');
+    Route::post('clients/tokens', 'ClientsController@store');
+    Route::delete('clients/tokens/{client}', 'ClientsController@destroy');
 
 });

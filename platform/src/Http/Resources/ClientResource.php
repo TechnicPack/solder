@@ -13,7 +13,7 @@ namespace Platform\Http\Resources;
 
 use Illuminate\Http\Resources\Json\Resource;
 
-class BuildResource extends Resource
+class ClientResource extends Resource
 {
     /**
      * Transform the resource into an array.
@@ -24,11 +24,10 @@ class BuildResource extends Resource
     public function toArray($request)
     {
         return [
-            'minecraft' => $this->minecraft_version,
-            'java' => $this->java_version,
-            'memory' => (int) $this->required_memory,
-            'forge' => $this->forge_version,
-            'mods' => ModResource::collection($this->releases),
+            'id' => $this->id,
+            'title' => $this->title,
+            'token' => $this->token,
+            'created_at' => $this->created_at->format('c'),
         ];
     }
 }
