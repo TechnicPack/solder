@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace App\Http\Controllers\Admin;
+namespace Platform\Http\Controllers\Settings;
 
 use Platform\Key;
 use App\Http\Controllers\Controller;
@@ -20,6 +20,7 @@ class KeysController extends Controller
      * List all keys.
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function index()
     {
@@ -34,6 +35,7 @@ class KeysController extends Controller
      * Store a posted key.
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function store()
     {

@@ -35,6 +35,7 @@ class PlatformServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->loadRoutesFrom(__DIR__.'/../../routes/api.php');
+        $this->loadRoutesFrom(__DIR__.'/../../routes/web.php');
         $this->loadModelFactoriesFrom(__DIR__.'/../../database/factories');
         $this->loadMigrationsFrom(__DIR__.'/../../database/migrations');
 
