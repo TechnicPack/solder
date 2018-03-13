@@ -21,6 +21,7 @@ Vue.component('build-table', require('./components/BuildTable.vue'));
 Vue.component('passport-personal-access-tokens', require('./components/passport/PersonalAccessTokens.vue'));
 Vue.component('passport-clients', require('./components/passport/Clients.vue'));
 Vue.component('passport-authorized-clients', require('./components/passport/AuthorizedClients.vue'));
+Vue.component('assistant', require('./components/Assistant.vue'));
 
 Vue.filter('prettyBytes', function (num) {
     // jacked from: https://github.com/sindresorhus/pretty-bytes

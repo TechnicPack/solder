@@ -2,6 +2,9 @@
 
 @section('content')
     @component('components.assistant')
+	@slot('pagekey')
+          builds
+        @endslot
         The last step in building your modpack in Solder is to bundle together
         your favorite mods and resource packs from your Solder library. Simply
         select a package and version and click Bundle. If you don't see any
