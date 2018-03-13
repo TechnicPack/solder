@@ -71,6 +71,17 @@ class DeleteUserTest extends TestCase
     }
 
     /** @test */
+    public function a_admin_cannot_delete_themselves()
+    {
+        $user = factory(User::class)->states('admin')->create();
+
+        $response = $this->actingAs($user)->delete('/settings/users/'.$user->id);
+
+        $response->assertStatus(403);
+        $this->assertCount(1, User::all());
+    }
+
+    /** @test */
     public function a_authorized_user_cannot_delete_an_admin()
     {
         $authorizedUser = factory(User::class)->create();

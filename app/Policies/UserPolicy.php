@@ -21,13 +21,14 @@ class UserPolicy
     /**
      * Check for authorization before the intended policy method is actually called.
      *
-     * @param \App\User  $user
+     * @param \App\User $user
      *
+     * @param $ability
      * @return bool
      */
-    public function before($user)
+    public function before($user, $ability)
     {
-        if ($user->is_admin) {
+        if ($user->is_admin && $ability != 'delete') {
             return true;
         }
     }
@@ -76,6 +77,10 @@ class UserPolicy
      */
     public function delete(User $user, User $model)
     {
+        if ($user->is_admin && $user->isNot($model)) {
+            return true;
+        }
+
         return $user->roles()->where('tag', 'manage-users')->exists()
             && $user->isNot($model)
             && ! $model->is_admin;
