@@ -31,7 +31,7 @@ class LegacyEndpointsTest extends TestCase
         config(['app.version' => '1.2.3']);
         config(['app.env' => 'production']);
 
-        $response = $this->getJson('/api');
+        $response = $this->get('/api');
 
         $response->assertStatus(200);
         $response->assertExactJson([
@@ -49,7 +49,7 @@ class LegacyEndpointsTest extends TestCase
             'name' => 'Test Key',
         ]);
 
-        $response = $this->getJson('/api/verify/APIKEY1234');
+        $response = $this->get('/api/verify/APIKEY1234');
 
         $response->assertStatus(200);
         $response->assertExactJson([
@@ -61,7 +61,7 @@ class LegacyEndpointsTest extends TestCase
     /** @test */
     public function return_error_on_invalid_key()
     {
-        $response = $this->getJson('/api/verify/INVALIDKEY');
+        $response = $this->get('/api/verify/INVALIDKEY');
 
         $response->assertStatus(200);
         $response->assertExactJson([
@@ -77,7 +77,7 @@ class LegacyEndpointsTest extends TestCase
         factory(Modpack::class)->states('private')->create(['name' => 'Big Dig', 'slug' => 'big-dig']);
         factory(Modpack::class)->states('draft')->create(['name' => 'Hexxit', 'slug' => 'hexxit']);
 
-        $response = $this->getJson('api/modpack');
+        $response = $this->get('api/modpack');
 
         $response->assertStatus(200);
         $response->assertJsonFragment([
@@ -97,7 +97,7 @@ class LegacyEndpointsTest extends TestCase
         factory(Modpack::class)->states('private')->create(['name' => 'Big Dig', 'slug' => 'big-dig']);
         factory(Modpack::class)->states('draft')->create(['name' => 'Hexxit', 'slug' => 'hexxit']);
 
-        $response = $this->getJson('api/modpack?k=APIKEY1234');
+        $response = $this->get('api/modpack?k=APIKEY1234');
 
         $response->assertStatus(200);
         $response->assertJsonFragment([
@@ -120,7 +120,7 @@ class LegacyEndpointsTest extends TestCase
         factory(Modpack::class)->states('private')->create(['name' => 'Big Dig', 'slug' => 'big-dig']);
         factory(Modpack::class)->states('draft')->create(['name' => 'Hexxit', 'slug' => 'hexxit']);
 
-        $response = $this->getJson('api/modpack?cid=CLIENTKEY1234');
+        $response = $this->get('api/modpack?cid=CLIENTKEY1234');
 
         $response->assertStatus(200);
         $response->assertJsonFragment([
@@ -147,7 +147,7 @@ class LegacyEndpointsTest extends TestCase
         factory(Modpack::class)->states('private')->create(['name' => 'Big Dig', 'slug' => 'big-dig']);
         factory(Modpack::class)->states('draft')->create(['name' => 'Hexxit', 'slug' => 'hexxit']);
 
-        $response = $this->getJson('api/modpack?include=full');
+        $response = $this->get('api/modpack?include=full');
 
         $response->assertStatus(200);
         $response->assertJsonFragment([
@@ -190,7 +190,7 @@ class LegacyEndpointsTest extends TestCase
         factory(Modpack::class)->states('private')->create(['name' => 'Big Dig', 'slug' => 'big-dig']);
         factory(Modpack::class)->states('draft')->create(['name' => 'Hexxit', 'slug' => 'hexxit']);
 
-        $response = $this->getJson('api/modpack?include=full&cid=CLIENTKEY1234');
+        $response = $this->get('api/modpack?include=full&cid=CLIENTKEY1234');
 
         $response->assertStatus(200);
         $response->assertJsonFragment([
@@ -234,7 +234,7 @@ class LegacyEndpointsTest extends TestCase
         factory(Modpack::class)->states('private')->create(['name' => 'Big Dig', 'slug' => 'big-dig']);
         factory(Modpack::class)->states('draft')->create(['name' => 'Hexxit', 'slug' => 'hexxit']);
 
-        $response = $this->getJson('api/modpack?include=full&k=APIKEY1234');
+        $response = $this->get('api/modpack?include=full&k=APIKEY1234');
 
         $response->assertStatus(200);
         $response->assertJsonFragment([
@@ -280,9 +280,9 @@ class LegacyEndpointsTest extends TestCase
             $modpack->update(['recommended_build_id' => $v100->id, 'latest_build_id' => $v200->id]);
         });
 
-        $response = $this->getJson('api/modpack/b-team');
+        $response = $this->get('api/modpack/b-team');
 
-        $response->assertStatus(200);
+        $response->assertstatus(200);
         $response->assertExactJson([
             'name' => 'b-team',
             'display_name' => 'Attack of the B-Team',
@@ -305,9 +305,9 @@ class LegacyEndpointsTest extends TestCase
             $modpack->clients()->attach(factory(Client::class)->create(['token' => 'CLIENTKEY1234']));
         });
 
-        $response = $this->getJson('api/modpack/b-team?cid=CLIENTKEY1234');
+        $response = $this->get('api/modpack/b-team?cid=CLIENTKEY1234');
 
-        $response->assertStatus(200);
+        $response->assertstatus(200);
         $response->assertExactJson([
             'name' => 'b-team',
             'display_name' => 'Attack of the B-Team',
@@ -331,9 +331,9 @@ class LegacyEndpointsTest extends TestCase
             $modpack->update(['recommended_build_id' => $v100->id, 'latest_build_id' => $v200->id]);
         });
 
-        $response = $this->getJson('api/modpack/b-team?k=APIKEY1234');
+        $response = $this->get('api/modpack/b-team?k=APIKEY1234');
 
-        $response->assertStatus(200);
+        $response->assertstatus(200);
         $response->assertExactJson([
             'name' => 'b-team',
             'display_name' => 'Attack of the B-Team',
@@ -352,50 +352,50 @@ class LegacyEndpointsTest extends TestCase
         factory(Modpack::class)->states('private')->create(['name' => 'Big Dig', 'slug' => 'big-dig']);
         factory(Modpack::class)->states('draft')->create(['name' => 'Hexxit', 'slug' => 'hexxit']);
 
-        $response = $this->getJson('api/modpack/big-dig');
+        $response = $this->get('api/modpack/big-dig');
 
-        $response->assertStatus(404);
+        $response->assertstatus(404);
         $response->assertExactJson([
             'error' => 'Modpack does not exist',
         ]);
 
-        $response = $this->getJson('api/modpack/big-dig/1.0.0');
+        $response = $this->get('api/modpack/big-dig/1.0.0');
 
-        $response->assertStatus(404);
-        $response->assertJson([
-            'message' => 'No query results for model [App\\Modpack].',
-        ]);
-
-        $response = $this->getJson('api/modpack/hexxit');
-
-        $response->assertStatus(404);
+        $response->assertstatus(404);
         $response->assertExactJson([
             'error' => 'Modpack does not exist',
         ]);
 
-        $response = $this->getJson('api/modpack/hexxit/1.0.0');
+        $response = $this->get('api/modpack/hexxit');
 
-        $response->assertStatus(404);
-        $response->assertJson([
-            'message' => 'No query results for model [App\\Modpack].',
+        $response->assertstatus(404);
+        $response->assertExactJson([
+            'error' => 'Modpack does not exist',
+        ]);
+
+        $response = $this->get('api/modpack/hexxit/1.0.0');
+
+        $response->assertstatus(404);
+        $response->assertExactJson([
+            'error' => 'Modpack does not exist',
         ]);
     }
 
     /** @test */
     public function returns_a_404_for_invalid_modpack_slug()
     {
-        $response = $this->getJson('api/modpack/invalid-slug');
+        $response = $this->get('api/modpack/invalid-slug');
 
-        $response->assertStatus(404);
+        $response->assertstatus(404);
         $response->assertExactJson([
             'error' => 'Modpack does not exist',
         ]);
 
-        $response = $this->getJson('api/modpack/invalid-slug/1.0.0');
+        $response = $this->get('api/modpack/invalid-slug/1.0.0');
 
-        $response->assertStatus(404);
-        $response->assertJson([
-            'message' => 'No query results for model [App\\Modpack].',
+        $response->assertstatus(404);
+        $response->assertExactJson([
+            'error' => 'Modpack does not exist',
         ]);
     }
 
@@ -419,7 +419,7 @@ class LegacyEndpointsTest extends TestCase
                 ])->releases()->attach([$releaseA->id, $releaseB->id]);
         });
 
-        $request = $this->getJson('/api/modpack/b-team/1.0.0');
+        $request = $this->get('/api/modpack/b-team/1.0.0');
 
         $request->assertStatus(200);
         $request->assertExactJson([
@@ -465,7 +465,7 @@ class LegacyEndpointsTest extends TestCase
             $modpack->clients()->attach(factory(Client::class)->create(['token' => 'CLIENTKEY1234']));
         });
 
-        $request = $this->getJson('/api/modpack/b-team/1.0.0?cid=CLIENTKEY1234');
+        $request = $this->get('/api/modpack/b-team/1.0.0?cid=CLIENTKEY1234');
 
         $request->assertStatus(200);
         $request->assertExactJson([
@@ -511,7 +511,7 @@ class LegacyEndpointsTest extends TestCase
                 ])->releases()->attach([$releaseA->id, $releaseB->id]);
         });
 
-        $request = $this->getJson('/api/modpack/b-team/1.0.0?k=APIKEY1234');
+        $request = $this->get('/api/modpack/b-team/1.0.0?k=APIKEY1234');
 
         $request->assertStatus(200);
         $request->assertExactJson([
@@ -545,18 +545,18 @@ class LegacyEndpointsTest extends TestCase
             factory(Build::class)->states('private')->create(['version' => '1.5.0', 'modpack_id' => $modpack->id]);
         });
 
-        $response = $this->getJson('api/modpack/b-team/1.5.0');
+        $response = $this->get('api/modpack/b-team/1.5.0');
 
-        $response->assertStatus(404);
-        $response->assertJson([
-            'message' => 'No query results for model [App\\Build].',
+        $response->assertstatus(404);
+        $response->assertExactJson([
+            'error' => 'Build does not exist',
         ]);
 
-        $response = $this->getJson('api/modpack/b-team/2.0.0');
+        $response = $this->get('api/modpack/b-team/2.0.0');
 
-        $response->assertStatus(404);
-        $response->assertJson([
-            'message' => 'No query results for model [App\\Build].',
+        $response->assertstatus(404);
+        $response->assertExactJson([
+            'error' => 'Build does not exist',
         ]);
     }
 
@@ -565,11 +565,11 @@ class LegacyEndpointsTest extends TestCase
     {
         factory(Modpack::class)->states('public')->create(['slug' => 'b-team']);
 
-        $response = $this->getJson('api/modpack/b-team/invalid-version');
+        $response = $this->get('api/modpack/b-team/invalid-version');
 
-        $response->assertStatus(404);
-        $response->assertJson([
-            'message' => 'No query results for model [App\\Build].',
+        $response->assertstatus(404);
+        $response->assertExactJson([
+            'error' => 'Build does not exist',
         ]);
     }
 }
