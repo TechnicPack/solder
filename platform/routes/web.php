@@ -24,5 +24,4 @@ Route::group([
     Route::get('clients/tokens', 'ClientsController@index');
     Route::post('clients/tokens', 'ClientsController@store');
     Route::delete('clients/tokens/{client}', 'ClientsController@destroy');
-
 });

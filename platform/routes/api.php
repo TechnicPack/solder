@@ -25,5 +25,4 @@ Route::group([
     Route::get('modpack', 'ModpackController@index');
     Route::get('modpack/{slug}', 'ModpackController@show');
     Route::get('modpack/{slug}/{build}', 'ModpackBuildController@show');
-
 });
