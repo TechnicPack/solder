@@ -48,3 +48,8 @@ p.code {
     }
   }
 }
+
+// Adjust footer padding since we're using it inside a container
+.footer {
+  padding: 3rem 0;
+}
