@@ -5,7 +5,7 @@
     <div class="navbar-menu">
         <div class="navbar-end">
             <a class="navbar-item" href="/library"> Library </a>
-            <a class="navbar-item" href="/settings/about"> Settings </a>
+            <a class="navbar-item" href="/settings/api"> Settings </a>
             <div class="navbar-item has-dropdown is-hoverable">
                 <a class="navbar-link"> {{ Auth()->user()->username }} </a>
                 <div class="navbar-dropdown is-right is-radiusless">

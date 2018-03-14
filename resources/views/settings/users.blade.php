@@ -7,17 +7,22 @@
             <div class="column is-one-quarter">
                 <aside class="menu">
                     <p class="menu-label">
-                        Settings
+                        Profile Settings
                     </p>
                     <ul class="menu-list">
                         <li>
-                            <a href="/settings/about">
+                            <a href="/settings/api">
                                 <span class="icon">
-                                    <i class="fa fa-fw fa-tachometer"></i>
+                                    <i class="fa fa-fw fa-user-circle-o"></i>
                                 </span>
-                                About
+                                API
                             </a>
                         </li>
+                    </ul>
+                    <p class="menu-label">
+                        Solder Settings
+                    </p>
+                    <ul class="menu-list">
                         @can('index', App\Key::class)
                         <li>
                             <a href="/settings/keys">

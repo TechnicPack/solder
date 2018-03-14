@@ -48,6 +48,8 @@ class RouteServiceProvider extends ServiceProvider
 
         $this->mapWebRoutes();
 
+        $this->mapOAuthRoutes();
+
         //
     }
 
@@ -78,5 +80,20 @@ class RouteServiceProvider extends ServiceProvider
              ->middleware('api')
              ->namespace($this->namespace)
              ->group(base_path('routes/api.php'));
+    }
+
+    /**
+     * Define the "oauth" routes for the application.
+     *
+     * These routes are typically stateless.
+     *
+     * @return void
+     */
+    protected function mapOAuthRoutes()
+    {
+        Route::prefix('oauth')
+             ->middleware(['web', 'auth'])
+             ->namespace('\Laravel\Passport\Http\Controllers')
+             ->group(base_path('routes/oauth.php'));
     }
 }

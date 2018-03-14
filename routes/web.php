@@ -47,6 +47,8 @@ Route::middleware('auth')->group(function () {
 Route::middleware('auth')->namespace('Admin')->prefix('settings')->group(function () {
     Route::view('about', 'settings.about');
 
+    Route::view('api', 'settings.api');
+
     Route::get('permissions', 'PermissionsController@index');
     Route::post('permissions', 'PermissionsController@update');
 
@@ -62,9 +64,4 @@ Route::middleware('auth')->namespace('Admin')->prefix('settings')->group(functio
     Route::post('users', 'UsersController@store');
     Route::post('users/{user}', 'UsersController@update');
     Route::delete('users/{user}', 'UsersController@destroy');
-});
-
-Route::middleware('auth')->namespace('Profile')->prefix('profile')->group(function () {
-    Route::view('tokens', 'profile.tokens');
-    Route::view('oauth', 'profile.oauth');
 });
