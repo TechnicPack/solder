@@ -63,7 +63,7 @@
                 </aside>
             </div>
 
-            <platform-keys inline-template>
+            <platform-keys inline-template v-cloak>
                 <div class="column">
 
                     @include('settings.keys.create-key')

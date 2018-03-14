@@ -63,7 +63,7 @@
                 </aside>
             </div>
 
-            <platform-clients inline-template>
+            <platform-clients inline-template v-cloak>
                 <div class="column">
 
                     @include('settings.clients.create-client')
