@@ -23,16 +23,17 @@
                         Solder Settings
                     </p>
                     <ul class="menu-list">
-                        @can('index', App\Key::class)
-                            <li>
-                                <a href="/settings/keys">
-                                <span class="icon">
-                                    <i class="fa fa-fw fa-key"></i>
-                                </span>
-                                    Keys
-                                </a>
-                            </li>
+                        @can('keys.list')
+                        <li>
+                            <a href="/settings/keys">
+                            <span class="icon">
+                                <i class="fa fa-fw fa-key"></i>
+                            </span>
+                                Keys
+                            </a>
+                        </li>
                         @endcan
+                        @can('clients.list')
                         <li>
                             <a href="/settings/clients">
                                 <span class="icon">
@@ -41,6 +42,7 @@
                                 Clients
                             </a>
                         </li>
+                        @endcan
                         <li>
                             <a href="/settings/users">
                                 <span class="icon">

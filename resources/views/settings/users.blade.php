@@ -23,6 +23,7 @@
                         Solder Settings
                     </p>
                     <ul class="menu-list">
+                        @can('keys.list')
                         <li>
                             <a href="/settings/keys">
                                 <span class="icon">
@@ -31,6 +32,8 @@
                                 Keys
                             </a>
                         </li>
+                        @endcan
+                        @can('clients.list')
                         <li>
                             <a href="/settings/clients">
                                 <span class="icon">
@@ -39,6 +42,7 @@
                                 Clients
                             </a>
                         </li>
+                        @endcan
                         <li>
                             <a href="/settings/users" class="is-active">
                                 <span class="icon">
