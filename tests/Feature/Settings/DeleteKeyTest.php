@@ -68,7 +68,7 @@ class DeleteKeyTest extends TestCase
     /** @test **/
     public function unauthorized_requests_are_forbidden()
     {
-        Gate::define('keys.delete',function () {
+        Gate::define('keys.delete', function () {
             return false;
         });
         $user = factory(User::class)->create();
@@ -87,7 +87,7 @@ class DeleteKeyTest extends TestCase
      */
     protected function withoutAuthorization()
     {
-        Gate::define('keys.delete',function () {
+        Gate::define('keys.delete', function () {
             return true;
         });
     }

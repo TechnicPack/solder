@@ -60,7 +60,7 @@ class ListKeysTest extends TestCase
     /** @test **/
     public function unauthorized_requests_are_forbidden()
     {
-        Gate::define('keys.list',function () {
+        Gate::define('keys.list', function () {
             return false;
         });
         $user = factory(User::class)->create();
@@ -77,7 +77,7 @@ class ListKeysTest extends TestCase
      */
     protected function withoutAuthorization()
     {
-        Gate::define('keys.list',function () {
+        Gate::define('keys.list', function () {
             return true;
         });
     }

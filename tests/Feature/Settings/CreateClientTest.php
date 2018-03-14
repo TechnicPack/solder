@@ -64,7 +64,7 @@ class CreateClientTest extends TestCase
     /** @test **/
     public function unauthorized_requests_are_forbidden()
     {
-        Gate::define('clients.create',function () {
+        Gate::define('clients.create', function () {
             return false;
         });
         $user = factory(User::class)->create();
@@ -149,7 +149,7 @@ class CreateClientTest extends TestCase
      */
     protected function withoutAuthorization()
     {
-        Gate::define('clients.create',function () {
+        Gate::define('clients.create', function () {
             return true;
         });
     }

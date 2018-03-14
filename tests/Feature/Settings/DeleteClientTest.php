@@ -68,7 +68,7 @@ class DeleteClientTest extends TestCase
     /** @test **/
     public function unauthorized_requests_are_forbidden()
     {
-        Gate::define('clients.delete',function () {
+        Gate::define('clients.delete', function () {
             return false;
         });
         $user = factory(User::class)->create();
@@ -87,7 +87,7 @@ class DeleteClientTest extends TestCase
      */
     protected function withoutAuthorization()
     {
-        Gate::define('clients.delete',function () {
+        Gate::define('clients.delete', function () {
             return true;
         });
     }
