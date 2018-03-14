@@ -30,7 +30,7 @@
         @endif
 
         <div class="column has-background-light">
-            <div class="content">
+            <div class="container">
                 @include('partials.navigation')
 
                 @yield('content')
