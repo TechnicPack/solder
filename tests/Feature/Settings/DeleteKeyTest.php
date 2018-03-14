@@ -85,7 +85,7 @@ class DeleteKeyTest extends TestCase
     /**
      * Authorize all actions, effectively disabling authorization checks.
      */
-    protected function withoutAuthorization(): void
+    protected function withoutAuthorization()
     {
         Gate::define('keys.delete',function () {
             return true;

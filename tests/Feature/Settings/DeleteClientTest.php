@@ -85,7 +85,7 @@ class DeleteClientTest extends TestCase
     /**
      * Authorize all actions, effectively disabling authorization checks.
      */
-    protected function withoutAuthorization(): void
+    protected function withoutAuthorization()
     {
         Gate::define('clients.delete',function () {
             return true;

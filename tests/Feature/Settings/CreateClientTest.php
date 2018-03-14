@@ -147,7 +147,7 @@ class CreateClientTest extends TestCase
     /**
      * Authorize all actions, effectively disabling authorization checks.
      */
-    protected function withoutAuthorization(): void
+    protected function withoutAuthorization()
     {
         Gate::define('clients.create',function () {
             return true;
