@@ -1,0 +1,27 @@
+{
+    "name": "solderio/platform-api",
+    "description": "TechnicPlatform compatibility for Solder",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Kyle Klaus",
+            "email": "kklaus@indemnity83.com"
+        }
+    ],
+    "require": {},
+    "require-dev": {
+        "orchestra/testbench": "3.6",
+        "phpunit/phpunit": "~7.0",
+        "orchestra/database": "3.6"
+    },
+    "autoload": {
+        "psr-4": {
+            "Platform\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    }
+}

@@ -38,7 +38,7 @@ class ClientPolicy
      * @param  \App\User  $user
      * @return mixed
      */
-    public function index(User $user)
+    public function list(User $user)
     {
         return $user->roles()->where('tag', 'manage-clients')->exists();
     }
