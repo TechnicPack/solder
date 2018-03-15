@@ -13,11 +13,11 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
-use Platform\Traits\ModpackPlatformSupport;
+use Platform\HasClients;
 
 class Modpack extends Model
 {
-    use ModpackPlatformSupport;
+    use HasClients;
 
     protected $guarded = [];
 
