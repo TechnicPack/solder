@@ -11,8 +11,8 @@
 
 namespace Tests\Feature\Settings;
 
+use Tests\User;
 use Tests\TestCase;
-use Tests\TestUser;
 use Platform\Client;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -23,7 +23,7 @@ class ListClientsTest extends TestCase
     /** @test **/
     public function list_clients()
     {
-        $this->actingAs(new TestUser);
+        $this->actingAs(new User);
         $this->authorizeAbility('clients.list');
         factory(Client::class)->create(['title' => 'Client A']);
         factory(Client::class)->create(['title' => 'Client B']);
@@ -58,7 +58,7 @@ class ListClientsTest extends TestCase
     /** @test **/
     public function unauthorized_requests_are_forbidden()
     {
-        $this->actingAs(new TestUser);
+        $this->actingAs(new User);
         $this->denyAbility('clients.list');
         factory(Client::class, 3)->create();
 

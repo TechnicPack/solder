@@ -11,8 +11,8 @@
 
 namespace Tests\Feature\Settings;
 
+use Tests\User;
 use Tests\TestCase;
-use Tests\TestUser;
 use Platform\Client;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -23,7 +23,8 @@ class CreateClientTest extends TestCase
     /** @test **/
     public function create_a_client()
     {
-        $this->actingAs(new TestUser);
+        $this->withoutExceptionHandling();
+        $this->actingAs(new User);
         $this->authorizeAbility('clients.create');
 
         $response = $this->postJson('/settings/clients/tokens', [
@@ -63,7 +64,7 @@ class CreateClientTest extends TestCase
     /** @test **/
     public function unauthorized_requests_are_forbidden()
     {
-        $this->actingAs(new TestUser);
+        $this->actingAs(new User);
         $this->denyAbility('clients.create');
 
         $response = $this->postJson('/settings/clients/tokens', [
@@ -78,7 +79,7 @@ class CreateClientTest extends TestCase
     /** @test **/
     public function title_is_required()
     {
-        $this->actingAs(new TestUser);
+        $this->actingAs(new User);
         $this->authorizeAbility('clients.create');
 
         $response = $this->postJson('/settings/clients/tokens', [
@@ -93,7 +94,7 @@ class CreateClientTest extends TestCase
     /** @test **/
     public function title_is_unique()
     {
-        $this->actingAs(new TestUser);
+        $this->actingAs(new User);
         $this->authorizeAbility('clients.create');
         factory(Client::class)->create([
             'title' => 'My Client',
@@ -111,7 +112,7 @@ class CreateClientTest extends TestCase
     /** @test **/
     public function token_is_required()
     {
-        $this->actingAs(new TestUser);
+        $this->actingAs(new User);
         $this->authorizeAbility('clients.create');
 
         $response = $this->postJson('/settings/clients/tokens', [
@@ -126,7 +127,7 @@ class CreateClientTest extends TestCase
     /** @test **/
     public function token_is_unique()
     {
-        $this->actingAs(new TestUser);
+        $this->actingAs(new User);
         $this->authorizeAbility('clients.create');
         factory(Client::class)->create([
             'token' => 'my-client-token',

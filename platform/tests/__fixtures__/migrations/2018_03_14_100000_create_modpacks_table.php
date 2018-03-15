@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateClientModpackTable extends Migration
+class CreateModpacksTable extends Migration
 {
     /**
      * Run the migrations.
@@ -22,10 +22,9 @@ class CreateClientModpackTable extends Migration
      */
     public function up()
     {
-        Schema::create('client_modpack', function (Blueprint $table) {
+        Schema::create('modpacks', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('modpack_id');
-            $table->unsignedInteger('client_id');
+            $table->timestamps();
         });
     }
 
@@ -36,6 +35,6 @@ class CreateClientModpackTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('client_modpack');
+        Schema::dropIfExists('modpacks');
     }
 }

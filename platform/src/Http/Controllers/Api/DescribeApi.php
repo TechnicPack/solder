@@ -23,9 +23,9 @@ class DescribeApi extends Controller
     public function __invoke()
     {
         return response()->json([
-            'api' => 'SolderIO',
-            'version' => config('app.version'),
-            'stream' => config('app.env'),
+            'api' => config('platform.provider'),
+            'version' => config('platform.version'),
+            'stream' => config('platform.stream'),
         ]);
     }
 }

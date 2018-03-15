@@ -24,7 +24,6 @@ class KeyTest extends TestCase
     {
         factory(Key::class)->create([
             'token' => 'APIKEY1234',
-            'name' => 'Test Key',
         ]);
 
         $this->assertTrue(Key::isValid('APIKEY1234'));

@@ -11,9 +11,9 @@
 
 namespace Tests\Feature\Settings;
 
+use Tests\User;
 use Platform\Key;
 use Tests\TestCase;
-use Tests\TestUser;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ListKeysTest extends TestCase
@@ -23,7 +23,7 @@ class ListKeysTest extends TestCase
     /** @test **/
     public function list_keys()
     {
-        $this->actingAs(new TestUser);
+        $this->actingAs(new User);
         $this->authorizeAbility('keys.list');
         factory(Key::class)->create(['name' => 'Key A']);
         factory(Key::class)->create(['name' => 'Key B']);
@@ -58,7 +58,7 @@ class ListKeysTest extends TestCase
     /** @test **/
     public function unauthorized_requests_are_forbidden()
     {
-        $this->actingAs(new TestUser);
+        $this->actingAs(new User);
         $this->denyAbility('keys.list');
         factory(Key::class, 3)->create();
 

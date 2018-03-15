@@ -11,9 +11,9 @@
 
 namespace Tests\Feature\Settings;
 
+use Tests\User;
 use Platform\Key;
 use Tests\TestCase;
-use Tests\TestUser;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class CreateKeyTest extends TestCase
@@ -23,7 +23,7 @@ class CreateKeyTest extends TestCase
     /** @test **/
     public function create_a_key()
     {
-        $this->actingAs(new TestUser);
+        $this->actingAs(new User);
         $this->authorizeAbility('keys.create');
 
         $response = $this->postJson('/settings/keys/tokens', [
@@ -63,7 +63,7 @@ class CreateKeyTest extends TestCase
     /** @test **/
     public function unauthorized_requests_are_forbidden()
     {
-        $this->actingAs(new TestUser);
+        $this->actingAs(new User);
         $this->denyAbility('keys.create');
 
         $response = $this->postJson('/settings/keys/tokens', [
@@ -78,7 +78,7 @@ class CreateKeyTest extends TestCase
     /** @test **/
     public function name_is_required()
     {
-        $this->actingAs(new TestUser);
+        $this->actingAs(new User);
         $this->authorizeAbility('keys.create');
 
         $response = $this->postJson('/settings/keys/tokens', [
@@ -93,7 +93,7 @@ class CreateKeyTest extends TestCase
     /** @test **/
     public function name_is_unique()
     {
-        $this->actingAs(new TestUser);
+        $this->actingAs(new User);
         $this->authorizeAbility('keys.create');
         factory(Key::class)->create([
             'name' => 'My Key',
@@ -111,7 +111,7 @@ class CreateKeyTest extends TestCase
     /** @test **/
     public function token_is_required()
     {
-        $this->actingAs(new TestUser);
+        $this->actingAs(new User);
         $this->authorizeAbility('keys.create');
 
         $response = $this->postJson('/settings/keys/tokens', [
@@ -126,7 +126,7 @@ class CreateKeyTest extends TestCase
     /** @test **/
     public function token_is_unique()
     {
-        $this->actingAs(new TestUser);
+        $this->actingAs(new User);
         $this->authorizeAbility('keys.create');
         factory(Key::class)->create([
             'token' => 'my-key-token',

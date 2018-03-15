@@ -11,9 +11,9 @@
 
 namespace Tests\Feature\Settings;
 
+use Tests\User;
 use Platform\Key;
 use Tests\TestCase;
-use Tests\TestUser;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class DeleteKeyTest extends TestCase
@@ -23,7 +23,7 @@ class DeleteKeyTest extends TestCase
     /** @test **/
     public function delete_a_key()
     {
-        $this->actingAs(new TestUser);
+        $this->actingAs(new User);
         $this->authorizeAbility('keys.delete');
         $key = factory(Key::class)->create();
         $this->assertCount(1, Key::all());
@@ -50,7 +50,7 @@ class DeleteKeyTest extends TestCase
     /** @test **/
     public function invalid_requests_are_dropped()
     {
-        $this->actingAs(new TestUser);
+        $this->actingAs(new User);
         $this->authorizeAbility('keys.delete');
         factory(Key::class)->create();
         $this->assertCount(1, Key::all());
@@ -64,7 +64,7 @@ class DeleteKeyTest extends TestCase
     /** @test **/
     public function unauthorized_requests_are_forbidden()
     {
-        $this->actingAs(new TestUser);
+        $this->actingAs(new User);
         $this->denyAbility('keys.delete');
         $key = factory(Key::class)->create();
         $this->assertCount(1, Key::all());

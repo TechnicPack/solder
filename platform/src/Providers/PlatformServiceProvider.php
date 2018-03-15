@@ -26,8 +26,7 @@ class PlatformServiceProvider extends ServiceProvider
     {
         $this->loadRoutesFrom(__DIR__.'/../../routes/api.php');
         $this->loadRoutesFrom(__DIR__.'/../../routes/web.php');
-        $this->loadModelFactoriesFrom(__DIR__.'/../../database/factories');
-        $this->loadMigrationsFrom(__DIR__.'/../../database/migrations');
+        $this->loadMigrationsFrom(__DIR__.'/../../migrations');
 
         $this->publishes([__DIR__.'/../../config/platform.php' => config_path('platform.php')]);
 

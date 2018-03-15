@@ -11,8 +11,8 @@
 
 namespace Tests\Feature\Settings;
 
+use Tests\User;
 use Tests\TestCase;
-use Tests\TestUser;
 use Platform\Client;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -23,7 +23,7 @@ class DeleteClientTest extends TestCase
     /** @test **/
     public function delete_a_client()
     {
-        $this->actingAs(new TestUser);
+        $this->actingAs(new User);
         $this->authorizeAbility('clients.delete');
         $client = factory(Client::class)->create();
         $this->assertCount(1, Client::all());
@@ -50,7 +50,7 @@ class DeleteClientTest extends TestCase
     /** @test **/
     public function invalid_requests_are_dropped()
     {
-        $this->actingAs(new TestUser);
+        $this->actingAs(new User);
         $this->authorizeAbility('clients.delete');
         factory(Client::class)->create();
         $this->assertCount(1, Client::all());
@@ -64,7 +64,7 @@ class DeleteClientTest extends TestCase
     /** @test **/
     public function unauthorized_requests_are_forbidden()
     {
-        $this->actingAs(new TestUser);
+        $this->actingAs(new User);
         $this->denyAbility('clients.delete');
         $client = factory(Client::class)->create();
         $this->assertCount(1, Client::all());

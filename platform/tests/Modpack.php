@@ -11,8 +11,10 @@
 
 namespace Tests;
 
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use Platform\HasClients;
+use Illuminate\Database\Eloquent\Model;
 
-class TestUser extends Authenticatable
+class Modpack extends Model
 {
+    use HasClients;
 }

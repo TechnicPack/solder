@@ -13,6 +13,43 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | API Version
+    |--------------------------------------------------------------------------
+    |
+    | The version of the API. Consumers can use this to understand
+    | functionality and features available at the API.
+    |
+    */
+
+    'version' => '0.7.3.1',
+
+    /*
+    |--------------------------------------------------------------------------
+    | API Provider
+    |--------------------------------------------------------------------------
+    |
+    | The software used to generate the API responses. This is meta information
+    | provided to API consumers to let them know what tool or package is being
+    | used to generate API responses.
+    |
+    */
+
+    'provider' => 'TechnicSolder',
+
+    /*
+    |--------------------------------------------------------------------------
+    | API Stream
+    |--------------------------------------------------------------------------
+    |
+    | This value determines the "environment" the API is currently
+    | running in. It should mirror the state of the Application Environment.
+    |
+    */
+
+    'steam' => env('APP_ENV', 'production'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Authorization Gates
     |--------------------------------------------------------------------------
     |
