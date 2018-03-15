@@ -11,9 +11,9 @@
 
 namespace App;
 
+use Platform\HasClients;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
-use Platform\HasClients;
 
 class Modpack extends Model
 {
