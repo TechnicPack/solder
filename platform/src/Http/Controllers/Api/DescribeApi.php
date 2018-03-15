@@ -11,7 +11,7 @@
 
 namespace Platform\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
+use Platform\Http\Controllers\Controller;
 
 class DescribeApi extends Controller
 {

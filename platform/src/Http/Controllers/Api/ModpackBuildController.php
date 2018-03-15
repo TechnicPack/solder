@@ -13,7 +13,7 @@ namespace Platform\Http\Controllers\Api;
 
 use App\Build;
 use App\Modpack;
-use App\Http\Controllers\Controller;
+use Platform\Http\Controllers\Controller;
 use Illuminate\Http\Resources\Json\Resource;
 use Platform\Http\Resources\Api\BuildResource;
 

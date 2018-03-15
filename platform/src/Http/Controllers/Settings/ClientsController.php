@@ -13,7 +13,7 @@ namespace Platform\Http\Controllers\Settings;
 
 use Exception;
 use Platform\Client;
-use App\Http\Controllers\Controller;
+use Platform\Http\Controllers\Controller;
 use Platform\Http\Resources\ClientResource;
 
 class ClientsController extends Controller

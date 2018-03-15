@@ -13,8 +13,8 @@ namespace Platform\Http\Controllers\Settings;
 
 use Exception;
 use Platform\Key;
-use App\Http\Controllers\Controller;
 use Platform\Http\Resources\KeyResource;
+use Platform\Http\Controllers\Controller;
 
 class KeysController extends Controller
 {

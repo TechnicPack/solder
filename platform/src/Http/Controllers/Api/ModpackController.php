@@ -13,8 +13,8 @@ namespace Platform\Http\Controllers\Api;
 
 use App\Modpack;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
+use Platform\Http\Controllers\Controller;
 use Illuminate\Http\Resources\Json\Resource;
 use Platform\Http\Resources\Api\ModpackFullResource;
 

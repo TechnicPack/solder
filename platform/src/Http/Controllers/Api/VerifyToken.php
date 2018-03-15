@@ -12,7 +12,7 @@
 namespace Platform\Http\Controllers\Api;
 
 use Platform\Key;
-use App\Http\Controllers\Controller;
+use Platform\Http\Controllers\Controller;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class VerifyToken extends Controller
