@@ -11,10 +11,9 @@
 
 namespace Tests\Feature\Settings;
 
-use App\User;
 use Tests\TestCase;
+use Tests\TestUser;
 use Platform\Client;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ListClientsTest extends TestCase
@@ -24,14 +23,13 @@ class ListClientsTest extends TestCase
     /** @test **/
     public function list_clients()
     {
-        $this->withoutAuthorization();
-        $user = factory(User::class)->create();
+        $this->actingAs(new TestUser);
+        $this->authorizeAbility('clients.list');
         factory(Client::class)->create(['title' => 'Client A']);
         factory(Client::class)->create(['title' => 'Client B']);
         factory(Client::class)->create(['title' => 'Client C']);
 
-        $response = $this->actingAs($user)
-            ->getJson('/settings/clients/tokens');
+        $response = $this->getJson('/settings/clients/tokens');
 
         $response->assertStatus(200);
         $response->assertJsonStructure([
@@ -49,7 +47,7 @@ class ListClientsTest extends TestCase
     /** @test **/
     public function unauthenticated_requests_are_dropped()
     {
-        $this->withoutAuthorization();
+        $this->authorizeAbility('clients.list');
         factory(Client::class, 3)->create();
 
         $response = $this->getJson('/settings/clients/tokens');
@@ -60,25 +58,12 @@ class ListClientsTest extends TestCase
     /** @test **/
     public function unauthorized_requests_are_forbidden()
     {
-        Gate::define('clients.list', function () {
-            return false;
-        });
-        $user = factory(User::class)->create();
+        $this->actingAs(new TestUser);
+        $this->denyAbility('clients.list');
         factory(Client::class, 3)->create();
 
-        $response = $this->actingAs($user)
-            ->getJson('/settings/clients/tokens');
+        $response = $this->getJson('/settings/clients/tokens');
 
         $response->assertStatus(403);
-    }
-
-    /**
-     * Authorize all actions, effectively disabling authorization checks.
-     */
-    protected function withoutAuthorization()
-    {
-        Gate::define('clients.list', function () {
-            return true;
-        });
     }
 }

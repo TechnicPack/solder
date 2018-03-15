@@ -11,10 +11,9 @@
 
 namespace Tests\Feature\Settings;
 
-use App\User;
 use Tests\TestCase;
+use Tests\TestUser;
 use Platform\Client;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class DeleteClientTest extends TestCase
@@ -24,13 +23,12 @@ class DeleteClientTest extends TestCase
     /** @test **/
     public function delete_a_client()
     {
-        $this->withoutAuthorization();
-        $user = factory(User::class)->create();
+        $this->actingAs(new TestUser);
+        $this->authorizeAbility('clients.delete');
         $client = factory(Client::class)->create();
         $this->assertCount(1, Client::all());
 
-        $response = $this->actingAs($user)
-            ->deleteJson("/settings/clients/tokens/{$client->id}");
+        $response = $this->deleteJson("/settings/clients/tokens/{$client->id}");
 
         $response->assertStatus(204);
         $this->assertCount(0, Client::all());
@@ -39,12 +37,11 @@ class DeleteClientTest extends TestCase
     /** @test **/
     public function unauthenticated_requests_are_dropped()
     {
-        $this->withoutAuthorization();
+        $this->authorizeAbility('clients.delete');
         $client = factory(Client::class)->create();
         $this->assertCount(1, Client::all());
 
-        $response = $this
-            ->deleteJson("/settings/clients/tokens/{$client->id}");
+        $response = $this->deleteJson("/settings/clients/tokens/{$client->id}");
 
         $response->assertStatus(401);
         $this->assertCount(1, Client::all());
@@ -53,13 +50,12 @@ class DeleteClientTest extends TestCase
     /** @test **/
     public function invalid_requests_are_dropped()
     {
-        $this->withoutAuthorization();
-        $user = factory(User::class)->create();
+        $this->actingAs(new TestUser);
+        $this->authorizeAbility('clients.delete');
         factory(Client::class)->create();
         $this->assertCount(1, Client::all());
 
-        $response = $this->actingAs($user)
-            ->deleteJson('/settings/clients/tokens/99');
+        $response = $this->deleteJson('/settings/clients/tokens/99');
 
         $response->assertStatus(404);
         $this->assertCount(1, Client::all());
@@ -68,27 +64,14 @@ class DeleteClientTest extends TestCase
     /** @test **/
     public function unauthorized_requests_are_forbidden()
     {
-        Gate::define('clients.delete', function () {
-            return false;
-        });
-        $user = factory(User::class)->create();
+        $this->actingAs(new TestUser);
+        $this->denyAbility('clients.delete');
         $client = factory(Client::class)->create();
         $this->assertCount(1, Client::all());
 
-        $response = $this->actingAs($user)
-            ->deleteJson("/settings/clients/tokens/{$client->id}");
+        $response = $this->deleteJson("/settings/clients/tokens/{$client->id}");
 
         $response->assertStatus(403);
         $this->assertCount(1, Client::all());
-    }
-
-    /**
-     * Authorize all actions, effectively disabling authorization checks.
-     */
-    protected function withoutAuthorization()
-    {
-        Gate::define('clients.delete', function () {
-            return true;
-        });
     }
 }

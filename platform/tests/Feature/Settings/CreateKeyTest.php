@@ -11,10 +11,9 @@
 
 namespace Tests\Feature\Settings;
 
-use App\User;
 use Platform\Key;
 use Tests\TestCase;
-use Illuminate\Support\Facades\Gate;
+use Tests\TestUser;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class CreateKeyTest extends TestCase
@@ -24,10 +23,10 @@ class CreateKeyTest extends TestCase
     /** @test **/
     public function create_a_key()
     {
-        $this->withoutAuthorization();
-        $user = factory(User::class)->create();
+        $this->actingAs(new TestUser);
+        $this->authorizeAbility('keys.create');
 
-        $response = $this->actingAs($user)->postJson('/settings/keys/tokens', [
+        $response = $this->postJson('/settings/keys/tokens', [
             'name' => 'My Key',
             'token' => 'my-key-token',
         ]);
@@ -50,7 +49,7 @@ class CreateKeyTest extends TestCase
     /** @test **/
     public function unauthenticated_requests_are_dropped()
     {
-        $this->withoutAuthorization();
+        $this->authorizeAbility('keys.create');
 
         $response = $this->postJson('/settings/keys/tokens', [
             'name' => 'My Key',
@@ -64,12 +63,10 @@ class CreateKeyTest extends TestCase
     /** @test **/
     public function unauthorized_requests_are_forbidden()
     {
-        Gate::define('keys.create', function () {
-            return false;
-        });
-        $user = factory(User::class)->create();
+        $this->actingAs(new TestUser);
+        $this->denyAbility('keys.create');
 
-        $response = $this->actingAs($user)->postJson('/settings/keys/tokens', [
+        $response = $this->postJson('/settings/keys/tokens', [
             'name' => 'My Key',
             'token' => 'my-key-token',
         ]);
@@ -81,10 +78,10 @@ class CreateKeyTest extends TestCase
     /** @test **/
     public function name_is_required()
     {
-        $this->withoutAuthorization();
-        $user = factory(User::class)->create();
+        $this->actingAs(new TestUser);
+        $this->authorizeAbility('keys.create');
 
-        $response = $this->actingAs($user)->postJson('/settings/keys/tokens', [
+        $response = $this->postJson('/settings/keys/tokens', [
             'name' => '',
             'token' => 'my-key-token',
         ]);
@@ -96,13 +93,13 @@ class CreateKeyTest extends TestCase
     /** @test **/
     public function name_is_unique()
     {
-        $this->withoutAuthorization();
-        $user = factory(User::class)->create();
+        $this->actingAs(new TestUser);
+        $this->authorizeAbility('keys.create');
         factory(Key::class)->create([
             'name' => 'My Key',
         ]);
 
-        $response = $this->actingAs($user)->postJson('/settings/keys/tokens', [
+        $response = $this->postJson('/settings/keys/tokens', [
             'name' => 'My Key',
             'token' => 'my-key-token',
         ]);
@@ -114,10 +111,10 @@ class CreateKeyTest extends TestCase
     /** @test **/
     public function token_is_required()
     {
-        $this->withoutAuthorization();
-        $user = factory(User::class)->create();
+        $this->actingAs(new TestUser);
+        $this->authorizeAbility('keys.create');
 
-        $response = $this->actingAs($user)->postJson('/settings/keys/tokens', [
+        $response = $this->postJson('/settings/keys/tokens', [
             'name' => 'My Key',
             'token' => '',
         ]);
@@ -129,28 +126,18 @@ class CreateKeyTest extends TestCase
     /** @test **/
     public function token_is_unique()
     {
-        $this->withoutAuthorization();
-        $user = factory(User::class)->create();
+        $this->actingAs(new TestUser);
+        $this->authorizeAbility('keys.create');
         factory(Key::class)->create([
             'token' => 'my-key-token',
         ]);
 
-        $response = $this->actingAs($user)->postJson('/settings/keys/tokens', [
+        $response = $this->postJson('/settings/keys/tokens', [
             'name' => 'My Key',
             'token' => 'my-key-token',
         ]);
 
         $response->assertStatus(422);
         $this->assertCount(1, Key::all());
-    }
-
-    /**
-     * Authorize all actions, effectively disabling authorization checks.
-     */
-    protected function withoutAuthorization()
-    {
-        Gate::define('keys.create', function () {
-            return true;
-        });
     }
 }

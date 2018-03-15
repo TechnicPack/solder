@@ -11,10 +11,9 @@
 
 namespace Tests\Feature\Settings;
 
-use App\User;
 use Platform\Key;
 use Tests\TestCase;
-use Illuminate\Support\Facades\Gate;
+use Tests\TestUser;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ListKeysTest extends TestCase
@@ -24,14 +23,13 @@ class ListKeysTest extends TestCase
     /** @test **/
     public function list_keys()
     {
-        $this->withoutAuthorization();
-        $user = factory(User::class)->create();
+        $this->actingAs(new TestUser);
+        $this->authorizeAbility('keys.list');
         factory(Key::class)->create(['name' => 'Key A']);
         factory(Key::class)->create(['name' => 'Key B']);
         factory(Key::class)->create(['name' => 'Key C']);
 
-        $response = $this->actingAs($user)
-            ->getJson('/settings/keys/tokens');
+        $response = $this->getJson('/settings/keys/tokens');
 
         $response->assertStatus(200);
         $response->assertJsonStructure([
@@ -49,7 +47,7 @@ class ListKeysTest extends TestCase
     /** @test **/
     public function unauthenticated_requests_are_dropped()
     {
-        $this->withoutAuthorization();
+        $this->authorizeAbility('keys.list');
         factory(Key::class, 3)->create();
 
         $response = $this->getJson('/settings/keys/tokens');
@@ -60,25 +58,12 @@ class ListKeysTest extends TestCase
     /** @test **/
     public function unauthorized_requests_are_forbidden()
     {
-        Gate::define('keys.list', function () {
-            return false;
-        });
-        $user = factory(User::class)->create();
+        $this->actingAs(new TestUser);
+        $this->denyAbility('keys.list');
         factory(Key::class, 3)->create();
 
-        $response = $this->actingAs($user)
-            ->getJson('/settings/keys/tokens');
+        $response = $this->getJson('/settings/keys/tokens');
 
         $response->assertStatus(403);
-    }
-
-    /**
-     * Authorize all actions, effectively disabling authorization checks.
-     */
-    protected function withoutAuthorization()
-    {
-        Gate::define('keys.list', function () {
-            return true;
-        });
     }
 }

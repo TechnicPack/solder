@@ -11,10 +11,9 @@
 
 namespace Tests\Feature\Settings;
 
-use App\User;
 use Tests\TestCase;
+use Tests\TestUser;
 use Platform\Client;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class CreateClientTest extends TestCase
@@ -24,10 +23,10 @@ class CreateClientTest extends TestCase
     /** @test **/
     public function create_a_client()
     {
-        $this->withoutAuthorization();
-        $user = factory(User::class)->create();
+        $this->actingAs(new TestUser);
+        $this->authorizeAbility('clients.create');
 
-        $response = $this->actingAs($user)->postJson('/settings/clients/tokens', [
+        $response = $this->postJson('/settings/clients/tokens', [
             'title' => 'My Client',
             'token' => 'my-client-token',
         ]);
@@ -50,7 +49,7 @@ class CreateClientTest extends TestCase
     /** @test **/
     public function unauthenticated_requests_are_dropped()
     {
-        $this->withoutAuthorization();
+        $this->authorizeAbility('clients.create');
 
         $response = $this->postJson('/settings/clients/tokens', [
             'title' => 'My Client',
@@ -64,12 +63,10 @@ class CreateClientTest extends TestCase
     /** @test **/
     public function unauthorized_requests_are_forbidden()
     {
-        Gate::define('clients.create', function () {
-            return false;
-        });
-        $user = factory(User::class)->create();
+        $this->actingAs(new TestUser);
+        $this->denyAbility('clients.create');
 
-        $response = $this->actingAs($user)->postJson('/settings/clients/tokens', [
+        $response = $this->postJson('/settings/clients/tokens', [
             'title' => 'My Client',
             'token' => 'my-client-token',
         ]);
@@ -81,10 +78,10 @@ class CreateClientTest extends TestCase
     /** @test **/
     public function title_is_required()
     {
-        $this->withoutAuthorization();
-        $user = factory(User::class)->create();
+        $this->actingAs(new TestUser);
+        $this->authorizeAbility('clients.create');
 
-        $response = $this->actingAs($user)->postJson('/settings/clients/tokens', [
+        $response = $this->postJson('/settings/clients/tokens', [
             'title' => '',
             'token' => 'my-client-token',
         ]);
@@ -96,13 +93,13 @@ class CreateClientTest extends TestCase
     /** @test **/
     public function title_is_unique()
     {
-        $this->withoutAuthorization();
-        $user = factory(User::class)->create();
+        $this->actingAs(new TestUser);
+        $this->authorizeAbility('clients.create');
         factory(Client::class)->create([
             'title' => 'My Client',
         ]);
 
-        $response = $this->actingAs($user)->postJson('/settings/clients/tokens', [
+        $response = $this->postJson('/settings/clients/tokens', [
             'title' => 'My Client',
             'token' => 'my-client-token',
         ]);
@@ -114,10 +111,10 @@ class CreateClientTest extends TestCase
     /** @test **/
     public function token_is_required()
     {
-        $this->withoutAuthorization();
-        $user = factory(User::class)->create();
+        $this->actingAs(new TestUser);
+        $this->authorizeAbility('clients.create');
 
-        $response = $this->actingAs($user)->postJson('/settings/clients/tokens', [
+        $response = $this->postJson('/settings/clients/tokens', [
             'title' => 'My Client',
             'token' => '',
         ]);
@@ -129,28 +126,18 @@ class CreateClientTest extends TestCase
     /** @test **/
     public function token_is_unique()
     {
-        $this->withoutAuthorization();
-        $user = factory(User::class)->create();
+        $this->actingAs(new TestUser);
+        $this->authorizeAbility('clients.create');
         factory(Client::class)->create([
             'token' => 'my-client-token',
         ]);
 
-        $response = $this->actingAs($user)->postJson('/settings/clients/tokens', [
+        $response = $this->postJson('/settings/clients/tokens', [
             'title' => 'My Client',
             'token' => 'my-client-token',
         ]);
 
         $response->assertStatus(422);
         $this->assertCount(1, Client::all());
-    }
-
-    /**
-     * Authorize all actions, effectively disabling authorization checks.
-     */
-    protected function withoutAuthorization()
-    {
-        Gate::define('clients.create', function () {
-            return true;
-        });
     }
 }

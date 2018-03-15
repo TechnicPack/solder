@@ -24,7 +24,7 @@ class ClientPolicy
      */
     public function list()
     {
-        return true;
+        return false;
     }
 
     /**
@@ -34,7 +34,7 @@ class ClientPolicy
      */
     public function create()
     {
-        return true;
+        return false;
     }
 
     /**
@@ -44,6 +44,6 @@ class ClientPolicy
      */
     public function delete()
     {
-        return true;
+        return false;
     }
 }
