@@ -22,6 +22,13 @@ use Illuminate\Support\ServiceProvider;
 class AppServiceProvider extends ServiceProvider
 {
     /**
+     * The application version.
+     *
+     * @var string
+     */
+    const VERSION = '1.0.0-alpha.1';
+
+    /**
      * Bootstrap any application services.
      *
      * @return void
