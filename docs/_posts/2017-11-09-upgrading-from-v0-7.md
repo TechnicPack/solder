@@ -8,13 +8,15 @@ type: Document
 ---
 
 
-*note that the current version of solder v0.8 is very early beta, so its critical you have a solid backup before doing anything! There is no downgrade option if there are any issues encountered!*
+*note that the current version of solder is very early alpha and under active development, so its critical you have a solid backup before doing anything! There is no downgrade option if there are any issues encountered, and there is a strong possibility of breaking changes in future releases!*
+
+**This guide IS NOT intended for casual users, this is intended for power users and developers to do testing and troubleshooting.**
 
 ## Known Limitations[#](#known-limitations){: .header-link}
 
 * Upgrades are only supported for MySQL backed installs. SQLite is not yet supported.
 * IP logging on User account updates (created by IP, updated by IP, etc) will be dropped.
-* You must be able to upgrade PHP on your server to version 7. If you’re running any other services or applications with active users, it is safest to first test this process in a staging environment.
+* You must be able to upgrade PHP on your server to version 7.1 or newer. If you’re running any other services or applications with active users, it is safest to first test this process in a staging environment.
 
 ## Maintenance Mode[#](#maintenance-mode){: .header-link}
 
@@ -32,9 +34,9 @@ This part generally goes outside the scope of this document, as its dependent on
 
 ## Update application code[#](#update-application-code){: .header-link}
 
-Because v0.8 is not currently part of the official Technic GitHub repository we’re going to have to redirect our current clone to the SolderIO fork then checkout the latest branch:
+Because Solder shares no development history with TechnicSolder we’re going to have to redirect our current clone to the Solder repository then rebase the code on the latest branch:
 
-<div class="language-shell highlighter-rouge"><pre class="highlight"><code><span class="gp">$&gt; </span>git remote <span class="nb">set</span>-url origin https://github.com/solderio/solder
+<div class="language-shell highlighter-rouge"><pre class="highlight"><code><span class="gp">$&gt; </span>git remote <span class="nb">set</span>-url origin https://github.com/technicpack/solder
 <span class="gp">$&gt; </span>git fetch
 <span class="gp">$&gt; </span>git pull --rebase
 </code></pre></div>
