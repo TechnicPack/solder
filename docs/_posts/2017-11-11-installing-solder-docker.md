@@ -7,7 +7,7 @@ description:
 type: Document
 ---
 
-[Solder Docker](https://github.com/solderio/solder-docker) is a docker environment utilizing docker-compose to facilitate running Solder. The only pre-requisites are git, docker and docker-compose. Great if you want to just test it out locally, or even to deploy for production.
+[Solder Docker](https://github.com/indemnity83/solder-docker) is a docker environment utilizing docker-compose to facilitate running Solder. The only pre-requisites are git, docker and docker-compose. Great if you want to just test it out locally, or even to deploy for production.
 
 ## Requirements
  * Git
@@ -18,7 +18,7 @@ type: Document
 Installing Solder-Docker is as easy as cloning the solder-docker repository and running the install script docker-compose install container.
 
 ```
-$> git clone https://github.com/solderio/solder-docker
+$> git clone https://github.com/indemnity83/solder-docker
 $> cd solder-docker
 $> docker-compose run --rm composer install --no-dev
 $> docker-compose run --rm composer run-script post-root-package-install
