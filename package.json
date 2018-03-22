@@ -13,18 +13,18 @@
   "dependencies": {
     "axios": "^0.16.2",
     "bulma": "^0.5.3",
-    "cross-env": "^5.0.1",
-    "laravel-mix": "^2.0",
-    "lodash": "^4.17.4",
-    "vue": "^2.1.10"
+    "cross-env": "^5.1.4",
+    "laravel-mix": "^2.1.11",
+    "lodash": "^4.17.5",
+    "vue": "^2.5.16"
   },
   "devDependencies": {
-    "@vue/test-utils": "^1.0.0-beta.11",
-    "expect": "^22.1.0",
-    "jsdom": "^11.6.1",
+    "@vue/test-utils": "^1.0.0-beta.12",
+    "expect": "^22.4.3",
+    "jsdom": "^11.6.2",
     "jsdom-global": "^3.0.2",
-    "mocha": "^5.0.0",
-    "mocha-webpack": "^1.0.1",
+    "mocha": "^5.0.4",
+    "mocha-webpack": "^1.1.0",
     "moxios": "^0.4.0"
   },
   "version": "0.8.0-0"
