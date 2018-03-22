@@ -1,0 +1,42 @@
+---
+---
+@import "variables";
+@import "typography";
+@import "elements";
+@import "tutorials";
+@import "header";
+@import "layout";
+@import "search";
+@import "dark-theme";
+@import "footer";
+@import "faq";
+@import "modal";
+@import "form";
+@import "cloudcannon";
+
+header {
+    background: #163f69 url(/images/splashbg.png);
+}
+
+.logo img {
+    height: 40px;
+}
+
+footer {
+    background: #2A6292;
+    background: #2d3d4d;
+}
+
+footer svg {
+    fill: white;
+}
+
+footer .copyright {
+    color: white;
+}
+
+.tutorial .sidebar a.active {
+    color: #4A4A4A;
+    transform: translateX(-10px);
+    font-weight: bold;
+}
