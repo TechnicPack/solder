@@ -10,7 +10,7 @@ type: Document
 
 ### Solder is a Modpack API[#](#solder-is-a-modpack-api){: .header-link}
 
-TechnicSolder is an API that sits between a modpack repository and the launcher. It allows you to easily manage multiple modpacks in one single location. It’s the same API we use to distribute our modpacks!
+Solder is an API that sits between a modpack repository and the launcher. It allows you to easily manage multiple modpacks in one single location. It’s the same API we use to distribute our modpacks!
 
 Using Solder also means your packs will download each mod individually. This means the launcher can check MD5’s against each version of a mod and if it hasn’t changed, use the cached version of the mod instead. What does this mean? Small incremental updates to your modpack doesn’t mean redownloading the whole thing every time!
 

@@ -1,6 +1,6 @@
 ---
 date: 2017-11-09 21:17:00
-title: Upgrading from v0.7
+title: Upgrading from TechnicSolder
 categories:
   - Installation
 description:
@@ -43,14 +43,14 @@ Because Solder shares no development history with TechnicSolder we’re going to
 
 Its important to note that any files you’ve stored in your `public/resources`{: .highlighter-rouge} path will be kept and re-linked during the upgrade process. However, if you’ve modified the directory structure or stored content outside of the standard resources folder you may receive errors. Reach out for support in the Discord server if you run into trouble with this upgrade.
 
-Next, update all the application dependencies using composer. This process may take a few minutes to pull everything in, and will shed light on anything you might need to tweak about your server to make it compatible with Solder v0.8
+Next, update all the application dependencies using composer. This process may take a few minutes to pull everything in, and will shed light on anything you might need to tweak about your server to make it compatible with Solder.
 
 <div class="language-shell highlighter-rouge"><pre class="highlight"><code><span class="gp">$&gt; </span>composer install --no-dev
 </code></pre></div>
 
 ## Configuration[#](#configuration){: .header-link}
 
-Solder v0.8 stores all configuration parameters as environmental variables and supports using a&nbsp;`.env`{: .highlighter-rouge} file for local configuration. Copy&nbsp;`.env.example`{: .highlighter-rouge} and open up the `.env`{: .highlighter-rouge} file in your favorite editor to configure the mysql database (*hint: you can look in app/config/database.php to get your current mysql parameters*)
+Solder stores all configuration parameters as environmental variables and supports using a&nbsp;`.env`{: .highlighter-rouge} file for local configuration. Copy&nbsp;`.env.example`{: .highlighter-rouge} and open up the `.env`{: .highlighter-rouge} file in your favorite editor to configure the mysql database (*hint: you can look in app/config/database.php to get your current mysql parameters*)
 
 <div class="language-shell highlighter-rouge"><pre class="highlight"><code><span class="gp">$&gt; </span>cp .env.example .env
 $&gt; vi .env                      # Use your favorite editor to set db configs
@@ -58,7 +58,7 @@ $&gt; vi .env                      # Use your favorite editor to set db configs
 
 ## Pull in and run the upgrade[#](#pull-in-and-run-the-upgrade){: .header-link}
 
-The upgrade script is a separate package which will make sure your current v0.7 database is up-to-date and then massage the data into the correct format for v0.8. All this is done with a single command to keep things simple and once the process is complete you can remove the package (no remaining bloat).
+The upgrade script is a separate package which will make sure your current TechnicSolder v0.7 database is up-to-date and then massage the data into the correct format for Solder. All this is done with a single command to keep things simple and once the process is complete you can remove the package (no remaining bloat).
 
 <div class="language-shell highlighter-rouge"><pre class="highlight"><code><span class="gp">$&gt; </span>composer require solderio/upgrade
 <span class="gp">$&gt; </span>php artisan solder:upgrade
