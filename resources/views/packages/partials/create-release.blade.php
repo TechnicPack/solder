@@ -23,6 +23,31 @@
                 </div>
             </div>
 
+            <div class="field is-horizontal">
+                <div class="field-label is-normal">
+                    <label class="label">Type</label>
+                </div>
+                <div class="field-body">
+                    <div class="field">
+                        <div class="control has-icons-left is-expanded">
+
+                            <select name="type" id="type" class="input {{ $errors->has('type') ? 'is-danger' : '' }}">
+                                <option value="mod">Mod</option>
+                                <option value="config">Config</option>
+                                <option value="forge">Forge</option>
+                                <option value="other">Other</option>
+                            </select>
+                            <span class="icon is-small is-left">
+                                <i class="fa fa-code-fork"></i>
+                            </span>
+                            @if($errors->has('version'))
+                                <p class="help is-danger">{{ $errors->first('version') }}</p>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+            </div>
+
 
             <div class="field is-horizontal">
                 <div class="field-label is-normal">
@@ -33,9 +58,9 @@
                         <div class="control">
                             <div class="columns">
                                 <div class="column is-narrow">
-                                    <div class="file {{ $errors->has('archive') ? 'is-danger' : '' }}">
+                                    <div class="file {{ $errors->has('file') ? 'is-danger' : '' }}">
                                         <label class="file-label">
-                                            <input class="file-input" type="file" name="archive">
+                                            <input class="file-input" type="file" name="file">
                                             <span class="file-cta">
                                                         <span class="file-icon">
                                                             <i class="fa fa-upload"></i>
@@ -48,8 +73,8 @@
                                     </div>
                                 </div>
                                 <div class="column is-flex" style="align-items: center;">
-                                    @if($errors->has('archive'))
-                                        <p class="is-size-7 has-text-danger">{{ $errors->first('archive') }}</p>
+                                    @if($errors->has('file'))
+                                        <p class="is-size-7 has-text-danger">{{ $errors->first('file') }}</p>
                                     @endif
                                 </div>
                             </div>

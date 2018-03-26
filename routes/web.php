@@ -13,6 +13,8 @@ Route::view('/login', 'auth.login')->name('auth.show-login');
 Route::post('/login', 'Auth\LoginController@login')->name('auth.login');
 Route::post('/logout', 'Auth\LoginController@logout')->name('auth.logout');
 
+Route::get('/storage/{slug}/{file_name}', 'StorageController@getFile');
+
 Route::middleware('auth')->group(function () {
     Route::get('/', 'DashboardController');
 
