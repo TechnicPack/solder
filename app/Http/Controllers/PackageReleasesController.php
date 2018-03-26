@@ -52,7 +52,7 @@ class PackageReleasesController extends Controller
         $public = storage_path('app/public/');
         $archive_name = $archive_directory . "/" . "{$package->slug}-{$request->version}.zip";
         $hash_path = url('/') . "storage/" . "{$package->slug}-{$request->version}.zip";
-        $storage_path = "{$package->slug}" . "/" . "{$package->slug}-{$request->version}.zip";
+        $storage_path = "{$package->slug}-{$request->version}.zip";
 
 
 
@@ -61,7 +61,7 @@ class PackageReleasesController extends Controller
         }
 
         if($archive->open($public . "/" . $archive_name, ZipArchive::CREATE) === TRUE){
-            $archive->addFile(storage_path("app/public/" . $file), "mods/". $file_name);
+            $archive->addFile(storage_path("app/public/" . $file), request()->input('type') . "/". $file_name);
         }
 
         $archive->close();

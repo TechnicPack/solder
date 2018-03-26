@@ -14,6 +14,8 @@ namespace App\Http\Controllers;
 use App\Package;
 use Illuminate\Validation\Rule;
 
+use Illuminate\Support\Facades\File;
+
 class PackagesController extends Controller
 {
     /**
@@ -88,6 +90,8 @@ class PackagesController extends Controller
            'slug' => ['sometimes', 'required', 'alpha_dash', Rule::unique('packages')->ignore($package->id)],
         ]);
 
+        File::moveDirectory(storage_path('app/public/modpack/'. $package->slug), storage_path('app/public/modpack/'. request()->input('slug')));
+
         $package->update(request()->only([
             'name',
             'slug',
@@ -96,6 +100,8 @@ class PackagesController extends Controller
             'donation_url',
             'description',
         ]));
+
+
 
         return redirect('library/'.$package->slug);
     }

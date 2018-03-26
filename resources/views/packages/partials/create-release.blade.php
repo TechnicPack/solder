@@ -32,10 +32,8 @@
                         <div class="control has-icons-left is-expanded">
 
                             <select name="type" id="type" class="input {{ $errors->has('type') ? 'is-danger' : '' }}">
-                                <option value="mod">Mod</option>
+                                <option value="mods">Mod</option>
                                 <option value="config">Config</option>
-                                <option value="forge">Forge</option>
-                                <option value="other">Other</option>
                             </select>
                             <span class="icon is-small is-left">
                                 <i class="fa fa-code-fork"></i>
