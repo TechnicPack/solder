@@ -21,7 +21,7 @@
         @can('create', App\Release::class)
             @include('packages.partials.create-release')
         @endcan
-
+        
         @if(count($package->releases))
             <release-table :releases='{{ json_encode($package->releases) }}'></release-table>
         @endif
