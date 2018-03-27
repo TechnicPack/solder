@@ -51,7 +51,7 @@ class PackageReleasesController extends Controller
         $archive_directory = "modpack/" . $package->slug;
         $public = storage_path('app/public/');
         $archive_name = $archive_directory . "/" . "{$package->slug}-{$request->version}.zip";
-        $hash_path = url('/') . "storage/" . "{$package->slug}-{$request->version}.zip";
+        $hash_path = url('/') ."/" . "storage/" . "{$package->slug}/" . "{$package->slug}-{$request->version}.zip";
         $storage_path = "{$package->slug}-{$request->version}.zip";
 
 
