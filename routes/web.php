@@ -44,6 +44,9 @@ Route::middleware('auth')->group(function () {
 
     Route::delete('/bundles', 'BundlesController@destroy');
     Route::post('/bundles', 'BundlesController@store');
+
+    Route::get('/forge', 'ForgeController@getMCVersions');
+    Route::get('/forge/{mcversion}', 'ForgeController@getForgeVersions');
 });
 
 Route::middleware('auth')->namespace('Admin')->prefix('settings')->group(function () {
@@ -66,4 +69,19 @@ Route::middleware('auth')->namespace('Admin')->prefix('settings')->group(functio
     Route::post('users', 'UsersController@store');
     Route::post('users/{user}', 'UsersController@update');
     Route::delete('users/{user}', 'UsersController@destroy');
+});
+
+Route::get('/testing', function(){
+    $xml = simplexml_load_file("http://files.minecraftforge.net/maven/net/minecraftforge/forge/maven-metadata.xml");
+    $json = json_decode(json_encode($xml));
+
+
+    $versions  = $json->versioning->versions->version;
+    $version_list = array();
+    foreach($versions as $version){
+        $explode = explode('-', $version, 2);
+        $version_list[$explode[0]][] = $explode[1];
+    }
+
+
 });

@@ -42,6 +42,8 @@ class ModpackBuildsController extends Controller
             ->where('version', $buildVersion)
             ->firstOrFail();
 
+            
+
         return view('builds.show', [
             'modpack' => $modpack,
             'build' => $build,
@@ -99,6 +101,7 @@ class ModpackBuildsController extends Controller
      */
     public function update($modpackSlug, $buildVersion)
     {
+
         $modpack = Modpack::where('slug', $modpackSlug)->firstOrFail();
         $build = $modpack->builds()->where('version', $buildVersion)->firstOrFail();
 

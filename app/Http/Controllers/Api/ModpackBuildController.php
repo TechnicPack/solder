@@ -15,6 +15,7 @@ use App\Build;
 use App\Modpack;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
+use App\Facades\FileHash;
 
 class ModpackBuildController extends Controller
 {
@@ -57,7 +58,13 @@ class ModpackBuildController extends Controller
             'java' => $build->java_version,
             'memory' => (int) $build->required_memory,
             'forge' => $build->forge_version,
-            'mods' => $build->releases->transform(function ($release) {
+            'mods' => //[
+            //     'name' => 'Forge',
+            //     'version' => $build->forge_version,
+            //     //'md5' => FileHash::hash($forge_download_url),
+            //     'url' => $forge_download_url
+            // ],
+            $build->releases->transform(function ($release) {
                 return [
                     'name' => $release->package->name,
                     'version' => $release->version,

@@ -11,9 +11,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Modpack;
-use App\Collaborator;
-
 class StorageController extends Controller
 {
     public function getFile($slug, $file_name)
