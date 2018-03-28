@@ -13,9 +13,15 @@ namespace App\Http\Controllers;
 
 class StorageController extends Controller
 {
-    public function getFile($slug, $file_name)
+    public function getModFile($slug, $file_name)
     {
         $path = storage_path("app/public/modpack/" . $slug . "/" . $file_name);
+        return response()->download($path);
+    }
+
+    public function getForgeFile($file_name)
+    {
+        $path = storage_path("app/public/forge/" . $file_name);
         return response()->download($path);
     }
 }

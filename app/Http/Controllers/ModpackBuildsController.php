@@ -14,7 +14,11 @@ namespace App\Http\Controllers;
 use App\Build;
 use App\Modpack;
 use App\Package;
+
 use Illuminate\Validation\Rule;
+
+use Storage;
+use ZipArchive;
 
 class ModpackBuildsController extends Controller
 {
@@ -42,7 +46,7 @@ class ModpackBuildsController extends Controller
             ->where('version', $buildVersion)
             ->firstOrFail();
 
-            
+
 
         return view('builds.show', [
             'modpack' => $modpack,
@@ -113,6 +117,32 @@ class ModpackBuildsController extends Controller
             'minecraft_version' => ['sometimes', 'required'],
             'required_memory' => ['nullable', 'numeric'],
         ]);
+
+        $file_name = request()->input('minecraft_version') . "-" . request()->input('forge_version');
+        if(!Storage::exists("forge/". $file_name . ".zip")){
+                    
+            $forge_download = "http://files.minecraftforge.net/maven/net/minecraftforge/forge/". $file_name . "/forge-" . $file_name . "-universal.jar";
+
+
+            $contents = file_get_contents($forge_download);
+
+
+            Storage::disk('public')->put("/tmp/" .  $file_name . ".jar", $contents);
+            $tmp_file = "tmp/" . $file_name . ".jar";
+
+            if(!Storage::exists("forge")) {
+                Storage::makeDirectory("forge");
+            }
+            $archive = new ZipArchive();
+            $archive_path = storage_path("app/public/forge/");
+
+            if($archive->open($archive_path . $file_name . ".zip", ZipArchive::CREATE) === TRUE){
+                //print_r(storage_path("/app/public/") . $tmp_file);
+                $archive->addFile(storage_path("/app/public/") . $tmp_file, "bin/modpack.jar");
+            }
+            $archive->close();
+            Storage::disk('public')->delete("tmp/" . $file_name);
+        }
 
         $build->update(request()->only([
             'version',

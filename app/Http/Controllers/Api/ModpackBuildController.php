@@ -52,18 +52,28 @@ class ModpackBuildController extends Controller
                 'error' => 'Build does not exist',
             ], 404);
         }
+        if(isset($build->forge_version)){
+                $forge = [
+                    'name' => 'Forge',
+                    'version' => $build->forge_version,
+                    'md5' => url('/storage/forge/') . "/" . $build->minecraft_version . "-" . $build->forge_version . ".zip",
+                    'url' => url('/storage/forge/') . "/" . $build->minecraft_version . "-" . $build->forge_version . ".zip"
+                ];
+       }else{
+
+           $forge = "";
+       }
+
+
+
+
 
         return response()->json([
             'minecraft' => $build->minecraft_version,
             'java' => $build->java_version,
             'memory' => (int) $build->required_memory,
             'forge' => $build->forge_version,
-            'mods' => //[
-            //     'name' => 'Forge',
-            //     'version' => $build->forge_version,
-            //     //'md5' => FileHash::hash($forge_download_url),
-            //     'url' => $forge_download_url
-            // ],
+            'mods' => $forge,
             $build->releases->transform(function ($release) {
                 return [
                     'name' => $release->package->name,

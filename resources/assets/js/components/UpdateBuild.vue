@@ -121,7 +121,7 @@
                 bodyFormData.set('minecraft_version', this.build.minecraft_version);
                 bodyFormData.set('forge_version', this.build.forge_version);
                 bodyFormData.set('java_version', this.build.java_version);
-                console.log(this.build.minecraft_version);
+                
                 axios.post('/modpacks/' + this.build.modpack.slug + '/' + this.build.version, bodyFormData, {
                         config: { headers: {'Content-Type': 'multipart/form-data' }}
                 })
