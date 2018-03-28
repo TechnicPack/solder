@@ -72,10 +72,6 @@ class ModpackBuildController extends Controller
            );
        }
 
-       //$mods_list = array_merge($forge, $mods);
-
-       //dd($mods);
-
 
 
         return response()->json([

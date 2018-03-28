@@ -120,7 +120,7 @@ class ModpackBuildsController extends Controller
 
         $file_name = request()->input('minecraft_version') . "-" . request()->input('forge_version');
         if(!Storage::exists("forge/". $file_name . ".zip")){
-                    
+
             $forge_download = "http://files.minecraftforge.net/maven/net/minecraftforge/forge/". $file_name . "/forge-" . $file_name . "-universal.jar";
 
 
@@ -137,7 +137,6 @@ class ModpackBuildsController extends Controller
             $archive_path = storage_path("app/public/forge/");
 
             if($archive->open($archive_path . $file_name . ".zip", ZipArchive::CREATE) === TRUE){
-                //print_r(storage_path("/app/public/") . $tmp_file);
                 $archive->addFile(storage_path("/app/public/") . $tmp_file, "bin/modpack.jar");
             }
             $archive->close();
