@@ -62,11 +62,6 @@ class ModpackBuildController extends Controller
             ];
        }
 
-<<<<<<< HEAD
-=======
-
-
->>>>>>> 13358b6935f1a9e26eaff2dc28eadfd3e69d7480
         foreach ($build->releases as $release) {
             $mods[] = [
                 'name' => $release->package->name,

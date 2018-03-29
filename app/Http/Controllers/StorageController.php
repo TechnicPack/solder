@@ -23,11 +23,7 @@ class StorageController extends Controller
     public function getForgeFile($file_name)
     {
         $path = storage_path('app/public/forge/'.$file_name);
-<<<<<<< HEAD
 
-=======
-        
->>>>>>> 13358b6935f1a9e26eaff2dc28eadfd3e69d7480
         return response()->download($path);
     }
 
