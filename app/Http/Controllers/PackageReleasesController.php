@@ -60,7 +60,11 @@ class PackageReleasesController extends Controller
 
         }
         Storage::disk('public')->delete($tmp_file);
+<<<<<<< HEAD
         $hash_path = url('/').'/'.'storage/'.'{$package->slug}/'.$package_name;
+=======
+        $hash_path = url('/').'/'."storage/'.'{$package->slug}/'.$package_name;
+>>>>>>> 13358b6935f1a9e26eaff2dc28eadfd3e69d7480
         Release::create([
             'package_id' => $package->id,
             'version' => $request->version,

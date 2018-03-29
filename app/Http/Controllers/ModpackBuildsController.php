@@ -116,7 +116,11 @@ class ModpackBuildsController extends Controller
         ]);
 
         $file_name = request()->input('minecraft_version').'-'.request()->input('forge_version');
+<<<<<<< HEAD
         if (! Storage::exists("forge/".$file_name.".zip")){
+=======
+        if(! Storage::exists("forge/".$file_name.".zip")){
+>>>>>>> 13358b6935f1a9e26eaff2dc28eadfd3e69d7480
             $forge_download = 'http://files.minecraftforge.net/maven/net/minecraftforge/forge/'.$file_name.'/forge-'.$file_name.'-universal.jar';
 
             $contents = file_get_contents($forge_download);
@@ -125,15 +129,24 @@ class ModpackBuildsController extends Controller
             Storage::disk('public')->put('/tmp/'.$file_name.'.jar', $contents);
             $tmp_file = 'tmp/'.$file_name.'.jar';
 
+<<<<<<< HEAD
             if (! Storage::exists('forge')) {
                 Storage::makeDirectory('forge');
+=======
+            if (! Storage::exists("forge")) {
+                Storage::makeDirectory("forge");
+>>>>>>> 13358b6935f1a9e26eaff2dc28eadfd3e69d7480
             }
             $archive = new ZipArchive();
             $archive_path = storage_path('app/public/forge/');
 
             if ($archive->open($archive_path.$file_name.'.zip', ZipArchive::CREATE) === true) {
                 $archive->addFile(storage_path('/app/public/').$tmp_file, 'bin/modpack.jar');
+<<<<<<< HEAD
             }
+=======
+             }
+>>>>>>> 13358b6935f1a9e26eaff2dc28eadfd3e69d7480
             $archive->close();
             Storage::disk('public')->delete('tmp/'.$file_name);
         }

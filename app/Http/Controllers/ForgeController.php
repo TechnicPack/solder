@@ -30,7 +30,11 @@ class ForgeController extends Controller
             $mcversions[] = $mc;
         }
         $mcversions = array_reverse($mcversions);
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> 13358b6935f1a9e26eaff2dc28eadfd3e69d7480
         return response()->json($mcversions);
     }
 
