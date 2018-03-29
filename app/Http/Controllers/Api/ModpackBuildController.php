@@ -60,7 +60,7 @@ class ModpackBuildController extends Controller
                 'md5' => FileHash::hash(url('/storage/forge/').'/'.$build->minecraft_version.'-'.$build->forge_version.'.zip'),
                 'url' => url('/storage/forge/').'/'.$build->minecraft_version.'-'.$build->forge_version.'.zip',
             ];
-       }
+        }
 
         foreach ($build->releases as $release) {
             $mods[] = [

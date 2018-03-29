@@ -13,7 +13,6 @@ namespace App\Http\Controllers;
 
 class ForgeController extends Controller
 {
-
     public function getMcVersions()
     {
         $forge_xml = simplexml_load_file('http://files.minecraftforge.net/maven/net/minecraftforge/forge/maven-metadata.xml');

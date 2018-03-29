@@ -53,7 +53,7 @@ class PackageReleasesController extends Controller
         } else {
             $archive = new ZipArchive();
             $archive_path = storage_path("app/public/modpack/{$package->slug}");
-            if ($archive->open($archive_path.'/'.$package_name, ZipArchive::CREATE) === TRUE){
+            if ($archive->open($archive_path.'/'.$package_name, ZipArchive::CREATE) === true){
                 $archive->addFile(storage_path('app/public/'.$tmp_file), request()->input('type').'/'.$file_name);
             }
             $archive->close();

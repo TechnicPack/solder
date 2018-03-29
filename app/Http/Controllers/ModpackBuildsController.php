@@ -127,7 +127,6 @@ class ModpackBuildsController extends Controller
             Storage::disk('public')->put('/tmp/'.$file_name.'.jar', $contents);
             $tmp_file = 'tmp/'.$file_name.'.jar';
 
-<
                 Storage::makeDirectory("forge");
 
             }
