@@ -53,27 +53,25 @@ class ModpackBuildController extends Controller
                 'error' => 'Build does not exist',
             ], 404);
         }
-        if (isset($build->forge_version)){
+        if (isset($build->forge_version)) {
             $mods[] = [
                 'name' => 'Forge',
                 'version' => $build->forge_version,
-                'md5' => FileHash::hash(url('/storage/forge/')."/".$build->minecraft_version."-".$build->forge_version.".zip"),
-                'url' => url('/storage/forge/')."/".$build->minecraft_version."-".$build->forge_version.".zip"
+                'md5' => FileHash::hash(url('/storage/forge/').'/'.$build->minecraft_version.'-'.$build->forge_version.'.zip'),
+                'url' => url('/storage/forge/').'/'.$build->minecraft_version.'-'.$build->forge_version.'.zip',
             ];
        }
 
 
 
-       foreach ($build->releases as $release){
-           $mods[] = [
-               'name' => $release->package->name,
-               'version' => $release->version,
-               'md5' => $release->md5,
-               'url' => $release->url,
-           ];
-       }
-
-
+        foreach ($build->releases as $release) {
+            $mods[] = [
+                'name' => $release->package->name,
+                'version' => $release->version,
+                'md5' => $release->md5,
+                'url' => $release->url,
+            ];
+        }
 
         return response()->json([
             'minecraft' => $build->minecraft_version,

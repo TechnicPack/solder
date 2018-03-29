@@ -19,8 +19,6 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Storage;
 
-
-
 class PackageReleasesController extends Controller
 {
     /**
@@ -47,22 +45,22 @@ class PackageReleasesController extends Controller
         $file_info = pathinfo($file_name);
         $tmp_file = $request->file('file')->store('tmp');
         $package_name = "{$package->slug}-{$request->version}.zip";
-        if(! Storage::exists("modpack/{$package->slug}")) {
+        if (! Storage::exists("modpack/{$package->slug}")) {
             Storage::makeDirectory("modpack/{$package->slug}");
         }
-        if ($file_info['extension'] == 'zip'){
+        if ($file_info['extension'] == 'zip') {
             Storage::move($tmp_file, "modpack/{$package->slug}/".$package_name);
-        }else{
+        } else {
             $archive = new ZipArchive();
             $archive_path = storage_path("app/public/modpack/{$package->slug}");
-            if ($archive->open($archive_path."/".$package_name, ZipArchive::CREATE) === TRUE){
-                $archive->addFile(storage_path("app/public/".$tmp_file), request()->input('type')."/".$file_name);
+            if ($archive->open($archive_path.'/'.$package_name, ZipArchive::CREATE) === TRUE){
+                $archive->addFile(storage_path('app/public/'.$tmp_file), request()->input('type').'/'.$file_name);
             }
             $archive->close();
 
         }
         Storage::disk('public')->delete($tmp_file);
-        $hash_path = url('/')."/"."storage/"."{$package->slug}/".$package_name;
+        $hash_path = url('/').'/'."storage/'.'{$package->slug}/'.$package_name;
         Release::create([
             'package_id' => $package->id,
             'version' => $request->version,

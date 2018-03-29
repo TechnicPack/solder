@@ -28,7 +28,6 @@ class ReleasesController extends Controller
     {
         $release = Release::findOrFail($releaseId);
 
-
         $this->authorize('delete', $release);
 
         $release->delete();
