@@ -33,7 +33,7 @@ class ReleasesController extends Controller
 
         $release->delete();
 
-        Storage::disk('public')->delete("modpack/" . $release->package->slug . "/" .  $release->path);
+        Storage::disk('public')->delete("modpack/".$release->package->slug."/".$release->path);
 
         return response(null, 204);
     }

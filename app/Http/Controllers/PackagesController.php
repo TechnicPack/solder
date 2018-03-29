@@ -97,7 +97,7 @@ class PackagesController extends Controller
         foreach($files as $file){
             $file = str_replace('modpack/' . $package->slug, '', $file);
             $newFileName = str_replace($package->slug, request()->input('slug'), $file);
-            Storage::move('modpack/' . $package->slug . $file, 'modpack/' . $package->slug . $newFileName);
+            Storage::move('modpack/'.$package->slug.$file, 'modpack/'.$package->slug.$newFileName);
 
             Release::where('path', str_replace('/' , '', $file))->update([
                 'path' => str_replace('/' , '', $newFileName)
@@ -108,7 +108,7 @@ class PackagesController extends Controller
 
 
 
-        File::moveDirectory(storage_path('app/public/modpack/'. $package->slug), storage_path('app/public/modpack/'. request()->input('slug')));
+        File::moveDirectory(storage_path('app/public/modpack/'.$package->slug), storage_path('app/public/modpack/'. request()->input('slug')));
 
 
 
@@ -136,7 +136,7 @@ class PackagesController extends Controller
 
         $package->delete();
 
-        Storage::disk('public')->deleteDirectory("modpack/" . $package->slug, true);
+        Storage::disk('public')->deleteDirectory("modpack/".$package->slug, true);
 
         return redirect('library');
     }

@@ -13,9 +13,10 @@ namespace App\Http\Controllers\Api;
 
 use App\Build;
 use App\Modpack;
+use App\Facades\FileHash;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
-use App\Facades\FileHash;
+
 
 class ModpackBuildController extends Controller
 {
@@ -53,12 +54,12 @@ class ModpackBuildController extends Controller
             ], 404);
         }
         if(isset($build->forge_version)){
-                $mods[] = array(
-                    'name' => 'Forge',
-                    'version' => $build->forge_version,
-                    'md5' => FileHash::hash(url('/storage/forge/') . "/" . $build->minecraft_version . "-" . $build->forge_version . ".zip"),
-                    'url' => url('/storage/forge/') . "/" . $build->minecraft_version . "-" . $build->forge_version . ".zip"
-                );
+            $mods[] = [
+                'name' => 'Forge',
+                'version' => $build->forge_version,
+                'md5' => FileHash::hash(url('/storage/forge/') . "/" . $build->minecraft_version . "-" . $build->forge_version . ".zip"),
+                'url' => url('/storage/forge/') . "/" . $build->minecraft_version . "-" . $build->forge_version . ".zip"
+            ];
        }
 
 
@@ -79,7 +80,7 @@ class ModpackBuildController extends Controller
             'java' => $build->java_version,
             'memory' => (int) $build->required_memory,
             'forge' => $build->forge_version,
-            'mods' => $mods
+            'mods' => $mods,
         ]);
     }
 }
