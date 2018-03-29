@@ -14,7 +14,6 @@ namespace App\Http\Controllers;
 use App\Package;
 use App\Release;
 use Illuminate\Validation\Rule;
-
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 
@@ -92,9 +91,9 @@ class PackagesController extends Controller
            'slug' => ['sometimes', 'required', 'alpha_dash', Rule::unique('packages')->ignore($package->id)],
         ]);
 
-        $files = Storage::allFiles('modpack/'. $package->slug);
+        $files = Storage::allFiles('modpack/'.$package->slug);
 
-        foreach ($files as $file){
+        foreach ($files as $file) {
             $file = str_replace('modpack/'.$package->slug, '', $file);
             $newFileName = str_replace($package->slug, request()->input('slug'), $file);
             Storage::move('modpack/'.$package->slug.$file, 'modpack/'.$package->slug.$newFileName);
@@ -102,10 +101,9 @@ class PackagesController extends Controller
             Release::where('path', str_replace('/', '', $file))->update([
                 'path' => str_replace('/', '', $newFileName),
             ]);
-
         }
 
-        File::moveDirectory(storage_path('app/public/modpack/'.$package->slug), storage_path('app/public/modpack/'. request()->input('slug')));
+        File::moveDirectory(storage_path('app/public/modpack/'.$package->slug), storage_path('app/public/modpack/'.request()->input('slug')));
 
         $package->update(request()->only([
             'name',

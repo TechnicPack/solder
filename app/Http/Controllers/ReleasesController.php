@@ -12,7 +12,6 @@
 namespace App\Http\Controllers;
 
 use App\Release;
-
 use Illuminate\Support\Facades\Storage;
 
 class ReleasesController extends Controller
@@ -27,7 +26,6 @@ class ReleasesController extends Controller
     public function destroy($releaseId)
     {
         $release = Release::findOrFail($releaseId);
-
 
         $this->authorize('delete', $release);
 
