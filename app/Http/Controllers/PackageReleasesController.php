@@ -50,12 +50,12 @@ class PackageReleasesController extends Controller
         if(! Storage::exists("modpack/{$package->slug}")) {
             Storage::makeDirectory("modpack/{$package->slug}");
         }
-        if($file_info['extension'] == 'zip'){
+        if ($file_info['extension'] == 'zip'){
             Storage::move($tmp_file, "modpack/{$package->slug}/".$package_name);
         }else{
             $archive = new ZipArchive();
             $archive_path = storage_path("app/public/modpack/{$package->slug}");
-            if($archive->open($archive_path."/".$package_name, ZipArchive::CREATE) === TRUE){
+            if ($archive->open($archive_path."/".$package_name, ZipArchive::CREATE) === TRUE){
                 $archive->addFile(storage_path("app/public/".$tmp_file), request()->input('type')."/".$file_name);
             }
             $archive->close();

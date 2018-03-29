@@ -4,6 +4,23 @@
         <div class="box-body">
 
             <form role="form" @submit.prevent="update">
+
+                <!-- Errors -->
+                <div class="field is-horizontal" v-if="messages.length > 0">
+                    <div class="field-label is-normal">
+                        &nbsp;
+                    </div>
+                    <div class="field-body">
+                        <div class="notification is-success">
+                            <ul>
+                                <li v-for="message in messages">
+                                    {{ message }}
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="field is-horizontal">
                     <div class="field-label is-normal">
                         <label class="label">Minecraft Version</label>
@@ -11,7 +28,6 @@
                     <div class="field-body">
                         <div class="field">
                             <div class="control">
-
                                 <select class="input" name="minecraft_version" v-model="build.minecraft_version" v-on:change="fetchForgeVersons">
                                     <option v-for="mcversion in mcversions" :selected="mcversion == build.minecraft_version">{{ mcversion }}</option>
                                 </select>
@@ -90,7 +106,8 @@
         data(){
             return{
                 mcversions: [],
-                forgeversions: []
+                forgeversions: [],
+                messages : []
             }
         },
         mounted() {
@@ -121,12 +138,12 @@
                 bodyFormData.set('minecraft_version', this.build.minecraft_version);
                 bodyFormData.set('forge_version', this.build.forge_version);
                 bodyFormData.set('java_version', this.build.java_version);
-                
+
                 axios.post('/modpacks/' + this.build.modpack.slug + '/' + this.build.version, bodyFormData, {
                         config: { headers: {'Content-Type': 'multipart/form-data' }}
                 })
                 .then((response) => {
-
+                    this.messages = ['The build information has been updated!'];
                 })
                 .catch((error) => {
                     console.log(error);

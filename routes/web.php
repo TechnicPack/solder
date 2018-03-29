@@ -17,7 +17,6 @@ Route::get('/storage/modpack_icons/{file_name}', 'StorageController@getModpackIc
 Route::get('/storage/forge/{file_name}', 'StorageController@getForgeFile');
 Route::get('/storage/{slug}/{file_name}', 'StorageController@getModFile');
 
-
 Route::middleware('auth')->group(function () {
     Route::get('/', 'DashboardController');
 

@@ -18,9 +18,6 @@ use App\Package;
 
 use Illuminate\Validation\Rule;
 
-
-
-
 class ModpackBuildsController extends Controller
 {
     /**
