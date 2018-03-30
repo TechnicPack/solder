@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "6ee9798585d1b0f0a0b392de6dd9e7a4",
+    "content-hash": "8a107e374194e37d1fa996c809bc8b91",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -3162,6 +3162,53 @@
                 "dump"
             ],
             "time": "2017-07-28T06:06:09+00:00"
+        },
+        {
+            "name": "technicpack/launcher-api",
+            "version": "v2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/TechnicPack/launcher-api.git",
+                "reference": "77cda5ec849051236c880345b1ccb1e763229f7e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/TechnicPack/launcher-api/zipball/77cda5ec849051236c880345b1ccb1e763229f7e",
+                "reference": "77cda5ec849051236c880345b1ccb1e763229f7e",
+                "shasum": ""
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^2.11",
+                "orchestra/database": "3.6",
+                "orchestra/testbench": "3.6",
+                "php-coveralls/php-coveralls": "^2.0",
+                "phpunit/phpunit": "~7.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "TechnicPack\\LauncherApi\\Providers\\LauncherApiServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "TechnicPack\\LauncherApi\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Kyle Klaus",
+                    "email": "kklaus@indemnity83.com"
+                }
+            ],
+            "description": "TechnicPlatform compatibility for Solder",
+            "time": "2018-03-30T22:58:41+00:00"
         },
         {
             "name": "tijsverkoyen/css-to-inline-styles",

@@ -11,11 +11,13 @@
 
 namespace App;
 
-use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use TechnicPack\LauncherApi\Build as PlatformBuild;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class Build extends Model
+class Build extends Model implements PlatformBuild
 {
     /**
      * The attributes that aren't mass assignable.
@@ -45,41 +47,6 @@ class Build extends Model
     }
 
     /**
-     * Filter query results to public builds, private builds
-     * that have been authorized with the provided client token
-     * and all private builds with a valid provided api key.
-     *
-     * @param Builder $query
-     * @param string|null $apiToken
-     * @param string|null $clientToken
-     *
-     * @return Builder
-     */
-    public function scopeWhereToken($query, $apiToken, $clientToken)
-    {
-        return $query->where(function ($query) use ($apiToken, $clientToken) {
-            $query->where('status', 'public')
-                ->orWhere(function ($query) use ($apiToken, $clientToken) {
-                    $query->where('status', 'private')
-                        ->whereIn('modpack_id', function ($query) use ($clientToken) {
-                            return $query->select('modpack_id')
-                                ->from('client_modpack')
-                                ->join('clients', 'client_modpack.client_id', '=', 'clients.id')
-                                ->where('token', $clientToken);
-                        });
-                })
-                ->orWhere(function ($query) use ($apiToken) {
-                    $query->where('status', 'private')
-                        ->whereExists(function ($query) use ($apiToken) {
-                            $query->select(DB::raw(1))
-                                ->from('keys')
-                                ->where('token', $apiToken);
-                        });
-                });
-        });
-    }
-
-    /**
      * Get created date formatted for humans.
      *
      * @return string
@@ -99,5 +66,37 @@ class Build extends Model
     public static function recent($count)
     {
         return self::latest()->take($count)->with('modpack')->get();
+    }
+
+    /**
+     * Scope modpacks to models that are public.
+     *
+     * @param Builder $query
+     * @return Builder
+     */
+    public function scopePublic(Builder $query)
+    {
+        return $query;
+    }
+
+    /**
+     * Scope modpacks to models not flagged as 'hidden'.
+     *
+     * @param Builder $query
+     * @return Builder
+     */
+    public function scopePrivate(Builder $query)
+    {
+        return $query;
+    }
+
+    /**
+     * The mods that make up this build.
+     *
+     * @return HasMany|BelongsToMany
+     */
+    public function mods()
+    {
+        return $this->belongsToMany(Release::class);
     }
 }

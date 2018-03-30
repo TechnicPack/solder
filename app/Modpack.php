@@ -11,13 +11,16 @@
 
 namespace App;
 
-use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
+use TechnicPack\LauncherApi\HasClients;
 use Illuminate\Database\Eloquent\Builder;
+use TechnicPack\LauncherApi\Modpack as PlatformModpack;
 
-class Modpack extends Model
+class Modpack extends Model implements PlatformModpack
 {
+    use HasClients;
+
     protected $guarded = [];
 
     /**
@@ -47,16 +50,6 @@ class Modpack extends Model
     }
 
     /**
-     * A Modpack has many authorized clients.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     */
-    public function clients()
-    {
-        return $this->belongsToMany(Client::class);
-    }
-
-    /**
      * A Modpack has many collaborators.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
@@ -64,42 +57,6 @@ class Modpack extends Model
     public function collaborators()
     {
         return $this->hasMany(Collaborator::class);
-    }
-
-    /**
-     * Filter query results to public modpack, private modpacks
-     * that have been authorized with the provided client token
-     * and all private modpacks with a valid provided api key.
-     *
-     * @param Builder $query
-     * @param string|null $apiToken
-     * @param string|null $clientToken
-     *
-     * @return Builder
-     */
-    public function scopeWhereToken($query, $apiToken, $clientToken)
-    {
-        return $query->where(function ($query) use ($apiToken, $clientToken) {
-            /* @var Builder $query */
-            $query->where('status', 'public')
-                ->orWhere(function ($query) use ($apiToken, $clientToken) {
-                    $query->where('status', 'private')
-                        ->whereIn('id', function ($query) use ($clientToken) {
-                            return $query->select('modpack_id')
-                                ->from('client_modpack')
-                                ->join('clients', 'client_modpack.client_id', '=', 'clients.id')
-                                ->where('token', $clientToken);
-                        });
-                })
-                ->orWhere(function ($query) use ($apiToken) {
-                    $query->where('status', 'private')
-                        ->whereExists(function ($query) use ($apiToken) {
-                            $query->select(DB::raw(1))
-                                ->from('keys')
-                                ->where('token', $apiToken);
-                        });
-                });
-        });
     }
 
     /**
@@ -120,6 +77,26 @@ class Modpack extends Model
     public function getLatestBuildAttribute()
     {
         return optional(Build::where('id', $this->latest_build_id)->first());
+    }
+
+    /**
+     * Get the promoted build for the Modpack.
+     *
+     * @return mixed
+     */
+    public function getRecommendedBuildVersionAttribute()
+    {
+        return optional(Build::where('id', $this->recommended_build_id)->first())->version;
+    }
+
+    /**
+     * Get the latest build for the Modpack.
+     *
+     * @return mixed
+     */
+    public function getLatestBuildVersionAttribute()
+    {
+        return optional(Build::where('id', $this->latest_build_id)->first())->version;
     }
 
     /**
@@ -155,5 +132,27 @@ class Modpack extends Model
         return Collaborator::where('modpack_id', $this->id)
             ->where('user_id', $user->id)
             ->exists();
+    }
+
+    /**
+     * Scope modpacks to models that are public.
+     *
+     * @param Builder $query
+     * @return Builder
+     */
+    public function scopePublic(Builder $query)
+    {
+        return $query;
+    }
+
+    /**
+     * Scope modpacks to models that are private.
+     *
+     * @param Builder $query
+     * @return Builder
+     */
+    public function scopePrivate(Builder $query)
+    {
+        return $query;
     }
 }
