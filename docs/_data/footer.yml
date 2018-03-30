@@ -1,0 +1,4 @@
+- name:
+  link: /feed.xml
+  social_icon: RSS
+  new_window: false

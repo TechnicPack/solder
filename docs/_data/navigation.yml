@@ -1,0 +1,6 @@
+- name: Tutorials
+  link: /
+- name: Download
+  link: 'https://github.com/technicpack/solder/releases'
+- name: Issues
+  link: 'https://github.com/technicpack/solder/issues'
