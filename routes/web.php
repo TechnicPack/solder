@@ -13,10 +13,6 @@ Route::view('/login', 'auth.login')->name('auth.show-login');
 Route::post('/login', 'Auth\LoginController@login')->name('auth.login');
 Route::post('/logout', 'Auth\LoginController@logout')->name('auth.logout');
 
-Route::get('/storage/modpack_icons/{file_name}', 'StorageController@getModpackIconsFile');
-Route::get('/storage/forge/{file_name}', 'StorageController@getForgeFile');
-Route::get('/storage/{slug}/{file_name}', 'StorageController@getModFile');
-
 Route::middleware('auth')->group(function () {
     Route::get('/', 'DashboardController');
 
@@ -46,9 +42,6 @@ Route::middleware('auth')->group(function () {
 
     Route::delete('/bundles', 'BundlesController@destroy');
     Route::post('/bundles', 'BundlesController@store');
-
-    Route::get('/forge', 'ForgeController@getMCVersions');
-    Route::get('/forge/{mcversion}', 'ForgeController@getForgeVersions');
 });
 
 Route::middleware('auth')->namespace('Admin')->prefix('settings')->group(function () {

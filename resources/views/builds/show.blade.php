@@ -65,9 +65,8 @@
             <build-table :releases='{{ json_encode($build->releases) }}'></build-table>
         </div>
         @endif
-
-        <!-- @include('builds.partials.update-build') -->
-        <update-build :build="{{ json_encode($build) }}"></update-build>
+        
+        @include('builds.partials.update-build')
         @include('builds.partials.danger-zone')
     </section>
 @endsection
