@@ -83,6 +83,16 @@ class Release extends Model
     }
 
     /**
+     * Get the full download url for the file.
+     *
+     * @return string
+     */
+    public function getPackageNameAttribute()
+    {
+        return $this->package->name;
+    }
+
+    /**
      * Get the most recent releases and associated packages.
      *
      * @param $count
