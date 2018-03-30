@@ -12,7 +12,7 @@
         "laravel/tinker": "~1.0",
         "league/flysystem-aws-s3-v3": "^1.0",
         "spatie/laravel-fractal": "^5.2",
-        "technicpack/launcher-api": "dev-master"
+        "technicpack/launcher-api": "^2.0"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.1",

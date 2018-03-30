@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "7d78f10e51111fd4c79dae12526854c2",
+    "content-hash": "8a107e374194e37d1fa996c809bc8b91",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -3231,16 +3231,16 @@
         },
         {
             "name": "technicpack/launcher-api",
-            "version": "dev-master",
+            "version": "v2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/TechnicPack/launcher-api.git",
-                "reference": "3d44e170d40f72906b365b7c5afa821eae4402b1"
+                "reference": "77cda5ec849051236c880345b1ccb1e763229f7e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/TechnicPack/launcher-api/zipball/3d44e170d40f72906b365b7c5afa821eae4402b1",
-                "reference": "3d44e170d40f72906b365b7c5afa821eae4402b1",
+                "url": "https://api.github.com/repos/TechnicPack/launcher-api/zipball/77cda5ec849051236c880345b1ccb1e763229f7e",
+                "reference": "77cda5ec849051236c880345b1ccb1e763229f7e",
                 "shasum": ""
             },
             "require-dev": {
@@ -3274,7 +3274,7 @@
                 }
             ],
             "description": "TechnicPlatform compatibility for Solder",
-            "time": "2018-03-30T21:24:08+00:00"
+            "time": "2018-03-30T22:58:41+00:00"
         },
         {
             "name": "tijsverkoyen/css-to-inline-styles",
@@ -5531,9 +5531,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "technicpack/launcher-api": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
