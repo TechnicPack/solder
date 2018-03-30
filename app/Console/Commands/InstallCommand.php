@@ -110,7 +110,7 @@ class InstallCommand extends Command
     {
         if ($this->confirm('Do you want to generate new API keys?', true)) {
             $this->call('passport:keys', ['--force' => true]);
-            $this->call('passport:client', ['--personal' => true, 'name' => 'Solder Personal Access Client']);
+            $this->call('passport:client', ['--personal' => true, '--name' => 'Solder Personal Access Client']);
         }
     }
 
