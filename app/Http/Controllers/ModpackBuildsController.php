@@ -11,7 +11,9 @@
 
 namespace App\Http\Controllers;
 
+use Storage;
 use App\Build;
+use ZipArchive;
 use App\Modpack;
 use App\Package;
 use Illuminate\Validation\Rule;
@@ -33,7 +35,6 @@ class ModpackBuildsController extends Controller
                 $query->orderBy('version', 'desc');
             }])
             ->firstOrFail();
-
         $build = Build::with(['releases.package', 'releases' => function ($query) {
             $query->join('packages', 'releases.package_id', '=', 'packages.id')
                 ->orderBy('packages.name');
@@ -48,7 +49,6 @@ class ModpackBuildsController extends Controller
             'packages' => Package::orderBy('name')->get(),
         ]);
     }
-
     /**
      * Store the passed data as a build.
      *
@@ -59,9 +59,7 @@ class ModpackBuildsController extends Controller
     public function store($modpackSlug)
     {
         $modpack = Modpack::where('slug', $modpackSlug)->first();
-
         $this->authorize('update', $modpack);
-
         request()->validate([
             'version' => ['required', 'regex:/^[a-zA-Z0-9_-][.a-zA-Z0-9_-]*$/', Rule::unique('builds')->where('modpack_id', $modpack->id)],
             'minecraft_version' => ['required'],
@@ -69,7 +67,6 @@ class ModpackBuildsController extends Controller
             'required_memory' => ['nullable', 'numeric'],
             'clone_build_id' => ['nullable', Rule::exists('builds', 'id')->where('modpack_id', $modpack->id)],
         ]);
-
         $build = $modpack->builds()->create([
             'version' => request('version'),
             'minecraft_version' => request('minecraft_version'),
@@ -78,7 +75,6 @@ class ModpackBuildsController extends Controller
             'required_memory' => request('required_memory'),
             'forge_version' => request('forge_version'),
         ]);
-
         if (request('clone_build_id') !== null) {
             $templateBuild = Build::find(request('clone_build_id'));
             $templateBuild->releases->each(function ($release) use ($build) {
@@ -101,16 +97,30 @@ class ModpackBuildsController extends Controller
     {
         $modpack = Modpack::where('slug', $modpackSlug)->firstOrFail();
         $build = $modpack->builds()->where('version', $buildVersion)->firstOrFail();
-
         $this->authorize('update', $modpack);
-
         request()->validate([
             'version' => ['sometimes', 'required', Rule::unique('builds')->ignore($build->id)->where('modpack_id', $modpack->id)],
             'status' => ['sometimes', 'required', 'in:public,private,draft'],
             'minecraft_version' => ['sometimes', 'required'],
             'required_memory' => ['nullable', 'numeric'],
         ]);
-
+        $file_name = request()->input('minecraft_version').'-'.request()->input('forge_version');
+        if (! Storage::exists('forge/'.$file_name.'.zip')) {
+            $forge_download = 'http://files.minecraftforge.net/maven/net/minecraftforge/forge/'.$file_name.'/forge-'.$file_name.'-universal.jar';
+            $contents = file_get_contents($forge_download);
+            Storage::disk('public')->put('/tmp/'.$file_name.'.jar', $contents);
+            $tmp_file = 'tmp/'.$file_name.'.jar';
+            if (! Storage::exists('forge')) {
+                Storage::makeDirectory('forge');
+            }
+            $archive = new ZipArchive();
+            $archive_path = storage_path('app/public/forge/');
+            if ($archive->open($archive_path.$file_name.'.zip', ZipArchive::CREATE) === true) {
+                $archive->addFile(storage_path('/app/public/') . $tmp_file, 'bin/modpack.jar');
+            }
+            $archive->close();
+            Storage::disk('public')->delete('tmp/'.$file_name);
+        }
         $build->update(request()->only([
             'version',
             'status',
@@ -135,11 +145,9 @@ class ModpackBuildsController extends Controller
     {
         $modpack = Modpack::where('slug', $modpackSlug)->firstOrFail();
         $this->authorize('update', $modpack);
-
         $build = Build::where('version', $buildVersion)
             ->where('modpack_id', $modpack->id)
             ->firstOrFail();
-
         $build->delete();
 
         return redirect("/modpacks/$modpackSlug");

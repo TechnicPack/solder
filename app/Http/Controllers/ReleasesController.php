@@ -12,6 +12,7 @@
 namespace App\Http\Controllers;
 
 use App\Release;
+use Illuminate\Support\Facades\Storage;
 
 class ReleasesController extends Controller
 {
@@ -29,6 +30,8 @@ class ReleasesController extends Controller
         $this->authorize('delete', $release);
 
         $release->delete();
+
+        Storage::disk('public')->delete('modpack/'.$release->package->slug.'/'.$release->path);
 
         return response(null, 204);
     }
