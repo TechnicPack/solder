@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of Solder.
  *
@@ -7,13 +8,16 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace App\Http\Controllers;
+
 use Storage;
 use App\Build;
 use ZipArchive;
 use App\Modpack;
 use App\Package;
 use Illuminate\Validation\Rule;
+
 class ModpackBuildsController extends Controller
 {
     /**
@@ -38,6 +42,7 @@ class ModpackBuildsController extends Controller
             ->where('modpack_id', $modpack->id)
             ->where('version', $buildVersion)
             ->firstOrFail();
+
         return view('builds.show', [
             'modpack' => $modpack,
             'build' => $build,
@@ -76,8 +81,10 @@ class ModpackBuildsController extends Controller
                 $build->releases()->attach($release);
             });
         }
+
         return redirect("/modpacks/$modpackSlug");
     }
+
     /**
      * Update a build.
      *
@@ -97,22 +104,22 @@ class ModpackBuildsController extends Controller
             'minecraft_version' => ['sometimes', 'required'],
             'required_memory' => ['nullable', 'numeric'],
         ]);
-        $file_name = request()->input('minecraft_version')."-".request()->input('forge_version');
-        if (! Storage::exists("forge/".$file_name.".zip")) {
-            $forge_download = "http://files.minecraftforge.net/maven/net/minecraftforge/forge/".$file_name."/forge-".$file_name."-universal.jar";
+        $file_name = request()->input('minecraft_version').'-'.request()->input('forge_version');
+        if (! Storage::exists('forge/'.$file_name.'.zip')) {
+            $forge_download = 'http://files.minecraftforge.net/maven/net/minecraftforge/forge/'.$file_name.'/forge-'.$file_name.'-universal.jar';
             $contents = file_get_contents($forge_download);
-            Storage::disk('public')->put("/tmp/".$file_name.".jar", $contents);
-            $tmp_file = "tmp/" . $file_name . ".jar";
-            if(! Storage::exists("forge")) {
-                Storage::makeDirectory("forge");
+            Storage::disk('public')->put('/tmp/'.$file_name.'.jar', $contents);
+            $tmp_file = 'tmp/'.$file_name.'.jar';
+            if (! Storage::exists('forge')) {
+                Storage::makeDirectory('forge');
             }
             $archive = new ZipArchive();
-            $archive_path = storage_path("app/public/forge/");
-            if ($archive->open($archive_path.$file_name.".zip", ZipArchive::CREATE) === true) {
-                $archive->addFile(storage_path("/app/public/") . $tmp_file, "bin/modpack.jar");
+            $archive_path = storage_path('app/public/forge/');
+            if ($archive->open($archive_path.$file_name.'.zip', ZipArchive::CREATE) === true) {
+                $archive->addFile(storage_path('/app/public/') . $tmp_file, 'bin/modpack.jar');
             }
             $archive->close();
-            Storage::disk('public')->delete("tmp/".$file_name);
+            Storage::disk('public')->delete('tmp/'.$file_name);
         }
         $build->update(request()->only([
             'version',
@@ -122,8 +129,10 @@ class ModpackBuildsController extends Controller
             'required_memory',
             'forge_version',
         ]));
+
         return redirect("/modpacks/$modpackSlug/{$build->version}");
     }
+
     /**
      * Remove build from application.
      *
@@ -140,6 +149,7 @@ class ModpackBuildsController extends Controller
             ->where('modpack_id', $modpack->id)
             ->firstOrFail();
         $build->delete();
+
         return redirect("/modpacks/$modpackSlug");
     }
 }

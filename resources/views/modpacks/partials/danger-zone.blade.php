@@ -14,7 +14,7 @@
                     </div>
                     <div class="level-right">
                         <div class="level-item">
-                            <form method="post" action="/modpacks/{{ $modpack->slug }}">
+                            <form method="post" action="/modpacks/{{ $modpack->slug }}" onsubmit="return confirm('Are you sure you want to make this modpack public?');">
                                 {{ csrf_field() }}
                                 {{ method_field('patch') }}
 
@@ -37,7 +37,7 @@
                     </div>
                     <div class="level-right">
                         <div class="level-item">
-                            <form method="post" action="/modpacks/{{ $modpack->slug }}">
+                            <form method="post" action="/modpacks/{{ $modpack->slug }}" onsubmit="return confirm('Are you sure you want to make this modpack private?');">
                                 {{ csrf_field() }}
                                 {{ method_field('patch') }}
 
@@ -59,7 +59,7 @@
                 </div>
                 <div class="level-right">
                     <div class="level-item">
-                        <form method="post" action="/modpacks/{{ $modpack->slug }}">
+                        <form method="post" action="/modpacks/{{ $modpack->slug }}" onsubmit="return confirm('Are you sure you want to change the modpack slug?');">
                             {{ csrf_field() }}
                             {{ method_field('patch') }}
 
@@ -91,7 +91,7 @@
                 </div>
                 <div class="level-right">
                     <div class="level-item">
-                        <form method="post" action="/modpacks/{{ $modpack->slug }}">
+                        <form method="post" action="/modpacks/{{ $modpack->slug }}" onsubmit="return confirm('Are you sure you want to delete this?');">
                             {{ csrf_field() }}
                             {{ method_field('delete') }}
                             <button class="button is-danger is-outlined" type="submit">Delete this modpack</button>

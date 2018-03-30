@@ -17,7 +17,6 @@ use App\Facades\FileHash;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
 
-
 class ModpackBuildController extends Controller
 {
     /**
