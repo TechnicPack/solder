@@ -62,7 +62,7 @@ class ModpackBuildController extends Controller
                     'name' => $release->package->name,
                     'version' => $release->version,
                     'md5' => $release->md5,
-                    'url' => Storage::url($release->path),
+                    'url' => $release->url,
                 ];
             }),
         ]);

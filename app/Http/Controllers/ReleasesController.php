@@ -12,6 +12,7 @@
 namespace App\Http\Controllers;
 
 use App\Release;
+use Illuminate\Support\Facades\Storage;
 
 class ReleasesController extends Controller
 {
@@ -22,14 +23,16 @@ class ReleasesController extends Controller
      *
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
      */
-    public function destroy($releaseId)
-    {
-        $release = Release::findOrFail($releaseId);
+     public function destroy($releaseId)
+     {
+         $release = Release::findOrFail($releaseId);
 
-        $this->authorize('delete', $release);
+         $this->authorize('delete', $release);
 
-        $release->delete();
+         $release->delete();
 
-        return response(null, 204);
-    }
+         Storage::disk('public')->delete('modpack/'.$release->package->slug.'/'.$release->path);
+
+         return response(null, 204);
+     }
 }
