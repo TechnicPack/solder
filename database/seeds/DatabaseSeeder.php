@@ -21,11 +21,18 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // Create the default admin
-        \App\User::create([
+        $user = \App\User::create([
             'username' => 'Admin',
             'email' => 'admin@example.com',
             'password' => bcrypt('secret'),
             'is_admin' => true,
         ]);
+
+        $team = \App\Team::create([
+
+        ]);
+
+        $user->teams()->attach($team);
+        $user->switchToTeam($team);
     }
 }

@@ -60,6 +60,7 @@ class ModpacksController extends Controller
             'slug' => request('slug'),
             'status' => request('status'),
             'icon_path' => request('modpack_icon', new NullFile)->store('modpack_icons'),
+            'team_id' => request()->user()->currentTeam->id,
         ]);
 
         $modpack->addCollaborator(auth()->user()->id);

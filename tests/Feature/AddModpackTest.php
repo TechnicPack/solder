@@ -11,6 +11,7 @@
 
 namespace Tests\Feature;
 
+use App\Team;
 use App\User;
 use App\Modpack;
 use Tests\TestCase;
@@ -26,6 +27,8 @@ class AddModpackTest extends TestCase
     public function an_admin_can_create_a_modpack()
     {
         $user = factory(User::class)->states('admin')->create();
+        $team = factory(Team::class)->create();
+        $team->users()->attach($user);
 
         $response = $this->actingAs($user)->post('/modpacks', [
             'name' => 'Iron Tanks',
@@ -59,6 +62,8 @@ class AddModpackTest extends TestCase
     public function an_authorized_user_can_create_a_modpack()
     {
         $user = factory(User::class)->create();
+        $team = factory(Team::class)->create();
+        $team->users()->attach($user);
         $user->grantRole('create-modpack');
 
         $response = $this->actingAs($user)
@@ -72,6 +77,8 @@ class AddModpackTest extends TestCase
     public function an_unauthorized_user_cannot_create_a_build()
     {
         $user = factory(User::class)->create();
+        $team = factory(Team::class)->create();
+        $team->users()->attach($user);
 
         $response = $this->actingAs($user)
             ->post('modpacks', $this->validParams());
@@ -84,6 +91,8 @@ class AddModpackTest extends TestCase
     public function name_is_required()
     {
         $user = factory(User::class)->states('admin')->create();
+        $team = factory(Team::class)->create();
+        $team->users()->attach($user);
 
         $response = $this->actingAs($user)->from('/dashboard')->post('/modpacks', $this->validParams([
             'name' => '',
@@ -98,6 +107,8 @@ class AddModpackTest extends TestCase
     public function slug_is_required()
     {
         $user = factory(User::class)->states('admin')->create();
+        $team = factory(Team::class)->create();
+        $team->users()->attach($user);
 
         $response = $this->actingAs($user)->from('/dashboard')->post('/modpacks', $this->validParams([
             'slug' => '',
@@ -112,6 +123,8 @@ class AddModpackTest extends TestCase
     public function slug_is_unique()
     {
         $user = factory(User::class)->states('admin')->create();
+        $team = factory(Team::class)->create();
+        $team->users()->attach($user);
         factory(Modpack::class)->create(['slug' => 'existing-slug']);
 
         $response = $this->actingAs($user)->from('/dashboard')->post('/modpacks', $this->validParams([
@@ -127,6 +140,8 @@ class AddModpackTest extends TestCase
     public function slug_is_url_safe()
     {
         $user = factory(User::class)->states('admin')->create();
+        $team = factory(Team::class)->create();
+        $team->users()->attach($user);
 
         $response = $this->actingAs($user)->from('/dashboard')->post('/modpacks', $this->validParams([
             'slug' => 'non url $safe slug',
@@ -141,6 +156,8 @@ class AddModpackTest extends TestCase
     public function status_is_required()
     {
         $user = factory(User::class)->states('admin')->create();
+        $team = factory(Team::class)->create();
+        $team->users()->attach($user);
 
         $response = $this->actingAs($user)->from('/dashboard')->post('/modpacks', $this->validParams([
             'status' => '',
@@ -155,6 +172,8 @@ class AddModpackTest extends TestCase
     public function status_is_valid()
     {
         $user = factory(User::class)->states('admin')->create();
+        $team = factory(Team::class)->create();
+        $team->users()->attach($user);
 
         $response = $this->actingAs($user)->from('/dashboard')->post('/modpacks', $this->validParams([
             'status' => 'invalid',
@@ -170,6 +189,8 @@ class AddModpackTest extends TestCase
     {
         Storage::fake();
         $user = factory(User::class)->states('admin')->create();
+        $team = factory(Team::class)->create();
+        $team->users()->attach($user);
         $file = File::image('modpack-icon.png', 50, 50);
 
         $response = $this->actingAs($user)->post('/modpacks', $this->validParams([
@@ -191,6 +212,8 @@ class AddModpackTest extends TestCase
     {
         Storage::fake('s3');
         $user = factory(User::class)->states('admin')->create();
+        $team = factory(Team::class)->create();
+        $team->users()->attach($user);
         $file = File::create('not-an-icon.pdf');
 
         $response = $this->actingAs($user)->from('/dashboard')->post('/modpacks', $this->validParams([
@@ -207,6 +230,8 @@ class AddModpackTest extends TestCase
     {
         Storage::fake('s3');
         $user = factory(User::class)->states('admin')->create();
+        $team = factory(Team::class)->create();
+        $team->users()->attach($user);
         $file = File::image('modpack_icon.png', 49, 49);
 
         $response = $this->actingAs($user)->from('/dashboard')->post('/modpacks', $this->validParams([
@@ -223,6 +248,8 @@ class AddModpackTest extends TestCase
     {
         Storage::fake('s3');
         $user = factory(User::class)->states('admin')->create();
+        $team = factory(Team::class)->create();
+        $team->users()->attach($user);
         $file = File::image('poster.png', 100, 101);
 
         $response = $this->actingAs($user)->from('/dashboard')->post('/modpacks', $this->validParams([
@@ -238,6 +265,8 @@ class AddModpackTest extends TestCase
     public function modpack_icon_is_optional()
     {
         $user = factory(User::class)->states('admin')->create();
+        $team = factory(Team::class)->create();
+        $team->users()->attach($user);
 
         $response = $this->actingAs($user)->post('/modpacks', $this->validParams([
             'modpack_icon' => null,
@@ -263,6 +292,8 @@ class AddModpackTest extends TestCase
     public function the_user_who_creates_a_modpack_is_also_a_contributor()
     {
         $user = factory(User::class)->states('admin')->create();
+        $team = factory(Team::class)->create();
+        $team->users()->attach($user);
 
         $response = $this->actingAs($user)->post('/modpacks', [
             'name' => 'Iron Tanks',

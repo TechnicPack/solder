@@ -60,3 +60,9 @@ Route::middleware('auth')->namespace('Admin')->prefix('settings')->group(functio
     Route::post('users/{user}', 'UsersController@update');
     Route::delete('users/{user}', 'UsersController@destroy');
 });
+
+Route::middleware('auth')->group(function () {
+    Route::get('settings/teams', 'Settings\TeamsController@index');
+    Route::post('settings/teams', 'Settings\TeamsController@store');
+    Route::delete('settings/teams/{team}', 'Settings\TeamsController@destroy');
+});
