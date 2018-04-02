@@ -16,6 +16,9 @@ $factory->define(App\Modpack::class, function (Faker $faker) {
         'name' => $faker->sentence(3, true),
         'slug' => $faker->slug(3, true),
         'status' => 'public',
+        'team_id' => function () {
+            return factory(\App\Team::class)->create()->id;
+        },
     ];
 });
 

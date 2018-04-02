@@ -14,6 +14,7 @@ window.Vue = require('vue');
  */
 require('./forms/bootstrap');
 require('./filters/bootstrap');
+require('./components/settings/bootstrap');
 
 
 /**

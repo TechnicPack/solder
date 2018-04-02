@@ -11,12 +11,9 @@
 
 use Faker\Generator as Faker;
 
-$factory->define(App\Package::class, function (Faker $faker) {
+$factory->define(App\Team::class, function (Faker $faker) {
     return [
-        'name' => 'Example Package',
-        'slug' => $faker->slug(3, true),
-        'team_id' => function () {
-            return factory(\App\Team::class)->create()->id;
-        },
+        'name' => $faker->streetName,
+        'slug' => $faker->slug,
     ];
 });

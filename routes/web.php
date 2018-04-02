@@ -54,9 +54,17 @@ Route::middleware('auth')->namespace('Admin')->prefix('settings')->group(functio
 
     Route::view('clients', 'settings.clients');
     Route::view('keys', 'settings.keys');
+    Route::view('manage-teams', 'settings.teams');
 
     Route::get('users', 'UsersController@index');
     Route::post('users', 'UsersController@store');
     Route::post('users/{user}', 'UsersController@update');
     Route::delete('users/{user}', 'UsersController@destroy');
+});
+
+Route::middleware('auth')->group(function () {
+    Route::get('settings/teams', 'Settings\TeamsController@index');
+    Route::post('settings/teams', 'Settings\TeamsController@store');
+    Route::delete('settings/teams/{team}', 'Settings\TeamsController@destroy');
+    Route::patch('settings/teams/{team}/name', 'Settings\TeamNameController@update');
 });

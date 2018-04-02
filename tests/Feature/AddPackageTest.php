@@ -11,6 +11,7 @@
 
 namespace Tests\Feature;
 
+use App\Team;
 use App\User;
 use App\Package;
 use Tests\TestCase;
@@ -24,6 +25,8 @@ class AddPackageTest extends TestCase
     public function an_admin_can_create_a_package()
     {
         $user = factory(User::class)->states('admin')->create();
+        $team = factory(Team::class)->create();
+        $team->users()->attach($user);
 
         $response = $this->actingAs($user)->post('library', [
             'name' => 'Buildcraft',
@@ -59,6 +62,8 @@ class AddPackageTest extends TestCase
     public function an_authorized_user_can_create_a_package()
     {
         $user = factory(User::class)->create();
+        $team = factory(Team::class)->create();
+        $team->users()->attach($user);
         $user->grantRole('create-package');
 
         $response = $this->actingAs($user)
@@ -72,6 +77,8 @@ class AddPackageTest extends TestCase
     public function an_unauthorized_user_cannot_create_a_package()
     {
         $user = factory(User::class)->create();
+        $team = factory(Team::class)->create();
+        $team->users()->attach($user);
 
         $response = $this->actingAs($user)
             ->post('library', $this->validParams());
@@ -84,6 +91,8 @@ class AddPackageTest extends TestCase
     public function name_is_required()
     {
         $user = factory(User::class)->states('admin')->create();
+        $team = factory(Team::class)->create();
+        $team->users()->attach($user);
 
         $response = $this->actingAs($user)
             ->from('library')
@@ -100,6 +109,8 @@ class AddPackageTest extends TestCase
     public function slug_is_required()
     {
         $user = factory(User::class)->states('admin')->create();
+        $team = factory(Team::class)->create();
+        $team->users()->attach($user);
 
         $response = $this->actingAs($user)
             ->from('library')
@@ -116,6 +127,8 @@ class AddPackageTest extends TestCase
     public function slug_is_unique()
     {
         $user = factory(User::class)->states('admin')->create();
+        $team = factory(Team::class)->create();
+        $team->users()->attach($user);
         factory(Package::class)->create(['slug' => 'buildcraft']);
 
         $response = $this->actingAs($user)
@@ -133,6 +146,8 @@ class AddPackageTest extends TestCase
     public function author_is_optional()
     {
         $user = factory(User::class)->states('admin')->create();
+        $team = factory(Team::class)->create();
+        $team->users()->attach($user);
 
         $response = $this->actingAs($user)
             ->from('library')
@@ -149,6 +164,8 @@ class AddPackageTest extends TestCase
     public function website_url_is_a_valid_url()
     {
         $user = factory(User::class)->states('admin')->create();
+        $team = factory(Team::class)->create();
+        $team->users()->attach($user);
 
         $response = $this->actingAs($user)
             ->from('library')
@@ -165,6 +182,8 @@ class AddPackageTest extends TestCase
     public function donation_url_is_a_valid_url()
     {
         $user = factory(User::class)->states('admin')->create();
+        $team = factory(Team::class)->create();
+        $team->users()->attach($user);
 
         $response = $this->actingAs($user)
             ->from('library')
@@ -181,6 +200,8 @@ class AddPackageTest extends TestCase
     public function website_url_is_optional()
     {
         $user = factory(User::class)->states('admin')->create();
+        $team = factory(Team::class)->create();
+        $team->users()->attach($user);
 
         $response = $this->actingAs($user)
             ->from('library')
@@ -197,6 +218,8 @@ class AddPackageTest extends TestCase
     public function donation_url_is_optional()
     {
         $user = factory(User::class)->states('admin')->create();
+        $team = factory(Team::class)->create();
+        $team->users()->attach($user);
 
         $response = $this->actingAs($user)
             ->from('library')

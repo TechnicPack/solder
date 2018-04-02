@@ -65,14 +65,15 @@ class PackagesController extends Controller
             'donation_url' => ['nullable', 'url'],
         ]);
 
-        $package = Package::create(request()->only([
-            'name',
-            'slug',
-            'author',
-            'website_url',
-            'donation_url',
-            'description',
-        ]));
+        $package = Package::create([
+            'name' => request('name'),
+            'slug' => request('slug'),
+            'author' => request('author'),
+            'website_url' => request('website_url'),
+            'donation_url' => request('donation_url'),
+            'description' => request('description'),
+            'team_id' => request()->user()->currentTeam->id,
+        ]);
 
         return redirect('library/'.$package->slug);
     }

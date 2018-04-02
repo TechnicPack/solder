@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateModpacksTable extends Migration
+class CreateTeamUserTable extends Migration
 {
     /**
      * Run the migrations.
@@ -22,15 +22,10 @@ class CreateModpacksTable extends Migration
      */
     public function up()
     {
-        Schema::create('modpacks', function (Blueprint $table) {
+        Schema::create('team_user', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('team_id');
-            $table->unsignedInteger('recommended_build_id')->nullable();
-            $table->unsignedInteger('latest_build_id')->nullable();
-            $table->string('name')->unique();
-            $table->string('slug')->unique();
-            $table->string('status');
-            $table->string('icon_path')->nullable();
+            $table->unsignedInteger('user_id');
             $table->timestamps();
         });
     }
@@ -42,6 +37,6 @@ class CreateModpacksTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('modpacks');
+        Schema::dropIfExists('team_user');
     }
 }
