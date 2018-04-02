@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
  - Added support for Teams
  
 ### Changed
+ - Requires PHP v7.1.3 or newer
  - Extracted Launcher API, and related token management to technicpack/launcher-api package
  
 ### Fixed
