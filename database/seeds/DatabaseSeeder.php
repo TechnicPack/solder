@@ -29,7 +29,8 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $team = \App\Team::create([
-
+            'name' => 'Default Team',
+            'slug' => 'default',
         ]);
 
         $user->teams()->attach($team);
