@@ -65,4 +65,5 @@ Route::middleware('auth')->group(function () {
     Route::get('settings/teams', 'Settings\TeamsController@index');
     Route::post('settings/teams', 'Settings\TeamsController@store');
     Route::delete('settings/teams/{team}', 'Settings\TeamsController@destroy');
+    Route::patch('settings/teams/{team}/name', 'Settings\TeamNameController@update');
 });
