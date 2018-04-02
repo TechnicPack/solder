@@ -54,6 +54,7 @@ Route::middleware('auth')->namespace('Admin')->prefix('settings')->group(functio
 
     Route::view('clients', 'settings.clients');
     Route::view('keys', 'settings.keys');
+    Route::view('manage-teams', 'settings.teams');
 
     Route::get('users', 'UsersController@index');
     Route::post('users', 'UsersController@store');

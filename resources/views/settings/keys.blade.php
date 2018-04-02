@@ -23,6 +23,14 @@
                         Solder Settings
                     </p>
                     <ul class="menu-list">
+                        <li>
+                            <a href="/settings/manage-teams">
+                                <span class="icon">
+                                    <i class="fa fa-fw fa-users"></i>
+                                </span>
+                                Teams
+                            </a>
+                        </li>
                         @can('keys.list')
                         <li>
                             <a href="/settings/keys" class="is-active">
