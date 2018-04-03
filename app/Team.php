@@ -17,16 +17,31 @@ class Team extends Model
 {
     protected $guarded = [];
 
+    /**
+     * Get all the users that belong to the team.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function users()
     {
         return $this->belongsToMany(User::class);
     }
 
+    /**
+     * The modpacks that are owned by the team.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function modpacks()
     {
         return $this->hasMany(Modpack::class);
     }
 
+    /**
+     * The packages that are owned by the team.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function packages()
     {
         return $this->hasMany(Package::class);

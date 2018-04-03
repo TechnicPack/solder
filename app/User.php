@@ -17,7 +17,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, Notifiable;
+    use HasApiTokens, Notifiable, CanJoinTeams;
 
     /**
      * The attributes that are mass assignable.
@@ -58,35 +58,13 @@ class User extends Authenticatable
             ->withTimestamps();
     }
 
-    public function teams()
-    {
-        return $this->belongsToMany(Team::class);
-    }
-
+    /**
+     * Grant a permissions role to this user.
+     *
+     * @param $role
+     */
     public function grantRole($role)
     {
         $this->roles()->attach(Role::where('tag', $role)->first());
-    }
-
-    public function switchToTeam($team)
-    {
-        $this->current_team_id = $team->id;
-        $this->save();
-    }
-
-    public function currentTeam()
-    {
-        if (is_null($this->current_team_id)) {
-            $this->switchToTeam($this->teams->first());
-
-            return $this->currentTeam();
-        }
-
-        return $this->teams->find($this->current_team_id);
-    }
-
-    public function getCurrentTeamAttribute()
-    {
-        return $this->currentTeam();
     }
 }

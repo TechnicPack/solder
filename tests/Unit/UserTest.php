@@ -56,4 +56,30 @@ class UserTest extends TestCase
 
         $this->assertTrue($user->currentTeam->is($teamA));
     }
+
+    /** @test **/
+    public function determining_if_a_user_has_teams()
+    {
+        $userA = factory(User::class)->create();
+        $userB = factory(User::class)->create();
+        $team = factory(Team::class)->create();
+
+        $team->users()->attach($userA);
+
+        $this->assertTrue($userA->hasTeams());
+        $this->assertFalse($userB->hasTeams());
+    }
+
+    /** @test **/
+    public function determining_if_a_user_is_on_a_team()
+    {
+        $userA = factory(User::class)->create();
+        $userB = factory(User::class)->create();
+        $team = factory(Team::class)->create();
+
+        $team->users()->attach($userA);
+
+        $this->assertTrue($userA->onTeam($team));
+        $this->assertFalse($userB->onTeam($team));
+    }
 }
