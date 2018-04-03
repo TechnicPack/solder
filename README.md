@@ -12,8 +12,7 @@ to note that this application is still in early development and updates may brea
 upgrade steps. Do not use this in production. 
 
 ### Prerequisites
-To run this project, you must have PHP 7, composer and npm installed. You will also probably want to have a web server
-running to serve the site (although this isn't strictly required for testing).
+To run this project, you must have PHP 7.1.3 or newer, composer and npm installed. You will also probably want to have a web server running to serve the site (although this isn't strictly required for testing).
 
 ### Setup
 
