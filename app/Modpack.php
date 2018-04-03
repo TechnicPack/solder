@@ -100,6 +100,44 @@ class Modpack extends Model implements PlatformModpack
     }
 
     /**
+     * Set the recommended build.
+     *
+     * @param Build $build
+     * @return $this
+     */
+    public function setRecommendedBuild(Build $build)
+    {
+        if (! $build->modpack->is($this)) {
+            throw new \InvalidArgumentException();
+        }
+
+        $this->update([
+            'recommended_build_id' => $build->id,
+        ]);
+
+        return $this;
+    }
+
+    /**
+     * Set the latest build.
+     *
+     * @param Build $build
+     * @return $this
+     */
+    public function setLatestBuild(Build $build)
+    {
+        if (! $build->modpack->is($this)) {
+            throw new \InvalidArgumentException();
+        }
+        
+        $this->update([
+            'latest_build_id' => $build->id,
+        ]);
+
+        return $this;
+    }
+
+    /**
      * Get the two letter Monogram of the Modpack.
      *
      * @return string

@@ -15,6 +15,7 @@ use App\User;
 use App\Build;
 use App\Modpack;
 use Tests\TestCase;
+use InvalidArgumentException;
 use Illuminate\Support\Optional;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -120,5 +121,51 @@ class ModpackTest extends TestCase
         $modpack->addCollaborator($user->id);
 
         $this->assertTrue($modpack->userIsCollaborator($user));
+    }
+
+    /** @test **/
+    public function can_set_a_build_as_recommended()
+    {
+        $modpack = factory(Modpack::class)->create();
+        $build = factory(Build::class)->create(['modpack_id' => $modpack->id]);
+
+        $modpack->setRecommendedBuild($build);
+
+        $this->assertTrue($modpack->recommended_build->is($build));
+    }
+
+    /** @test **/
+    public function trying_to_set_an_invalid_build_as_recommended_will_throw_an_error()
+    {
+        $modpack = factory(Modpack::class)->create();
+        $build = factory(Build::class)->create();
+        $this->expectException(InvalidArgumentException::class);
+
+        $modpack->setRecommendedBuild($build);
+
+        $this->assertFalse($modpack->hasRecommendedBuild());
+    }
+
+    /** @test **/
+    public function can_set_a_build_as_latest()
+    {
+        $modpack = factory(Modpack::class)->create();
+        $build = factory(Build::class)->create(['modpack_id' => $modpack->id]);
+
+        $modpack->setLatestBuild($build);
+
+        $this->assertTrue($modpack->latest_build->is($build));
+    }
+
+    /** @test **/
+    public function trying_to_set_an_invalid_build_as_latest_will_throw_an_error()
+    {
+        $modpack = factory(Modpack::class)->create();
+        $build = factory(Build::class)->create();
+        $this->expectException(InvalidArgumentException::class);
+
+        $modpack->setLatestBuild($build);
+
+        $this->assertFalse($modpack->hasLatestBuild());
     }
 }
