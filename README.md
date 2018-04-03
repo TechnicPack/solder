@@ -77,7 +77,7 @@ $ vendor/bin/php-cs-fixer fix -v
 ## Versioning
 
 We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this 
-repository](https://github.com/technicpack/launcher-api/tags).
+repository](https://github.com/technicpack/solder/tags).
 
 ## Contributing
 
