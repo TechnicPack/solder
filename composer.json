@@ -19,7 +19,6 @@
         "barryvdh/laravel-ide-helper": "^2.4",
         "filp/whoops": "~2.0",
         "fzaninotto/faker": "~1.4",
-        "laravel/dusk": "^3.0",
         "mockery/mockery": "0.9.*",
         "php-coveralls/php-coveralls": "^2.0",
         "phpunit/phpunit": "~7.0"
