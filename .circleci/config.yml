@@ -1,0 +1,40 @@
+version: 2
+
+jobs:
+  build:
+    working_directory: /var/www
+
+    environment:
+      BASH_ENV: ~/.nvm/nvm.sh
+
+    docker:
+      - image: laratools/ci:7.1
+
+    steps:
+      - checkout
+
+      - run:
+          name: Install Composer Dependencies
+          command: composer install --no-progress --no-suggest
+
+      - run:
+          name: Install Node Dependencies
+          command: |
+            nvm install 8
+            npm install
+
+      - run:
+          name: Build Components
+          command: npm run production
+
+      - run:
+          name: Generate API Keys
+          command: php artisan passport:keys
+
+      - run:
+          name: PHPUnit Tests
+          command: vendor/bin/phpunit --coverage-clover build/logs/clover.xml
+
+      - run:
+          name: Report Coverage
+          command: vendor/bin/php-coveralls
