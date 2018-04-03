@@ -11,13 +11,14 @@
                 <th>&nbsp;</th>
             </tr>
             </thead>
-            <tfoot v-if="rows.length == 0">
+            <tfoot v-if="releases.length == 0">
             <tr>
                 <td colspan="4" class="has-text-centered">There are no releases, get started by uploading one.</td>
             </tr>
             </tfoot>
             <tbody>
-            <tr v-for="release in rows">
+            <tr v-for="release in releases">
+
                 <td>{{ release.version }}</td>
                 <td><code>{{ release.md5 }}</code>
                 </td>
@@ -39,20 +40,33 @@
 
 <script>
     export default{
-        props: ['releases'],
+        props: ['slug'],
         data(){
             return{
-                rows: []
+                releases: []
             }
         },
         mounted() {
-            this.rows = this.releases;
+            var vm = this;
+            this.$root.$on('addReleaseEvent', function() {
+                console.log("TESTING");
+                vm.get();
+            });
+            vm.get();
+            console.log(this.slug);
         },
         methods: {
+            get: function() {
+                axios.get('/releases/' + this.slug)
+                .then((response) => {
+                    console.log(response);
+                    this.releases = response.data;
+                });
+            },
             destroy: function(release) {
                 axios.delete('/releases/' + release.id)
                 .then((response) => {
-                    this.rows.splice(this.rows.indexOf(release), 1)
+                    this.releases.splice(this.releases.indexOf(release), 1)
                 })
                 .catch((error) => {
                     console.log(error);

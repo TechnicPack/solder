@@ -69,7 +69,8 @@ class Release extends Model
      */
     public function getUrlAttribute()
     {
-        return Storage::url($this->path);
+        //return Storage::url($this->path);
+        return Storage::url($this->package->slug.'/'.$this->path);
     }
 
     /**
