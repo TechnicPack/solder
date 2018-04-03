@@ -129,7 +129,7 @@ class Modpack extends Model implements PlatformModpack
         if (! $build->modpack->is($this)) {
             throw new \InvalidArgumentException();
         }
-        
+
         $this->update([
             'latest_build_id' => $build->id,
         ]);
