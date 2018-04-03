@@ -11,6 +11,7 @@
 
 namespace Tests\Feature;
 
+use App\Team;
 use App\User;
 use App\Modpack;
 use BuildFactory;
@@ -89,7 +90,9 @@ class ShowModpackTest extends TestCase
         $userA = factory(User::class)->create();
         $userB = factory(User::class)->create();
         $userC = factory(User::class)->create();
+        $team = factory(Team::class)->create(['owner_id' => $userA->id]);
         $modpack = factory(Modpack::class)->create([
+            'team_id' => $team->id,
             'slug' => 'example-modpack',
         ]);
 

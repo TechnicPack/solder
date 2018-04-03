@@ -23,7 +23,8 @@ class CreateTeamsTest extends TestCase
     /** @test **/
     public function create_a_team()
     {
-        $this->actingAs(new User);
+        $user = factory(User::class)->create();
+        $this->actingAs($user);
 
         $response = $this->postJson('/settings/teams', [
             'name' => 'My Team',
@@ -35,6 +36,7 @@ class CreateTeamsTest extends TestCase
         $this->assertDatabaseHas('teams', [
             'name' => 'My Team',
             'slug' => 'my-team',
+            'owner_id' => $user->id,
         ]);
         $response->assertJsonStructure([
             'data' => ['id', 'name', 'slug', 'created_at'],

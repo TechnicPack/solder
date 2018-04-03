@@ -41,6 +41,7 @@ class TeamsController extends Controller
         $team = Team::create([
             'name' => request('name'),
             'slug' => request('slug'),
+            'owner_id' => request()->user()->id,
         ]);
 
         return response()->json(['data' => $team], 201);

@@ -37,6 +37,16 @@ class TeamsTest extends TestCase
     }
 
     /** @test **/
+    public function a_team_has_an_owner()
+    {
+        $userA = factory(User::class)->create();
+        $team = factory(Team::class)->create(['owner_id' => $userA->id]);
+        $team->users()->attach($userA);
+
+        $this->assertTrue($team->owner->is($userA));
+    }
+
+    /** @test **/
     public function a_team_has_many_modpacks()
     {
         $team = factory(Team::class)->create();

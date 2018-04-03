@@ -15,5 +15,8 @@ $factory->define(App\Team::class, function (Faker $faker) {
     return [
         'name' => $faker->streetName,
         'slug' => $faker->slug,
+        'owner_id' => function () {
+            return factory(\App\User::class)->create()->id;
+        },
     ];
 });

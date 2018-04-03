@@ -28,6 +28,16 @@ class Team extends Model
     }
 
     /**
+     * Get the team owner.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function owner()
+    {
+        return $this->hasOne(User::class, 'id', 'owner_id');
+    }
+
+    /**
      * The modpacks that are owned by the team.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
