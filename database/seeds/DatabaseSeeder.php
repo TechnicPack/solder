@@ -31,6 +31,7 @@ class DatabaseSeeder extends Seeder
         $team = \App\Team::create([
             'name' => 'Default Team',
             'slug' => 'default',
+            'owner_id' => $user->id,
         ]);
 
         $user->teams()->attach($team);
