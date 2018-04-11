@@ -106,7 +106,6 @@
                 bodyFormData.set('file', this.file);
                 bodyFormData.set('type', this.type)
 
-                console.log(bodyFormData);
                 axios.post('/library/' + this.slug + '/releases', bodyFormData, {
                     config: { headers: {'Content-Tyoe': 'multipart/form-data'}}
                 })

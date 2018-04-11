@@ -19,14 +19,11 @@
         </div>
 
         @can('create', App\Release::class)
-            <!-- @include('packages.partials.create-release') -->
             <add-release :slug='{{ json_encode($package->slug) }}'></add-release>
         @endcan
 
-
         <release-table :slug='{{ json_encode($package->slug) }}' :releases='{{ json_encode($package->releases) }}'></release-table>
-
-
+        
         @can('update', $package)
             @include('packages.partials.update-package')
             @include('packages.partials.danger-zone')

@@ -49,17 +49,14 @@
         mounted() {
             var vm = this;
             this.$root.$on('addReleaseEvent', function() {
-                console.log("TESTING");
                 vm.get();
             });
             vm.get();
-            console.log(this.slug);
         },
         methods: {
             get: function() {
                 axios.get('/releases/' + this.slug)
                 .then((response) => {
-                    console.log(response);
                     this.releases = response.data;
                 });
             },

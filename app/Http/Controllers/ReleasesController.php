@@ -11,8 +11,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Release;
 use App\Package;
+use App\Release;
 use Illuminate\Support\Facades\Storage;
 
 class ReleasesController extends Controller

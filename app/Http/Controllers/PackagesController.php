@@ -91,7 +91,7 @@ class PackagesController extends Controller
            'name' => ['sometimes', 'required'],
            'slug' => ['sometimes', 'required', 'alpha_dash', Rule::unique('packages')->ignore($package->id)],
         ]);
-        if(request()->input('slug') != null) {
+        if (request()->input('slug') != null) {
             $files = Storage::allFiles('modpack/'.$package->slug);
 
             foreach ($files as $file) {
