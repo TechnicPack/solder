@@ -90,8 +90,8 @@ return [
         'modpack' => [
             'name' => 'slug',
             'display_name' => 'name',
-            'recommended' => 'recommended',
-            'latest' => 'latest',
+            'recommended' => 'recommended_build_version',
+            'latest' => 'latest_build_version',
         ],
 
         'build' => [
