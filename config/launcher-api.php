@@ -103,7 +103,7 @@ return [
         ],
 
         'mod' => [
-            'name' => 'name',
+            'name' => 'package_name',
             'version' => 'version',
             'md5' => 'md5',
             'url' => 'url',
