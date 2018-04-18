@@ -96,10 +96,10 @@ return [
 
         'build' => [
             'version' => 'version',
-            'minecraft' => 'minecraft',
-            'java' => 'min_java',
-            'memory' => 'min_memory',
-            'forge' => 'forge',
+            'minecraft' => 'minecraft_version',
+            'java' => 'java_version',
+            'memory' => 'required_memory',
+            'forge' => 'forge_version',
         ],
 
         'mod' => [
