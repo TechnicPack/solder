@@ -13,6 +13,8 @@ Route::view('/login', 'auth.login')->name('auth.show-login');
 Route::post('/login', 'Auth\LoginController@login')->name('auth.login');
 Route::post('/logout', 'Auth\LoginController@logout')->name('auth.logout');
 
+Route::get('/storage/{slug}/{file_name}', 'StorageController@getModFile');
+
 Route::middleware('auth')->group(function () {
     Route::get('/', 'DashboardController');
 
@@ -38,6 +40,7 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/library/{package}/releases', 'PackageReleasesController@store');
 
+    Route::get('/releases/{release}', 'ReleasesController@get');
     Route::delete('/releases/{release}', 'ReleasesController@destroy');
 
     Route::delete('/bundles', 'BundlesController@destroy');

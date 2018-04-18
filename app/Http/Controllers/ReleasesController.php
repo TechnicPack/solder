@@ -11,7 +11,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Package;
 use App\Release;
+use Illuminate\Support\Facades\Storage;
 
 class ReleasesController extends Controller
 {
@@ -30,6 +32,14 @@ class ReleasesController extends Controller
 
         $release->delete();
 
+        Storage::disk('public')->delete('modpack/'.$release->package->slug.'/'.$release->path);
+
         return response(null, 204);
+    }
+
+    public function get($slug)
+    {
+        $package = Package::where('slug', $slug)->first();
+        return response()->json($package->releases);
     }
 }
