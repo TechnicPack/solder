@@ -62,7 +62,7 @@ class CreateTeamsTest extends TestCase
     /** @test **/
     public function name_is_required()
     {
-        $this->actingAs(new User);
+        $this->actingAs(factory(User::class)->create());
 
         $response = $this->postJson('/settings/teams', [
             'name' => '',
@@ -76,7 +76,7 @@ class CreateTeamsTest extends TestCase
     /** @test **/
     public function slug_is_required()
     {
-        $this->actingAs(new User);
+        $this->actingAs(factory(User::class)->create());
 
         $response = $this->postJson('/settings/teams', [
             'name' => 'My Team',
@@ -91,7 +91,7 @@ class CreateTeamsTest extends TestCase
     public function slug_is_unique()
     {
         factory(Team::class)->create(['slug' => 'existing-slug']);
-        $this->actingAs(new User);
+        $this->actingAs(factory(User::class)->create());
 
         $response = $this->postJson('/settings/teams', [
             'name' => 'My Team',

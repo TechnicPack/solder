@@ -25,7 +25,7 @@ class DeleteTeamsTest extends TestCase
     {
         $team = factory(Team::class)->create();
 
-        $this->actingAs(new User);
+        $this->actingAs(factory(User::class)->create());
         $this->assertCount(1, Team::all());
 
         $response = $this->deleteJson("/settings/teams/{$team->id}");
@@ -52,7 +52,7 @@ class DeleteTeamsTest extends TestCase
     {
         factory(Team::class)->create();
 
-        $this->actingAs(new User);
+        $this->actingAs(factory(User::class)->create());
         $this->assertCount(1, Team::all());
 
         $response = $this->deleteJson('/settings/teams/tokens/99');

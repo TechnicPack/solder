@@ -27,7 +27,7 @@ class ListTeamsTest extends TestCase
         factory(Team::class)->create(['name' => 'Team B']);
         factory(Team::class)->create(['name' => 'Team C']);
 
-        $this->actingAs(new User);
+        $this->actingAs(factory(User::class)->create());
 
         $response = $this->getJson('/settings/teams');
 

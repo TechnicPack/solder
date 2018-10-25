@@ -12,8 +12,11 @@
 Route::view('/login', 'auth.login')->name('auth.show-login');
 Route::post('/login', 'Auth\LoginController@login')->name('auth.login');
 Route::post('/logout', 'Auth\LoginController@logout')->name('auth.logout');
+Route::get('/email/verify', 'Auth\VerificationController@show')->name('verification.notice');
+Route::get('/email/resend', 'Auth\VerificationController@resend')->name('verification.resend');
+Route::get('/email/verify/{id}', 'Auth\VerificationController@verify')->name('verification.verify');
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/', 'DashboardController');
 
     Route::get('/modpacks/{modpack}', 'ModpacksController@show');
@@ -44,7 +47,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/bundles', 'BundlesController@store');
 });
 
-Route::middleware('auth')->namespace('Admin')->prefix('settings')->group(function () {
+Route::middleware(['auth', 'verified'])->namespace('Admin')->prefix('settings')->group(function () {
     Route::view('about', 'settings.about');
 
     Route::view('api', 'settings.api');
@@ -62,7 +65,7 @@ Route::middleware('auth')->namespace('Admin')->prefix('settings')->group(functio
     Route::delete('users/{user}', 'UsersController@destroy');
 });
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('settings/teams', 'Settings\TeamsController@index');
     Route::post('settings/teams', 'Settings\TeamsController@store');
     Route::delete('settings/teams/{team}', 'Settings\TeamsController@destroy');

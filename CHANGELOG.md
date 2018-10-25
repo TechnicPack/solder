@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
  - Added documentation (see /docs)
  - Added support for Teams
+ - Email validation for new users
  
 ### Changed
  - Requires PHP v7.1.3 or newer

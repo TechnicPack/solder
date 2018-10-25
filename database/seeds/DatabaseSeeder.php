@@ -26,6 +26,8 @@ class DatabaseSeeder extends Seeder
             'email' => 'admin@example.com',
             'password' => bcrypt('secret'),
             'is_admin' => true,
+            'email_verified_at' => \Carbon\Carbon::now(),
+
         ]);
 
         $team = \App\Team::create([

@@ -13,12 +13,12 @@ let path = require('path');
  */
 
 mix
-    .js('resources/assets/js/app.js', 'public/js')
-    .sass('resources/assets/sass/app.scss', 'public/css')
+    .js('resources/js/app.js', 'public/js')
+    .sass('resources/sass/app.scss', 'public/css')
     .webpackConfig({
         resolve: {
             modules: [
-                path.resolve(__dirname, 'platform/resources/assets/js'),
+                path.resolve(__dirname, 'platform/resources/js'),
                 'node_modules'
             ]
         }
