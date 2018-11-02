@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "66ca7343889332c2b8ecca11c251430c",
+    "content-hash": "1c604641baf4387bdc1a0640fa5ca38f",
     "packages": [
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -2264,6 +2264,60 @@
             "time": "2018-10-02T16:36:10+00:00"
         },
         {
+            "name": "technicpack/solder-framework",
+            "version": "dev-master",
+            "dist": {
+                "type": "path",
+                "url": "./packages/solder-framework",
+                "reference": "1d9ddac882dd3ec393cc28a19dd202b6cb94dc9b",
+                "shasum": null
+            },
+            "require": {
+                "php": "^7.1"
+            },
+            "require-dev": {
+                "larapack/dd": "^1.0",
+                "mockery/mockery": "^1.2",
+                "orchestra/testbench": "^3.7",
+                "phpunit/phpunit": "^7.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "TechnicPack\\SolderFramework\\SolderFrameworkServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "TechnicPack\\SolderFramework\\": "src"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "TechnicPack\\SolderFramework\\Tests\\": "tests"
+                }
+            },
+            "scripts": {
+                "test": [
+                    "vendor/bin/phpunit"
+                ],
+                "test-coverage": [
+                    "vendor/bin/phpunit --coverage-html coverage"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "The TechnicPack Solder Framework",
+            "homepage": "https://github.com/technicpack/solder-framework",
+            "keywords": [
+                "TechnicPack",
+                "solder"
+            ]
+        },
+        {
             "name": "tijsverkoyen/css-to-inline-styles",
             "version": "2.2.1",
             "source": {
@@ -4121,7 +4175,9 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "technicpack/solder-framework": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
