@@ -11,14 +11,13 @@
 
 namespace App;
 
-use Laravel\Passport\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasApiTokens, Notifiable, CanJoinTeams;
+    use Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -26,7 +25,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $fillable = [
-        'username', 'email', 'password', 'is_admin',
+        'name', 'email', 'password',
     ];
 
     /**
@@ -37,35 +36,4 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $hidden = [
         'password', 'remember_token',
     ];
-
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'is_admin' => 'boolean',
-    ];
-
-    /**
-     * A user has many Roles.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     */
-    public function roles()
-    {
-        return $this
-            ->belongsToMany(Role::class, 'permissions')
-            ->withTimestamps();
-    }
-
-    /**
-     * Grant a permissions role to this user.
-     *
-     * @param $role
-     */
-    public function grantRole($role)
-    {
-        $this->roles()->attach(Role::where('tag', $role)->first());
-    }
 }

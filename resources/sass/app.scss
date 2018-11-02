@@ -1,31 +1,14 @@
-@import url('https://fonts.googleapis.com/css?family=Open+Sans');
 
-@import "~bulma/sass/utilities/initial-variables";
-@import "variables";
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Nunito');
 
-@import "~bulma";
+// Variables
+@import 'variables';
 
-@import "tweaks";
-@import "directory";
-@import "utilities";
-@import "list-group";
-@import "menu";
-@import "vue";
-@import "assistant";
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
 
-.rotate {
-  text-align: left;
-  white-space: nowrap;
-  vertical-align: middle !important;
-  width: 1.5em;
-}
-
-.rotate div {
-  -moz-transform: rotate(-90.0deg);  /* FF3.5+ */
-  -o-transform: rotate(-90.0deg);  /* Opera 10.5 */
-  -webkit-transform: rotate(-90.0deg);  /* Saf3.1+, Chrome */
-  filter:  progid:DXImageTransform.Microsoft.BasicImage(rotation=0.083);  /* IE6,IE7 */
-  -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=0.083)"; /* IE8 */
-  margin-left: -5em;
-  margin-right: -5em;
+.navbar-laravel {
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
 }

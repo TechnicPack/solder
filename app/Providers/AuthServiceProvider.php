@@ -21,17 +21,11 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        'App\Modpack' => 'App\Policies\ModpackPolicy',
-        'App\Package' => 'App\Policies\PackagePolicy',
-        'App\Release' => 'App\Policies\ReleasePolicy',
-        'App\Bundle' => 'App\Policies\BundlePolicy',
-        'App\User' => 'App\Policies\UserPolicy',
+        'App\Model' => 'App\Policies\ModelPolicy',
     ];
 
     /**
      * Register any authentication / authorization services.
-     *
-     * @return void
      */
     public function boot()
     {

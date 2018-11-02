@@ -1,7 +1,17 @@
 <?php
 
-return [
+/*
+ * This file is part of TechnicPack Solder.
+ *
+ * (c) Syndicate LLC
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
+use Illuminate\Support\Str;
+
+return [
     /*
     |--------------------------------------------------------------------------
     | Default Session Driver
@@ -29,7 +39,7 @@ return [
     |
     */
 
-    'lifetime' => 120,
+    'lifetime' => env('SESSION_LIFETIME', 120),
 
     'expire_on_close' => false,
 
@@ -70,7 +80,7 @@ return [
     |
     */
 
-    'connection' => null,
+    'connection' => env('SESSION_CONNECTION', null),
 
     /*
     |--------------------------------------------------------------------------
@@ -96,7 +106,7 @@ return [
     |
     */
 
-    'store' => null,
+    'store' => env('SESSION_STORE', null),
 
     /*
     |--------------------------------------------------------------------------
@@ -124,7 +134,7 @@ return [
 
     'cookie' => env(
         'SESSION_COOKIE',
-        str_slug(env('APP_NAME', 'laravel'), '_').'_session'
+        Str::slug(env('APP_NAME', 'laravel'), '_').'_session'
     ),
 
     /*
@@ -193,5 +203,4 @@ return [
     */
 
     'same_site' => null,
-
 ];

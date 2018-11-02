@@ -9,6 +9,17 @@
  * file that was distributed with this source code.
  */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+namespace Tests\Unit;
+
+use Tests\TestCase;
+
+class ExampleTest extends TestCase
+{
+    /**
+     * A basic test example.
+     */
+    public function testBasicTest()
+    {
+        $this->assertTrue(true);
+    }
+}

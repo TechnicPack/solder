@@ -1,7 +1,15 @@
 <?php
 
-return [
+/*
+ * This file is part of TechnicPack Solder.
+ *
+ * (c) Syndicate LLC
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
+return [
     /*
     |--------------------------------------------------------------------------
     | Default Broadcaster
@@ -29,19 +37,19 @@ return [
     */
 
     'connections' => [
-
         'pusher' => [
-            'driver' => 'pusher',
-            'key' => env('PUSHER_APP_KEY'),
-            'secret' => env('PUSHER_APP_SECRET'),
-            'app_id' => env('PUSHER_APP_ID'),
+            'driver'  => 'pusher',
+            'key'     => env('PUSHER_APP_KEY'),
+            'secret'  => env('PUSHER_APP_SECRET'),
+            'app_id'  => env('PUSHER_APP_ID'),
             'options' => [
-                //
+                'cluster'   => env('PUSHER_APP_CLUSTER'),
+                'encrypted' => true,
             ],
         ],
 
         'redis' => [
-            'driver' => 'redis',
+            'driver'     => 'redis',
             'connection' => 'default',
         ],
 
@@ -52,7 +60,5 @@ return [
         'null' => [
             'driver' => 'null',
         ],
-
     ],
-
 ];

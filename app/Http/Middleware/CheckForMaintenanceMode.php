@@ -11,12 +11,12 @@
 
 namespace App\Http\Middleware;
 
-use Illuminate\Cookie\Middleware\EncryptCookies as Middleware;
+use Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode as Middleware;
 
-class EncryptCookies extends Middleware
+class CheckForMaintenanceMode extends Middleware
 {
     /**
-     * The names of the cookies that should not be encrypted.
+     * The URIs that should be reachable while maintenance mode is enabled.
      *
      * @var array
      */

@@ -12,25 +12,25 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Foundation\Auth\VerifiesEmails;
 
-class LoginController extends Controller
+class VerificationController extends Controller
 {
     /*
     |--------------------------------------------------------------------------
-    | Login Controller
+    | Email Verification Controller
     |--------------------------------------------------------------------------
     |
-    | This controller handles authenticating users for the application and
-    | redirecting them to your home screen. The controller uses a trait
-    | to conveniently provide its functionality to your applications.
+    | This controller is responsible for handling email verification for any
+    | user that recently registered with the application. Emails may also
+    | be re-sent if the user didn't receive the original email message.
     |
     */
 
-    use AuthenticatesUsers;
+    use VerifiesEmails;
 
     /**
-     * Where to redirect users after login.
+     * Where to redirect users after verification.
      *
      * @var string
      */
@@ -41,6 +41,8 @@ class LoginController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest')->except('logout');
+        $this->middleware('auth');
+        $this->middleware('signed')->only('verify');
+        $this->middleware('throttle:6,1')->only('verify', 'resend');
     }
 }

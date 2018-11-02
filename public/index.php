@@ -1,10 +1,12 @@
 <?php
 
-/**
- * Laravel - A PHP Framework For Web Artisans
+/*
+ * This file is part of TechnicPack Solder.
  *
- * @package  Laravel
- * @author   Taylor Otwell <taylor@laravel.com>
+ * (c) Syndicate LLC
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 define('LARAVEL_START', microtime(true));

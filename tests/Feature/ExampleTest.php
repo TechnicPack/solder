@@ -9,15 +9,19 @@
  * file that was distributed with this source code.
  */
 
-use Illuminate\Database\Seeder;
+namespace Tests\Feature;
 
-class DatabaseSeeder extends Seeder
+use Tests\TestCase;
+
+class ExampleTest extends TestCase
 {
     /**
-     * Seed the application's database.
+     * A basic test example.
      */
-    public function run()
+    public function testBasicTest()
     {
-        // $this->call(UsersTableSeeder::class);
+        $response = $this->get('/');
+
+        $response->assertStatus(200);
     }
 }
