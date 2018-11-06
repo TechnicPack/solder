@@ -19,7 +19,7 @@ To run this project, you must have PHP 7.1.3 or newer, composer and npm installe
 Begin by cloning this repository to your machine, and installing all dependencies.
 
 ```bash
-$ git clone https://github.com/solderio/solder.git
+$ git clone https://github.com/TechnicPack/solder.git
 $ cd solder && composer install --no-dev && npm install --only=production
 $ npm run production
 $ php artisan solder:install
