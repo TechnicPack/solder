@@ -17,3 +17,31 @@
   background-color: #fff;
   border-bottom: none;
 }
+
+.h-screen {
+  min-height: 100vh;
+}
+
+.h-brand {
+  height: 72px;
+}
+
+.w-brand {
+  width: 72px;
+}
+
+.flex-1 {
+  flex: 1;
+}
+
+.flex-nav {
+  flex: 0 0 24em;
+}
+
+.\-order-1 {
+  order: -1;
+}
+
+.fill-current {
+  fill: currentColor;
+}
