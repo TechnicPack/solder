@@ -11,5 +11,17 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.js('resources/js/app.js', 'public/js')
-   .sass('resources/sass/app.scss', 'public/css');
+mix
+    .js('resources/js/app.js', 'public/js')
+    .sass('resources/sass/app.scss', 'public/css')
+    .webpackConfig({
+        resolve: {
+            modules: [
+                path.resolve(__dirname, 'vendor/technicpack/solder-framework/resources/js'),
+                'node_modules'
+            ],
+            alias: {
+                'vue$': mix.inProduction() ? 'vue/dist/vue.min' : 'vue/dist/vue.js'
+            }
+        }
+    });

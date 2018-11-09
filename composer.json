@@ -10,7 +10,7 @@
         "laravel/framework": "5.7.*",
         "laravel/passport": "^7.0",
         "laravel/tinker": "^1.0",
-        "technicpack/solder-framework": "dev-master"
+        "technicpack/solder-framework": "dev-develop"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",
@@ -22,8 +22,8 @@
     },
     "repositories": [
         {
-            "type": "path",
-            "url": "./packages/*"
+            "type": "git",
+            "url": "https://github.com/TechnicPack/solder-framework.git"
         }
     ],
     "autoload": {

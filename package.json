@@ -17,6 +17,9 @@
         "laravel-mix": "^2.0",
         "lodash": "^4.17.5",
         "popper.js": "^1.12",
-        "vue": "^2.5.17"
+        "vue": "^2.5.17",
+        "vue-api-query": "^1.1.1",
+        "vue-router": "^3.0.1",
+        "vuex": "^3.0.1"
     }
 }
