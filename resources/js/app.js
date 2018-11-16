@@ -19,6 +19,7 @@ Vue.component('passport-clients', require('./components/passport/Clients.vue'));
 Vue.component('passport-authorized-clients', require('./components/passport/AuthorizedClients.vue'));
 Vue.component('passport-personal-access-tokens', require('./components/passport/PersonalAccessTokens.vue'));
 Vue.component('solder-modpack', require('../../vendor/technicpack/solder-framework/resources/js/views/Modpack'));
+Vue.component('solder-modpack-build', require('../../vendor/technicpack/solder-framework/resources/js/views/ModpackBuild'));
 
 const app = new Vue({
     el: '#app'

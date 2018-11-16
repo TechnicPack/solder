@@ -16,4 +16,5 @@ Route::get('/', function () {
 Auth::routes(['verify' => true]);
 
 Route::view('/settings/developer', 'settings.developer')->name('settings.developer');
-Route::view('/modpack/{modpack}', 'modpack');
+Route::view('/modpacks/{modpack}', 'modpack');
+Route::view('/modpacks/{modpack}/builds/{build}', 'build');
