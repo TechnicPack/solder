@@ -17,6 +17,7 @@ mix
     .webpackConfig({
         resolve: {
             modules: [
+                path.resolve(__dirname, 'vendor/technicpack/solder-framework/resources/js'),
                 'node_modules'
             ],
             alias: {

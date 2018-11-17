@@ -38,11 +38,6 @@ if (token) {
     console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
 }
 
-
-// inject global axios instance as http client to Model
-import { Model } from 'vue-api-query';
-Model.$http = window.axios;
-
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
  * for events that are broadcast by Laravel. Echo and event broadcasting
