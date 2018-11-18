@@ -3067,7 +3067,7 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/TechnicPack/solder-framework.git",
-                "reference": "03398f8917aa062ed38a04d38060667d9c776836"
+                "reference": "56c19154d176e55ab29a5478fd1363fe9a46c6c4"
             },
             "require": {
                 "php": "^7.1",
@@ -3114,7 +3114,7 @@
                 "TechnicPack",
                 "solder"
             ],
-            "time": "2018-11-17T20:38:51+00:00"
+            "time": "2018-11-18T07:06:45+00:00"
         },
         {
             "name": "tijsverkoyen/css-to-inline-styles",

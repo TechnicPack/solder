@@ -13,6 +13,7 @@ window.Vue = require('vue');
  * Import the solder framework and initialize it.
  */
 import Solder from 'solder';
+Solder.vue = Vue;
 Solder.init();
 
 /**
