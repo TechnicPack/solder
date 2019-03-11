@@ -6198,6 +6198,11 @@ vm-browserify@0.0.4:
   dependencies:
     indexof "0.0.1"
 
+vue-api-query@^1.4.1:
+  version "1.4.1"
+  resolved "https://registry.yarnpkg.com/vue-api-query/-/vue-api-query-1.4.1.tgz#b11324e8a232b103f50c0c21dc9928710b99a01c"
+  integrity sha512-eXocv8PHnGC10URSVTF4OwpanpFrw675r2KWArTLOLn62HQK5thjYb4XsbjzS8PvHP2kjwHA+qfYDGmcn96GCw==
+
 vue-hot-reload-api@^2.3.0:
   version "2.3.3"
   resolved "https://registry.yarnpkg.com/vue-hot-reload-api/-/vue-hot-reload-api-2.3.3.tgz#2756f46cb3258054c5f4723de8ae7e87302a1ccf"
@@ -6213,6 +6218,11 @@ vue-loader@^15.4.2:
     loader-utils "^1.1.0"
     vue-hot-reload-api "^2.3.0"
     vue-style-loader "^4.1.0"
+
+vue-router@^3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/vue-router/-/vue-router-3.0.2.tgz#dedc67afe6c4e2bc25682c8b1c2a8c0d7c7e56be"
+  integrity sha512-opKtsxjp9eOcFWdp6xLQPLmRGgfM932Tl56U9chYTnoWqKxQ8M20N7AkdEbM5beUh6wICoFGYugAX9vQjyJLFg==
 
 vue-style-loader@^4.1.0:
   version "4.1.2"
