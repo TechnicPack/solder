@@ -1,5 +1,8 @@
 # TechnicPack Solder
 
+> **Warning**
+> This project is abandoned and has been archived. For the current version of Solder, please see https://github.com/TechnicPack/TechnicSolder instead.
+
 [![CircleCI](https://circleci.com/gh/TechnicPack/solder.svg?style=shield)](https://circleci.com/gh/TechnicPack/solder) [![Coverage Status](https://coveralls.io/repos/github/TechnicPack/solder/badge.svg?branch=develop)](https://coveralls.io/github/TechnicPack/solder?branch=develop) [![StyleCI](https://styleci.io/repos/32042637/shield?branch=develop)](https://styleci.io/repos/32042637)
 
 Supercharge Your Modpack with Solder. Build, and maintain multiple versions of modpacks and manage all required 
